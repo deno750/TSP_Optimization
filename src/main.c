@@ -1,8 +1,7 @@
 //
 //  main.c
-//  RO2
+//  TSP_Optimization
 //
-//  Created by Denis Deronjic on 03/03/21.
 //
 
 #include <stdio.h>
