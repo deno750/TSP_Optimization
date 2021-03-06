@@ -6,10 +6,13 @@
 
 #include <stdio.h>
 #include <cplex.h>
+#include "utility.h"
 
 int main(int argc, const char * argv[]) {
     printf("Hello World!\n");
-    printf("prova\n");
-    printf("prova2\n");
+    
+    input_data input_data;
+    parse_comand_line(argc, argv, &input_data);
+    parse_model_instance(input_data);
     return 0;
 }

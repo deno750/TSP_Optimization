@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.14)
 
 project(tsp)
 
+include_directories(include)
+
 add_executable(tsp src/main.c)
 
 set(CMAKE_C_STANDARD 11)
