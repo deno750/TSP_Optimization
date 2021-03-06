@@ -16,6 +16,8 @@ Repository for the course Ricerca Operativa 2
 
 ## Usage
 .......
+The input data is given [TSPLIB](http://comopt.ifi.uni-heidelberg.de/software/TSPLIB95/tsp)
+The format is described in [tsp95.pdf](/docs/tsp95.pdf)
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
