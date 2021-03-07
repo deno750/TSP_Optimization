@@ -39,10 +39,10 @@ typedef struct {
 
 // Model instance data where all the information of the model is stored
 typedef struct {
-    char *name;
-    char *comment;
     int num_nodes;
     int weight_type;
+    char *name;
+    char *comment;
     point *nodes;
 } model;
 
@@ -54,19 +54,32 @@ void print_error(const char *err) { printf("\n\n ERROR: %s \n\n", err); fflush(N
 // Parses the input from the comand line
 void parse_comand_line(int argc, const char *argv[], input_data *data) {
 
+    if (argc <= 1) {
+        printf("Type \"%s --help\" to see available comands\n", argv[0]);
+        exit(1);
+    }
+
     data->model_type = 0;
     data->model_path = (char *) malloc(1); 
+    int need_help = 0;
     
     for (int i = 1; i < argc; i++) {
-        if (strcmp("-f", argv[i]) == 0) {
-            strcpy(data->model_path, argv[++i]);
-            continue;
-        }
-        if (strcmp("--v", argv[i]) == 0 || strcmp("--version", argv[i]) == 0) { 
-            printf("Version %s\n", VERSION); 
-            continue;
-        }
+        if (strcmp("-f", argv[i]) == 0) { strcpy(data->model_path, argv[++i]); continue; } // Input file
+        if (strcmp("--v", argv[i]) == 0 || strcmp("--version", argv[i]) == 0) { printf("Version %s\n", VERSION); continue;} //Version of the software
+        if (strcmp("--help", argv[i]) == 0) { need_help = 1; continue; } // For comands documentation
+        need_help = 1;
     }
+
+    // Print the functions available
+    if (need_help) {
+        printf("-f [model's path]    To pass the model's path\n");
+        printf("--v, --version       Software's current version\n");
+        exit(1);
+    }
+}
+
+void free_input_data(input_data *data) {
+    free(data->model_path);
 }
 
 void free_model(model *inst) {
@@ -156,7 +169,7 @@ void parse_model_instance(input_data input, model *inst) {
 
         // NODE_COORD_SECTION
         if(active_section == 1){ 
-            int i = atoi(par_name) - 1; // Nodes in model file start from index 1
+            int i = atoi(par_name) - 1; // Nodes in model's file start from index 1
 			if ( i < 0 || i >= inst->num_nodes) print_error(" ... unknown node in NODE_COORD_SECTION section");     
 			token1 = strtok(NULL, sep);
 			token2 = strtok(NULL, sep);
