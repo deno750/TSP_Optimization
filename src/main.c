@@ -6,36 +6,20 @@
 #include <stdio.h>
 #include <cplex.h>
 #include "utility.h"
-
-
-
-//////////////////////////////////////////////////////
-//////////// FUNCTIONS SIGNATURE /////////////////////
-//////////////////////////////////////////////////////
+#include "solver.h"
 
 //////////////////////////////////////////////////////
 //////////// MAIN ////////////////////////////////////
 //////////////////////////////////////////////////////
 int main(int argc, const char *argv[])
 {
-    input_data input_data;
-    parse_comand_line(argc, argv, &input_data);
-    model inst;
-    parse_model_instance(input_data, &inst);
+    instance inst;
+    parse_comand_line(argc, argv, &inst);
+    parse_instance(&inst);
+    print_instance(inst);
 
-    printf("name: %s\n", inst.name);
-    printf("n° nodes %d\n", inst.num_nodes);
-    printf("weight type %d\n", inst.weight_type);
-    for (int i = 0; i < inst.num_nodes; i++)
-    {
-        point node = inst.nodes[i];
-        printf("node %d: %f, %f\n", i, node.x, node.y);
-    }
+    TSP_opt(&inst);
     
-    printf("");
-    
-
-    free_input_data(&input_data);
-    free_model(&inst);
+    free_instance(&inst);
     return 0;
 }

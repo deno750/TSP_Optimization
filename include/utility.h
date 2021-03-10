@@ -10,7 +10,7 @@
 #include <errno.h>
 
 
-#define VERSION "0.1"
+#define VERSION "TSP 0.1"
 
 
 // ================ Weight types =====================
@@ -24,12 +24,14 @@
 
 // ==================== STRUCTS ==========================
 
-// Struct which stores the data from input that are useful for the model
+// Struct which stores the parameters of the problem
 typedef struct {
-    int model_type; // Is it useful?
-    int num_threads; // Is going to be useful in future?
-    char *model_path;
-} input_data;
+    int type; 
+    int num_threads; 
+    int time_limit;
+    int verbose; // Verbose level of debugging printing 
+    char *file_path;
+} instance_params;
 
 // Definition of Point
 typedef struct {
@@ -37,14 +39,16 @@ typedef struct {
     double y;
 } point;
 
-// Model instance data where all the information of the model is stored
+// Instance data structure where all the information of the problem are stored
 typedef struct {
+    instance_params params;
+
     int num_nodes;
     int weight_type;
     char *name;
     char *comment;
     point *nodes;
-} model;
+} instance;
 
 // ===================== FUNCTIONS =============================
 
@@ -52,49 +56,63 @@ typedef struct {
 void print_error(const char *err) { printf("\n\n ERROR: %s \n\n", err); fflush(NULL); exit(1); } 
 
 // Parses the input from the comand line
-void parse_comand_line(int argc, const char *argv[], input_data *data) {
+void parse_comand_line(int argc, const char *argv[], instance *inst) {
 
     if (argc <= 1) {
         printf("Type \"%s --help\" to see available comands\n", argv[0]);
         exit(1);
     }
 
-    data->model_type = 0;
-    data->model_path = (char *) malloc(1); 
+    inst->params.type = 0;
+    inst->params.time_limit = -1; //Default time limit value. -1 means no constraints in time limit 
+    inst->params.num_threads = 1; //Default value is one thread
+    inst->params.file_path = NULL;
+    inst->params.verbose = 1; //Default verbose level of 1
     int need_help = 0;
     
     for (int i = 1; i < argc; i++) {
-        if (strcmp("-f", argv[i]) == 0) { strcpy(data->model_path, argv[++i]); continue; } // Input file
-        if (strcmp("--v", argv[i]) == 0 || strcmp("--version", argv[i]) == 0) { printf("Version %s\n", VERSION); continue;} //Version of the software
+        if (strcmp("-f", argv[i]) == 0) { 
+            const char* path = argv[++i];
+            inst->params.file_path = (char *) calloc(strlen(path), sizeof(char));
+            strcpy(inst->params.file_path, path); 
+            continue; 
+        } // Input file
+        if (strcmp("-t", argv[i]) == 0) { inst->params.time_limit = atoi(argv[++i]); continue; }
+        if (strcmp("-threads", argv[i]) == 0) { inst->params.num_threads = atoi(argv[++i]); continue; }
+        if (strcmp("-verbose", argv[i]) == 0) { inst->params.verbose = atoi(argv[++i]); continue; }
+        if (strcmp("--v", argv[i]) == 0 || strcmp("--version", argv[i]) == 0) { printf("Version %s\n", VERSION); exit(0);} //Version of the software
         if (strcmp("--help", argv[i]) == 0) { need_help = 1; continue; } // For comands documentation
         need_help = 1;
     }
 
     // Print the functions available
     if (need_help) {
-        printf("-f [model's path]    To pass the model's path\n");
-        printf("--v, --version       Software's current version\n");
+        printf("-f <file's path>          To pass the problem's path\n");
+        printf("-t <time>                 The time limit\n");
+        printf("-threads <num threads>    The number of threads to use\n");
+        printf("-verbose <level>          The verbosity level of the printing\n");
+        printf("--v, --version            Software's current version\n");
         exit(1);
     }
 }
 
-void free_input_data(input_data *data) {
-    free(data->model_path);
-}
-
-void free_model(model *inst) {
+void free_instance(instance *inst) {
+    free(inst->params.file_path);
     free(inst->name);
     free(inst->comment);
     free(inst->nodes);
 }
 
-// Parses the model data
-void parse_model_instance(input_data input, model *inst) {
+// Parses the problem data
+void parse_instance(instance *inst) {
+    if (inst->params.file_path == NULL) { print_error("You didn't pass any file!"); }
 
+    //Default values
     inst->num_nodes = -1;
+    inst->weight_type = -1;
 
     // Open file
-    FILE *fp = fopen(input.model_path, "r");
+    FILE *fp = fopen(inst->params.file_path, "r");
     if(fp == NULL) { print_error("Unable to open file!"); }
    
     char line[128];          // 1 line of the file
@@ -102,19 +120,18 @@ void parse_model_instance(input_data input, model *inst) {
     char *token1;            // value of the parameter in the readed line
     char *token2;            // second value of the parameter in the readed line (used for reading coordinates)
     int active_section = 0;  // 0=reading parameters, 1=NODE_COORD_SECTION, 2=EDGE_WEIGHT_SECTION
-    char sep[] = " :";       // separator for parsing
+    char sep[] = " :\n\t\r"; // separator for parsing
 
     // Read the file line by line
     while(fgets(line, sizeof(line), fp) != NULL) {
         if (strlen(line) <= 1 ) continue; // skip empty lines
-
         par_name = strtok(line, sep);
 
         if(strncmp(par_name, "NAME", 4) == 0){
 			active_section = 0;
             token1 = strtok(NULL, sep);
-            inst->name= (char *) calloc(strlen(token1)-1, sizeof(char));         //-1 beacuse the "\n"
-            strncpy(inst->name,token1, strlen(token1)-1);
+            inst->name = (char *) calloc(strlen(token1), sizeof(char));         
+            strncpy(inst->name,token1, strlen(token1));
 			continue;
 		}
 
@@ -169,7 +186,7 @@ void parse_model_instance(input_data input, model *inst) {
 
         // NODE_COORD_SECTION
         if(active_section == 1){ 
-            int i = atoi(par_name) - 1; // Nodes in model's file start from index 1
+            int i = atoi(par_name) - 1; // Nodes in problem's file start from index 1
 			if ( i < 0 || i >= inst->num_nodes) print_error(" ... unknown node in NODE_COORD_SECTION section");     
 			token1 = strtok(NULL, sep);
 			token2 = strtok(NULL, sep);
@@ -187,6 +204,59 @@ void parse_model_instance(input_data input, model *inst) {
 
     // close file
     fclose(fp);
+}
+
+void print_instance(instance inst) {
+    if (inst.params.verbose >= 1) {
+        if (inst.params.verbose >= 2) {
+            printf("\n");
+            printf("Type: %d\n", inst.params.type);
+            printf("Time Limit: %d\n", inst.params.time_limit);
+            printf("Threads: %d\n", inst.params.num_threads);
+            printf("Verbose: %d\n", inst.params.verbose);
+            printf("File path: %s\n", inst.params.file_path);
+            printf("\n");
+        }
+        
+        printf("\n");
+        printf("name: %s\n", inst.name);
+        printf("n° nodes: %d\n", inst.num_nodes);
+        const char* weight;
+
+        switch (inst.weight_type) {
+        case EUC_2D:
+            weight = "EUC_2D";
+            break;
+        case MAX_2D:
+            weight = "MAX_2D";
+            break;
+        case MAN_2D:
+            weight = "MAN_2D";
+            break;
+        case CEIL_2D:
+            weight = "CEIL_2D";
+            break;
+        case GEO:
+            weight = "GEO";
+            break;
+        case ATT:
+            weight = "ATT";
+            break;
+        default:
+            weight = "UNKNOWN";
+            break;
+        }
+        printf("weight type: %s\n", weight);
+        if (inst.params.verbose >= 3) {
+            for (int i = 0; i < inst.num_nodes; i++) {
+                point node = inst.nodes[i];
+                printf("node %d: %0.2f, %0.2f\n", i+1, node.x, node.y);
+            }
+        }
+        
+    
+        printf("\n");
+    }
 }
 
 

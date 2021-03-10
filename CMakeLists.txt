@@ -25,10 +25,22 @@ if (UNIX AND NOT APPLE)
     include_directories("/opt/ibm/ILOG/CPLEX_Studio201/cplex/include/ilcplex")
     include_directories("/opt/ibm/ILOG/CPLEX_Studio201/concert/include")
     include_directories("/opt/ibm/ILOG/CPLEX_Studio201/concert/include/ilconcert")
+
     find_library(cplex NAMES libcplex.a PATHS "/opt/ibm/ILOG/CPLEX_Studio201/cplex/lib/x86-64_linux/static_pic")
     find_library(ilocplex NAMES libilocplex.a PATHS "/opt/ibm/ILOG/CPLEX_Studio201/cplex/lib/x86-64_linux/static_pic")
     find_library(cplexdistmip NAMES libcplexdistmip.a PATHS "/opt/ibm/ILOG/CPLEX_Studio201/cplex/lib/x86-64_linux/static_pic")
     find_library(concert NAMES libconcert.a PATHS "/opt/ibm/ILOG/CPLEX_Studio201/concert/lib/x86-64_linux/static_pic")
+endif()
+
+if (WIN32) 
+    include_directories("C:/Program Files/IBM/ILOG/CPLEX_Studio201/cplex/include")
+    include_directories("C:/Program Files/IBM/ILOG/CPLEX_Studio201/cplex/include/ilcplex")
+    include_directories("C:/Program Files/IBM/ILOG/CPLEX_Studio201/concert/include")
+    include_directories("C:/Program Files/IBM/ILOG/CPLEX_Studio201/concert/include/ilconcert")
+    
+    find_library(cplex NAMES cplex2010.lib PATHS "C:/Program Files/IBM/ILOG/CPLEX_Studio201/cplex/lib/x64_windows_msvc14/stat_mda")
+    find_library(ilocplex NAMES ilocplex.lib PATHS "C:/Program Files/IBM/ILOG/CPLEX_Studio201/cplex/lib/x64_windows_msvc14/stat_mda")
+    find_library(concert NAMES concert.lib PATHS "C:/Program Files/IBM/ILOG/CPLEX_Studio201/concert/lib/x64_windows_msvc14/stat_mda")
 endif()
 
 add_definitions(-DIL_STD)
