@@ -92,7 +92,7 @@ void parse_comand_line(int argc, const char *argv[], instance *inst) {
         printf("-threads <num threads>    The number of threads to use\n");
         printf("-verbose <level>          The verbosity level of the printing\n");
         printf("--v, --version            Software's current version\n");
-        exit(1);
+        exit(0);
     }
 }
 

@@ -4,50 +4,58 @@ project(tsp)
 
 include_directories(include)
 
-add_executable(tsp src/main.c)
+add_executable(${PROJECT_NAME} src/main.c)
 
 set(CMAKE_C_STANDARD 11)
 
+
 if (APPLE)
-    include_directories("/Applications/CPLEX_Studio201/cplex/include")
-    include_directories("/Applications/CPLEX_Studio201/cplex/include/ilcplex")
-    include_directories("/Applications/CPLEX_Studio201/concert/include")
-    include_directories("/Applications/CPLEX_Studio201/concert/include/ilconcert")
 
-    find_library(cplex NAMES libcplex.a PATHS "/Applications/CPLEX_Studio201/cplex/lib/x86-64_osx/static_pic")
-    find_library(ilocplex NAMES libilocplex.a PATHS "/Applications/CPLEX_Studio201/cplex/lib/x86-64_osx/static_pic")
-    find_library(cplexdistmip NAMES libcplexdistmip.a PATHS "/Applications/CPLEX_Studio201/cplex/lib/x86-64_osx/static_pic")
-    find_library(concert NAMES libconcert.a PATHS "/Applications/CPLEX_Studio201/concert/lib/x86-64_osx/static_pic")
-endif()
+    set(CPLEX_PATH /Applications/CPLEX_Studio201/cplex)
+    set(CPLEX_LIB ${CPLEX_PATH}/lib/x86-64_osx/static_pic)
 
-if (UNIX AND NOT APPLE)
-    include_directories("/opt/ibm/ILOG/CPLEX_Studio201/cplex/include")
-    include_directories("/opt/ibm/ILOG/CPLEX_Studio201/cplex/include/ilcplex")
-    include_directories("/opt/ibm/ILOG/CPLEX_Studio201/concert/include")
-    include_directories("/opt/ibm/ILOG/CPLEX_Studio201/concert/include/ilconcert")
+elseif (UNIX AND NOT APPLE)
 
-    find_library(cplex NAMES libcplex.a PATHS "/opt/ibm/ILOG/CPLEX_Studio201/cplex/lib/x86-64_linux/static_pic")
-    find_library(ilocplex NAMES libilocplex.a PATHS "/opt/ibm/ILOG/CPLEX_Studio201/cplex/lib/x86-64_linux/static_pic")
-    find_library(cplexdistmip NAMES libcplexdistmip.a PATHS "/opt/ibm/ILOG/CPLEX_Studio201/cplex/lib/x86-64_linux/static_pic")
-    find_library(concert NAMES libconcert.a PATHS "/opt/ibm/ILOG/CPLEX_Studio201/concert/lib/x86-64_linux/static_pic")
-endif()
+    set(CPLEX_PATH /opt/ibm/ILOG/CPLEX_Studio201/cplex)
+    set(CPLEX_LIB ${CPLEX_PATH}/lib/x86-64_linux/static_pic)
 
-if (WIN32) 
-    include_directories("C:/Program Files/IBM/ILOG/CPLEX_Studio201/cplex/include")
-    include_directories("C:/Program Files/IBM/ILOG/CPLEX_Studio201/cplex/include/ilcplex")
-    include_directories("C:/Program Files/IBM/ILOG/CPLEX_Studio201/concert/include")
-    include_directories("C:/Program Files/IBM/ILOG/CPLEX_Studio201/concert/include/ilconcert")
+elseif (WIN32)
+
+    set(CPLEX_PATH "C:/Program Files/IBM/ILOG/CPLEX_Studio201/cplex")
+    set(CPLEX_LIB ${CPLEX_PATH}/lib/x64_windows_msvc14/stat_mda)
     
-    find_library(cplex NAMES cplex2010.lib PATHS "C:/Program Files/IBM/ILOG/CPLEX_Studio201/cplex/lib/x64_windows_msvc14/stat_mda")
-    find_library(ilocplex NAMES ilocplex.lib PATHS "C:/Program Files/IBM/ILOG/CPLEX_Studio201/cplex/lib/x64_windows_msvc14/stat_mda")
-    find_library(concert NAMES concert.lib PATHS "C:/Program Files/IBM/ILOG/CPLEX_Studio201/concert/lib/x64_windows_msvc14/stat_mda")
 endif()
+
+include_directories(${CPLEX_PATH}/include/ilcplex)
+
 
 add_definitions(-DIL_STD)
+set (CPLEX_LINKER_FLAGS -lcplex -lm -lpthread -ldl)
 
-set (CMAKE_SHARED_LINKER_FLAGS "-lcplex -lm -lpthread")
+target_link_libraries(${PROJECT_NAME} ${CPLEX_LINKER_FLAGS})
+target_link_libraries(${PROJECT_NAME} -L${CPLEX_LIB})
 
-target_link_libraries(tsp PUBLIC ${cplex})
-target_link_libraries(tsp PUBLIC ${ilocplex})
-target_link_libraries(tsp PUBLIC ${cplexdistmip})
-target_link_libraries(tsp PUBLIC ${concert})
+
+enable_testing()
+#add_subdirectory(test)
+
+
+add_executable(tsp_test test/tsp_test.c)
+
+target_link_libraries(tsp_test ${CPLEX_LINKER_FLAGS})
+target_link_libraries(tsp_test -L${CPLEX_LIB})
+
+add_test(NAME no_input_test COMMAND tsp_test)
+set_tests_properties(no_input_test PROPERTIES WILL_FAIL TRUE)
+
+add_test(NAME help_input_test COMMAND tsp_test --help)
+
+add_test(NAME version_input_test COMMAND tsp_test --v)
+
+add_test(NAME wrong_input_file_test COMMAND tsp_test -f hello.txt)
+set_tests_properties(wrong_input_file_test PROPERTIES WILL_FAIL TRUE)
+
+add_test(NAME shuffled_prop_input_file_test COMMAND tsp_test -f ../test/data/shuffled_prop_att48.tsp -verbose 3)
+
+add_test(NAME fail_input_file_test COMMAND tsp_test -f ../test/data/fail_att48.tsp -verbose 3)
+set_tests_properties(fail_input_file_test PROPERTIES WILL_FAIL TRUE)
