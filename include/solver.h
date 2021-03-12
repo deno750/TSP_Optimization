@@ -81,9 +81,9 @@ static double calc_dist(int i, int j, instance *inst) {
     point node1 = inst->nodes[i];
     point node2 = inst->nodes[j];
     double dx = node1.x - node2.x;
-    double dy = node2.y - node2.y;
+    double dy = node1.y - node2.y;
     double dist = sqrt(dx*dx + dy*dy);
-    int integer = 0; // We should know wheter the distance should be integer or not. New parameter in instance? 
+    int integer = 1; // We should know wheter the distance should be integer or not. New parameter in instance? 
     return integer ? round(dist) : dist;
 }
 
