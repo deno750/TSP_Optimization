@@ -35,8 +35,8 @@ int TSP_opt(instance *inst) {
 static void build_model(instance *inst, CPXENVptr env, CPXLPptr lp) {
     
     char xctype = 'B';
-    char **colname = (char **) calloc(1 , sizeof(char*)); // Cplex wants an array of variable names (i.e. char array of array)
-    colname[0] = (char *) calloc(100, sizeof(char));
+    char **names = (char **) calloc(1 , sizeof(char*)); // Cplex wants an array of variable names (i.e. char array of array)
+    names[0] = (char *) calloc(100, sizeof(char));
 
 
     // We add one variable at time. We may also add them all in a single shot.
@@ -44,14 +44,14 @@ static void build_model(instance *inst, CPXENVptr env, CPXLPptr lp) {
 
         for (int j = i+1; j < inst->num_nodes; j++) {
             
-            sprintf(colname[0], "x(%d,%d)", i+1, j+1);
+            sprintf(names[0], "x(%d,%d)", i+1, j+1);
 
             // Variables treated as single value arrays.
             double obj = calc_dist(i, j, inst); 
             double lb = 0.0;
             double ub = 1.0;
 
-            int status = CPXnewcols(env, lp, 1, &obj, &lb, &ub, &xctype, colname);
+            int status = CPXnewcols(env, lp, 1, &obj, &lb, &ub, &xctype, names);
             int numcols = CPXgetnumcols(env, lp);
             if (numcols - 1 != x_pos(i, j, inst->num_nodes)) { // numcols -1 because we need the position index of the new variable
                 print_error("Wrong position of variable");
@@ -60,6 +60,22 @@ static void build_model(instance *inst, CPXENVptr env, CPXLPptr lp) {
     }
 
     // Adding the constraints
+    for (int h = 0; h < inst->num_nodes; h++) {
+
+        int lastRow = CPXgetnumrows(env, lp);
+        double rhs = 2.0;
+        char sense = 'E';
+        sprintf(names[0], "constraint(%d)", h+1);
+        CPXnewrows(env, lp, 1, &rhs, &sense, NULL, names);
+
+        for (int i = 0; i < inst->num_nodes; i++) {
+            if (i == h) continue;
+
+            CPXchgcoef(env, lp, lastRow, x_pos(h, i, inst->num_nodes), 1.0);
+        }
+
+        
+    }
 
     // Saving the model in Lp file
     char modelPath[1024];
@@ -67,14 +83,15 @@ static void build_model(instance *inst, CPXENVptr env, CPXLPptr lp) {
     
     CPXwriteprob(env, lp, modelPath, NULL);
     
-    free(colname[0]);
-    free(colname);
+    free(names[0]);
+    free(names);
 
 }
 
 static int x_pos(int i, int j, int num_nodes) {
-
-   return i * num_nodes + j - ((i + 1) * (i + 2)) / 2;
+    if (i == j) print_error("Indexes passed are equal!");
+    if (i > j) return x_pos(j, i, num_nodes);
+    return i * num_nodes + j - ((i + 1) * (i + 2)) / 2;
 }
 
 static double calc_dist(int i, int j, instance *inst) {
