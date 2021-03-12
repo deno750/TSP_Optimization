@@ -1,12 +1,13 @@
 NAME : mockup5
-COMMENT : 5 nodes in square
+COMMENT : 6 nodes
 TYPE : TSP
-DIMENSION : 5
+DIMENSION : 6
 EDGE_WEIGHT_TYPE : ATT
 NODE_COORD_SECTION
-1 0 0
-2 0 2
+1 0 1
+2 1 1
 3 2 0
-4 2 1
-5 2 2
+4 2 2
+5 3 1
+6 4 1
 EOF

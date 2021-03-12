@@ -16,6 +16,7 @@ int main(int argc, const char *argv[])
     instance inst;
     parse_comand_line(argc, argv, &inst);
     parse_instance(&inst);
+    
     print_instance(inst);
 
     TSP_opt(&inst);
