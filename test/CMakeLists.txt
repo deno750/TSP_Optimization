@@ -1,4 +1,4 @@
-add_executable(tsp_test tsp_test.c)
+add_executable(tsp_test src/tsp_test.c)
 
 target_link_libraries(tsp_test ${CPLEX_LINKER_FLAGS})
 target_link_libraries(tsp_test -L${CPLEX_LIB})

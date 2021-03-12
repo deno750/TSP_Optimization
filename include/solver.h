@@ -9,6 +9,8 @@
 #define EPS 1e-5
 
 static void build_model(instance *inst, CPXENVptr env, CPXLPptr lp);
+static int x_pos(int i, int j, int num_nodes);
+static double distance(int i, int j, instance *inst);
 
 int TSP_opt(instance *inst) {
     int error;
@@ -31,7 +33,55 @@ int TSP_opt(instance *inst) {
 }
 
 static void build_model(instance *inst, CPXENVptr env, CPXLPptr lp) {
+    
+    char xctype = 'B';
+    char **colname = (char *) calloc(1 , sizeof(char*)); // Cplex wants an array of variable names (i.e. char array of array)
+    colname[0] = (char) calloc(100, sizeof(char));
 
+
+    // We add one variable at time. We may also add them all in a single shot.
+    for (int i = 0; i < inst->num_nodes; i++) {
+
+        for (int j = i+1; j < inst->num_nodes; j++) {
+            
+            sprintf(colname, "x(%d, %d)", i+1, j+1);
+
+            // Variables treated as single value arrays.
+            double obj = distance(i, j, inst); 
+            double lb = 0.0;
+            double ub = 1.0;
+
+            int status = CPXnewcols(env, lp, 1, &obj, &lb, &ub, &xctype, colname);
+            int numcols = CPXgetnumcols(env, lp);
+            if (numcols != x_pos(i, j, inst->num_nodes)) {
+                print_error("Wrong position of variable");
+            }
+        }
+    }
+
+    // Adding the constraints
+    
+
+    // Free as soon as possible the colname array
+    free(colname[0]);
+    free(colname);
+
+}
+
+static int x_pos(int i, int j, int num_nodes) {
+   
+
+   return i * num_nodes + j;
+}
+
+static double distance(int i, int j, instance *inst) {
+    point node1 = inst->nodes[i];
+    point node2 = inst->nodes[j];
+    double dx = node1.x - node2.x;
+    double dy = node2.y - node2.y;
+    double dist = sqrt(dx*dx + dy*dy);
+    int integer = 0; // We should know wheter the distance should be integer or not. New parameter in instance? 
+    return integer ? round(dist) : dist;
 }
 
 #endif
