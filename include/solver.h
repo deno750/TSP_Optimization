@@ -52,6 +52,9 @@ static void build_model(instance *inst, CPXENVptr env, CPXLPptr lp) {
             double ub = 1.0;
 
             int status = CPXnewcols(env, lp, 1, &obj, &lb, &ub, &xctype, names);
+            if (status) {
+                print_error("An error occured inserting a new variable");
+            }
             int numcols = CPXgetnumcols(env, lp);
             if (numcols - 1 != x_pos(i, j, inst->num_nodes)) { // numcols -1 because we need the position index of the new variable
                 print_error("Wrong position of variable");
@@ -66,14 +69,19 @@ static void build_model(instance *inst, CPXENVptr env, CPXLPptr lp) {
         double rhs = 2.0;
         char sense = 'E';
         sprintf(names[0], "constraint(%d)", h+1);
-        CPXnewrows(env, lp, 1, &rhs, &sense, NULL, names);
+        int status = CPXnewrows(env, lp, 1, &rhs, &sense, NULL, names);
+        if (status) {
+            print_error("An error occured inserting a new constraint");
+        }
 
         for (int i = 0; i < inst->num_nodes; i++) {
             if (i == h) continue;
 
-            CPXchgcoef(env, lp, lastRow, x_pos(h, i, inst->num_nodes), 1.0);
+            status = CPXchgcoef(env, lp, lastRow, x_pos(h, i, inst->num_nodes), 1.0);
+            if (status) {
+                print_error("An error occured in filling a constraint");
+            }
         }
-
         
     }
 
