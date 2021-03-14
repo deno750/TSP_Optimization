@@ -34,6 +34,14 @@ void plot_end_input(PLOT plot) {
 }
 
 /**
+ * Tells the plot to draw in a file located in "plot" directory
+ */
+void plot_in_file(PLOT plot, const char* name) {
+    fprintf(plot, "set terminal jpeg\n");
+    fprintf(plot, "set output '../plot/%s.jpg'\n", name);
+}
+
+/**
  * Plot an edge between point i and point j
  */
 void plot_edge(PLOT plot, point i, point j) {

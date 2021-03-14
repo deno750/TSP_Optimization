@@ -1,4 +1,4 @@
-NAME : mockup5
+NAME : mockup6
 COMMENT : 6 nodes
 TYPE : TSP
 DIMENSION : 6

@@ -43,7 +43,7 @@ int TSP_opt(instance *inst) {
 		}
 	}
 
-    status = plot_solution(inst, xstar);
+    plot_solution(inst, xstar);
 
     free(xstar);
 
@@ -144,6 +144,7 @@ static int plot_solution(instance *inst, double *xstar) {
         printf("GnuPlot is not installed. Make sure that you have installed GnuPlot in your system and it's added in your PATH");
         return 1;
     }
+    plot_in_file(gnuplotPipe, inst->name);
     add_plot_param(gnuplotPipe, "plot '-' using 1:2 w linespoints pt 7");
 
     for (int i = 0; i < inst->num_nodes; i++) {
@@ -153,6 +154,7 @@ static int plot_solution(instance *inst, double *xstar) {
             }
         }
     }
+    
     plot_end_input(gnuplotPipe);
 
     plot_free(gnuplotPipe);
