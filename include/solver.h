@@ -4,6 +4,7 @@
 
 #include <cplex.h>
 #include "utility.h"
+#include "plot.h"
 
 
 #define EPS 1e-5
@@ -11,6 +12,7 @@
 static void build_model(instance *inst, CPXENVptr env, CPXLPptr lp);
 static int x_pos(int i, int j, int num_nodes);
 static double calc_dist(int i, int j, instance *inst);
+static int plot_solution(instance *inst, double *xstar);
 
 int TSP_opt(instance *inst) {
     int error;
@@ -35,11 +37,15 @@ int TSP_opt(instance *inst) {
 	if ( CPXgetx(env, lp, xstar, 0, ncols-1) ) print_error("CPXgetx() error");	
 	for ( int i = 0; i < inst->num_nodes; i++ ){
 		for ( int j = i+1; j < inst->num_nodes; j++ ){
-			if ( xstar[x_pos(i,j,inst->num_nodes)] > 0.5 ) printf("  ... x(%3d,%3d) = 1\n", i+1,j+1);
+            // Zero is considered when the absolute value of number is <= EPS. 
+            // One is considered when the absolute value of number is > EPS
+			if ( fabs(xstar[x_pos(i,j,inst->num_nodes)]) > EPS ) printf("x(%3d,%3d) = 1\n", i+1,j+1);
 		}
 	}
-	free(xstar);
 
+    status = plot_solution(inst, xstar);
+
+    free(xstar);
 
     //Free the problem and close cplex environment
     CPXfreeprob(env, &lp);
@@ -79,8 +85,6 @@ static void build_model(instance *inst, CPXENVptr env, CPXLPptr lp) {
 
     // Adding the constraints
     for (int h = 0; h < inst->num_nodes; h++) {
-
-        int lastRow = CPXgetnumrows(env, lp);
         double rhs = 2.0;
         char sense = 'E';
         sprintf(names[0], "constraint(%d)", h+1);
@@ -92,7 +96,7 @@ static void build_model(instance *inst, CPXENVptr env, CPXLPptr lp) {
         for (int i = 0; i < inst->num_nodes; i++) {
             if (i == h) continue;
 
-            status = CPXchgcoef(env, lp, lastRow, x_pos(h, i, inst->num_nodes), 1.0);
+            status = CPXchgcoef(env, lp, h, x_pos(h, i, inst->num_nodes), 1.0);
             if (status) {
                 print_error("An error occured in filling a constraint");
             }
@@ -127,6 +131,33 @@ static double calc_dist(int i, int j, instance *inst) {
     double dist = sqrt(dx*dx + dy*dy);
     int integer = 1; // We should know wheter the distance should be integer or not. New parameter in instance? 
     return integer ? round(dist) : dist;
+}
+
+/**
+ * Plots the optimal solution.
+ * 
+ * Returns 0 when no errors, 1 otherwise.
+ */
+static int plot_solution(instance *inst, double *xstar) {
+    PLOT gnuplotPipe = plot_open();
+    if (gnuplotPipe == NULL) {
+        printf("GnuPlot is not installed. Make sure that you have installed GnuPlot in your system and it's added in your PATH");
+        return 1;
+    }
+    add_plot_param(gnuplotPipe, "plot '-' using 1:2 w linespoints pt 7");
+
+    for (int i = 0; i < inst->num_nodes; i++) {
+        for (int j = i+1; j < inst->num_nodes; j++) {
+            if (fabs(xstar[x_pos(i,j,inst->num_nodes)]) > EPS) {
+                plot_edge(gnuplotPipe, inst->nodes[i], inst->nodes[j]);
+            }
+        }
+    }
+    plot_end_input(gnuplotPipe);
+
+    plot_free(gnuplotPipe);
+
+    return 0;
 }
 
 #endif
