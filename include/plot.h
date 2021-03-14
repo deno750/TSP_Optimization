@@ -34,10 +34,12 @@ void plot_end_input(PLOT plot) {
 }
 
 /**
- * Tells the plot to draw in a file located in "plot" directory
+ * Tells the plot to draw in a file located in "plot" directory. 
+ * When called, gnuplot will not show the drawing in a separated window,
+ * only in the file.
  */
 void plot_in_file(PLOT plot, const char* name) {
-    fprintf(plot, "set terminal jpeg\n");
+    fprintf(plot, "set terminal jpeg size 1024,768\n");
     fprintf(plot, "set output '../plot/%s.jpg'\n", name);
 }
 

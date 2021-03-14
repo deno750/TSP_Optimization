@@ -35,13 +35,28 @@ int TSP_opt(instance *inst) {
     int ncols = CPXgetnumcols(env, lp);
 	double *xstar = (double *) calloc(ncols, sizeof(double));
 	if ( CPXgetx(env, lp, xstar, 0, ncols-1) ) print_error("CPXgetx() error");	
-	for ( int i = 0; i < inst->num_nodes; i++ ){
-		for ( int j = i+1; j < inst->num_nodes; j++ ){
-            // Zero is considered when the absolute value of number is <= EPS. 
-            // One is considered when the absolute value of number is > EPS
-			if ( fabs(xstar[x_pos(i,j,inst->num_nodes)]) > EPS ) printf("x(%3d,%3d) = 1\n", i+1,j+1);
-		}
-	}
+    if (inst->params.verbose >= 1) {
+
+        printf("Optimal solution found!\n");
+
+        // Next level of verbosity
+        if (inst->params.verbose >= 2) {
+            printf("\nThe optimal edges are:\n\n");
+
+            for ( int i = 0; i < inst->num_nodes; i++ ){
+                for ( int j = i+1; j < inst->num_nodes; j++ ){
+                    // Zero is considered when the absolute value of number is <= EPS. 
+                    // One is considered when the absolute value of number is > EPS
+                    if ( fabs(xstar[x_pos(i,j,inst->num_nodes)]) > EPS ) printf("x(%3d,%3d) = 1\n", i+1,j+1);
+                }
+            }
+
+        }
+
+        printf("\n");
+
+    }
+	
 
     plot_solution(inst, xstar);
 
