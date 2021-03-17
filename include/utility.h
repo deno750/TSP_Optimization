@@ -29,7 +29,8 @@ typedef struct {
     int type; 
     int num_threads; 
     int time_limit;
-    int verbose; // Verbose level of debugging printing 
+    int verbose; // Verbose level of debugging printing
+    int integer_cost;
     char *file_path;
 } instance_params;
 
@@ -68,6 +69,7 @@ void parse_comand_line(int argc, const char *argv[], instance *inst) {
     inst->params.num_threads = 1; //Default value is one thread
     inst->params.file_path = NULL;
     inst->params.verbose = 1; //Default verbose level of 1
+    inst->params.integer_cost = 0;
     int need_help = 0;
     
     for (int i = 1; i < argc; i++) {
@@ -80,6 +82,7 @@ void parse_comand_line(int argc, const char *argv[], instance *inst) {
         if (strcmp("-t", argv[i]) == 0) { inst->params.time_limit = atoi(argv[++i]); continue; }
         if (strcmp("-threads", argv[i]) == 0) { inst->params.num_threads = atoi(argv[++i]); continue; }
         if (strcmp("-verbose", argv[i]) == 0) { inst->params.verbose = atoi(argv[++i]); continue; }
+        if (strcmp("--intcost", argv[i]) == 0) {inst->params.integer_cost = 1; continue;}
         if (strcmp("--v", argv[i]) == 0 || strcmp("--version", argv[i]) == 0) { printf("Version %s\n", VERSION); exit(0);} //Version of the software
         if (strcmp("--help", argv[i]) == 0) { need_help = 1; continue; } // For comands documentation
         need_help = 1;
@@ -90,7 +93,8 @@ void parse_comand_line(int argc, const char *argv[], instance *inst) {
         printf("-f <file's path>          To pass the problem's path\n");
         printf("-t <time>                 The time limit\n");
         printf("-threads <num threads>    The number of threads to use\n");
-        printf("-verbose <level>          The verbosity level of the printing\n");
+        printf("-verbose <level>          The verbosity level of the debugging printing\n");
+        printf("--intcost                 Whether you want integer costs in the problem")
         printf("--v, --version            Software's current version\n");
         exit(0);
     }

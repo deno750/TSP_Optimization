@@ -144,7 +144,7 @@ static double calc_dist(int i, int j, instance *inst) {
     double dx = node1.x - node2.x;
     double dy = node1.y - node2.y;
     double dist = sqrt(dx*dx + dy*dy);
-    int integer = 1; // We should know wheter the distance should be integer or not. New parameter in instance? 
+    int integer = inst->params.integer_cost;
     return integer ? round(dist) : dist;
 }
 
