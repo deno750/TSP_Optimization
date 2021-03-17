@@ -56,6 +56,10 @@ typedef struct {
 // Error print function
 void print_error(const char *err) { printf("\n\n ERROR: %s \n\n", err); fflush(NULL); exit(1); } 
 
+double dmax(double d1, double d2) {
+    return d1 > d2 ? d1 : d2;
+}
+
 // Parses the input from the comand line
 void parse_comand_line(int argc, const char *argv[], instance *inst) {
 
@@ -94,7 +98,7 @@ void parse_comand_line(int argc, const char *argv[], instance *inst) {
         printf("-t <time>                 The time limit\n");
         printf("-threads <num threads>    The number of threads to use\n");
         printf("-verbose <level>          The verbosity level of the debugging printing\n");
-        printf("--intcost                 Whether you want integer costs in the problem")
+        printf("--intcost                 Whether you want integer costs in the problem");
         printf("--v, --version            Software's current version\n");
         exit(0);
     }

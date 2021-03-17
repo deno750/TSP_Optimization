@@ -5,6 +5,7 @@
 #include <cplex.h>
 #include "utility.h"
 #include "plot.h"
+#include "distutil.h"
 
 
 #define EPS 1e-5
@@ -137,15 +138,26 @@ static int x_pos(int i, int j, int num_nodes) {
     return i * num_nodes + j - ((i + 1) * (i + 2)) / 2;
 }
 
-// Euclidean distance
+// Calculating the distance based on the instance's weight_type
 static double calc_dist(int i, int j, instance *inst) {
     point node1 = inst->nodes[i];
     point node2 = inst->nodes[j];
-    double dx = node1.x - node2.x;
-    double dy = node1.y - node2.y;
-    double dist = sqrt(dx*dx + dy*dy);
     int integer = inst->params.integer_cost;
-    return integer ? round(dist) : dist;
+    if (inst->weight_type == EUC_2D) {
+        return calc_euc2d(node1, node2, integer);
+    } else if (inst->weight_type == ATT) {
+        return calc_pseudo_euc(node1, node2, integer);
+    } else if (inst->weight_type == MAN_2D) {
+        return calc_man2d(node1, node2, integer);
+    } else if (inst->weight_type == MAX_2D) {
+        return calc_max2d(node1, node2, integer);
+    } else if (inst->weight_type == CEIL_2D) {
+        return calc_ceil2d(node1, node2);
+    } else if (inst->weight_type == GEO) {
+        return calc_geo(node1, node2, integer);
+    }
+    // Default: euclidian distance. Should be ok for most problems
+    return calc_euc2d(node1, node2, integer);
 }
 
 /**
