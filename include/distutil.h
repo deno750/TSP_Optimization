@@ -6,11 +6,15 @@
 #define PI 3.141592
 #define EARTH_RAD 6378.388
 
+static double nint(double x) {
+    return (long) (x + 0.5);
+}
+
 double calc_euc2d(point p1, point p2, int integer) {
     double dx = p1.x - p2.x;
     double dy = p1.y - p2.y;
     double dist = sqrt(dx*dx + dy*dy);
-    return integer ? round(dist) : dist;
+    return integer ? nint(dist) : dist;
 }
 
 double calc_pseudo_euc(point p1, point p2, int integer) {
@@ -18,7 +22,7 @@ double calc_pseudo_euc(point p1, point p2, int integer) {
     double dy = p1.y - p2.y;
     double r = sqrt((dx*dx + dy*dy) / 10.0);
     if (integer) {  
-        double t = round(r);
+        double t = nint(r);
         double dist = t < r ? t + 1 : t;
         return dist;
     } else {
@@ -29,14 +33,14 @@ double calc_pseudo_euc(point p1, point p2, int integer) {
 double calc_man2d(point p1, point p2, int integer) {
     double dx = fabs(p1.x - p2.x);
     double dy = fabs(p2.y - p2.y);
-    return integer ? round(dx + dy) : dx + dy;
+    return integer ? nint(dx + dy) : dx + dy;
 }
 
 double calc_max2d(point p1, point p2, int integer) {
     double dx = fabs(p1.x - p2.x);
     double dy = fabs(p2.y - p2.y);
-    dx = integer ? round(dx) : dx;
-    dy = integer ? round(dy) : dy;
+    dx = integer ? nint(dx) : dx;
+    dy = integer ? nint(dy) : dy;
     return dmax(dx, dy);
 }
 
@@ -45,10 +49,10 @@ double calc_ceil2d(point p1, point p2) { //Returns always an integer value
 }
 
 static void calc_lat_lon(point p, double *lat, double *lon) {
-    double deg = round(p.x);
+    double deg = nint(p.x); // For negative numbers do we need to add +0.5 or -0.5??
     double min = p.x - deg;
     *lat = PI * (deg + 5.0 * min / 3.0) / 180.0;
-    deg = round(p.y);
+    deg = nint(p.y); // For negative numbers do we need to add +0.5 or -0.5??
     min = p.y - deg;
     *lon = PI * (deg + 5.0 * min / 3.0 ) / 180.0;
 }
@@ -63,7 +67,7 @@ double calc_geo(point p1, point p2, int integer) {
     double q2 = cos( lat1 - lat2 );
     double q3 = cos( lat1 + lat2 );
     double dist = EARTH_RAD * acos( 0.5 * ((1.0+q1)*q2 - (1.0-q1)*q3) ) + 1.0;
-    return integer ? round(dist) : dist;
+    return integer ? nint(dist) : dist;
 }
 
 #endif
