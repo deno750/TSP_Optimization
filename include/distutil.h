@@ -111,10 +111,10 @@ double calc_ceil2d(point p1, point p2) { //Returns always an integer value
  * 
  */
 static void calc_lat_lon(point p, double *lat, double *lon) {
-    double deg = e_round(p.x); // Use instead nint as in TSP documentation?
+    double deg = nint(p.x); 
     double min = p.x - deg;
     *lat = PI * (deg + 5.0 * min / 3.0) / 180.0;
-    deg = e_round(p.y); // Use instead nint as in TSP documentation?
+    deg = nint(p.y); 
     min = p.y - deg;
     *lon = PI * (deg + 5.0 * min / 3.0 ) / 180.0;
 }

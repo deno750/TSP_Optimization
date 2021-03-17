@@ -103,7 +103,7 @@ static void build_model(instance *inst, CPXENVptr env, CPXLPptr lp) {
     for (int h = 0; h < inst->num_nodes; h++) {
         double rhs = 2.0;
         char sense = 'E';
-        sprintf(names[0], "constraint(%d)", h+1);
+        sprintf(names[0], "degree(%d)", h+1);
         int status = CPXnewrows(env, lp, 1, &rhs, &sense, NULL, names);
         if (status) {
             print_error("An error occured inserting a new constraint");
