@@ -71,7 +71,7 @@ int TSP_opt(instance *inst) {
 
 static void build_model(instance *inst, CPXENVptr env, CPXLPptr lp) {
     
-    char xctype = 'B';  // B=bynary variable
+    char xctype = 'B';  // B=binary variable
     char **names = (char **) calloc(1 , sizeof(char*)); // Cplex wants an array of variable names (i.e. char array of array)
     names[0] = (char *) calloc(100, sizeof(char));
 
@@ -131,10 +131,19 @@ static void build_model(instance *inst, CPXENVptr env, CPXLPptr lp) {
 
 }
 
-// Get cplex internal reppresentation of nodes
+/**
+ * Transforms the indexes (i, j) to a scalar index k.
+ * (i, j) -> k where k is the position index in an array
+ * of the edge that connects togheter node i and node j.
+ * 
+ */
 static int x_pos(int i, int j, int num_nodes) {
     if (i == j) print_error("Indexes passed are equal!");
-    if (i > j) return x_pos(j, i, num_nodes);
+    // Since the problem has undirected edges that connects two nodes,
+    // if we have i > j means that we have already the edge that connects j
+    // to i. (i.e. we have already edge (j, i) so we switch index j with index i
+    // to obtain that edge)
+    if (i > j) return x_pos(j, i, num_nodes);  
     return i * num_nodes + j - ((i + 1) * (i + 2)) / 2;
 }
 
@@ -161,7 +170,7 @@ static double calc_dist(int i, int j, instance *inst) {
 }
 
 /**
- * Plots the optimal solution.
+ * Plots the solution.
  * 
  * Returns 0 when no errors, 1 otherwise.
  */
