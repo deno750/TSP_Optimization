@@ -26,6 +26,12 @@ int TSP_opt(instance *inst) {
     // Build the model (add variable and constrains to the empty one)
     build_model(inst, env, lp);
 
+    // Setting the time limit to cplex
+    if (inst->params.time_limit >= 0) {
+        double time_limit = inst->params.time_limit;
+        CPXsetdblparam(env, CPXPARAM_TimeLimit, time_limit);
+    }
+
     //Optimize the model (the solution is stored inside the env variable)
     int status = CPXmipopt(env, lp);
     if (status) {
@@ -181,6 +187,7 @@ static void build_dir_model(instance *inst, CPXENVptr env, CPXLPptr lp) {
         deg++;
     }
 
+    // Adding constraint x21 + x31 + ... + xij + ... = 1 For each j
     for (int j = 0; j < inst->num_nodes; j++) {
         sprintf(names[0], "degree(%d)", deg + 1);
         int status = CPXnewrows(env, lp, 1, &rhs, &sense, NULL, names);
@@ -260,7 +267,9 @@ static int x_dir_pos(int i, int j, int num_nodes) {
     return i * num_nodes + j;
 }
 
-// Calculating the distance based on the instance's weight_type
+/**
+ * Calculating the distance based on the instance's weight_type
+ */ 
 static double calc_dist(int i, int j, instance *inst) {
     point node1 = inst->nodes[i];
     point node2 = inst->nodes[j];

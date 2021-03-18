@@ -3,6 +3,7 @@
 #define PLOT_H
 
 #include <stdio.h>
+#include <sys/stat.h>
 #include "utility.h"
 
 typedef FILE* PLOT;
@@ -39,6 +40,7 @@ void plot_end_input(PLOT plot) {
  * only in the file.
  */
 void plot_in_file(PLOT plot, const char* name) {
+    mkdir("../plot", 0777); // Create the plot directory if does not exists
     fprintf(plot, "set terminal jpeg size 1024,768\n");
     fprintf(plot, "set output '../plot/%s.jpg'\n", name);
 }
@@ -75,6 +77,7 @@ void plot_point(PLOT plot, point p) {
  * Closes the plot pipe
  */
 void plot_free(PLOT plot) {
+    fflush(plot);
     pclose(plot);
 }
 

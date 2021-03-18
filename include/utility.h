@@ -151,6 +151,7 @@ void parse_instance(instance *inst) {
 
 		if(strncmp(par_name, "COMMENT", 7) == 0){
 			active_section = 0;   
+            inst->comment = NULL; // Need to set null in order to avoid crash when free instance
             //We don't do nothing with this parameter because we don't care about the comment  
 			continue;
 		}   
