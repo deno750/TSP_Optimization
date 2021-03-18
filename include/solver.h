@@ -10,8 +10,11 @@
 
 #define EPS 1e-5
 
+static void build_udir_model(instance *inst, CPXENVptr env, CPXLPptr lp);
+static void build_dir_model(instance *inst, CPXENVptr env, CPXLPptr lp);
 static void build_model(instance *inst, CPXENVptr env, CPXLPptr lp);
-static int x_pos(int i, int j, int num_nodes);
+static int x_udir_pos(int i, int j, int num_nodes);
+static int x_dir_pos(int i, int j, int num_nodes);
 static double calc_dist(int i, int j, instance *inst);
 static int plot_solution(instance *inst, double *xstar);
 
@@ -44,11 +47,13 @@ int TSP_opt(instance *inst) {
         if (inst->params.verbose >= 2) {
             printf("\nThe optimal edges are:\n\n");
 
+            // TODO: Plot using a new data structure that contains edges in order to generalize the plot for
+            // undirected and directeg edges
             for ( int i = 0; i < inst->num_nodes; i++ ){
                 for ( int j = i+1; j < inst->num_nodes; j++ ){
                     // Zero is considered when the absolute value of number is <= EPS. 
                     // One is considered when the absolute value of number is > EPS
-                    if ( fabs(xstar[x_pos(i,j,inst->num_nodes)]) > EPS ) printf("x(%3d,%3d) = 1\n", i+1,j+1);
+                    if ( fabs(xstar[x_udir_pos(i,j,inst->num_nodes)]) > EPS ) printf("x(%3d,%3d) = 1\n", i+1,j+1);
                 }
             }
 
@@ -69,12 +74,13 @@ int TSP_opt(instance *inst) {
     return error;
 }
 
-static void build_model(instance *inst, CPXENVptr env, CPXLPptr lp) {
-    
+/**
+ * Builds the model for a symmetric graph
+ */
+static void build_udir_model(instance *inst, CPXENVptr env, CPXLPptr lp) {
     char xctype = 'B';  // B=binary variable
     char **names = (char **) calloc(1 , sizeof(char*)); // Cplex wants an array of variable names (i.e. char array of array)
     names[0] = (char *) calloc(100, sizeof(char));
-
 
     // We add one variable at time. We may also add them all in a single shot. i<j
     for (int i = 0; i < inst->num_nodes; i++) {
@@ -93,7 +99,7 @@ static void build_model(instance *inst, CPXENVptr env, CPXLPptr lp) {
                 print_error("An error occured inserting a new variable");
             }
             int numcols = CPXgetnumcols(env, lp);
-            if (numcols - 1 != x_pos(i, j, inst->num_nodes)) { // numcols -1 because we need the position index of the new variable
+            if (numcols - 1 != x_udir_pos(i, j, inst->num_nodes)) { // numcols -1 because we need the position index of the new variable
                 print_error("Wrong position of variable");
             }
         }
@@ -112,7 +118,7 @@ static void build_model(instance *inst, CPXENVptr env, CPXLPptr lp) {
         for (int i = 0; i < inst->num_nodes; i++) {
             if (i == h) continue;
 
-            status = CPXchgcoef(env, lp, h, x_pos(h, i, inst->num_nodes), 1.0);
+            status = CPXchgcoef(env, lp, h, x_udir_pos(h, i, inst->num_nodes), 1.0);
             if (status) {
                 print_error("An error occured in filling a constraint");
             }
@@ -120,31 +126,138 @@ static void build_model(instance *inst, CPXENVptr env, CPXLPptr lp) {
         
     }
 
+    free(names[0]);
+    free(names);
+}
+
+/**
+ * Builds the model for an asymmetric graph
+ */
+static void build_dir_model(instance *inst, CPXENVptr env, CPXLPptr lp) {
+    char xctype = 'B';  // B=binary variable
+    char **names = (char **) calloc(1 , sizeof(char*)); // Cplex wants an array of variable names (i.e. char array of array)
+    names[0] = (char *) calloc(100, sizeof(char));
+
+    // We add one variable at time. We may also add them all in a single shot. i<j
+    for (int i = 0; i < inst->num_nodes; i++) {
+
+        for (int j = 0; j < inst->num_nodes; j++) {
+            sprintf(names[0], "x(%d,%d)", i+1, j+1);
+
+            // Variables treated as single value arrays.
+            double obj = calc_dist(i, j, inst); 
+            double lb = 0.0; 
+            double ub = i != j ? 1.0 : 0.0; 
+
+            int status = CPXnewcols(env, lp, 1, &obj, &lb, &ub, &xctype, names);
+            if (status) {
+                print_error("An error occured inserting a new variable");
+            }
+            int numcols = CPXgetnumcols(env, lp);
+            if (numcols - 1 != x_dir_pos(i, j, inst->num_nodes)) { // numcols -1 because we need the position index of the new variable
+                print_error("Wrong position of variable");
+            }
+        }
+    }
+
+    // Adding the x(i,j) constraints
+    int deg = 0;
+    double rhs = 1.0; // Asymmetric graph
+    char sense = 'E';
+    // Adding constraint x12 + x13 + ... + xij + ... = 1 For each i
+    for (int i = 0; i < inst->num_nodes; i++) {
+        sprintf(names[0], "degree(%d)", deg + 1);
+        int status = CPXnewrows(env, lp, 1, &rhs, &sense, NULL, names);
+        if (status) {
+            print_error("An error occured inserting a new constraint");
+        }
+        for (int j = 0; j < inst->num_nodes; j++) {
+            if (i == j) continue;
+            status = CPXchgcoef(env, lp, deg, x_dir_pos(i, j, inst->num_nodes), 1.0);
+            if (status) {
+                print_error("An error occured in filling a constraint");
+            }
+        }
+        deg++;
+    }
+
+    for (int j = 0; j < inst->num_nodes; j++) {
+        sprintf(names[0], "degree(%d)", deg + 1);
+        int status = CPXnewrows(env, lp, 1, &rhs, &sense, NULL, names);
+        if (status) {
+            print_error("An error occured inserting a new constraint");
+        }
+        for (int i = 0; i < inst->num_nodes; i++) {
+            if (i == j) continue;
+            status = CPXchgcoef(env, lp, deg, x_dir_pos(i, j, inst->num_nodes), 1.0);
+            if (status) {
+                print_error("An error occured in filling a constraint");
+            }
+        }
+        deg++;
+    }
+
+
+    free(names[0]);
+    free(names);
+}
+
+
+/**
+ * Builds the model 
+ */
+static void build_model(instance *inst, CPXENVptr env, CPXLPptr lp) {
+
+    // Checks the type of the edge in order to
+    // build the correct model
+    if (inst->params.type == UDIR_EDGE) {
+        build_udir_model(inst, env, lp);
+    } else {
+        build_dir_model(inst, env, lp);
+    }
+    
+
     // Saving the model in .lp file
     char modelPath[1024];
     sprintf(modelPath, "../model/%s.lp", inst->name);
     
     CPXwriteprob(env, lp, modelPath, NULL);
-    
-    free(names[0]);
-    free(names);
 
 }
 
 /**
- * Transforms the indexes (i, j) to a scalar index k.
+ * Transforms the indexes (i, j) to a scalar index k for
+ * undirecred graph;
  * (i, j) -> k where k is the position index in an array
  * of the edge that connects togheter node i and node j.
  * 
  */
-static int x_pos(int i, int j, int num_nodes) {
+static int x_udir_pos(int i, int j, int num_nodes) {
     if (i == j) print_error("Indexes passed are equal!");
+    if (i > num_nodes - 1 || j > num_nodes -1 ) {
+        print_error("Indexes passed greater than the number of nodes");
+    }
     // Since the problem has undirected edges that connects two nodes,
     // if we have i > j means that we have already the edge that connects j
     // to i. (i.e. we have already edge (j, i) so we switch index j with index i
     // to obtain that edge)
-    if (i > j) return x_pos(j, i, num_nodes);  
+    if (i > j) return x_udir_pos(j, i, num_nodes);  
     return i * num_nodes + j - ((i + 1) * (i + 2)) / 2;
+}
+
+/**
+ * Transforms the indexes (i, j) to a scalar index k for
+ * directed graph;
+ * (i, j) -> k where k is the position index in an array
+ * of the edge that connects togheter node i and node j.
+ * 
+ */
+static int x_dir_pos(int i, int j, int num_nodes) {
+    //if (i == j) { print_error("Indexes passed are equal!"); }
+    if (i > num_nodes - 1 || j > num_nodes -1 ) {
+        print_error("Indexes passed greater than the number of nodes");
+    }
+    return i * num_nodes + j;
 }
 
 // Calculating the distance based on the instance's weight_type
@@ -185,7 +298,7 @@ static int plot_solution(instance *inst, double *xstar) {
 
     for (int i = 0; i < inst->num_nodes; i++) {
         for (int j = i+1; j < inst->num_nodes; j++) {
-            if (fabs(xstar[x_pos(i,j,inst->num_nodes)]) > EPS) {
+            if (fabs(xstar[x_udir_pos(i,j,inst->num_nodes)]) > EPS) {
                 plot_edge(gnuplotPipe, inst->nodes[i], inst->nodes[j]);
             }
         }

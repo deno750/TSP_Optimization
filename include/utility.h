@@ -10,7 +10,7 @@
 #include <errno.h>
 
 
-#define VERSION "TSP 0.1"
+#define VERSION "TSP 0.2"
 
 
 // ================ Weight types =====================
@@ -21,12 +21,16 @@
 #define GEO 4 // weights are geographical distances
 #define ATT 5 // special distance function for problems att48 and att532 (pseudo-Euclidean)
 
+// ================ Edge types =======================
+#define UDIR_EDGE 0
+#define DIR_EDGE 1
+
 
 // ==================== STRUCTS ==========================
 
 // Struct which stores the parameters of the problem
 typedef struct {
-    int type; 
+    int type;  // Describes if the graph is directed or undirected
     int num_threads; 
     int time_limit;
     int verbose; // Verbose level of debugging printing
@@ -68,7 +72,7 @@ void parse_comand_line(int argc, const char *argv[], instance *inst) {
         exit(1);
     }
 
-    inst->params.type = 0;
+    inst->params.type = DIR_EDGE; //Default edge type is directed 
     inst->params.time_limit = -1; //Default time limit value. -1 means no constraints in time limit 
     inst->params.num_threads = 1; //Default value is one thread
     inst->params.file_path = NULL;
@@ -87,6 +91,7 @@ void parse_comand_line(int argc, const char *argv[], instance *inst) {
         if (strcmp("-threads", argv[i]) == 0) { inst->params.num_threads = atoi(argv[++i]); continue; }
         if (strcmp("-verbose", argv[i]) == 0) { inst->params.verbose = atoi(argv[++i]); continue; }
         if (strcmp("--fcost", argv[i]) == 0) { inst->params.integer_cost = 0; continue; }
+        if (strcmp("--udir", argv[i]) == 0) { inst->params.type = UDIR_EDGE; continue; }
         if (strcmp("--v", argv[i]) == 0 || strcmp("--version", argv[i]) == 0) { printf("Version %s\n", VERSION); exit(0);} //Version of the software
         if (strcmp("--help", argv[i]) == 0) { need_help = 1; continue; } // For comands documentation
         need_help = 1;
@@ -99,6 +104,7 @@ void parse_comand_line(int argc, const char *argv[], instance *inst) {
         printf("-threads <num threads>    The number of threads to use\n");
         printf("-verbose <level>          The verbosity level of the debugging printing\n");
         printf("--fcost                   Whether you want float costs in the problem\n");
+        printf("--udir                    Whether the edges shoul be treated as undirected in the graph\n");
         printf("--v, --version            Software's current version\n");
         exit(0);
     }
@@ -218,7 +224,17 @@ void print_instance(instance inst) {
     if (inst.params.verbose >= 1) {
         if (inst.params.verbose >= 2) {
             printf("\n");
-            printf("Type: %d\n", inst.params.type);
+            printf("======== PARAMS PASSED =========\n");
+            const char* edge;
+            switch (inst.params.type) {
+            case UDIR_EDGE:
+                edge = "Undirected";
+                break;
+            default:
+                edge = "Directed";
+                break;
+            }
+            printf("Edge type: %s\n", edge);
             printf("Time Limit: %d\n", inst.params.time_limit);
             printf("Threads: %d\n", inst.params.num_threads);
             printf("Verbose: %d\n", inst.params.verbose);
@@ -227,6 +243,7 @@ void print_instance(instance inst) {
         }
         
         printf("\n");
+        printf("======== Instance ========\n");
         printf("name: %s\n", inst.name);
         printf("n° nodes: %d\n", inst.num_nodes);
         const char* weight;
@@ -266,75 +283,5 @@ void print_instance(instance inst) {
         printf("\n");
     }
 }
-
-
-/*
-/////// FILE FORMAT ///////////
-SPECIFICATION PART:
-- NAME : <string>
-- TYPE : <string>
-    - TSP Data for a symmetric traveling salesman problem
-    - ATSP Data for an asymmetric traveling salesman problem
-    - SOP Data for a sequential ordering problem
-    - HCP Hamiltonian cycle problem data
-    - CVRP Capacitated vehicle routing problem data
-    - TOUR A collection of tours
-- COMMENT : <string>
-- DIMENSION : <integer>   number of its nodes
-- CAPACITY : <integer>   for CVRP problem NOT in TSP
-- EDGE WEIGHT TYPE : <string>
-  Specifies how the edge weights (or distances) are given. The values are
-    - EXPLICIT  Weights are listed explicitly in the corresponding section
-    - EUC 2D    Weights are Euclidean distances in 2-D
-    - EUC 3D    Weights are Euclidean distances in 3-D
-    - MAX 2D    Weights are maximum distances in 2-D
-    - MAX 3D    Weights are maximum distances in 3-D
-    - MAN 2D    Weights are Manhattan distances in 2-D
-    - MAN 3D    Weights are Manhattan distances in 3-D
-    - CEIL 2D   Weights are Euclidean distances in 2-D rounded up
-    - GEO       Weights are geographical distances
-    - ATT       Special distance function for problems att48 and att532
-    - XRAY1     Special distance function for crystallography problems (Version 1)
-    - XRAY2     Special distance function for crystallography problems (Version 2)
-    - SPECIAL   There is a special distance function documented elsewhere
-- EDGE WEIGHT FORMAT : <string>
-  Describes the format of the edge weights if they are given explicitly. The values are
-    - FUNCTION Weights are given by a function (see above)
-    - FULL MATRIX Weights are given by a full matrix
-    - UPPER ROW Upper triangular matrix (row-wise without diagonal entries)
-    - LOWER ROW Lower triangular matrix (row-wise without diagonal entries)
-    - UPPER DIAG ROW Upper triangular matrix (row-wise including diagonal entries)
-    - LOWER DIAG ROW Lower triangular matrix (row-wise including diagonal entries)
-    - UPPER COL Upper triangular matrix (column-wise without diagonal entries)
-    - LOWER COL Lower triangular matrix (column-wise without diagonal entries)
-    - UPPER DIAG COL Upper triangular matrix (column-wise including diagonal entries)
-    - LOWER DIAG COL Lower triangular matrix (column-wise including diagonal entries)
-- EDGE DATA FORMAT : <string>
-  Describes the format in which the edges of a graph are given, if the graph is not complete.
-    - EDGE LIST The graph is given by an edge list
-    - ADJ LIST The graph is given as an adjacency list
-- NODE COORD TYPE : <string>
-  Specifies whether coordinates are associated with each node (which, for example may be used for either graphical display or distance computations).
-    - TWOD COORDS Nodes are specified by coordinates in 2-D
-    - THREED COORDS Nodes are specified by coordinates in 3-D
-    - NO COORDS The nodes do not have associated coordinates
-  The default value is NO COORDS
-- DISPLAY DATA TYPE : <string>
-  Specifies how a graphical display of the nodes can be obtained.
-    - COORD DISPLAY Display is generated from the node coordinates
-    - TWOD DISPLAY Explicit coordinates in 2-D are given
-    - NO DISPLAY No graphical display is possible
-  The default value is COORD DISPLAY if node coordinates are specified and NO DISPLAY otherwise.
-- EOF
-  Terminates the input data. This entry is optional.
-
-///// DATA PART /////
-- NODE COORD SECTION
-    - if NODE COORD TYPE is TWOD COORDS: <integer> <real> <real>
-    - if NODE COORD TYPE is THREED COORDS: <integer> <real> <real> <real>
-    The integers give the number of the respective nodes.
-    The real numbers give the associated coordinates.
-- .........
-*/
 
 #endif
