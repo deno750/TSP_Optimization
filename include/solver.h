@@ -85,22 +85,21 @@ int TSP_opt(instance *inst) {
  */
 static void build_udir_model(instance *inst, CPXENVptr env, CPXLPptr lp) {
     char xctype = 'B';  // B=binary variable
-    char **names = (char **) calloc(1 , sizeof(char*)); // Cplex wants an array of variable names (i.e. char array of array)
-    names[0] = (char *) calloc(100, sizeof(char));
+    char *names = (char *) calloc(100, sizeof(char));
 
     // We add one variable at time. We may also add them all in a single shot. i<j
     for (int i = 0; i < inst->num_nodes; i++) {
 
         for (int j = i+1; j < inst->num_nodes; j++) {
             
-            sprintf(names[0], "x(%d,%d)", i+1, j+1);
+            sprintf(names, "x(%d,%d)", i+1, j+1);
 
             // Variables treated as single value arrays.
             double obj = calc_dist(i, j, inst); 
             double lb = 0.0;
             double ub = 1.0;
 
-            int status = CPXnewcols(env, lp, 1, &obj, &lb, &ub, &xctype, names);
+            int status = CPXnewcols(env, lp, 1, &obj, &lb, &ub, &xctype, &names);
             if (status) {
                 print_error("An error occured inserting a new variable");
             }
@@ -115,8 +114,8 @@ static void build_udir_model(instance *inst, CPXENVptr env, CPXLPptr lp) {
     for (int h = 0; h < inst->num_nodes; h++) {
         double rhs = 2.0;
         char sense = 'E';
-        sprintf(names[0], "degree(%d)", h+1);
-        int status = CPXnewrows(env, lp, 1, &rhs, &sense, NULL, names);
+        sprintf(names, "degree(%d)", h+1);
+        int status = CPXnewrows(env, lp, 1, &rhs, &sense, NULL, &names);
         if (status) {
             print_error("An error occured inserting a new constraint");
         }
@@ -132,7 +131,7 @@ static void build_udir_model(instance *inst, CPXENVptr env, CPXLPptr lp) {
         
     }
 
-    free(names[0]);
+    //free(names[0]);
     free(names);
 }
 
@@ -141,21 +140,20 @@ static void build_udir_model(instance *inst, CPXENVptr env, CPXLPptr lp) {
  */
 static void build_dir_model(instance *inst, CPXENVptr env, CPXLPptr lp) {
     char xctype = 'B';  // B=binary variable
-    char **names = (char **) calloc(1 , sizeof(char*)); // Cplex wants an array of variable names (i.e. char array of array)
-    names[0] = (char *) calloc(100, sizeof(char));
+    char *names = (char *) calloc(100, sizeof(char));
 
     // We add one variable at time. We may also add them all in a single shot. i<j
     for (int i = 0; i < inst->num_nodes; i++) {
 
         for (int j = 0; j < inst->num_nodes; j++) {
-            sprintf(names[0], "x(%d,%d)", i+1, j+1);
+            sprintf(names, "x(%d,%d)", i+1, j+1);
 
             // Variables treated as single value arrays.
             double obj = calc_dist(i, j, inst); 
             double lb = 0.0; 
             double ub = i != j ? 1.0 : 0.0; 
 
-            int status = CPXnewcols(env, lp, 1, &obj, &lb, &ub, &xctype, names);
+            int status = CPXnewcols(env, lp, 1, &obj, &lb, &ub, &xctype, &names); 
             if (status) {
                 print_error("An error occured inserting a new variable");
             }
@@ -172,8 +170,8 @@ static void build_dir_model(instance *inst, CPXENVptr env, CPXLPptr lp) {
     char sense = 'E';
     // Adding constraint x12 + x13 + ... + xij + ... = 1 For each i
     for (int i = 0; i < inst->num_nodes; i++) {
-        sprintf(names[0], "degree(%d)", deg + 1);
-        int status = CPXnewrows(env, lp, 1, &rhs, &sense, NULL, names);
+        sprintf(names, "degree(%d)", deg + 1);
+        int status = CPXnewrows(env, lp, 1, &rhs, &sense, NULL, &names);
         if (status) {
             print_error("An error occured inserting a new constraint");
         }
@@ -189,8 +187,8 @@ static void build_dir_model(instance *inst, CPXENVptr env, CPXLPptr lp) {
 
     // Adding constraint x21 + x31 + ... + xij + ... = 1 For each j
     for (int j = 0; j < inst->num_nodes; j++) {
-        sprintf(names[0], "degree(%d)", deg + 1);
-        int status = CPXnewrows(env, lp, 1, &rhs, &sense, NULL, names);
+        sprintf(names, "degree(%d)", deg + 1);
+        int status = CPXnewrows(env, lp, 1, &rhs, &sense, NULL, &names);
         if (status) {
             print_error("An error occured inserting a new constraint");
         }
@@ -205,7 +203,7 @@ static void build_dir_model(instance *inst, CPXENVptr env, CPXLPptr lp) {
     }
 
 
-    free(names[0]);
+    //free(names[0]);
     free(names);
 }
 

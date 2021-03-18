@@ -10,7 +10,7 @@
 #include <errno.h>
 
 
-#define VERSION "TSP 0.2"
+#define VERSION "TSP 0.2.1"
 
 
 // ================ Weight types =====================
@@ -44,6 +44,19 @@ typedef struct {
     double y;
 } point;
 
+// Edge that connects node i and node j.
+// Directed edge: i -> j
+// Undirected edge: i - j
+typedef struct {
+    int i; // Index of node i
+    int j; // Index of node j
+} edge;
+
+typedef struct {
+    double zbest; // Stores the best value of the objective function
+    edge *edges; // List the solution's edges
+} solution;
+
 // Instance data structure where all the information of the problem are stored
 typedef struct {
     instance_params params;
@@ -53,6 +66,8 @@ typedef struct {
     char *name;
     char *comment;
     point *nodes;
+
+    solution *solution;
 } instance;
 
 // ===================== FUNCTIONS =============================
@@ -104,7 +119,7 @@ void parse_comand_line(int argc, const char *argv[], instance *inst) {
         printf("-threads <num threads>    The number of threads to use\n");
         printf("-verbose <level>          The verbosity level of the debugging printing\n");
         printf("--fcost                   Whether you want float costs in the problem\n");
-        printf("--udir                    Whether the edges shoul be treated as undirected in the graph\n");
+        printf("--udir                    Whether the edges should be treated as undirected edges in the graph\n");
         printf("--v, --version            Software's current version\n");
         exit(0);
     }
@@ -151,8 +166,8 @@ void parse_instance(instance *inst) {
 
 		if(strncmp(par_name, "COMMENT", 7) == 0){
 			active_section = 0;   
-            inst->comment = NULL; // Need to set null in order to avoid crash when free instance
-            //We don't do nothing with this parameter because we don't care about the comment  
+            inst->comment = NULL; // Need to set this null in order to avoid crashes in free_instance function
+            //We don't do anything with this parameter because we don't care about the comment  
 			continue;
 		}   
 
