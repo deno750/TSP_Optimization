@@ -14,8 +14,8 @@
 static void build_udir_model(instance *inst, CPXENVptr env, CPXLPptr lp);
 static void build_dir_model(instance *inst, CPXENVptr env, CPXLPptr lp);
 static void build_model(instance *inst, CPXENVptr env, CPXLPptr lp);
-int x_udir_pos(int i, int j, int num_nodes);
-int x_dir_pos(int i, int j, int num_nodes);
+static int x_udir_pos(int i, int j, int num_nodes);
+static int x_dir_pos(int i, int j, int num_nodes);
 static double calc_dist(int i, int j, instance *inst);
 static int plot_solution(instance *inst, double *xstar);
 
@@ -45,7 +45,14 @@ int TSP_opt(instance *inst) {
     // Use the solution
     int ncols = CPXgetnumcols(env, lp);
 	double *xstar = (double *) calloc(ncols, sizeof(double));
-	if ( CPXgetx(env, lp, xstar, 0, ncols-1) ) print_error("CPXgetx() error");	
+    status = CPXgetx(env, lp, xstar, 0, ncols-1);
+	if ( status ) {
+        if (status == CPXERR_NO_SOLN) {
+            print_error("No Solution exists");	
+        }
+        printf("Error Code: %d\n", status);
+        print_error("CPXgetx() error");	
+    }
     if (inst->params.verbose >= 1) {
 
         printf("Optimal solution found!\n");
@@ -57,10 +64,10 @@ int TSP_opt(instance *inst) {
             // TODO: Plot using a new data structure that contains edges in order to generalize the plot for
             // undirected and directeg edges
             for ( int i = 0; i < inst->num_nodes; i++ ){
-                for ( int j = i+1; j < inst->num_nodes; j++ ){
+                for ( int j = 0; j < inst->num_nodes; j++ ){
                     // Zero is considered when the absolute value of number is <= EPS. 
                     // One is considered when the absolute value of number is > EPS
-                    if ( fabs(xstar[x_udir_pos(i,j,inst->num_nodes)]) > EPS ) printf("x(%3d,%3d) = 1\n", i+1,j+1);
+                    if ( fabs(xstar[x_dir_pos(i,j,inst->num_nodes)]) > EPS ) printf("x(%3d,%3d) = 1\n", i+1,j+1);
                 }
             }
 
@@ -132,24 +139,9 @@ static void build_udir_model(instance *inst, CPXENVptr env, CPXLPptr lp) {
         
     }
 
-    //free(names[0]);
     free(names);
 }
 
-
-
-
-
-
-
-int xpos_mtz(int i, int j, instance *inst)
-{
-	if((i >= inst->num_nodes) || (j >= inst->num_nodes) || (i<0) || (j<0))
-	{
-		print_error("Domain contraint not respected");
-	}
-	return (i*inst->num_nodes + j);
-}
 /**
  * Builds the model for an asymmetric graph
  */
@@ -179,7 +171,6 @@ static void build_dir_model(instance *inst, CPXENVptr env, CPXLPptr lp) {
         }
     }
 
-    // Adding the x(i,j) constraints
     int deg = 0;
     double rhs = 1.0; // Asymmetric graph
     char sense = 'E';   
@@ -218,7 +209,7 @@ static void build_dir_model(instance *inst, CPXENVptr env, CPXLPptr lp) {
     }
 
 
-    add_mtz_constraints(inst, env, lp);
+    add_mtz_constraints(inst, env, lp, &x_dir_pos);
 
 
     free(names);
@@ -254,7 +245,7 @@ static void build_model(instance *inst, CPXENVptr env, CPXLPptr lp) {
  * of the edge that connects togheter node i and node j.
  * 
  */
-int x_udir_pos(int i, int j, int num_nodes) {
+static int x_udir_pos(int i, int j, int num_nodes) {
     if (i == j) print_error("Indexes passed are equal!");
     if (i > num_nodes - 1 || j > num_nodes -1 ) {
         print_error("Indexes passed greater than the number of nodes");
@@ -268,8 +259,6 @@ int x_udir_pos(int i, int j, int num_nodes) {
 }
 
 
-
-
 /**
  * Transforms the indexes (i, j) to a scalar index k for
  * directed graph;
@@ -277,7 +266,7 @@ int x_udir_pos(int i, int j, int num_nodes) {
  * of the edge that connects togheter node i and node j.
  * 
  */
-int x_dir_pos(int i, int j, int num_nodes) {
+static int x_dir_pos(int i, int j, int num_nodes) {
     //if (i == j) { print_error("Indexes passed are equal!"); }
     if (i > num_nodes - 1 || j > num_nodes -1 ) {
         print_error("Indexes passed greater than the number of nodes");
@@ -324,8 +313,8 @@ static int plot_solution(instance *inst, double *xstar) {
     add_plot_param(gnuplotPipe, "plot '-' using 1:2 w linespoints pt 7");
 
     for (int i = 0; i < inst->num_nodes; i++) {
-        for (int j = i+1; j < inst->num_nodes; j++) {
-            if (fabs(xstar[x_udir_pos(i,j,inst->num_nodes)]) > EPS) {
+        for (int j = 0; j < inst->num_nodes; j++) {
+            if (fabs(xstar[x_dir_pos(i,j,inst->num_nodes)]) > EPS) {
                 plot_edge(gnuplotPipe, inst->nodes[i], inst->nodes[j]);
             }
         }
