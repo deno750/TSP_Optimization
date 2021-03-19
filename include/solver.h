@@ -217,7 +217,7 @@ static void build_dir_model(instance *inst, CPXENVptr env, CPXLPptr lp) {
     }*/
 
 
-
+    printf("solving with MTZ\n");
 
 
     // MTZ
