@@ -6,6 +6,7 @@
 #include "utility.h"
 #include "plot.h"
 #include "distutil.h"
+#include "mtz.h"
 
 
 #define EPS 1e-5
@@ -13,8 +14,8 @@
 static void build_udir_model(instance *inst, CPXENVptr env, CPXLPptr lp);
 static void build_dir_model(instance *inst, CPXENVptr env, CPXLPptr lp);
 static void build_model(instance *inst, CPXENVptr env, CPXLPptr lp);
-static int x_udir_pos(int i, int j, int num_nodes);
-static int x_dir_pos(int i, int j, int num_nodes);
+int x_udir_pos(int i, int j, int num_nodes);
+int x_dir_pos(int i, int j, int num_nodes);
 static double calc_dist(int i, int j, instance *inst);
 static int plot_solution(instance *inst, double *xstar);
 
@@ -155,7 +156,7 @@ int xpos_mtz(int i, int j, instance *inst)
 static void build_dir_model(instance *inst, CPXENVptr env, CPXLPptr lp) {
     char xctype = 'B';  // B=binary variable
     char *names = (char *) calloc(100, sizeof(char));
-    /*
+    
     // We add one variable at time. We may also add them all in a single shot. i<j
     for (int i = 0; i < inst->num_nodes; i++) {
 
@@ -214,167 +215,12 @@ static void build_dir_model(instance *inst, CPXENVptr env, CPXLPptr lp) {
             }
         }
         deg++;
-    }*/
-
-
-    printf("solving with MTZ\n");
-
-
-    // MTZ
-
-    int M = inst->num_nodes-1;
-	double obj;
-	double lb, ub;				// lower bound and upper bound
-	char binary = 'B';
-	char general = 'I';
-
-    // Adding x_i_j variables
-	for(int i=0; i<inst->num_nodes; i++)
-	{
-		for(int j=0; j<inst->num_nodes; j++)
-		{
-			obj = (i==j)? 0.0 : calc_dist(i,j,inst);
-			lb = 0.0;
-			ub = (i==j)? 0.0 : 1.0;
-			
-			if(CPXnewcols(env, lp, 1, &obj, &lb, &ub, &binary, &names)) 
-			{
-				print_error(" wrong CPXnewcols on x var.s");
-			}
-			if(CPXgetnumcols(env,lp)-1 != xpos_mtz(i,j, inst))
-			{
-				print_error(" wrong position for x var.s");
-			}
-		}
-	}
-
-    // Adding u_i variables
-	for(int i=0; i<inst->num_nodes; i++)
-	{
-		obj = 0.0; 		// since the u_i variables don't have to appear in the objective function
-		lb = (i==0)? 1.0 : 2.0;  // as from the article MTZ
-		ub = (i==0)? 1.0 : inst->num_nodes;
-		if(CPXnewcols(env, lp, 1, &obj, &lb, &ub, &general, &names)) 
-		{
-			print_error(" wrong CPXnewcols on u var.s");
-		}
-	}
-
-    // Adding in_degree constraints (summation over i of x_i_h = 1)
-	for(int h=0; h<inst->num_nodes; h++)
-	{
-		int lastrow = CPXgetnumrows(env, lp);
-		double rhs = 1.0;
-		char sense = 'E';
-		if(CPXnewrows(env, lp, 1, &rhs, &sense, NULL, &names)) 
-		{
-			print_error(" wrong CPXnewrows [x1]");
-		}
-		for(int i=0; i < inst->num_nodes; i++)
-		{
-			if(i == h) { continue; }
-			else
-			{
-				if(CPXchgcoef(env, lp, lastrow, xpos_mtz(i, h, inst), 1.0)) 
-				{
-					print_error(" wrong CPXchgcoef [x1]");
-				}
-			}
-		}
-	}
-
-    // Adding out degree constraints (summation over j of x_h_j = 1)
-	for(int h=0; h<inst->num_nodes; h++)
-	{
-		int lastrow = CPXgetnumrows(env, lp);
-		double rhs = 1.0;
-		char sense = 'E';
-		if(CPXnewrows(env, lp, 1, &rhs, &sense, NULL, &names)) 
-		{
-			print_error(" wrong CPXnewrows [x1]");
-		}
-		for(int j=0; j < inst->num_nodes; j++)
-		{
-			if(j == h) { continue; }
-			else
-			{
-				if(CPXchgcoef(env, lp, lastrow, xpos_mtz(h, j, inst), 1.0)) 
-				{
-					print_error(" wrong CPXchgcoef [x1]");
-				}
-			}
-		}
-	}
-
-    // Adding lazy constraints ( x_i_j + x_j_i <= 1 )
-	for(int i=0; i<inst->num_nodes; i++)
-	{
-		for(int j=i+1; j<inst->num_nodes; j++)
-		{
-			double rhs = 1.0;			// right hand side
-			char sense = 'L';
-			int rcnt = 1;				// number of lazy constraint to add
-			int nzcnt = 2;				// number of non-zero variables in the constraint
-			double rmatval[] = {1.0, 1.0};		// coefficient of the non-zero variables
-			// position of the variables to set (in terms of columns)
-			int rmatind[] = { xpos_mtz(i,j,inst), xpos_mtz(j,i,inst) };
-			//int rmatbeg[] = { 0, 2 };
-			int rmatbeg = 0;			// start positions of the constraint
-			
-			if(CPXaddlazyconstraints(env, lp, rcnt, nzcnt, &rhs, &sense, &rmatbeg, rmatind, rmatval, &names)) 
-			{
-				print_error(" wrong lazy constraint x_i_j + x_j_i <= 1");
-			}
-		}
-	}
-
-    // Adding big-M lazy constraints ( M*x_i_j + u_i - u_j <= M-1 )
-    for (int i = 0; i < inst->num_nodes; i++) { 
-        if(i==0)
-		{
-			double rhs = 1.0;
-			char sense = 'E';
-			int rcnt = 1;
-			int nzcnt = 1;
-			double rmatval = 1.0;
-			int rmatind = xpos_mtz(inst->num_nodes-1, inst->num_nodes-1, inst)+1;
-			int rmatbeg = 0;
-			//sprintf(names[0], "lazy_cost(u_1)");
-			if(CPXaddlazyconstraints(env, lp, rcnt, nzcnt, &rhs, &sense, &rmatbeg, &rmatind, &rmatval, &names)) 
-			{
-				print_error(" wrong lazy [u1]");
-			}
-
-		} 
-		else
-		{ 
-			for(int j=1; j<inst->num_nodes; j++)
-			{
-				if(i==j) { continue; }
-				int num_x_var = inst->num_nodes * inst->num_nodes; 	// == xpos_mtz(inst->nnodes-1, inst->nnodes-1, inst) + 1
-				double rhs = (double) M - 1.0;					// right hand side
-				char sense = 'L';
-				int rcnt = 1;									// number of lazy constraint to add
-				int nzcnt = 3;									// number of non-zero variables in the constraint
-				double rmatval[] = {1.0, -1.0, (double) M};		// coefficient of the non-zero variables
-				int rmatind[] = {num_x_var+i, num_x_var+j, xpos_mtz(i,j,inst)};
-				int rmatbeg = 0;								// start positions of the constraint
-				//sprintf(names[0], "lazy_const_u(%d,%d)", i+1, j+1);
-				if(CPXaddlazyconstraints(env, lp, rcnt, nzcnt, &rhs, &sense, &rmatbeg, rmatind, rmatval, &names)) 
-				{
-					print_error(" wrong lazy M*x_i_j + u_i - u_j <= M-1");
-				}
-			}
-		}
-
     }
 
 
-    // Constraints: u1=1
-    //...
+    add_mtz_constraints(inst, env, lp);
 
 
-    //free(names[0]);
     free(names);
 }
 
@@ -408,7 +254,7 @@ static void build_model(instance *inst, CPXENVptr env, CPXLPptr lp) {
  * of the edge that connects togheter node i and node j.
  * 
  */
-static int x_udir_pos(int i, int j, int num_nodes) {
+int x_udir_pos(int i, int j, int num_nodes) {
     if (i == j) print_error("Indexes passed are equal!");
     if (i > num_nodes - 1 || j > num_nodes -1 ) {
         print_error("Indexes passed greater than the number of nodes");
@@ -431,7 +277,7 @@ static int x_udir_pos(int i, int j, int num_nodes) {
  * of the edge that connects togheter node i and node j.
  * 
  */
-static int x_dir_pos(int i, int j, int num_nodes) {
+int x_dir_pos(int i, int j, int num_nodes) {
     //if (i == j) { print_error("Indexes passed are equal!"); }
     if (i > num_nodes - 1 || j > num_nodes -1 ) {
         print_error("Indexes passed greater than the number of nodes");
