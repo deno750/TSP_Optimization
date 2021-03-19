@@ -10,9 +10,7 @@ static int u_pos(int i, int num_nodes) {
     return n * n + i;
 }
 
-static int row_pos(int i, int j, int num_nodes) {
-    return i * num_nodes + j - (i + 1);
-}
+
 
 // Mxij + ui - uj <= M - 1
 void add_mtz_constraints(instance *inst, CPXENVptr env, CPXLPptr lp) {
@@ -53,10 +51,16 @@ void add_mtz_constraints(instance *inst, CPXENVptr env, CPXLPptr lp) {
             }
             int num_rows = CPXgetnumrows(env, lp);
             
-            status = CPXchgcoef(env, lp, num_rows - 1, x_dir_pos(i, j, inst->num_nodes), 2.0);
-            //if (status) {
-                //print_error("An error occured in filling a constraint");
-            //}
+            status = CPXchgcoef(env, lp, num_rows - 1, x_dir_pos(i, j, inst->num_nodes), BIG_M);
+            if (status)  print_error("An error occured in filling a constraint1");
+
+            num_rows = CPXgetnumrows(env, lp);
+            status = CPXchgcoef(env, lp, num_rows - 1, u_pos(i, inst->num_nodes), 1);
+            if (status)  print_error("An error occured in filling a constraint2");
+            
+            num_rows = CPXgetnumrows(env, lp);
+            status = CPXchgcoef(env, lp, num_rows - 1, u_pos(j, inst->num_nodes), -1);
+            if (status)  print_error("An error occured in filling a constraint3");
         }
     }
 
