@@ -66,6 +66,11 @@ void plot_edge(PLOT plot, point i, point j) {
     fprintf(plot, "%lf %lf \n\n", j.x, j.y);
 }
 
+void plot_vector(PLOT plot, point i, point j) {
+    printf("%lf %lf %lf %lf\n", i.x, i.y, j.x, j.y);
+    fprintf(plot, "%lf %lf %lf %lf\n", i.x, i.y, j.x, j.y);
+}
+
 /**
  * Draws a point
  */

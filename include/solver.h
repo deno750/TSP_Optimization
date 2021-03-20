@@ -20,6 +20,7 @@ static int x_dir_pos(int i, int j, int num_nodes);
 static double calc_dist(int i, int j, instance *inst);
 static int plot_solution(instance *inst, double *xstar);
 
+// Cplex error codes: https://www.tu-chemnitz.de/mathematik/discrete/manuals/cplex/doc/refman/html/appendixC2.html
 int TSP_opt(instance *inst) {
     int error;
     CPXENVptr env = CPXopenCPLEX(&error);       // generate new environment, in err will be saved errors
