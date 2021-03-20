@@ -7,6 +7,7 @@
 #include "plot.h"
 #include "distutil.h"
 #include "mtz.h"
+#include "gg.h"
 
 
 #define EPS 1e-5
@@ -209,7 +210,8 @@ static void build_dir_model(instance *inst, CPXENVptr env, CPXLPptr lp) {
     }
 
 
-    add_mtz_constraints(inst, env, lp, &x_dir_pos);
+    //add_mtz_constraints(inst, env, lp, &x_dir_pos);
+    add_mtz_lazy_constraints(inst, env, lp, &x_dir_pos);
 
 
     free(names);

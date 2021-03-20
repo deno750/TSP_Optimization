@@ -72,4 +72,53 @@ void add_mtz_constraints(instance *inst, CPXENVptr env, CPXLPptr lp, int (*x_pos
     free(names);
 }
 
+
+
+void add_mtz_lazy_constraints(instance *inst, CPXENVptr env, CPXLPptr lp, int (*x_pos_ptr)(int, int, int)) {
+
+    int M = inst->num_nodes-1;
+    char* names = (char *) calloc(100, sizeof(char));
+
+    // Adding big-M lazy constraints ( M*x_i_j + u_i - u_j <= M-1 ) 
+	for(int i=0; i<inst->num_nodes; i++)
+	{	
+		if(i==0)
+		{
+			double rhs = 1.0;
+			char sense = 'E';
+			int rcnt = 1;
+			int nzcnt = 1;
+			double rmatval = 1.0;
+			int rmatind = (*x_pos_ptr)(inst->num_nodes-1, inst ->num_nodes-1, inst->num_nodes)+1;
+			int rmatbeg = 0;
+			
+			if(CPXaddlazyconstraints(env, lp, rcnt, nzcnt, &rhs, &sense, &rmatbeg, &rmatind, &rmatval, &names)) 
+			{
+				print_error(" wrong lazy [u1]");
+			}
+
+		} 
+		else
+		{ 
+			for(int j=1; j<inst->num_nodes; j++)
+			{
+				if(i==j) { continue; }
+				int num_x_var = inst->num_nodes * inst->num_nodes; 	// == xpos_mtz(inst->nnodes-1, inst->nnodes-1, inst) + 1
+				double rhs = (double) M - 1.0;					// right hand side
+				char sense = 'L';
+				int rcnt = 1;									// number of lazy constraint to add
+				int nzcnt = 3;									// number of non-zero variables in the constraint
+				double rmatval[] = {1.0, -1.0, (double) M};		// coefficient of the non-zero variables
+				int rmatind[] = {num_x_var+i, num_x_var+j, (*x_pos_ptr)(i,j,inst->num_nodes)};
+				int rmatbeg = 0;								// start positions of the constraint
+				
+				if(CPXaddlazyconstraints(env, lp, rcnt, nzcnt, &rhs, &sense, &rmatbeg, rmatind, rmatval, &names)) 
+				{
+					print_error(" wrong lazy M*x_i_j + u_i - u_j <= M-1");
+				}
+			}
+		}
+	}
+}
+
 #endif
