@@ -49,6 +49,9 @@ int TSP_opt(instance *inst) {
 	double *xstar = (double *) calloc(ncols, sizeof(double));
     status = CPXgetx(env, lp, xstar, 0, ncols-1);
 	if ( status ) {
+        //Stats here: https://www.tu-chemnitz.de/mathematik/discrete/manuals/cplex/doc/refman/html/appendixB.html
+        int stat = CPXgetstat(env, lp);
+        printf("Status: %d\n", stat);
         if (status == CPXERR_NO_SOLN) {
             print_error("No Solution exists");	
         }

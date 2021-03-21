@@ -25,7 +25,7 @@ void add_gg_constraints(instance *inst, CPXENVptr env, CPXLPptr lp) {
             sprintf(names, "y(%d,%d)", i+1, j+1);
             double obj = 0.0; 
             double lb = 0.0; 
-            double ub = j == 0 || i == j ? 0.0 : inst->num_nodes - 2;
+            double ub = j == 0 || i == j ? 0.0 : inst->num_nodes - 1; // The model with y <= N - 2 is wrong. With N - 1 the model is correct
 
             int status = CPXnewcols(env, lp, 1, &obj, &lb, &ub, &xctype, &names); 
             if (status) {
@@ -43,19 +43,19 @@ void add_gg_constraints(instance *inst, CPXENVptr env, CPXLPptr lp) {
     double rhs = 1.0;
     int k = 1;
     for (int h = 1; h < inst->num_nodes; h++) {
-        sprintf(names, "constraint(%d)", k++);
+        sprintf(names, "inoutflow(%d)", k++);
         int num_rows = CPXgetnumrows(env, lp);
 
         int status = CPXnewrows(env, lp, 1, &rhs, &sense, NULL, &names);
         if (status) {
             print_error("Error vincle"); //TODO: Change error message
         }
-        for (int i = 1; i < inst->num_nodes; i++) {
+        for (int i = 0; i < inst->num_nodes; i++) {
             if (h == i) continue;
             status = CPXchgcoef(env, lp, num_rows, y_pos(i, h, inst->num_nodes), 1.0);
             if (status)  print_error("An error occured in filling constraint y(i, h)");
         }
-        for (int j = 1; j < inst->num_nodes; j++) {
+        for (int j = 0; j < inst->num_nodes; j++) {
             if (h == j) continue;
             status = CPXchgcoef(env, lp, num_rows, y_pos(h, j, inst->num_nodes), -1.0);
             if (status)  print_error("An error occured in filling constraint y(h, j)");
@@ -78,6 +78,7 @@ void add_gg_constraints(instance *inst, CPXENVptr env, CPXLPptr lp) {
     k = 1;
     sense = 'L';
     // yij - (N - 2) * xij <= 0
+    rhs = 0;
     for (int i = 1; i < inst->num_nodes; i++) {
         for (int j = 1; j < inst->num_nodes; j++) {
             if (i == j) continue;
