@@ -4,7 +4,15 @@ project(tsp)
 
 include_directories(include)
 
-add_executable(${PROJECT_NAME} src/main.c)
+add_executable(${PROJECT_NAME} 
+                src/main.c 
+                src/utility.c
+                src/solver.c
+                src/distutil.c
+                src/plot.c
+                src/mtz.c
+                src/gg.c
+                )
 
 set(CMAKE_C_STANDARD 11)
 
