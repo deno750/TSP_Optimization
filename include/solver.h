@@ -3,6 +3,7 @@
 #define SOLVER_H
 
 #include <cplex.h>
+#include <sys/time.h>
 #include "utility.h"
 #include "plot.h"
 #include "distutil.h"
@@ -15,8 +16,6 @@
 static void build_udir_model(instance *inst, CPXENVptr env, CPXLPptr lp);
 static void build_dir_model(instance *inst, CPXENVptr env, CPXLPptr lp);
 static void build_model(instance *inst, CPXENVptr env, CPXLPptr lp);
-static int x_udir_pos(int i, int j, int num_nodes);
-static int x_dir_pos(int i, int j, int num_nodes);
 static double calc_dist(int i, int j, instance *inst);
 static int plot_solution(instance *inst, double *xstar);
 
@@ -36,13 +35,21 @@ int TSP_opt(instance *inst) {
     }
 
     //Optimize the model (the solution is stored inside the env variable)
+    struct timeval start, end;
+    gettimeofday(&start, 0);
     int status = CPXmipopt(env, lp);
+    gettimeofday(&end, 0);
     if (status) {
         if (inst->params.verbose >= 5) {
             printf("Cplex error code: %d\n", status);
         }
         print_error("Cplex solver encountered an error.");
     }
+    long seconds = end.tv_sec - start.tv_sec;
+    long microseconds = end.tv_usec - start.tv_usec;
+    double elapsed = seconds + microseconds*1e-6;
+    printf("\n\n\nTIME TO SOLVE %0.6fs\n\n\n", elapsed);
+
 
     // Use the solution
     int ncols = CPXgetnumcols(env, lp);
@@ -212,10 +219,28 @@ static void build_dir_model(instance *inst, CPXENVptr env, CPXLPptr lp) {
         deg++;
     }
 
-
-    //add_mtz_constraints(inst, env, lp);
-    //add_mtz_lazy_constraints(inst, env, lp);
-    add_gg_constraints(inst, env, lp);
+    int sol_type = inst->params.sol_type;
+    const char* method_name = NULL;
+    if (sol_type == SOLVE_MTZ) {
+        method_name = "MTZ";
+        add_mtz_constraints(inst, env, lp, 0);
+    } else if (sol_type == SOLVE_MTZL) {
+        method_name = "MTZ Lazy";
+        add_mtz_lazy_constraints(inst, env, lp, 0);
+    } else if (sol_type == SOLVE_MTZI) {
+        method_name = "MTZ with subtour elimination constraints of degree 2";
+        add_mtz_constraints(inst, env, lp, 1);
+    } else if (sol_type == SOLVE_MTZLI) {
+        method_name = "MTZ lazy with subtour elimination constraints of degree 2";
+        add_mtz_lazy_constraints(inst, env, lp, 1);
+    } else if (sol_type == SOLVE_GG) {
+        method_name = "GG";
+        add_gg_constraints(inst, env, lp);
+    }
+    if (inst->params.verbose >= 4) {
+        if (method_name != NULL) 
+            printf("Solving with %s\n\n", method_name);
+    }
 
     free(names);
 }
@@ -241,42 +266,6 @@ static void build_model(instance *inst, CPXENVptr env, CPXLPptr lp) {
     
     CPXwriteprob(env, lp, modelPath, NULL);
 
-}
-
-/**
- * Transforms the indexes (i, j) to a scalar index k for
- * undirecred graph;
- * (i, j) -> k where k is the position index in an array
- * of the edge that connects togheter node i and node j.
- * 
- */
-static int x_udir_pos(int i, int j, int num_nodes) {
-    if (i == j) print_error("Indexes passed are equal!");
-    if (i > num_nodes - 1 || j > num_nodes -1 ) {
-        print_error("Indexes passed greater than the number of nodes");
-    }
-    // Since the problem has undirected edges that connects two nodes,
-    // if we have i > j means that we have already the edge that connects j
-    // to i. (i.e. we have already edge (j, i) so we switch index j with index i
-    // to obtain that edge)
-    if (i > j) return x_udir_pos(j, i, num_nodes);  
-    return i * num_nodes + j - ((i + 1) * (i + 2)) / 2;
-}
-
-
-/**
- * Transforms the indexes (i, j) to a scalar index k for
- * directed graph;
- * (i, j) -> k where k is the position index in an array
- * of the edge that connects togheter node i and node j.
- * 
- */
-static int x_dir_pos(int i, int j, int num_nodes) {
-    //if (i == j) { print_error("Indexes passed are equal!"); }
-    if (i > num_nodes - 1 || j > num_nodes -1 ) {
-        print_error("Indexes passed greater than the number of nodes");
-    }
-    return i * num_nodes + j;
 }
 
 /**

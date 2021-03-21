@@ -1,22 +1,25 @@
+/**
+ * Implementation of sequential formulation for subtour eliminaiton constraints by
+ * Miller, Tucker and Zemlin.
+ */
+
 #ifndef MTZ_H
 #define MTZ_H
 
 #include <cplex.h>
 #include "utility.h"
 
-// Rewrote here this function temporarily. Find a way to reuse the previous defined x_pos for directed graph
-static int x_pos(int i, int j, int num_nodes) {
-    return i * num_nodes + j;
-}
-
 /**
- * In asymmetric graphs, we have n^2 constraint
+ * In asymmetric graphs, we have n^2 variables for xi,j. So the first n^2 positions are occupied.
  */
 static int u_pos(int i, int num_nodes) {
     int n = num_nodes;
     return n * n + i;
 }
 
+/**
+ * Adds the u variables in the model
+ */
 static void add_u_variables(instance *inst, CPXENVptr env, CPXLPptr lp, char **names) {
     char xctype = 'I';
     for (int i = 0; i < inst->num_nodes; i++) {
@@ -38,7 +41,13 @@ static void add_u_variables(instance *inst, CPXENVptr env, CPXLPptr lp, char **n
     }
 }
 
-void add_mtz_constraints(instance *inst, CPXENVptr env, CPXLPptr lp) {
+/**
+ * Adds the mtz subtour elimination constraints using the big M trick
+ * uj >= ui + 1 - M(1 - xij).
+ * 
+ * Param secd2 used when subtour elimination constraints of degree 2 should be added
+ */ 
+void add_mtz_constraints(instance *inst, CPXENVptr env, CPXLPptr lp, int secd2) {
 
     char* names = (char *) calloc(100, sizeof(char));
 
@@ -60,11 +69,11 @@ void add_mtz_constraints(instance *inst, CPXENVptr env, CPXLPptr lp) {
 
             int status = CPXnewrows(env, lp, 1, &rhs, &sense, NULL, &names);
             if (status) {
-                print_error("Error vincle"); //TODO: Change error message
+                print_error("Error adding new row");
             }
 
             // Adding M*xij
-            status = CPXchgcoef(env, lp, num_rows, x_pos(i, j, inst->num_nodes), BIG_M);
+            status = CPXchgcoef(env, lp, num_rows, x_dir_pos(i, j, inst->num_nodes), BIG_M);
             if (status)  print_error("An error occured in filling constraint x(i, j)");
 
             // Adding ui
@@ -78,79 +87,83 @@ void add_mtz_constraints(instance *inst, CPXENVptr env, CPXLPptr lp) {
     }
 
     //Adding: 1.0 * x_ij + 1.0 * x_ji <= 1
-    
-    k = 1;
-    rhs = 1.0;
-    for (int i = 1; i < inst->num_nodes; i++) { // Excluding node 0
-        for (int j = 1; j < inst->num_nodes; j++) {
-            if (i == j) continue;
-            sprintf(names, "ben(%d)", k++);
-            int num_rows = CPXgetnumrows(env, lp);
+    if (secd2) {
+        k = 1;
+        rhs = 1.0;
+        for (int i = 1; i < inst->num_nodes; i++) { // Excluding node 0
+            for (int j = 1; j < inst->num_nodes; j++) { // Excluding node 0
+                if (i == j) continue;
+                sprintf(names, "ben(%d)", k++);
+                int num_rows = CPXgetnumrows(env, lp);
 
-            int status = CPXnewrows(env, lp, 1, &rhs, &sense, NULL, &names);
-            if (status) {
-                print_error("Error vincle"); //TODO: Change error message
+                int status = CPXnewrows(env, lp, 1, &rhs, &sense, NULL, &names);
+                if (status) {
+                    print_error("Error adding new row");
+                }
+
+                status = CPXchgcoef(env, lp, num_rows, x_dir_pos(i, j, inst->num_nodes), 1.0);
+                if (status)  print_error("An error occured in filling constraint x(i, j)");
+
+                status = CPXchgcoef(env, lp, num_rows, x_dir_pos(j, i, inst->num_nodes), 1.0);
+                if (status)  print_error("An error occured in filling constraint u(i)");
             }
-
-            status = CPXchgcoef(env, lp, num_rows, x_pos(i, j, inst->num_nodes), 1.0);
-            if (status)  print_error("An error occured in filling constraint x(i, j)");
-
-            status = CPXchgcoef(env, lp, num_rows, x_pos(j, i, inst->num_nodes), 1.0);
-            if (status)  print_error("An error occured in filling constraint u(i)");
         }
     }
+    
 
     free(names);
 }
 
 
 
-void add_mtz_lazy_constraints(instance *inst, CPXENVptr env, CPXLPptr lp) {
+void add_mtz_lazy_constraints(instance *inst, CPXENVptr env, CPXLPptr lp, int secd2) {
     char* names = (char *) calloc(100, sizeof(char));
 
     add_u_variables(inst, env, lp, &names);
 
-    // Adding big-M lazy constraints ( M*x_i_j + u_i - u_j <= M-1 ) 
 	int izero = 0;
 	int index[3]; 
 	double value[3];
 
-	// add lazy constraints  1.0 * u_i - 1.0 * u_j + M * x_ij <= M - 1, for each arc (i,j) not touching node 0	
+	// Add lazy constraints  1.0 * u_i - 1.0 * u_j + M * x_ij <= M - 1, for each arc (i,j) not touching node 0	
 	double BIG_M = inst->num_nodes - 1.0;
 	double rhs = BIG_M -1.0;
 	char sense = 'L';
 	int nnz = 3;
 	for (int i = 1; i < inst->num_nodes; i++) { // excluding node 0
-		for (int j = 1; j < inst->num_nodes; j++ ) {// excluding node 0 
+		for (int j = 1; j < inst->num_nodes; j++ ) { // excluding node 0 
 			if ( i == j ) continue;
 			sprintf(names, "uconsistency(%d,%d)", i+1, j+1);
 			index[0] = u_pos(i,inst->num_nodes);	
 			value[0] = 1.0;	
 			index[1] = u_pos(j,inst->num_nodes);
 			value[1] = -1.0;
-			index[2] = x_pos(i, j, inst->num_nodes);
+			index[2] = x_dir_pos(i, j, inst->num_nodes);
 			value[2] = BIG_M;
             int status = CPXaddlazyconstraints(env, lp, 1, nnz, &rhs, &sense, &izero, index, value, &names);
 			if (status) print_error("wrong CPXlazyconstraints() for u-consistency");
 		}
 	}
 
-    //Adding: 1.0 * x_ij + 1.0 * x_ji <= 1
-    int k = 1;
-    rhs = 1.0;
-    nnz = 2;
-    for (int i = 1; i < inst->num_nodes; i++) { 
-        for (int j = 1; j < inst->num_nodes; j++) {
-            if (i == j) continue;
-            sprintf(names, "ben(%d)", k++);
-            index[0] = x_pos(i, j, inst->num_nodes);	
-			value[0] = 1.0;	
-			index[1] = x_pos(j, i, inst->num_nodes);
-			value[1] = 1.0;
-            int status = CPXaddlazyconstraints(env, lp, 1, nnz, &rhs, &sense, &izero, index, value, &names);
-            if (status) print_error("wrong CPXlazyconstraints() for ben");
+    if (secd2) {
+        //Adding: 1.0 * x_ij + 1.0 * x_ji <= 1
+        int k = 1;
+        rhs = 1.0;
+        nnz = 2;
+        for (int i = 1; i < inst->num_nodes; i++) { 
+            for (int j = 1; j < inst->num_nodes; j++) {
+                if (i == j) continue;
+                sprintf(names, "ben(%d)", k++);
+                index[0] = x_dir_pos(i, j, inst->num_nodes);	
+                value[0] = 1.0;	
+                index[1] = x_dir_pos(j, i, inst->num_nodes);
+                value[1] = 1.0;
+                int status = CPXaddlazyconstraints(env, lp, 1, nnz, &rhs, &sense, &izero, index, value, &names);
+                if (status) print_error("wrong CPXlazyconstraints() for ben");
+            }
         }
     }
+    
 }
 
 #endif

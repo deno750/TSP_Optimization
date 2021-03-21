@@ -21,6 +21,15 @@
 #define GEO 4 // weights are geographical distances
 #define ATT 5 // special distance function for problems att48 and att532 (pseudo-Euclidean)
 
+
+// =============== Solvers available ==================
+#define SOLVE_MTZ   100
+#define SOLVE_MTZL  101
+#define SOLVE_MTZI  102
+#define SOLVE_MTZLI 103
+#define SOLVE_GG    104
+
+
 // ================ Edge types =======================
 #define UDIR_EDGE 0
 #define DIR_EDGE 1
@@ -35,6 +44,7 @@ typedef struct {
     int time_limit;
     int verbose; // Verbose level of debugging printing
     int integer_cost;
+    int sol_type;
     char *file_path;
 } instance_params;
 
@@ -79,6 +89,42 @@ double dmax(double d1, double d2) {
     return d1 > d2 ? d1 : d2;
 }
 
+/**
+ * Transforms the indexes (i, j) to a scalar index k for
+ * undirecred graph;
+ * (i, j) -> k where k is the position index in an array
+ * of the edge that connects togheter node i and node j.
+ * 
+ */
+int x_udir_pos(int i, int j, int num_nodes) {
+    if (i == j) print_error("Indexes passed are equal!");
+    if (i > num_nodes - 1 || j > num_nodes -1 ) {
+        print_error("Indexes passed greater than the number of nodes");
+    }
+    // Since the problem has undirected edges that connects two nodes,
+    // if we have i > j means that we have already the edge that connects j
+    // to i. (i.e. we have already edge (j, i) so we switch index j with index i
+    // to obtain that edge)
+    if (i > j) return x_udir_pos(j, i, num_nodes);  
+    return i * num_nodes + j - ((i + 1) * (i + 2)) / 2;
+}
+
+
+/**
+ * Transforms the indexes (i, j) to a scalar index k for
+ * directed graph;
+ * (i, j) -> k where k is the position index in an array
+ * of the edge that connects togheter node i and node j.
+ * 
+ */
+int x_dir_pos(int i, int j, int num_nodes) {
+    //if (i == j) { print_error("Indexes passed are equal!"); }
+    if (i > num_nodes - 1 || j > num_nodes -1 ) {
+        print_error("Indexes passed greater than the number of nodes");
+    }
+    return i * num_nodes + j;
+}
+
 // Parses the input from the comand line
 void parse_comand_line(int argc, const char *argv[], instance *inst) {
 
@@ -92,8 +138,10 @@ void parse_comand_line(int argc, const char *argv[], instance *inst) {
     inst->params.num_threads = 1; //Default value is one thread
     inst->params.file_path = NULL;
     inst->params.verbose = 1; //Default verbose level of 1
+    inst->params.sol_type = SOLVE_GG; // Default GG solver
     inst->params.integer_cost = 1; // Default integer costs
     int need_help = 0;
+    int show_methods = 0;
     
     for (int i = 1; i < argc; i++) {
         if (strcmp("-f", argv[i]) == 0) { 
@@ -105,15 +153,31 @@ void parse_comand_line(int argc, const char *argv[], instance *inst) {
         if (strcmp("-t", argv[i]) == 0) { inst->params.time_limit = atoi(argv[++i]); continue; }
         if (strcmp("-threads", argv[i]) == 0) { inst->params.num_threads = atoi(argv[++i]); continue; }
         if (strcmp("-verbose", argv[i]) == 0) { inst->params.verbose = atoi(argv[++i]); continue; }
-        if (strcmp("--fcost", argv[i]) == 0) { inst->params.integer_cost = 0; continue; }
-        if (strcmp("--udir", argv[i]) == 0) { inst->params.type = UDIR_EDGE; continue; }
-        if (strcmp("--v", argv[i]) == 0 || strcmp("--version", argv[i]) == 0) { printf("Version %s\n", VERSION); exit(0);} //Version of the software
-        if (strcmp("--help", argv[i]) == 0) { need_help = 1; continue; } // For comands documentation
         if (strcmp("-method", argv[i]) == 0) {
             //TODO
+            const char* method = argv[++i];
+            if (strncmp(method, "MTZ", 3) == 0) inst->params.sol_type = SOLVE_MTZ;
+            if (strncmp(method, "MTZL", 4) == 0) inst->params.sol_type = SOLVE_MTZL;
+            if (strncmp(method, "MTZI", 4) == 0) inst->params.sol_type = SOLVE_MTZI;
+            if (strncmp(method, "MTZLI", 5) == 0) inst->params.sol_type = SOLVE_MTZLI;
+            if (strncmp(method, "GG", 2) == 0) inst->params.sol_type = SOLVE_GG;
             continue;
         }
+        if (strcmp("--fcost", argv[i]) == 0) { inst->params.integer_cost = 0; continue; }
+        if (strcmp("--udir", argv[i]) == 0) { inst->params.type = UDIR_EDGE; continue; }
+        if (strcmp("--methods", argv[i]) == 0) {show_methods = 1; continue;}
+        if (strcmp("--v", argv[i]) == 0 || strcmp("--version", argv[i]) == 0) { printf("Version %s\n", VERSION); exit(0);} //Version of the software
+        if (strcmp("--help", argv[i]) == 0) { need_help = 1; continue; } // For comands documentation
         need_help = 1;
+    }
+
+    if (show_methods) {
+        printf("MTZ          MTZ with static constraints\n");
+        printf("MTZL         MTZ with lazy constraints\n");
+        printf("MTZI         MTZ with static constraints and subtour elimination of degree 2\n");
+        printf("MTZLI        MTZ with lazy constraints and subtour elimination of degree 2\n");
+        printf("GG           GG constraints\n");
+        exit(0);
     }
 
     // Print the functions available
@@ -122,6 +186,7 @@ void parse_comand_line(int argc, const char *argv[], instance *inst) {
         printf("-t <time>                 The time limit\n");
         printf("-threads <num threads>    The number of threads to use\n");
         printf("-verbose <level>          The verbosity level of the debugging printing\n");
+        printf("-method <type>            The method used to solve the problem. Use \"--methods\" to see the list of available methods\n");
         printf("--fcost                   Whether you want float costs in the problem\n");
         printf("--udir                    Whether the edges should be treated as undirected edges in the graph\n");
         printf("--v, --version            Software's current version\n");

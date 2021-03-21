@@ -1,3 +1,8 @@
+/**
+ * Implementation of single commodity flow based formulation for subtour elimination 
+ * constraints by Gavish and Graves.
+ */
+
 #ifndef GG_H
 #define GG_H
 
@@ -5,12 +10,10 @@
 #include "utility.h"
 
 
-// Rewrote here this function temporarily. Find a way to reuse the previous defined x_pos for directed graph
-int x_pos_gg(int i, int j, int num_nodes) {
-    return num_nodes * i + j;
-}
-
-int y_pos(int i, int j, int num_nodes) {
+/**
+ * Retrieving position for yij variables. Yij's are n^2.
+ */
+static int y_pos(int i, int j, int num_nodes) {
    int n = num_nodes;
    return (n * n) + (i * n + j);
 }
@@ -48,7 +51,7 @@ void add_gg_constraints(instance *inst, CPXENVptr env, CPXLPptr lp) {
 
         int status = CPXnewrows(env, lp, 1, &rhs, &sense, NULL, &names);
         if (status) {
-            print_error("Error vincle"); //TODO: Change error message
+            print_error("Error adding new row"); 
         }
         for (int i = 0; i < inst->num_nodes; i++) {
             if (h == i) continue;
@@ -71,7 +74,7 @@ void add_gg_constraints(instance *inst, CPXENVptr env, CPXLPptr lp) {
         int status = CPXnewrows(env, lp, 1, &rhs, &sense, NULL, &names);
         status = CPXchgcoef(env, lp, num_rows, y_pos(0, j, inst->num_nodes), 1.0);
         if (status)  print_error("An error occured in filling constraint y(1, j)");
-        status = CPXchgcoef(env, lp, num_rows, x_pos(0, j, inst->num_nodes), - (inst->num_nodes - 1));
+        status = CPXchgcoef(env, lp, num_rows, x_dir_pos(0, j, inst->num_nodes), - (inst->num_nodes - 1));
         if (status)  print_error("An error occured in filling constraint x(1, j)");
     }
 
@@ -89,7 +92,7 @@ void add_gg_constraints(instance *inst, CPXENVptr env, CPXLPptr lp) {
 
             status = CPXchgcoef(env, lp, num_rows, y_pos(i, j, inst->num_nodes), 1.0);
             if (status)  print_error("An error occured in filling constraint y(i, j)");
-            status = CPXchgcoef(env, lp, num_rows, x_pos(i, j, inst->num_nodes), - (inst->num_nodes - 2));
+            status = CPXchgcoef(env, lp, num_rows, x_dir_pos(i, j, inst->num_nodes), - (inst->num_nodes - 2));
             if (status)  print_error("An error occured in filling constraint x(i, j)");
         }
     }
