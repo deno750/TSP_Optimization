@@ -109,6 +109,10 @@ void parse_comand_line(int argc, const char *argv[], instance *inst) {
         if (strcmp("--udir", argv[i]) == 0) { inst->params.type = UDIR_EDGE; continue; }
         if (strcmp("--v", argv[i]) == 0 || strcmp("--version", argv[i]) == 0) { printf("Version %s\n", VERSION); exit(0);} //Version of the software
         if (strcmp("--help", argv[i]) == 0) { need_help = 1; continue; } // For comands documentation
+        if (strcmp("-method", argv[i]) == 0) {
+            //TODO
+            continue;
+        }
         need_help = 1;
     }
 
