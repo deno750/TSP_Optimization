@@ -156,9 +156,8 @@ static void build_dir_model(instance *inst, CPXENVptr env, CPXLPptr lp) {
 
         for (int j = 0; j < inst->num_nodes; j++) {
             sprintf(names, "x(%d,%d)", i+1, j+1);
-
             // Variables treated as single value arrays.
-            double obj = calc_dist(i, j, inst); 
+            double obj = i != j ? calc_dist(i, j, inst) : 0.0; 
             double lb = 0.0; 
             double ub = i != j ? 1.0 : 0.0; // if i==j: ub=0 else ub=1
 
@@ -211,9 +210,9 @@ static void build_dir_model(instance *inst, CPXENVptr env, CPXLPptr lp) {
     }
 
 
-    //add_mtz_constraints(inst, env, lp, &x_dir_pos);
-    add_mtz_lazy_constraints(inst, env, lp, &x_dir_pos);
-
+    //add_mtz_constraints(inst, env, lp);
+    //add_mtz_lazy_constraints(inst, env, lp);
+    add_gg_constraints(inst, env, lp);
 
     free(names);
 }
