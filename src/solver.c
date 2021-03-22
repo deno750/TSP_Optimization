@@ -40,7 +40,6 @@ int TSP_opt(instance *inst) {
     long seconds = end.tv_sec - start.tv_sec;
     long microseconds = end.tv_usec - start.tv_usec;
     double elapsed = seconds + microseconds*1e-6;
-    printf("\n\n\nTIME TO SOLVE %0.6fs\n\n\n", elapsed);
 
 
     // Use the solution
@@ -58,6 +57,7 @@ int TSP_opt(instance *inst) {
         printf("Error Code: %d\n", status);
         print_error("CPXgetx() error");	
     }
+    printf("\n\n\nTIME TO SOLVE %0.6fs\n\n\n", elapsed); // Time should be printed only when no errors occur
     if (inst->params.verbose >= 1) {
 
         printf("Optimal solution found!\n");
@@ -220,6 +220,9 @@ static void build_dir_model(instance *inst, CPXENVptr env, CPXLPptr lp) {
     } else if (sol_type == SOLVE_MTZLI) {
         method_name = "MTZ lazy with subtour elimination constraints of degree 2";
         add_mtz_lazy_constraints(inst, env, lp, 1);
+    } else if (sol_type == SOLVE_MTZ_IND) {
+        method_name = "MTZ with indicator constraints";
+        add_mtz_indicator_constraints(inst, env, lp);
     } else if (sol_type == SOLVE_GG) {
         method_name = "GG";
         add_gg_constraints(inst, env, lp);

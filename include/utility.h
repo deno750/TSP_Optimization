@@ -19,11 +19,12 @@
 
 
 // =============== Solvers available ==================
-#define SOLVE_MTZ   100
-#define SOLVE_MTZL  101
-#define SOLVE_MTZI  102
-#define SOLVE_MTZLI 103
-#define SOLVE_GG    104
+#define SOLVE_MTZ       100
+#define SOLVE_MTZL      101
+#define SOLVE_MTZI      102
+#define SOLVE_MTZLI     103
+#define SOLVE_GG        104
+#define SOLVE_MTZ_IND   105
 
 
 // ================ Edge types =======================

@@ -66,6 +66,7 @@ void parse_comand_line(int argc, const char *argv[], instance *inst) {
             if (strncmp(method, "MTZL", 4) == 0) inst->params.sol_type = SOLVE_MTZL;
             if (strncmp(method, "MTZI", 4) == 0) inst->params.sol_type = SOLVE_MTZI;
             if (strncmp(method, "MTZLI", 5) == 0) inst->params.sol_type = SOLVE_MTZLI;
+            if (strncmp(method, "MTZ_IND", 5) == 0) inst->params.sol_type = SOLVE_MTZ_IND;
             if (strncmp(method, "GG", 2) == 0) inst->params.sol_type = SOLVE_GG;
             continue;
         }
@@ -82,6 +83,7 @@ void parse_comand_line(int argc, const char *argv[], instance *inst) {
         printf("MTZL         MTZ with lazy constraints\n");
         printf("MTZI         MTZ with static constraints and subtour elimination of degree 2\n");
         printf("MTZLI        MTZ with lazy constraints and subtour elimination of degree 2\n");
+        printf("MTZ_IND      MTZ with indicator constraints\n");
         printf("GG           GG constraints\n");
         exit(0);
     }

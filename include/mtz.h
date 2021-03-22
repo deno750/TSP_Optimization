@@ -35,4 +35,11 @@ void add_mtz_constraints(instance *inst, CPXENVptr env, CPXLPptr lp, int secd2);
  */ 
 void add_mtz_lazy_constraints(instance *inst, CPXENVptr env, CPXLPptr lp, int secd2);
 
+/**
+ * Uses the cplex's indicator constraint for adding the mtz. 
+ * Indicator constraints avoids the using of the big M trick
+ * e.g. xij -> uj >= ui + 1
+ */
+void add_mtz_indicator_constraints(instance *inst, CPXENVptr env, CPXLPptr lp);
+
 #endif
