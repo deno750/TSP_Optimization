@@ -61,7 +61,7 @@ typedef struct {
 } edge;
 
 typedef struct {
-    double zbest; // Stores the best value of the objective function
+    double obj_best; // Stores the best value of the objective function
     edge *edges; // List the solution's edges
 } solution;
 
@@ -75,7 +75,7 @@ typedef struct {
     char *comment;
     point *nodes;
 
-    solution *solution;
+    solution solution;
 } instance;
 
 // ===================== FUNCTIONS =============================

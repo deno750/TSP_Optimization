@@ -40,8 +40,8 @@ int TSP_opt(instance *inst) {
     long seconds = end.tv_sec - start.tv_sec;
     long microseconds = end.tv_usec - start.tv_usec;
     double elapsed = seconds + microseconds*1e-6;
-
-
+    
+    
     // Use the solution
     int ncols = CPXgetnumcols(env, lp);
 	double *xstar = (double *) calloc(ncols, sizeof(double));
@@ -57,13 +57,23 @@ int TSP_opt(instance *inst) {
         printf("Error Code: %d\n", status);
         print_error("CPXgetx() error");	
     }
+    CPXgetobjval(env, lp, &(inst->solution.obj_best));
+
+    if (inst->params.verbose >= 3) {
+        
+    }
     printf("\n\n\nTIME TO SOLVE %0.6fs\n\n\n", elapsed); // Time should be printed only when no errors occur
     if (inst->params.verbose >= 1) {
 
         printf("Optimal solution found!\n");
 
-        // Next level of verbosity
         if (inst->params.verbose >= 2) {
+            printf("The best bjective value is %f\n", inst->solution.obj_best);
+        }
+        
+
+        // Next level of verbosity
+        if (inst->params.verbose >= 3) {
             printf("\nThe optimal edges are:\n\n");
 
             // TODO: Plot using a new data structure that contains edges in order to generalize the plot for
