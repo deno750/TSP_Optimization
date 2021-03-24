@@ -15,8 +15,8 @@ void add_gg_constraints(instance *inst, CPXENVptr env, CPXLPptr lp) {
             sprintf(names, "y(%d,%d)", i+1, j+1);
             double obj = 0.0; 
             double lb = 0.0; 
-            double ub = j == 0 || i == j ? 0.0 : inst->num_nodes - 1; // The model with y <= N - 2 is wrong. With N - 1 the model is correct
-
+            double ub = j == 0 || i == j ? 0.0 : inst->num_nodes - 2;  // yi1 = 0 and yii = 0; yij <= n-2 for i != j and i,j > 0
+            if (i == 0 && i != j) ub = inst->num_nodes - 1; // Flow from node 1 to node j since y1j <= n-1
             int status = CPXnewcols(env, lp, 1, &obj, &lb, &ub, &xctype, &names); 
             if (status) {
                 print_error("An error occured inserting a new variable");
