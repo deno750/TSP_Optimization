@@ -21,7 +21,7 @@ int TSP_opt(instance *inst) {
     build_model(inst, env, lp);
 
     // Setting the time limit to cplex
-    if (inst->params.time_limit >= 0) {
+    if (inst->params.time_limit > 0) { // Time limits <= 0 not allowed
         double time_limit = inst->params.time_limit;
         CPXsetdblparam(env, CPXPARAM_TimeLimit, time_limit);
     }

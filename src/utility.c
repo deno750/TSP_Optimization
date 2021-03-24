@@ -32,6 +32,14 @@ int x_dir_pos(int i, int j, int num_nodes) {
     return i * num_nodes + j;
 }
 
+static int check_input_index_validity(int index, int argc, int *need_help) {
+    if (index >= argc - 1) {
+        *need_help = 1;
+        return 1;
+    }
+    return 0;
+}
+
 void parse_comand_line(int argc, const char *argv[], instance *inst) {
 
     if (argc <= 1) {
@@ -54,16 +62,26 @@ void parse_comand_line(int argc, const char *argv[], instance *inst) {
     
     for (int i = 1; i < argc; i++) {
         if (strcmp("-f", argv[i]) == 0) { 
+            if (check_input_index_validity(i, argc, &need_help)) continue;
             const char* path = argv[++i];
             inst->params.file_path = (char *) calloc(strlen(path), sizeof(char));
             strcpy(inst->params.file_path, path); 
             continue; 
         } // Input file
-        if (strcmp("-t", argv[i]) == 0) { inst->params.time_limit = atoi(argv[++i]); continue; }
-        if (strcmp("-threads", argv[i]) == 0) { inst->params.num_threads = atoi(argv[++i]); continue; }
-        if (strcmp("-verbose", argv[i]) == 0) { inst->params.verbose = atoi(argv[++i]); continue; }
+        if (strcmp("-t", argv[i]) == 0) { 
+            if (check_input_index_validity(i, argc, &need_help)) continue;
+            inst->params.time_limit = atoi(argv[++i]); continue; 
+        }
+        if (strcmp("-threads", argv[i]) == 0) { 
+            if (check_input_index_validity(i, argc, &need_help)) continue;
+            inst->params.num_threads = atoi(argv[++i]); continue; 
+        }
+        if (strcmp("-verbose", argv[i]) == 0) { 
+            if (check_input_index_validity(i, argc, &need_help)) continue;
+            inst->params.verbose = atoi(argv[++i]); continue; 
+        }
         if (strcmp("-method", argv[i]) == 0) {
-            //TODO
+            if (check_input_index_validity(i, argc, &need_help)) continue;
             const char* method = argv[++i];
             if (strncmp(method, "MTZ", 3) == 0) inst->params.sol_type = SOLVE_MTZ;
             if (strncmp(method, "MTZL", 4) == 0) inst->params.sol_type = SOLVE_MTZL;
