@@ -43,6 +43,7 @@ typedef struct {
     int verbose; // Verbose level of debugging printing
     int integer_cost;
     int sol_type;
+    int seed; // Seed for random generation
     char *file_path;
 } instance_params;
 

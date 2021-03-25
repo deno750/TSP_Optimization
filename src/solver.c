@@ -6,34 +6,43 @@
 #include "gg.h"
 #include "plot.h"
 
-static void save_udir_edges(instance *inst, double *xstar) {
-    int k = 0;
-    for ( int i = 0; i < inst->num_nodes; i++ ){
-        for ( int j = i+1; j < inst->num_nodes; j++ ){
-            // Zero is considered when the absolute value of number is <= EPS. 
-            // One is considered when the absolute value of number is > EPS
-            if (fabs(xstar[x_udir_pos(i,j,inst->num_nodes)]) > EPS )  {
-                edge *e = &(inst->solution.edges[k++]);
-                e->i = i;
-                e->j = j;
-            }    
-        }
-    }
-}
+static void save_edges(instance *inst, double *xstar) {
 
-static void save_dir_edges(instance *inst, double *xstar) {
     int k = 0;
-    for ( int i = 0; i < inst->num_nodes; i++ ){
-        for ( int j = 0; j < inst->num_nodes; j++ ){
-            // Zero is considered when the absolute value of number is <= EPS. 
-            // One is considered when the absolute value of number is > EPS
-            if ( fabs(xstar[x_dir_pos(i,j,inst->num_nodes)]) > EPS )  {
-                edge *e = &(inst->solution.edges[k++]);
-                e->i = i;
-                e->j = j;
-            }              
+    if (inst->params.type == UDIR_EDGE) {
+
+        // Stores the undirected model's edges
+        for ( int i = 0; i < inst->num_nodes; i++ ){
+            for ( int j = i+1; j < inst->num_nodes; j++ ){
+                // Zero is considered when the absolute value of number is <= EPS. 
+                // One is considered when the absolute value of number is > EPS
+                if (fabs(xstar[x_udir_pos(i,j,inst->num_nodes)]) > EPS )  {
+                    edge *e = &(inst->solution.edges[k++]);
+                    e->i = i;
+                    e->j = j;
+                }    
+            }
         }
+
+
+    } else {
+
+        // Stores the directed model's edges
+        for ( int i = 0; i < inst->num_nodes; i++ ){
+            for ( int j = 0; j < inst->num_nodes; j++ ){
+                // Zero is considered when the absolute value of number is <= EPS. 
+                // One is considered when the absolute value of number is > EPS
+                if ( fabs(xstar[x_dir_pos(i,j,inst->num_nodes)]) > EPS )  {
+                    edge *e = &(inst->solution.edges[k++]);
+                    e->i = i;
+                    e->j = j;
+                }              
+            }
+        }
+
+
     }
+    
 }
 
 int TSP_opt(instance *inst) {
@@ -48,6 +57,9 @@ int TSP_opt(instance *inst) {
     if (inst->params.time_limit > 0) { // Time limits <= 0 not allowed
         double time_limit = inst->params.time_limit;
         CPXsetdblparam(env, CPXPARAM_TimeLimit, time_limit);
+    }
+    if (inst->params.seed >= 0) {
+        CPXsetintparam(env, CPX_PARAM_RANDOMSEED, inst->params.seed);
     }
 
     //Optimize the model (the solution is stored inside the env variable)
@@ -90,11 +102,7 @@ int TSP_opt(instance *inst) {
     
     // Storing the solutions edges into an array
     inst->solution.edges = (edge *) calloc(inst->num_nodes, sizeof(edge));
-    if (inst->params.type == UDIR_EDGE) {
-        save_udir_edges(inst, xstar);
-    } else {
-        save_dir_edges(inst, xstar);
-    }
+    save_edges(inst, xstar);
     
     
     if (inst->params.verbose >= 1) {

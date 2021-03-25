@@ -54,6 +54,7 @@ void parse_comand_line(int argc, const char *argv[], instance *inst) {
     inst->params.verbose = 1; //Default verbose level of 1
     inst->params.sol_type = SOLVE_GG; // Default GG solver
     inst->params.integer_cost = 1; // Default integer costs
+    inst->params.seed = -1;
     inst->name = NULL;
     inst->comment = NULL;
     inst->nodes = NULL;
@@ -91,6 +92,11 @@ void parse_comand_line(int argc, const char *argv[], instance *inst) {
             if (strncmp(method, "GG", 2) == 0) inst->params.sol_type = SOLVE_GG;
             continue;
         }
+        if (strcmp("-seed", argv[i]) == 0) {
+            if (check_input_index_validity(i, argc, &need_help)) continue;
+            inst->params.seed = atoi(argv[++i]);
+            continue;
+        }
         if (strcmp("--fcost", argv[i]) == 0) { inst->params.integer_cost = 0; continue; }
         if (strcmp("--udir", argv[i]) == 0) { inst->params.type = UDIR_EDGE; continue; }
         if (strcmp("--methods", argv[i]) == 0) {show_methods = 1; continue;}
@@ -116,6 +122,7 @@ void parse_comand_line(int argc, const char *argv[], instance *inst) {
         printf("-threads <num threads>    The number of threads to use\n");
         printf("-verbose <level>          The verbosity level of the debugging printing\n");
         printf("-method <type>            The method used to solve the problem. Use \"--methods\" to see the list of available methods\n");
+        printf("-seed <seed>              The seed for random generation\n");
         printf("--fcost                   Whether you want float costs in the problem\n");
         printf("--udir                    Whether the edges should be treated as undirected edges in the graph\n");
         printf("--v, --version            Software's current version\n");
