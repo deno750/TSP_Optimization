@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <errno.h>
+#include <sys/stat.h>
 
 void print_error(const char *err) { printf("\n\n ERROR: %s \n\n", err); fflush(NULL); exit(1); } 
 
@@ -303,4 +304,35 @@ void print_instance(instance inst) {
     
         printf("\n");
     }
+}
+
+void export_tour(instance *inst) {
+    const char *dir = "../tour";
+    mkdir(dir, 0777);
+
+    char path[1024];
+    sprintf(path, "%s/%s.tour", dir, inst->name);
+    FILE* tour = fopen(path, "w"); 
+    if (tour == NULL) {
+        printf("Unable to save the tour file\n");
+        return;
+    }
+    
+    fprintf(tour, "NAME : %s.tour\n", inst->name);
+    fprintf(tour, "TYPE : TOUR\n");
+    fprintf(tour, "DIMENSION : %d\n", inst->num_nodes);
+    fprintf(tour, "TOUR_SECTION\n");
+
+    edge e = inst->solution.edges[0]; // Starting node
+    
+    for (int i = 0; i < inst->num_nodes; i++) { // The tour is composed by the number of nodes
+        fprintf(tour, "%d\n", e.i + 1);
+        e = inst->solution.edges[e.j];
+    }
+    
+    fprintf(tour, "-1\n");
+    fprintf(tour, "EOF");
+
+    fflush(tour);
+    fclose(tour);
 }

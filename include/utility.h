@@ -115,4 +115,9 @@ void parse_instance(instance *inst);
 
 void print_instance(instance inst);
 
+/**
+ * Exports the found tour in a .tour file
+ */
+void export_tour(instance *inst);
+
 #endif

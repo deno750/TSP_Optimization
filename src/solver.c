@@ -1,6 +1,7 @@
 #include "solver.h"
 
 #include <sys/time.h>
+#include <string.h>
 #include "distutil.h"
 #include "mtz.h"
 #include "gg.h"
@@ -42,7 +43,6 @@ static void save_edges(instance *inst, double *xstar) {
 
 
     }
-    
 }
 
 int TSP_opt(instance *inst) {
@@ -103,6 +103,8 @@ int TSP_opt(instance *inst) {
     // Storing the solutions edges into an array
     inst->solution.edges = (edge *) calloc(inst->num_nodes, sizeof(edge));
     save_edges(inst, xstar);
+
+    export_tour(inst);
     
     
     if (inst->params.verbose >= 1) {
