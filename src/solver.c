@@ -6,11 +6,35 @@
 #include "gg.h"
 #include "plot.h"
 
-static void build_udir_model(instance *inst, CPXENVptr env, CPXLPptr lp);
-static void build_dir_model(instance *inst, CPXENVptr env, CPXLPptr lp);
-static void build_model(instance *inst, CPXENVptr env, CPXLPptr lp);
-static double calc_dist(int i, int j, instance *inst);
-static int plot_solution(instance *inst, double *xstar);
+static void save_udir_edges(instance *inst, double *xstar) {
+    int k = 0;
+    for ( int i = 0; i < inst->num_nodes; i++ ){
+        for ( int j = i+1; j < inst->num_nodes; j++ ){
+            // Zero is considered when the absolute value of number is <= EPS. 
+            // One is considered when the absolute value of number is > EPS
+            if (fabs(xstar[x_udir_pos(i,j,inst->num_nodes)]) > EPS )  {
+                edge *e = &(inst->solution.edges[k++]);
+                e->i = i;
+                e->j = j;
+            }    
+        }
+    }
+}
+
+static void save_dir_edges(instance *inst, double *xstar) {
+    int k = 0;
+    for ( int i = 0; i < inst->num_nodes; i++ ){
+        for ( int j = 0; j < inst->num_nodes; j++ ){
+            // Zero is considered when the absolute value of number is <= EPS. 
+            // One is considered when the absolute value of number is > EPS
+            if ( fabs(xstar[x_dir_pos(i,j,inst->num_nodes)]) > EPS )  {
+                edge *e = &(inst->solution.edges[k++]);
+                e->i = i;
+                e->j = j;
+            }              
+        }
+    }
+}
 
 int TSP_opt(instance *inst) {
     int error;
@@ -63,6 +87,16 @@ int TSP_opt(instance *inst) {
         
     }
     printf("\n\n\nTIME TO SOLVE %0.6fs\n\n\n", elapsed); // Time should be printed only when no errors occur
+    
+    // Storing the solutions edges into an array
+    inst->solution.edges = (edge *) calloc(inst->num_nodes, sizeof(edge));
+    if (inst->params.type == UDIR_EDGE) {
+        save_udir_edges(inst, xstar);
+    } else {
+        save_dir_edges(inst, xstar);
+    }
+    
+    
     if (inst->params.verbose >= 1) {
 
         printf("Optimal solution found!\n");
@@ -76,16 +110,10 @@ int TSP_opt(instance *inst) {
         if (inst->params.verbose >= 3) {
             printf("\nThe optimal edges are:\n\n");
 
-            // TODO: Plot using a new data structure that contains edges in order to generalize the plot for
-            // undirected and directeg edges
             for ( int i = 0; i < inst->num_nodes; i++ ){
-                for ( int j = 0; j < inst->num_nodes; j++ ){
-                    // Zero is considered when the absolute value of number is <= EPS. 
-                    // One is considered when the absolute value of number is > EPS
-                    if ( fabs(xstar[x_dir_pos(i,j,inst->num_nodes)]) > EPS ) printf("x(%3d,%3d) = 1\n", i+1,j+1);
-                }
+                edge e = inst->solution.edges[i];
+                printf("x(%3d,%3d) = 1\n", e.i+1,e.j+1);
             }
-
         }
 
         printf("\n");
@@ -93,7 +121,7 @@ int TSP_opt(instance *inst) {
     }
 	
 
-    plot_solution(inst, xstar);
+    plot_solution(inst);
 
     free(xstar);
 
@@ -257,6 +285,7 @@ static void build_model(instance *inst, CPXENVptr env, CPXLPptr lp) {
     
 
     // Saving the model in .lp file
+
     char modelPath[1024];
     sprintf(modelPath, "../model/%s.lp", inst->name);
     
@@ -285,7 +314,7 @@ static double calc_dist(int i, int j, instance *inst) {
     return calc_euc2d(node1, node2, integer);
 }
 
-static int plot_solution(instance *inst, double *xstar) {
+static int plot_solution(instance *inst) {
     PLOT gnuplotPipe = plot_open();
     if (gnuplotPipe == NULL) {
         printf("GnuPlot is not installed. Make sure that you have installed GnuPlot in your system and it's added in your PATH");
@@ -295,11 +324,8 @@ static int plot_solution(instance *inst, double *xstar) {
     add_plot_param(gnuplotPipe, "plot '-' using 1:2 w linespoints pt 7");
 
     for (int i = 0; i < inst->num_nodes; i++) {
-        for (int j = 0; j < inst->num_nodes; j++) {
-            if (fabs(xstar[x_dir_pos(i,j,inst->num_nodes)]) > EPS) {
-                plot_edge(gnuplotPipe, inst->nodes[i], inst->nodes[j]);
-            }
-        }
+        edge e = inst->solution.edges[i];
+        plot_edge(gnuplotPipe, inst->nodes[e.i], inst->nodes[e.j]);
     }
     
     plot_end_input(gnuplotPipe);

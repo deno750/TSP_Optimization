@@ -128,6 +128,7 @@ void free_instance(instance *inst) {
     free(inst->name);
     free(inst->comment);
     free(inst->nodes);
+    free(inst->solution.edges);
 }
 
 void parse_instance(instance *inst) {

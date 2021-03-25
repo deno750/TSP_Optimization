@@ -33,7 +33,7 @@ static double calc_dist(int i, int j, instance *inst);
  * 
  * Returns 0 when no errors, 1 otherwise.
  */
-static int plot_solution(instance *inst, double *xstar);
+static int plot_solution(instance *inst);
 
 /**
  * Solves the problem
