@@ -55,10 +55,11 @@ void parse_comand_line(int argc, const char *argv[], instance *inst) {
     inst->params.verbose = 1; //Default verbose level of 1
     inst->params.sol_type = SOLVE_GG; // Default GG solver
     inst->params.integer_cost = 1; // Default integer costs
-    inst->params.seed = -1;
+    inst->params.seed = -1; // No seed specified
     inst->name = NULL;
     inst->comment = NULL;
     inst->nodes = NULL;
+    inst->solution.edges = NULL;
     int need_help = 0;
     int show_methods = 0;
     

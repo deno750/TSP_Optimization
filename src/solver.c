@@ -8,7 +8,8 @@
 #include "plot.h"
 
 static void save_edges(instance *inst, double *xstar) {
-
+    inst->solution.edges = (edge *) calloc(inst->num_nodes, sizeof(edge));
+    
     int k = 0;
     if (inst->params.type == UDIR_EDGE) {
 
@@ -101,7 +102,6 @@ int TSP_opt(instance *inst) {
     printf("\n\n\nTIME TO SOLVE %0.6fs\n\n\n", elapsed); // Time should be printed only when no errors occur
     
     // Storing the solutions edges into an array
-    inst->solution.edges = (edge *) calloc(inst->num_nodes, sizeof(edge));
     save_edges(inst, xstar);
 
     export_tour(inst);
