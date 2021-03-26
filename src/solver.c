@@ -7,45 +7,6 @@
 #include "gg.h"
 #include "plot.h"
 
-static void save_edges(instance *inst, double *xstar) {
-    inst->solution.edges = (edge *) calloc(inst->num_nodes, sizeof(edge));
-    
-    int k = 0;
-    if (inst->params.type == UDIR_EDGE) {
-
-        // Stores the undirected model's edges
-        for ( int i = 0; i < inst->num_nodes; i++ ){
-            for ( int j = i+1; j < inst->num_nodes; j++ ){
-                // Zero is considered when the absolute value of number is <= EPS. 
-                // One is considered when the absolute value of number is > EPS
-                if (fabs(xstar[x_udir_pos(i,j,inst->num_nodes)]) > EPS )  {
-                    edge *e = &(inst->solution.edges[k++]);
-                    e->i = i;
-                    e->j = j;
-                }    
-            }
-        }
-
-
-    } else {
-
-        // Stores the directed model's edges
-        for ( int i = 0; i < inst->num_nodes; i++ ){
-            for ( int j = 0; j < inst->num_nodes; j++ ){
-                // Zero is considered when the absolute value of number is <= EPS. 
-                // One is considered when the absolute value of number is > EPS
-                if ( fabs(xstar[x_dir_pos(i,j,inst->num_nodes)]) > EPS )  {
-                    edge *e = &(inst->solution.edges[k++]);
-                    e->i = i;
-                    e->j = j;
-                }              
-            }
-        }
-
-
-    }
-}
-
 int TSP_opt(instance *inst) {
     int error;
     CPXENVptr env = CPXopenCPLEX(&error);       // generate new environment, in err will be saved errors
@@ -102,7 +63,7 @@ int TSP_opt(instance *inst) {
     printf("\n\n\nTIME TO SOLVE %0.6fs\n\n\n", elapsed); // Time should be printed only when no errors occur
     
     // Storing the solutions edges into an array
-    save_edges(inst, xstar);
+    save_solution_edges(inst, xstar);
 
     export_tour(inst);
     
@@ -343,4 +304,43 @@ static int plot_solution(instance *inst) {
     plot_free(gnuplotPipe);
 
     return 0;
+}
+
+static void save_solution_edges(instance *inst, double *xstar) {
+    inst->solution.edges = (edge *) calloc(inst->num_nodes, sizeof(edge));
+    
+    int k = 0;
+    if (inst->params.type == UDIR_EDGE) {
+
+        // Stores the undirected model's edges
+        for ( int i = 0; i < inst->num_nodes; i++ ){
+            for ( int j = i+1; j < inst->num_nodes; j++ ){
+                // Zero is considered when the absolute value of number is <= EPS. 
+                // One is considered when the absolute value of number is > EPS
+                if (fabs(xstar[x_udir_pos(i,j,inst->num_nodes)]) > EPS )  {
+                    edge *e = &(inst->solution.edges[k++]);
+                    e->i = i;
+                    e->j = j;
+                }    
+            }
+        }
+
+
+    } else {
+
+        // Stores the directed model's edges
+        for ( int i = 0; i < inst->num_nodes; i++ ){
+            for ( int j = 0; j < inst->num_nodes; j++ ){
+                // Zero is considered when the absolute value of number is <= EPS. 
+                // One is considered when the absolute value of number is > EPS
+                if ( fabs(xstar[x_dir_pos(i,j,inst->num_nodes)]) > EPS )  {
+                    edge *e = &(inst->solution.edges[k++]);
+                    e->i = i;
+                    e->j = j;
+                }              
+            }
+        }
+
+
+    }
 }
