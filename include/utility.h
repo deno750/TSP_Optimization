@@ -84,6 +84,13 @@ typedef struct {
 // Error print function
 void print_error(const char *err); 
 
+/**
+ * Calculates the maximum between two doubles
+ *
+ * @param d1 The first double value
+ * @param d2 The second double value
+ * @returns the maximum value
+ */
 double dmax(double d1, double d2);
 
 /**
@@ -91,6 +98,11 @@ double dmax(double d1, double d2);
  * undirecred graph;
  * (i, j) -> k where k is the position index in an array
  * of the edge that connects togheter node i and node j.
+ *
+ * @param i The index of node i
+ * @param j The index of node j
+ * @param num_nodes The number of nodes in the graph
+ * @returns the index mapped from (i,j)
  * 
  */
 int x_udir_pos(int i, int j, int num_nodes);
@@ -101,22 +113,49 @@ int x_udir_pos(int i, int j, int num_nodes);
  * directed graph;
  * (i, j) -> k where k is the position index in an array
  * of the edge that connects togheter node i and node j.
+ *
+ * @param i The index of node i
+ * @param j The index of node j
+ * @param num_nodes The number of nodes in the graph
+ * @returns the index mapped from (i,j)
  * 
  */
 int x_dir_pos(int i, int j, int num_nodes);
 
-// Parses the input from the comand line
+/**
+ * Parses the input from the comand line
+ *
+ * @param argc The argc from the main function
+ * @param argv The argv from the main function
+ * @param inst The instance pointer of the problem
+ */ 
 void parse_comand_line(int argc, const char *argv[], instance *inst);
 
+/**
+ * Deallocates an instance from memory
+ *
+ * @param inst The instance pointer of the problem to deallocate
+ */
 void free_instance(instance *inst);
 
-// Parses the problem data
+/**
+ * Parses the problem data
+ *
+ * @param inst The instance pointer of the problem
+ */ 
 void parse_instance(instance *inst);
 
+/**
+ * Prints the parameters of the instance
+ *
+ * @param inst The instance of the problem
+ */ 
 void print_instance(instance inst);
 
 /**
  * Exports the found tour in a .tour file
+ *
+ * @param inst The instance pointer of the problem
  */
 void export_tour(instance *inst);
 
