@@ -2,6 +2,7 @@
 
 #include <sys/time.h>
 #include <string.h>
+#include <sys/stat.h>
 #include "distutil.h"
 #include "mtz.h"
 #include "gg.h"
@@ -23,6 +24,12 @@ int TSP_opt(instance *inst) {
     if (inst->params.seed >= 0) {
         CPXsetintparam(env, CPX_PARAM_RANDOMSEED, inst->params.seed);
     }
+
+    // Tells cplex to store the log files
+    mkdir("../logs", 0777);
+    char log_path[1024];
+    sprintf(log_path, "../logs/%s.log", inst->name);
+    CPXsetlogfilename(env, log_path, "w");
 
     //Optimize the model (the solution is stored inside the env variable)
     struct timeval start, end;
