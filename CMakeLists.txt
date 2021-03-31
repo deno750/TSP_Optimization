@@ -12,6 +12,7 @@ add_executable(${PROJECT_NAME}
                 src/plot.c
                 src/mtz.c
                 src/gg.c
+                src/benders.c
                 )
 
 set(CMAKE_C_STANDARD 11)
