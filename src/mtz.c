@@ -150,16 +150,14 @@ void add_mtz_indicator_constraints(instance *inst, CPXENVptr env, CPXLPptr lp) {
     double rhs = 1.0;
     char sense = 'G';
     int indexes[2];
-    double vals[2];
+    double vals[2] = {-1.0, 1.0}; // -ui + uj >= 1
     int k = 1;
     for (int i = 1; i < inst->num_nodes; i++) {
         for (int j = 1; j < inst->num_nodes; j++) {
             if (i == j) continue;
             sprintf(names, "indconst(%d)", k++);
             indexes[0] = u_pos(i, inst->num_nodes);
-            vals[0] = 1.0;
             indexes[1] = u_pos(j, inst->num_nodes);
-            vals[1] = -1.0;
             CPXaddindconstr(env, lp, x_dir_pos(i, j, inst->num_nodes), 0, 2, rhs, sense, indexes, vals, names);
         }
     }

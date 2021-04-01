@@ -322,6 +322,7 @@ void export_tour(instance *inst) {
     fprintf(tour, "NAME : %s.tour\n", inst->name);
     fprintf(tour, "TYPE : TOUR\n");
     fprintf(tour, "DIMENSION : %d\n", inst->num_nodes);
+    fprintf(tour, "OBJECTIVE : %f\n", inst->solution.obj_best);
     fprintf(tour, "TOUR_SECTION\n");
 
     edge e = inst->solution.edges[0]; // Starting node
