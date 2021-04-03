@@ -38,6 +38,7 @@ int TSP_opt(instance *inst) {
     int status = CPXmipopt(env, lp);
     if (inst->params.sol_type == SOLVE_LOOP) {
         // Continue to solve using benders algorithm
+        
         status = benders_loop(inst, env, lp);
     }
     gettimeofday(&end, 0);
