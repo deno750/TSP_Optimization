@@ -25,6 +25,7 @@
 #define SOLVE_MTZLI     103
 #define SOLVE_MTZ_IND   104
 #define SOLVE_GG        105
+#define SOLVE_LOOP      106
 
 
 

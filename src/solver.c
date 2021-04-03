@@ -7,6 +7,7 @@
 #include "mtz.h"
 #include "gg.h"
 #include "plot.h"
+#include "benders.h"
 
 int TSP_opt(instance *inst) {
     int error;
@@ -35,6 +36,10 @@ int TSP_opt(instance *inst) {
     struct timeval start, end;
     gettimeofday(&start, 0);
     int status = CPXmipopt(env, lp);
+    if (inst->params.sol_type == SOLVE_LOOP) {
+        // Continue to solve using benders algorithm
+        status = benders_loop(inst, env, lp);
+    }
     gettimeofday(&end, 0);
     if (status) {
         if (inst->params.verbose >= 5) {
@@ -44,7 +49,7 @@ int TSP_opt(instance *inst) {
     }
     long seconds = end.tv_sec - start.tv_sec;
     long microseconds = end.tv_usec - start.tv_usec;
-    double elapsed = seconds + microseconds*1e-6;
+    double elapsed = seconds + microseconds * 1e-6;
     
     
     // Use the solution
@@ -328,7 +333,7 @@ static void save_solution_edges(instance *inst, double *xstar) {
                     edge *e = &(inst->solution.edges[k++]);
                     e->i = i;
                     e->j = j;
-                }    
+                }
             }
         }
 

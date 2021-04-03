@@ -50,7 +50,7 @@ void parse_comand_line(int argc, const char *argv[], instance *inst) {
 
     inst->params.type = DIR_EDGE; //Default edge type is directed 
     inst->params.time_limit = -1; //Default time limit value. -1 means no constraints in time limit 
-    inst->params.num_threads = 1; //Default value is one thread
+    inst->params.num_threads = -1; //Default value -1. Means no limit on number of threads
     inst->params.file_path = NULL;
     inst->params.verbose = 1; //Default verbose level of 1
     inst->params.sol_type = SOLVE_GG; // Default GG solver
@@ -86,12 +86,19 @@ void parse_comand_line(int argc, const char *argv[], instance *inst) {
         if (strcmp("-method", argv[i]) == 0) {
             if (check_input_index_validity(i, argc, &need_help)) continue;
             const char* method = argv[++i];
+            // Directed graph methods
             if (strncmp(method, "MTZ", 3) == 0) inst->params.sol_type = SOLVE_MTZ;
             if (strncmp(method, "MTZL", 4) == 0) inst->params.sol_type = SOLVE_MTZL;
             if (strncmp(method, "MTZI", 4) == 0) inst->params.sol_type = SOLVE_MTZI;
             if (strncmp(method, "MTZLI", 5) == 0) inst->params.sol_type = SOLVE_MTZLI;
             if (strncmp(method, "MTZ_IND", 5) == 0) inst->params.sol_type = SOLVE_MTZ_IND;
             if (strncmp(method, "GG", 2) == 0) inst->params.sol_type = SOLVE_GG;
+
+            // Undirected graph methods
+            if (strncmp(method, "LOOP", 4) == 0) {
+                inst->params.sol_type = SOLVE_LOOP;
+                inst->params.type = UDIR_EDGE;
+            }
             continue;
         }
         if (strcmp("-seed", argv[i]) == 0) {
@@ -100,7 +107,7 @@ void parse_comand_line(int argc, const char *argv[], instance *inst) {
             continue;
         }
         if (strcmp("--fcost", argv[i]) == 0) { inst->params.integer_cost = 0; continue; }
-        if (strcmp("--udir", argv[i]) == 0) { inst->params.type = UDIR_EDGE; continue; }
+        //if (strcmp("--udir", argv[i]) == 0) { inst->params.type = UDIR_EDGE; continue; }
         if (strcmp("--methods", argv[i]) == 0) {show_methods = 1; continue;}
         if (strcmp("--v", argv[i]) == 0 || strcmp("--version", argv[i]) == 0) { printf("Version %s\n", VERSION); exit(0);} //Version of the software
         if (strcmp("--help", argv[i]) == 0) { need_help = 1; continue; } // For comands documentation
@@ -114,6 +121,7 @@ void parse_comand_line(int argc, const char *argv[], instance *inst) {
         printf("MTZLI        MTZ with lazy constraints and subtour elimination of degree 2\n");
         printf("MTZ_IND      MTZ with indicator constraints\n");
         printf("GG           GG constraints\n");
+        printf("LOOP         Benders Method\n");
         exit(0);
     }
 
@@ -126,7 +134,7 @@ void parse_comand_line(int argc, const char *argv[], instance *inst) {
         printf("-method <type>            The method used to solve the problem. Use \"--methods\" to see the list of available methods\n");
         printf("-seed <seed>              The seed for random generation\n");
         printf("--fcost                   Whether you want float costs in the problem\n");
-        printf("--udir                    Whether the edges should be treated as undirected edges in the graph\n");
+        //printf("--udir                    Whether the edges should be treated as undirected edges in the graph\n");
         printf("--v, --version            Software's current version\n");
         exit(0);
     }
@@ -257,9 +265,12 @@ void print_instance(instance inst) {
                 edge = "Directed";
                 break;
             }
+            
             printf("Edge type: %s\n", edge);
             printf("Time Limit: %d\n", inst.params.time_limit);
             printf("Threads: %d\n", inst.params.num_threads);
+            printf("Seed: %d\n", inst.params.seed);
+            printf("Cost: %s\n", inst.params.integer_cost ? "Integer" : "Floating point");
             printf("Verbose: %d\n", inst.params.verbose);
             printf("File path: %s\n", inst.params.file_path);
             printf("\n");

@@ -43,8 +43,7 @@ void plot_edge(PLOT plot, point i, point j) {
 }
 
 void plot_vector(PLOT plot, point i, point j) {
-    printf("%lf %lf %lf %lf\n", i.x, i.y, j.x, j.y);
-    fprintf(plot, "%lf %lf %lf %lf\n", i.x, i.y, j.x, j.y);
+    fprintf(plot, "%lf %lf\n %lf %lf\n", i.x, i.y, j.x - i.x, j.y - i.y);
 }
 
 void plot_point(PLOT plot, point p) {

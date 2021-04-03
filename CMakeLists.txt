@@ -4,16 +4,9 @@ project(tsp)
 
 include_directories(include)
 
-add_executable(${PROJECT_NAME} 
-                src/main.c 
-                src/utility.c
-                src/solver.c
-                src/distutil.c
-                src/plot.c
-                src/mtz.c
-                src/gg.c
-                src/benders.c
-                )
+file(GLOB tsp_SRC CONFIGURE_DEPENDS "src/*.c" )
+
+add_executable(${PROJECT_NAME} ${tsp_SRC})
 
 set(CMAKE_C_STANDARD 11)
 
@@ -43,7 +36,3 @@ set (CPLEX_LINKER_FLAGS -lcplex -lm -lpthread -ldl)
 
 target_link_libraries(${PROJECT_NAME} ${CPLEX_LINKER_FLAGS})
 target_link_libraries(${PROJECT_NAME} -L${CPLEX_LIB})
-
-
-#enable_testing()
-#add_subdirectory(test)
