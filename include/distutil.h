@@ -126,4 +126,14 @@ static void calc_lat_lon(point p, double *lat, double *lon);
  */
 double calc_geo(point p1, point p2, int integer);
 
+/**
+ * Calculating the distance based on the instance's weight_type
+ *
+ * @param i The node i index
+ * @param j The node j index
+ * @param inst The instance pointer of the problem
+ * @returns the distance between node i and node j accordingly with the instance
+ */ 
+double calc_dist(int i, int j, instance *inst);
+
 #endif

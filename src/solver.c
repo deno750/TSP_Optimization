@@ -6,7 +6,6 @@
 #include "distutil.h"
 #include "mtz.h"
 #include "gg.h"
-#include "plot.h"
 #include "benders.h"
 
 int TSP_opt(instance *inst) {
@@ -275,85 +274,4 @@ static void build_model(instance *inst, CPXENVptr env, CPXLPptr lp) {
     
     CPXwriteprob(env, lp, modelPath, NULL);
 
-}
-
-static double calc_dist(int i, int j, instance *inst) {
-    point node1 = inst->nodes[i];
-    point node2 = inst->nodes[j];
-    int integer = inst->params.integer_cost;
-    if (inst->weight_type == EUC_2D) {
-        return calc_euc2d(node1, node2, integer);
-    } else if (inst->weight_type == ATT) {
-        return calc_pseudo_euc(node1, node2, integer);
-    } else if (inst->weight_type == MAN_2D) {
-        return calc_man2d(node1, node2, integer);
-    } else if (inst->weight_type == MAX_2D) {
-        return calc_max2d(node1, node2, integer);
-    } else if (inst->weight_type == CEIL_2D) {
-        return calc_ceil2d(node1, node2);
-    } else if (inst->weight_type == GEO) {
-        return calc_geo(node1, node2, integer);
-    }
-    // Default: euclidian distance. Should be ok for most problems
-    return calc_euc2d(node1, node2, integer);
-}
-
-static int plot_solution(instance *inst) {
-    PLOT gnuplotPipe = plot_open();
-    if (gnuplotPipe == NULL) {
-        printf("GnuPlot is not installed. Make sure that you have installed GnuPlot in your system and it's added in your PATH");
-        return 1;
-    }
-    plot_in_file(gnuplotPipe, inst->name);
-    add_plot_param(gnuplotPipe, "plot '-' using 1:2 w linespoints pt 7");
-
-    for (int i = 0; i < inst->num_nodes; i++) {
-        edge e = inst->solution.edges[i];
-        plot_edge(gnuplotPipe, inst->nodes[e.i], inst->nodes[e.j]);
-    }
-    
-    plot_end_input(gnuplotPipe);
-
-    plot_free(gnuplotPipe);
-
-    return 0;
-}
-
-static void save_solution_edges(instance *inst, double *xstar) {
-    inst->solution.edges = (edge *) calloc(inst->num_nodes, sizeof(edge));
-    
-    int k = 0;
-    if (inst->params.type == UDIR_EDGE) {
-
-        // Stores the undirected model's edges
-        for ( int i = 0; i < inst->num_nodes; i++ ){
-            for ( int j = i+1; j < inst->num_nodes; j++ ){
-                // Zero is considered when the absolute value of number is <= EPS. 
-                // One is considered when the absolute value of number is > EPS
-                if (fabs(xstar[x_udir_pos(i,j,inst->num_nodes)]) > EPS )  {
-                    edge *e = &(inst->solution.edges[k++]);
-                    e->i = i;
-                    e->j = j;
-                }
-            }
-        }
-
-
-    } else {
-
-        // Stores the directed model's edges
-        for ( int i = 0; i < inst->num_nodes; i++ ){
-            for ( int j = 0; j < inst->num_nodes; j++ ){
-                // Zero is considered when the absolute value of number is <= EPS. 
-                // One is considered when the absolute value of number is > EPS
-                if ( fabs(xstar[x_dir_pos(i,j,inst->num_nodes)]) > EPS )  {
-                    edge *e = &(inst->solution.edges[k++]);
-                    e->i = i;
-                    e->j = j;
-                }              
-            }
-        }
-
-
-    }
 }

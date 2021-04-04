@@ -69,3 +69,24 @@ double calc_geo(point p1, point p2, int integer) {
     double dist = EARTH_RAD * acos( 0.5 * ((1.0+q1)*q2 - (1.0-q1)*q3) ) + 1.0;
     return integer ? nint(dist) : dist;
 }
+
+double calc_dist(int i, int j, instance *inst) {
+    point node1 = inst->nodes[i];
+    point node2 = inst->nodes[j];
+    int integer = inst->params.integer_cost;
+    if (inst->weight_type == EUC_2D) {
+        return calc_euc2d(node1, node2, integer);
+    } else if (inst->weight_type == ATT) {
+        return calc_pseudo_euc(node1, node2, integer);
+    } else if (inst->weight_type == MAN_2D) {
+        return calc_man2d(node1, node2, integer);
+    } else if (inst->weight_type == MAX_2D) {
+        return calc_max2d(node1, node2, integer);
+    } else if (inst->weight_type == CEIL_2D) {
+        return calc_ceil2d(node1, node2);
+    } else if (inst->weight_type == GEO) {
+        return calc_geo(node1, node2, integer);
+    }
+    // Default: euclidian distance. Should be ok for most problems
+    return calc_euc2d(node1, node2, integer);
+}

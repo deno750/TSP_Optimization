@@ -8,6 +8,9 @@
 
 #define VERSION "TSP 0.2.1"
 
+// Constant that is useful for numerical errors
+#define EPS 1e-5
+
 
 // ================ Weight types =====================
 #define EUC_2D 0 // weights are Euclidean distances in 2-D
@@ -159,5 +162,24 @@ void print_instance(instance inst);
  * @param inst The instance pointer of the problem
  */
 void export_tour(instance *inst);
+
+/**
+ * Stores the solution given by xstar into a list of edges. 
+ * With the list of edges is much more easier to retrieve the
+ * solution informaiton and helps to generalize better between
+ * the undirected and directed graph solutions. 
+ *
+ * @param inst The instance pointer of the problem
+ * @param xstar The solution values pointer
+ */
+void save_solution_edges(instance *inst, double *xstar);
+
+/**
+ * Plots the solution.
+ * 
+ * @param inst The instance pointer of the problem
+ * @returns 0 when no errors, 1 otherwise.
+ */
+int plot_solution(instance *inst);
 
 #endif
