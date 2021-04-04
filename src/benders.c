@@ -17,6 +17,7 @@ int kruskal_sst(CPXENVptr env, CPXLPptr lp, instance *inst) {
     int n_connected_comp = 0;
     int max = -1;
     mycomp = (int*)calloc(inst->num_nodes, sizeof(int));
+    comp = (int *) calloc(inst->num_nodes, sizeof(int));
 
     //INITIALIZATION
     for (int i = 0; i < inst->num_nodes; i++) {
