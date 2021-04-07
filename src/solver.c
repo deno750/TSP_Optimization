@@ -34,11 +34,13 @@ int TSP_opt(instance *inst) {
     //Optimize the model (the solution is stored inside the env variable)
     struct timeval start, end;
     gettimeofday(&start, 0);
-    int status = CPXmipopt(env, lp);
+    int status;
+    
     if (inst->params.sol_type == SOLVE_LOOP) {
         // Continue to solve using benders algorithm
-        
         status = benders_loop(inst, env, lp);
+    } else {
+        status = CPXmipopt(env, lp);
     }
     gettimeofday(&end, 0);
     if (status) {
@@ -269,9 +271,6 @@ static void build_model(instance *inst, CPXENVptr env, CPXLPptr lp) {
 
     // Saving the model in .lp file
 
-    char modelPath[1024];
-    sprintf(modelPath, "../model/%s.lp", inst->name);
-    
-    CPXwriteprob(env, lp, modelPath, NULL);
+    save_lp(env, lp, inst->name);
 
 }

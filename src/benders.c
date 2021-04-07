@@ -5,83 +5,107 @@
 
 #include "utility.h"
 
-/*
-*ncomp = 0;
-	for ( int i = 0; i < inst->nnodes; i++ )
-	{
-		succ[i] = -1;
-		comp[i] = -1;
-	}
-	
-	for ( int start = 0; start < inst->nnodes; start++ )
-	{
-		if ( comp[start] >= 0 ) continue;  // node "start" was already visited, just skip it
+static int count_components(instance *inst, double* xstar, int* successors, int* comp) {
+
+    int num_comp = 0;
+
+    for (int i = 0; i < inst->num_nodes; i++ ) {
+		if ( comp[i] >= 0 ) continue; 
 
 		// a new component is found
-		(*ncomp)++;
-		int i = start;
-		int done = 0;
-		while ( !done )  // go and visit the current component
-		{
-			comp[i] = *ncomp;
-			done = 1;
-			for ( int j = 0; j < inst->nnodes; j++ )
-			{
-				if ( i != j && xstar[xpos(i,j,inst)] > 0.5 && comp[j] == -1 ) // the edge [i,j] is selected in xstar and j was not visited before 
-				{
-					succ[i] = j;
-					i = j;
-					done = 0;
+		num_comp++;
+		int current_node = i;
+		int visit_comp = 0; // 
+		while ( !visit_comp ) { // go and visit the current component
+			comp[current_node] = num_comp;
+			visit_comp = 1; // We set the flag visited to true until we find the successor
+			for ( int j = 0; j < inst->num_nodes; j++ ) {
+                if (current_node == j || comp[j] >= 0) continue;
+				if (fabs(xstar[x_udir_pos(current_node,j,inst->num_nodes)]) >= EPS ) {
+					successors[current_node] = j;
+					current_node = j;
+					visit_comp = 0;
 					break;
 				}
 			}
 		}	
-		succ[i] = start;  // last arc to close the cycle
-		
-		// go to the next component...
+		successors[current_node] = i;  // last arc to close the cycle
 	}
 
-*/
+    if (inst->params.verbose >= 2) {
+        printf("NUM COMPONENTS: %d\n", num_comp);
+    }
+    
+    return num_comp;
+}
 
-static int count_subtours(instance *inst, double* xstar) {
-    int* successors = (int*) malloc(inst->num_nodes * sizeof(int)); //malloc faster than calloc
-    memset(successors, -1, inst->num_nodes * sizeof(int)); // filling with -1
-    int* comp = (int*) malloc(inst->num_nodes * sizeof(int));
-    memset(comp, -1, inst->num_nodes * sizeof(int));
-
-
+static int add_SEC(instance *inst, CPXENVptr env, CPXLPptr lp, int current_tour, int *comp, char *sense, int *matbeg, int *indexes, double *values, char *names) {
+    int nnz = 0; // Number of variables to add in the constraint
+    int num_nodes = 0; // We need to know the number of nodes due the vincle |S| - 1
     for (int i = 0; i < inst->num_nodes; i++) {
-        for (int j = 0; j < inst->num_nodes; j++) {
+        if (comp[i] != current_tour) continue;
+            num_nodes++;
 
+        for (int j = i+1; j < inst->num_nodes; j++) {
+            if (comp[j] != current_tour) continue;
+            indexes[nnz] = x_udir_pos(i, j, inst->num_nodes);
+            values[nnz] = 1.0;
+            nnz++;
         }
     }
 
+    double rhs =  num_nodes - 1; // |S| - 1
 
-
-
-    free(successors);
-    free(comp);
-    
-    return 0;
+    // For each subtour we add the constraints in one shot
+    return CPXaddrows(env, lp, 0, 1, nnz, &rhs, sense, matbeg, indexes, values, NULL, &names);    
 }
 
 int benders_loop(instance *inst, CPXENVptr env, CPXLPptr lp) {
-    /*int subtours = count_subtours(inst);
 
-    while (subtours) {
+    int* successors = (int*) malloc(inst->num_nodes * sizeof(int)); //malloc since those arrays will be initialized to -1
+    int* comp = (int*) malloc(inst->num_nodes * sizeof(int));
+    
+    char names[100];
+    char sense = 'L';
+    int matbeg = 0; // Contains the index of the beginning column
+    int numComp = 1;
+    int rowscount = 0;
+    do {
+        //Initialization of successors and comp arrays with -1
+        memset(successors, -1, inst->num_nodes * sizeof(int)); 
+        memset(comp, -1, inst->num_nodes * sizeof(int));
 
-        for (int i = 0; i < subtours; i++) {
+        int status = CPXmipopt(env, lp);
+        if (status) { print_error("Benders CPXmipopt error"); }
 
+        
+        int ncols = CPXgetnumcols(env, lp);
+
+        // initialization of the following vectors is not useful here, so we use malloc because is faster than calloc
+        int *indexes = (int*) malloc(ncols * sizeof(int));
+        double *values = (double*) malloc(ncols * sizeof(double));
+        double *xstar = (double*) malloc(ncols * sizeof(double));
+
+        status = CPXgetx(env, lp, xstar, 0, ncols-1);
+        if (status) { print_error("Benders CPXgetx error"); }
+        numComp = count_components(inst, xstar, successors, comp);
+        
+        // Condition numComp > 1 is needed in order to avoid to add the SEC constraints when the TSP's hamiltonian cycle is found
+        for (int subtour = 1; subtour <= numComp && numComp > 1; subtour++) { // Connected components are numerated from 1
+            sprintf(names, "SEC(%d)", ++rowscount);
+            status = add_SEC(inst, env, lp, subtour, comp, &sense, &matbeg, indexes, values, names);
+            if (status) { print_error("An error occurred adding SEC"); }
+            save_lp(env, lp, inst->name);
         }
 
+        free(indexes);
+        free(values);
+        free(xstar);
+            
+    } while (numComp > 1);
 
-        CPXmipopt(env, lp);
-        subtours = count_subtours(inst);
-    }*/
-
-    //count_subtours(inst);
-
-
+    free(successors);
+    free(comp);
 
     return 0;
 }

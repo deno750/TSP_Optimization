@@ -5,6 +5,8 @@
 
 #define UTILITY_H
 
+#include <cplex.h>
+
 
 #define VERSION "TSP 0.2.1"
 
@@ -181,5 +183,15 @@ void save_solution_edges(instance *inst, double *xstar);
  * @returns 0 when no errors, 1 otherwise.
  */
 int plot_solution(instance *inst);
+
+
+/**
+ * Saves the model in a .lp file
+ * 
+ * @param env The cplex's environment
+ * @param lp The cplex's problem object
+ * @param name The name file
+ */
+void save_lp(CPXENVptr env, CPXLPptr lp, char *name);
 
 #endif

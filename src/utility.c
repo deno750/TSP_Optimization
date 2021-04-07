@@ -412,3 +412,10 @@ int plot_solution(instance *inst) {
 
     return 0;
 }
+
+void save_lp(CPXENVptr env, CPXLPptr lp, char *name) {
+    char modelPath[1024];
+    sprintf(modelPath, "../model/%s.lp", name);
+    
+    CPXwriteprob(env, lp, modelPath, NULL);
+}
