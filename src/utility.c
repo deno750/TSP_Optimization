@@ -56,7 +56,7 @@ void parse_comand_line(int argc, const char *argv[], instance *inst) {
     inst->params.num_threads = -1; //Default value -1. Means no limit on number of threads
     inst->params.file_path = NULL;
     inst->params.verbose = 1; //Default verbose level of 1
-    inst->params.sol_type = SOLVE_GG; // Default GG solver
+    inst->params.sol_type = SOLVE_LOOP; // Default LOOP solver
     inst->params.integer_cost = 1; // Default integer costs
     inst->params.seed = -1; // No seed specified
     inst->name = NULL;
@@ -110,7 +110,6 @@ void parse_comand_line(int argc, const char *argv[], instance *inst) {
             continue;
         }
         if (strcmp("--fcost", argv[i]) == 0) { inst->params.integer_cost = 0; continue; }
-        //if (strcmp("--udir", argv[i]) == 0) { inst->params.type = UDIR_EDGE; continue; }
         if (strcmp("--methods", argv[i]) == 0) {show_methods = 1; continue;}
         if (strcmp("--v", argv[i]) == 0 || strcmp("--version", argv[i]) == 0) { printf("Version %s\n", VERSION); exit(0);} //Version of the software
         if (strcmp("--help", argv[i]) == 0) { need_help = 1; continue; } // For comands documentation
@@ -137,7 +136,6 @@ void parse_comand_line(int argc, const char *argv[], instance *inst) {
         printf("-method <type>            The method used to solve the problem. Use \"--methods\" to see the list of available methods\n");
         printf("-seed <seed>              The seed for random generation\n");
         printf("--fcost                   Whether you want float costs in the problem\n");
-        //printf("--udir                    Whether the edges should be treated as undirected edges in the graph\n");
         printf("--v, --version            Software's current version\n");
         exit(0);
     }
@@ -355,10 +353,14 @@ void export_tour(instance *inst) {
 }
 
 void save_solution_edges(instance *inst, double *xstar) {
-    inst->solution.edges = (edge *) calloc(inst->num_nodes, sizeof(edge));
+    inst->solution.edges = (edge *) malloc(inst->num_nodes * sizeof(edge));
+    memset(inst->solution.edges, -1, inst->num_nodes * sizeof(edge));
 
     int k = 0;
     if (inst->params.type == UDIR_EDGE) {
+
+        int *onright = (int*) calloc(inst->num_nodes, sizeof(int));
+        int *onleft = (int*) calloc(inst->num_nodes, sizeof(int));
 
         // Stores the undirected model's edges
         for ( int i = 0; i < inst->num_nodes; i++ ){
@@ -366,9 +368,44 @@ void save_solution_edges(instance *inst, double *xstar) {
                 // Zero is considered when the absolute value of number is <= EPS. 
                 // One is considered when the absolute value of number is > EPS
                 if (fabs(xstar[x_udir_pos(i,j,inst->num_nodes)]) > EPS )  {
-                    edge *e = &(inst->solution.edges[k++]);
-                    e->i = i;
-                    e->j = j;
+                    edge edge_to_check = inst->solution.edges[i];
+                    if (!onleft[i] && !onright[j]) {
+                        edge *e = &(inst->solution.edges[i]);
+                        e->i = i;
+                        e->j = j;
+                        onleft[i] = 1;
+                        onright[j] = 1;
+                    } else if (onleft[i] && !onright[j]) {
+                        edge *e = &(inst->solution.edges[j]);
+                        e->i = j;
+                        e->j = i;
+                        onleft[j] = 1;
+                        onright[i] = 1;
+                    } else if (!onleft[i] && onright[j]) {
+                        edge *e = &(inst->solution.edges[j]);
+                        e->i = j;
+                        e->j = i;
+                        onleft[j] = 1;
+                        onright[i] = 1;
+                    } else if (onleft[i] && onright[j]) {
+                        edge *e = &(inst->solution.edges[j]);
+                        e->i = j;
+                        e->j = i;
+                        onleft[j] = 1;
+                        onright[i] = 1;
+                    }
+                    /*sif (edge_to_check.i == -1) {
+                        edge *e = &(inst->solution.edges[i]);
+                        e->i = i;
+                        e->j = j;
+                    } else {
+                        edge *e = &(inst->solution.edges[j]);
+                        e->i = j;
+                        e->j = i;
+                    }*/
+                    //edge *e = &(inst->solution.edges[k++]);
+                    //e->i = i;
+                    //e->j = j;
                 }
             }
         }

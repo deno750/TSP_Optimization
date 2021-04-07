@@ -8,7 +8,7 @@
 #include <cplex.h>
 
 
-#define VERSION "TSP 0.2.1"
+#define VERSION "TSP 0.3"
 
 // Constant that is useful for numerical errors
 #define EPS 1e-5
@@ -191,7 +191,7 @@ int plot_solution(instance *inst);
  * 
  * @param env The cplex's environment
  * @param lp The cplex's problem object
- * @param name The name file
+ * @param name The file name
  */
 void save_lp(CPXENVptr env, CPXLPptr lp, char *name);
 
