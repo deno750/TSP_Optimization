@@ -32,7 +32,7 @@ static int count_components(instance *inst, double* xstar, int* successors, int*
 		successors[current_node] = i;  // last arc to close the cycle
 	}
 
-    if (inst->params.verbose >= 2) {
+    if (inst->params.verbose >= 4) {
         printf("NUM COMPONENTS: %d\n", num_comp);
     }
     
@@ -54,6 +54,10 @@ static int add_SEC(instance *inst, CPXENVptr env, CPXLPptr lp, int current_tour,
         }
     }
 
+    if (inst->params.verbose >= 5) {
+        printf("Tour %d has %d nodes\n", current_tour, num_nodes);
+    }
+    
     double rhs =  num_nodes - 1; // |S| - 1
 
     // For each subtour we add the constraints in one shot
@@ -96,6 +100,9 @@ int benders_loop(instance *inst, CPXENVptr env, CPXLPptr lp) {
             status = add_SEC(inst, env, lp, subtour, comp, &sense, &matbeg, indexes, values, names);
             if (status) { print_error("An error occurred adding SEC"); }
             save_lp(env, lp, inst->name);
+        }
+        if (inst->params.verbose >= 5) {
+            printf("\n");
         }
 
         free(indexes);

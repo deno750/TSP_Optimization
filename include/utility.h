@@ -70,6 +70,7 @@ typedef struct {
 typedef struct {
     double obj_best; // Stores the best value of the objective function
     edge *edges; // List the solution's edges
+    double time_to_solve; 
 } solution;
 
 // Instance data structure where all the information of the problem are stored

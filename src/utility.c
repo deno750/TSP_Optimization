@@ -337,6 +337,7 @@ void export_tour(instance *inst) {
     fprintf(tour, "TYPE : TOUR\n");
     fprintf(tour, "DIMENSION : %d\n", inst->num_nodes);
     fprintf(tour, "OBJECTIVE : %f\n", inst->solution.obj_best);
+    fprintf(tour, "TIME : %f\n", inst->solution.time_to_solve);
     fprintf(tour, "TOUR_SECTION\n");
 
     edge e = inst->solution.edges[0]; // Starting node
@@ -355,7 +356,7 @@ void export_tour(instance *inst) {
 
 void save_solution_edges(instance *inst, double *xstar) {
     inst->solution.edges = (edge *) calloc(inst->num_nodes, sizeof(edge));
-    
+
     int k = 0;
     if (inst->params.type == UDIR_EDGE) {
 

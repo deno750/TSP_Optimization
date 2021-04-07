@@ -37,7 +37,7 @@ int TSP_opt(instance *inst) {
     int status;
     
     if (inst->params.sol_type == SOLVE_LOOP) {
-        // Continue to solve using benders algorithm
+        // Solve using benders algorithm
         status = benders_loop(inst, env, lp);
     } else {
         status = CPXmipopt(env, lp);
@@ -52,7 +52,7 @@ int TSP_opt(instance *inst) {
     long seconds = end.tv_sec - start.tv_sec;
     long microseconds = end.tv_usec - start.tv_usec;
     double elapsed = seconds + microseconds * 1e-6;
-    
+    inst->solution.time_to_solve = elapsed;
     
     // Use the solution
     int ncols = CPXgetnumcols(env, lp);
