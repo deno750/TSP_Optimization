@@ -7,6 +7,7 @@
 #include "mtz.h"
 #include "gg.h"
 #include "benders.h"
+#include "callback.h"
 
 int TSP_opt(instance *inst) {
     int error;
@@ -43,6 +44,13 @@ int TSP_opt(instance *inst) {
         // Solve using benders algorithm
         status = benders_loop(inst, env, lp);
     } else {
+
+        if (inst->params.sol_type == SOLVE_CALLBACK) {
+            CPXLONG contextid = CPX_CALLBACKCONTEXT_CANDIDATE;
+            status = CPXcallbacksetfunc(env, lp, contextid, SEC_cuts_callback, inst);
+            if (status) print_error("CPXcallbacksetfunc() error");
+        }
+
         status = CPXmipopt(env, lp);
     }
     gettimeofday(&end, 0);

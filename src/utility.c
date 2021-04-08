@@ -102,6 +102,10 @@ void parse_comand_line(int argc, const char *argv[], instance *inst) {
                 inst->params.sol_type = SOLVE_LOOP;
                 inst->params.type = UDIR_EDGE;
             }
+            if (strncmp(method, "CALLBACK", 8) == 0) {
+                inst->params.sol_type = SOLVE_CALLBACK;
+                inst->params.type = UDIR_EDGE;
+            }
             continue;
         }
         if (strcmp("-seed", argv[i]) == 0) {
@@ -124,6 +128,7 @@ void parse_comand_line(int argc, const char *argv[], instance *inst) {
         printf("MTZ_IND      MTZ with indicator constraints\n");
         printf("GG           GG constraints\n");
         printf("LOOP         Benders Method\n");
+        printf("CALLBACK     Callback Method\n");
         exit(0);
     }
 
