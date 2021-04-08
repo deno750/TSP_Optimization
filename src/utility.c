@@ -452,3 +452,26 @@ void save_lp(CPXENVptr env, CPXLPptr lp, char *name) {
     
     CPXwriteprob(env, lp, modelPath, NULL);
 }
+
+int prepare_SEC(instance *inst, int tour, int *comp, char *sense, int *indexes, double *values, double *rhs) {
+    int nnz = 0; // Number of variables to add in the constraint
+    int num_nodes = 0; // We need to know the number of nodes due the vincle |S| - 1
+    *sense = 'L'; // Preparing here sense in order that the caller of this function does not care about the underling constraints
+    
+    // Could it be faster if we use the successors array?? Nope.
+    for (int i = 0; i < inst->num_nodes; i++) {
+        if (comp[i] != tour) continue;
+            num_nodes++;
+
+        for (int j = i+1; j < inst->num_nodes; j++) {
+            if (comp[j] != tour) continue;
+            indexes[nnz] = x_udir_pos(i, j, inst->num_nodes);
+            values[nnz] = 1.0;
+            nnz++;
+        }
+    }
+    
+    *rhs = num_nodes - 1; // |S| - 1
+
+    return nnz;
+}

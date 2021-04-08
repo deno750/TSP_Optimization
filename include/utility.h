@@ -209,4 +209,19 @@ void save_lp(CPXENVptr env, CPXLPptr lp, char *name);
  */
 int count_components(instance *inst, double* xstar, int* successors, int* comp);
 
+//TODO: This function is temporary added in utility. Evaluate whether there's a better place for this function. (Perhaps a callback_cuts.h file??)
+/**
+ * Prepares the passed parameters to be comfortable with SEC constraints for functions CPXaddnewrows and CPXcallbackrejectcandidate
+ * 
+ * @param inst The instance pointer of the problem
+ * @param tour The subtour considered for adding the SEC constraint
+ * @param comp An array whose the subtour which belongs each node is stored. This array can be obtained from count_components function
+ * @param sense The cplex parameter "sense". In this case this function will set sense to "L"
+ * @param indexes The cplex's indexes of the variables which are considered in the selected subtour are returned from this function
+ * @param values The value of the variables in the SEC constraint are returned from this function
+ * @param rhs The righten side |S| - 1 of SEC constraints
+ * @returns The number of variable to add in the constraint.
+ */
+int prepare_SEC(instance *inst, int tour, int *comp, char *sense, int *indexes, double *values, double *rhs);
+
 #endif
