@@ -24,6 +24,9 @@ int TSP_opt(instance *inst) {
     if (inst->params.seed >= 0) {
         CPXsetintparam(env, CPX_PARAM_RANDOMSEED, inst->params.seed);
     }
+    if (inst->params.num_threads > 0) {
+        CPXsetintparam(env, CPXPARAM_Threads, inst->params.num_threads);
+    }
 
     // Tells cplex to store the log files
     mkdir("../logs", 0777);
@@ -74,7 +77,6 @@ int TSP_opt(instance *inst) {
     if (inst->params.verbose >= 3) {
         
     }
-    printf("\n\n\nTIME TO SOLVE %0.6fs\n\n\n", elapsed); // Time should be printed only when no errors occur
     
     // Storing the solutions edges into an array
     save_solution_edges(inst, xstar);
@@ -107,6 +109,8 @@ int TSP_opt(instance *inst) {
 	
 
     plot_solution(inst);
+
+    printf("\n\n\nTIME TO SOLVE %0.6fs\n\n\n", elapsed); // Time should be printed only when no errors occur
 
     free(xstar);
 

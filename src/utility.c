@@ -352,67 +352,57 @@ void export_tour(instance *inst) {
     fclose(tour);
 }
 
-void save_solution_edges(instance *inst, double *xstar) {
-    inst->solution.edges = (edge *) malloc(inst->num_nodes * sizeof(edge));
-    memset(inst->solution.edges, -1, inst->num_nodes * sizeof(edge));
+int count_components(instance *inst, double* xstar, int* successors, int* comp) {
 
-    int k = 0;
+    int num_comp = 0;
+
+    for (int i = 0; i < inst->num_nodes; i++ ) {
+		if ( comp[i] >= 0 ) continue; 
+
+		// a new component is found
+		num_comp++;
+		int current_node = i;
+		int visit_comp = 0; // 
+		while ( !visit_comp ) { // go and visit the current component
+			comp[current_node] = num_comp;
+			visit_comp = 1; // We set the flag visited to true until we find the successor
+			for ( int j = 0; j < inst->num_nodes; j++ ) {
+                if (current_node == j || comp[j] >= 0) continue;
+				if (fabs(xstar[x_udir_pos(current_node,j,inst->num_nodes)]) >= EPS ) {
+					successors[current_node] = j;
+					current_node = j;
+					visit_comp = 0;
+					break;
+				}
+			}
+		}	
+		successors[current_node] = i;  // last arc to close the cycle
+	}
+    
+    return num_comp;
+}
+
+void save_solution_edges(instance *inst, double *xstar) {
+    inst->solution.edges = (edge *) calloc(inst->num_nodes, sizeof(edge));
+
     if (inst->params.type == UDIR_EDGE) {
 
-        int *onright = (int*) calloc(inst->num_nodes, sizeof(int));
-        int *onleft = (int*) calloc(inst->num_nodes, sizeof(int));
-
-        // Stores the undirected model's edges
-        for ( int i = 0; i < inst->num_nodes; i++ ){
-            for ( int j = i+1; j < inst->num_nodes; j++ ){
-                // Zero is considered when the absolute value of number is <= EPS. 
-                // One is considered when the absolute value of number is > EPS
-                if (fabs(xstar[x_udir_pos(i,j,inst->num_nodes)]) > EPS )  {
-                    edge edge_to_check = inst->solution.edges[i];
-                    if (!onleft[i] && !onright[j]) {
-                        edge *e = &(inst->solution.edges[i]);
-                        e->i = i;
-                        e->j = j;
-                        onleft[i] = 1;
-                        onright[j] = 1;
-                    } else if (onleft[i] && !onright[j]) {
-                        edge *e = &(inst->solution.edges[j]);
-                        e->i = j;
-                        e->j = i;
-                        onleft[j] = 1;
-                        onright[i] = 1;
-                    } else if (!onleft[i] && onright[j]) {
-                        edge *e = &(inst->solution.edges[j]);
-                        e->i = j;
-                        e->j = i;
-                        onleft[j] = 1;
-                        onright[i] = 1;
-                    } else if (onleft[i] && onright[j]) {
-                        edge *e = &(inst->solution.edges[j]);
-                        e->i = j;
-                        e->j = i;
-                        onleft[j] = 1;
-                        onright[i] = 1;
-                    }
-                    /*sif (edge_to_check.i == -1) {
-                        edge *e = &(inst->solution.edges[i]);
-                        e->i = i;
-                        e->j = j;
-                    } else {
-                        edge *e = &(inst->solution.edges[j]);
-                        e->i = j;
-                        e->j = i;
-                    }*/
-                    //edge *e = &(inst->solution.edges[k++]);
-                    //e->i = i;
-                    //e->j = j;
-                }
-            }
+        int *succ = (int*) malloc(inst->num_nodes * sizeof(int));
+        int *comp = (int*) malloc(inst->num_nodes * sizeof(int));
+        memset(succ, -1, inst->num_nodes * sizeof(int));
+        memset(comp, -1, inst->num_nodes * sizeof(int));
+        count_components(inst, xstar, succ, comp);
+        for (int i = 0; i < inst->num_nodes; i++) {
+            edge *e = &(inst->solution.edges[i]);
+            int successor = succ[i];
+            e->i = i;
+            e->j = succ[i];
         }
-
+        free(succ);
+        free(comp);
 
     } else {
-
+        int k = 0;
         // Stores the directed model's edges
         for ( int i = 0; i < inst->num_nodes; i++ ){
             for ( int j = 0; j < inst->num_nodes; j++ ){

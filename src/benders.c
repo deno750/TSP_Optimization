@@ -5,40 +5,6 @@
 
 #include "utility.h"
 
-static int count_components(instance *inst, double* xstar, int* successors, int* comp) {
-
-    int num_comp = 0;
-
-    for (int i = 0; i < inst->num_nodes; i++ ) {
-		if ( comp[i] >= 0 ) continue; 
-
-		// a new component is found
-		num_comp++;
-		int current_node = i;
-		int visit_comp = 0; // 
-		while ( !visit_comp ) { // go and visit the current component
-			comp[current_node] = num_comp;
-			visit_comp = 1; // We set the flag visited to true until we find the successor
-			for ( int j = 0; j < inst->num_nodes; j++ ) {
-                if (current_node == j || comp[j] >= 0) continue;
-				if (fabs(xstar[x_udir_pos(current_node,j,inst->num_nodes)]) >= EPS ) {
-					successors[current_node] = j;
-					current_node = j;
-					visit_comp = 0;
-					break;
-				}
-			}
-		}	
-		successors[current_node] = i;  // last arc to close the cycle
-	}
-
-    if (inst->params.verbose >= 4) {
-        printf("NUM COMPONENTS: %d\n", num_comp);
-    }
-    
-    return num_comp;
-}
-
 static int add_SEC(instance *inst, CPXENVptr env, CPXLPptr lp, int current_tour, int *comp, char *sense, int *matbeg, int *indexes, double *values, char *names) {
     int nnz = 0; // Number of variables to add in the constraint
     int num_nodes = 0; // We need to know the number of nodes due the vincle |S| - 1
@@ -72,7 +38,7 @@ int benders_loop(instance *inst, CPXENVptr env, CPXLPptr lp) {
     char names[100];
     char sense = 'L';
     int matbeg = 0; // Contains the index of the beginning column
-    int numComp = 1;
+    int numcomp = 1;
     int rowscount = 0;
     do {
         //Initialization of successors and comp arrays with -1
@@ -92,10 +58,13 @@ int benders_loop(instance *inst, CPXENVptr env, CPXLPptr lp) {
 
         status = CPXgetx(env, lp, xstar, 0, ncols-1);
         if (status) { print_error("Benders CPXgetx error"); }
-        numComp = count_components(inst, xstar, successors, comp);
+        numcomp = count_components(inst, xstar, successors, comp);
+        if (inst->params.verbose >= 4) {
+            printf("NUM COMPONENTS: %d\n", numcomp);
+        }
         
         // Condition numComp > 1 is needed in order to avoid to add the SEC constraints when the TSP's hamiltonian cycle is found
-        for (int subtour = 1; subtour <= numComp && numComp > 1; subtour++) { // Connected components are numerated from 1
+        for (int subtour = 1; subtour <= numcomp && numcomp > 1; subtour++) { // Connected components are numerated from 1
             sprintf(names, "SEC(%d)", ++rowscount);
             status = add_SEC(inst, env, lp, subtour, comp, &sense, &matbeg, indexes, values, names);
             if (status) { print_error("An error occurred adding SEC"); }
@@ -109,7 +78,7 @@ int benders_loop(instance *inst, CPXENVptr env, CPXLPptr lp) {
         free(values);
         free(xstar);
             
-    } while (numComp > 1);
+    } while (numcomp > 1);
 
     free(successors);
     free(comp);
