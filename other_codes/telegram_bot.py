@@ -43,6 +43,9 @@ def echo(update, context):
     update.message.reply_text("Thanks")
 
 def error(update, context):
+    global is_testing
+    global completed
+    is_testing = False
     """Log Errors caused by Updates."""
     update.message.reply_text('Update "%s" caused error "%s"', update, context.error)
     logger.warning('Update "%s" caused error "%s"', update, context.error)
