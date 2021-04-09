@@ -242,29 +242,18 @@ static void build_dir_model(instance *inst, CPXENVptr env, CPXLPptr lp) {
     }
 
     int sol_type = inst->params.sol_type;
-    const char* method_name = NULL;
     if (sol_type == SOLVE_MTZ) {
-        method_name = "MTZ";
         add_mtz_constraints(inst, env, lp, 0);
     } else if (sol_type == SOLVE_MTZL) {
-        method_name = "MTZ Lazy";
         add_mtz_lazy_constraints(inst, env, lp, 0);
     } else if (sol_type == SOLVE_MTZI) {
-        method_name = "MTZ with subtour elimination constraints of degree 2";
         add_mtz_constraints(inst, env, lp, 1);
     } else if (sol_type == SOLVE_MTZLI) {
-        method_name = "MTZ lazy with subtour elimination constraints of degree 2";
         add_mtz_lazy_constraints(inst, env, lp, 1);
     } else if (sol_type == SOLVE_MTZ_IND) {
-        method_name = "MTZ with indicator constraints";
         add_mtz_indicator_constraints(inst, env, lp);
     } else if (sol_type == SOLVE_GG) {
-        method_name = "GG";
         add_gg_constraints(inst, env, lp);
-    }
-    if (inst->params.verbose >= 4) {
-        if (method_name != NULL) 
-            printf("Solving with %s\n\n", method_name);
     }
 
     free(names);

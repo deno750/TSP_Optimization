@@ -8,7 +8,7 @@
 #include <cplex.h>
 
 
-#define VERSION "TSP 0.3"
+#define VERSION "TSP 0.4"
 
 // Constant that is useful for numerical errors
 #define EPS 1e-5
@@ -35,15 +35,24 @@
 
 
 
+// The default solver definition
+#define SOLVE_DEFAULT SOLVE_CALLBACK
+
+
+
 // ================ Edge types =======================
 #define UDIR_EDGE 0
 #define DIR_EDGE 1
+
+// The default edge definition
+#define DEFAULT_EDGE UDIR_EDGE
 
 
 // ==================== STRUCTS ==========================
 
 // Struct which stores the parameters of the problem
 typedef struct {
+    char *file_path;
     int type;  // Describes if the graph is directed or undirected
     int num_threads; 
     int time_limit;
@@ -51,7 +60,6 @@ typedef struct {
     int integer_cost;
     int sol_type;
     int seed; // Seed for random generation
-    char *file_path;
 } instance_params;
 
 // Definition of Point
@@ -78,11 +86,11 @@ typedef struct {
 typedef struct {
     instance_params params;
 
-    int num_nodes;
-    int weight_type;
     char *name;
     char *comment;
     point *nodes;
+    int num_nodes;
+    int weight_type;
 
     solution solution;
 } instance;

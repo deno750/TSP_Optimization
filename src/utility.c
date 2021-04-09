@@ -51,12 +51,12 @@ void parse_comand_line(int argc, const char *argv[], instance *inst) {
         exit(1);
     }
 
-    inst->params.type = DIR_EDGE; //Default edge type is directed 
+    inst->params.type = DEFAULT_EDGE; //Default edge type
     inst->params.time_limit = -1; //Default time limit value. -1 means no constraints in time limit 
     inst->params.num_threads = -1; //Default value -1. Means no limit on number of threads
     inst->params.file_path = NULL;
     inst->params.verbose = 1; //Default verbose level of 1
-    inst->params.sol_type = SOLVE_LOOP; // Default LOOP solver
+    inst->params.sol_type = SOLVE_DEFAULT; // Default solver
     inst->params.integer_cost = 1; // Default integer costs
     inst->params.seed = -1; // No seed specified
     inst->name = NULL;
@@ -71,7 +71,7 @@ void parse_comand_line(int argc, const char *argv[], instance *inst) {
             if (check_input_index_validity(i, argc, &need_help)) continue;
             const char* path = argv[++i];
             inst->params.file_path = (char *) calloc(strlen(path), sizeof(char));
-            strcpy(inst->params.file_path, path); 
+            strncpy(inst->params.file_path, path, strlen(path)); 
             continue; 
         } // Input file
         if (strcmp("-t", argv[i]) == 0) { 
@@ -181,7 +181,7 @@ void parse_instance(instance *inst) {
 			active_section = 0;
             token1 = strtok(NULL, sep);
             inst->name = (char *) calloc(strlen(token1), sizeof(char));         
-            strncpy(inst->name,token1, strlen(token1));
+            strncpy(inst->name, token1, strlen(token1));
 			continue;
 		}
 
@@ -261,7 +261,7 @@ void print_instance(instance inst) {
     if (inst.params.verbose >= 1) {
         if (inst.params.verbose >= 2) {
             printf("\n");
-            printf("======== PARAMS PASSED =========\n");
+            printf("======== PARAMS =========\n");
             const char* edge;
             switch (inst.params.type) {
             case UDIR_EDGE:
@@ -271,11 +271,32 @@ void print_instance(instance inst) {
                 edge = "Directed";
                 break;
             }
+
+            int sol_type = inst.params.sol_type;
+            const char* method_name = NULL;
+            if (sol_type == SOLVE_MTZ) {
+                method_name = "MTZ";
+            } else if (sol_type == SOLVE_MTZL) {
+                method_name = "MTZ Lazy";
+            } else if (sol_type == SOLVE_MTZI) {
+                method_name = "MTZ with subtour elimination constraints of degree 2";
+            } else if (sol_type == SOLVE_MTZLI) {
+                method_name = "MTZ lazy with subtour elimination constraints of degree 2";
+            } else if (sol_type == SOLVE_MTZ_IND) {
+                method_name = "MTZ with indicator constraints";
+            } else if (sol_type == SOLVE_GG) {
+                method_name = "GG";
+            } else if (sol_type == SOLVE_LOOP) {
+                method_name = "LOOP";
+            } else if (sol_type == SOLVE_CALLBACK) {
+                method_name = "CALLBACK";
+            }
             
             printf("Edge type: %s\n", edge);
-            printf("Time Limit: %d\n", inst.params.time_limit);
-            printf("Threads: %d\n", inst.params.num_threads);
-            printf("Seed: %d\n", inst.params.seed);
+            printf("Solver method: %s\n", method_name);
+            if (inst.params.time_limit > 0) printf("Time Limit: %d\n", inst.params.time_limit);
+            if (inst.params.num_threads > 0) printf("Threads: %d\n", inst.params.num_threads);
+            if (inst.params.seed >= 0) printf("Seed: %d\n", inst.params.seed);
             printf("Cost: %s\n", inst.params.integer_cost ? "Integer" : "Floating point");
             printf("Verbose: %d\n", inst.params.verbose);
             printf("File path: %s\n", inst.params.file_path);
@@ -283,7 +304,7 @@ void print_instance(instance inst) {
         }
         
         printf("\n");
-        printf("======== Instance ========\n");
+        printf("======== INSTANCE ========\n");
         printf("name: %s\n", inst.name);
         printf("n° nodes: %d\n", inst.num_nodes);
         const char* weight;
