@@ -49,6 +49,8 @@ def error(update, context):
 is_testing = False
 completed = 0
 def run_test(update, context):
+    global is_testing
+    global completed
     if is_testing:
         update.message.reply_text('The test is already running!')
         return
