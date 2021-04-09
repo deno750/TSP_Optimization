@@ -7,15 +7,13 @@ import os
 if __name__ == '__main__':
     # test1.py executed as script
     # do something
-    #paths = ["../data/berlin52.tsp", "../data/eil51.tsp", "../data/att48.tsp", "../data/st70.tsp", "../data/pr76.tsp"]
-    paths=[]
-    for name in glob.glob('../data/compact_models/size_5/*'):
-        #print(name)
+    paths = ["../data/berlin52.tsp", "../data/eil51.tsp", "../data/att48.tsp", "../data/st70.tsp", "../data/pr76.tsp"]
+    for name in glob.glob('../data/compact_models/*/*'):
         paths.append(name)
     methods = ["MTZ", "MTZL", "MTZI", "MTZLI", "MTZ_IND", "GG"]
     time_limit = "3600"
 
-    csv_filename="compact_30.csv"
+    csv_filename="compact.csv"
     
     #if file csv do not exist, create it.
     if not os.path.exists('../measures/'+csv_filename):
@@ -28,6 +26,9 @@ if __name__ == '__main__':
     
     for tsp in paths:
         for m in methods:
+            row = df.index.get_loc(tsp)
+            if not pd.isnull(df[m].values[row]):
+                continue
             str_exec = "../build/tsp -f {path} -verbose -1 -method {method} -t {time_lim} --perfprof"
             str_exec = str_exec.format(path=tsp, method=m, time_lim=time_limit)
             print("Testing on " +m+ " on instance " +tsp)

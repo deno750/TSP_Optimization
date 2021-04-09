@@ -1,18 +1,20 @@
 import random
 
-start=1
-stop=1000
+start= random.randint(-10000, 990)
+stop = random.randint(1000,10000)
 
-filename="random_"
+filename = "random_"
+filepath="../data/" +filename
 
 
 print("insert number of files to create:")
 num_files=int(input())
 print("insert size of the problem")
-N=int(input())
+N_input=int(input())
 
 for nF in range(num_files):
-    f = open(filename+str(nF)+".tsp", "x")
+    N = N_input + random.randint(0, 9)
+    f = open(filepath+str(nF)+".tsp", "x")
     f.write("NAME : "+filename+str(nF)+"\n")
     f.write("COMMENT : "+str(N)+" random nodes\n")
     f.write("TYPE : TSP\n")
