@@ -88,7 +88,8 @@ def run_test(update, context):
             df.loc[tsp,m]=output
             df.to_csv('../measures/'+csv_filename,index=True,mode='w+' )
     csv_file = open("../measures/"+csv_filename, "rb")
-    context.bot.sendDocument(chat_id=chat_id, document=csv)
+    chat_id = update.message.chat_id
+    context.bot.sendDocument(chat_id=chat_id, document=csv_file)
     is_testing = False
 
 
