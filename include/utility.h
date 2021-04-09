@@ -233,4 +233,6 @@ int count_components(instance *inst, double* xstar, int* successors, int* comp);
  */
 int prepare_SEC(instance *inst, int tour, int *comp, char *sense, int *indexes, double *values, double *rhs);
 
+void save_cplex_log(CPXENVptr env, instance *inst);
+
 #endif

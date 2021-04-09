@@ -348,6 +348,7 @@ void print_instance(instance inst) {
 }
 
 void export_tour(instance *inst) {
+    if (inst->params.perf_prof) return;
     const char *dir = "../tour";
     mkdir(dir, 0777);
 
@@ -449,6 +450,7 @@ void save_solution_edges(instance *inst, double *xstar) {
 }
 
 int plot_solution(instance *inst) {
+    if (inst->params.perf_prof) return 0;
     PLOT gnuplotPipe = plot_open();
     if (gnuplotPipe == NULL) {
         printf("GnuPlot is not installed. Make sure that you have installed GnuPlot in your system and it's added in your PATH");
@@ -497,4 +499,13 @@ int prepare_SEC(instance *inst, int tour, int *comp, char *sense, int *indexes, 
     *rhs = num_nodes - 1; // |S| - 1
 
     return nnz;
+}
+
+void save_cplex_log(CPXENVptr env, instance *inst) {
+    if (inst->params.perf_prof) return;
+
+    mkdir("../logs", 0777);
+    char log_path[1024];
+    sprintf(log_path, "../logs/%s.log", inst->name);
+    CPXsetlogfilename(env, log_path, "w");
 }

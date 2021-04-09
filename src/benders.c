@@ -9,7 +9,7 @@ static int add_SEC(instance *inst, CPXENVptr env, CPXLPptr lp, int current_tour,
     int matbeg = 0; // Contains the index of the beginning column. In this case we add 1 row at a time so no need for an array
     int nnz = prepare_SEC(inst, current_tour, comp, &sense, indexes, values, &rhs);
     if (inst->params.verbose >= 5) {
-        printf("Tour %d has %d nodes\n", current_tour, rhs + 1); // Since rhs is |S| - 1 we add +1 to get |S|.
+        printf("Tour %d has %d nodes\n", current_tour, (int) (rhs + 1)); // Since rhs is |S| - 1 we add +1 to get |S|.
     }
     return CPXaddrows(env, lp, 0, 1, nnz, &rhs, &sense, &matbeg, indexes, values, NULL, &names);    
 }

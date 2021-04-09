@@ -30,10 +30,7 @@ int TSP_opt(instance *inst) {
     }
 
     // Tells cplex to store the log files
-    mkdir("../logs", 0777);
-    char log_path[1024];
-    sprintf(log_path, "../logs/%s.log", inst->name);
-    CPXsetlogfilename(env, log_path, "w");
+    save_cplex_log(env, inst);
 
     //Optimize the model (the solution is stored inside the env variable)
     struct timeval start, end;
@@ -81,18 +78,11 @@ int TSP_opt(instance *inst) {
         print_error("CPXgetx() error");	
     }
     CPXgetobjval(env, lp, &(inst->solution.obj_best));
-
-    if (inst->params.verbose >= 3) {
-        
-    }
     
     // Storing the solutions edges into an array
     save_solution_edges(inst, xstar);
 
-    if (!inst->params.perf_prof) {
-        export_tour(inst);
-    }
-    
+    export_tour(inst);
     
     if (inst->params.verbose >= 1) {
 
@@ -117,10 +107,7 @@ int TSP_opt(instance *inst) {
 
     }
 	
-
-    if (!inst->params.perf_prof) {
-        plot_solution(inst);
-    }
+    plot_solution(inst);
 
     if (inst->params.perf_prof) {
         printf("%0.6f", elapsed);
