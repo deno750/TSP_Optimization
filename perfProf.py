@@ -55,7 +55,8 @@ def readTable(fp, delimiter):
 	...
 	"""
 	firstline = fp.readline().strip().split(delimiter)
-	ncols = int(firstline[0])
+	#ncols = int(firstline[0])	#ORIGINAL CODE
+	ncols = len(firstline)-1	#ADDED BECAUSE PANDAS doesn not save the numeber of columns
 	assert(ncols <= len(markers))
 	cnames = firstline[1:]
 	rnames = []
