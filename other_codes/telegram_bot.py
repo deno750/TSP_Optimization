@@ -47,14 +47,18 @@ def error(update, context):
     logger.warning('Update "%s" caused error "%s"', update, context.error)
 
 is_testing = False
+completed = 0
 def run_test(update, context):
+    if is_testing:
+        update.message.reply_text('The test is already running!')
+        return
     is_testing = True
     paths = ["../data/berlin52.tsp", "../data/eil51.tsp", "../data/att48.tsp", "../data/st70.tsp", "../data/pr76.tsp"]
     for name in glob.glob('../data/compact_models/*/*'):
         paths.append(name)
     methods = ["MTZ", "MTZL", "MTZI", "MTZLI", "MTZ_IND", "GG"]
     time_limit = "3600"
-
+    total_runs = len(methods) * len(paths)
     csv_filename="compact.csv"
 
     #if file csv do not exist, create it.
@@ -64,8 +68,11 @@ def run_test(update, context):
     else:
         df=pd.read_csv('../measures/'+csv_filename,index_col=0)
 
+    num_runs = 0
     for tsp in paths:
         for m in methods:
+            num_runs += 1
+            completed = num_runs / total_runs * 100
             row = df.index.get_loc(tsp)
             if not pd.isnull(df[m].values[row]):
                 continue
@@ -81,7 +88,11 @@ def run_test(update, context):
             df.to_csv('../measures/'+csv_filename,index=True,mode='w+' )
     csv_file = open("../measures/"+csv_filename, "rb")
     context.bot.sendDocument(chat_id=chat_id, document=csv)
+    is_testing = False
 
+
+def get_completion(update, context):
+    update.message.reply_text(str(completed) + "%")
 
 
 def main():
@@ -98,7 +109,8 @@ def main():
     # on different commands - answer in Telegram
     dp.add_handler(CommandHandler("start", start))
     dp.add_handler(CommandHandler("help", help))
-    dp.add_handler(CommandHandler("test", run_test))
+    dp.add_handler(CommandHandler("runtest", run_test))
+    dp.add_handler(CommandHandler("completion", get_completion))
     # on noncommand i.e message - echo the message on Telegram
     dp.add_handler(MessageHandler(Filters.document, echo))
 
