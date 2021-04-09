@@ -53,6 +53,7 @@ def run_test(update, context):
         update.message.reply_text('The test is already running!')
         return
     is_testing = True
+    update.message.reply_text('Started testing!')
     paths = ["../data/berlin52.tsp", "../data/eil51.tsp", "../data/att48.tsp", "../data/st70.tsp", "../data/pr76.tsp"]
     for name in glob.glob('../data/compact_models/*/*'):
         paths.append(name)
