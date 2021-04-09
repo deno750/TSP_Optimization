@@ -72,6 +72,7 @@ def run_test(update, context):
         df=pd.read_csv('../measures/'+csv_filename,index_col=0)
 
     num_runs = 0
+    chat_id = update.message.chat_id
     for tsp in paths:
         for m in methods:
             num_runs += 1
@@ -85,12 +86,12 @@ def run_test(update, context):
             output = subprocess.check_output(str_exec, shell=True)
             #with open('performances.csv', mode='w') as perf_file:
             output=float(output.decode("utf-8"))
+            update.message.reply_text('Completed ' + tsp + " with method " + m + " in " +str(output) + " COMPLETED: " + str(completed))
 
             print("\t"+m+": "+str(output))
             df.loc[tsp,m]=output
             df.to_csv('../measures/'+csv_filename,index=True,mode='w+' )
     csv_file = open("../measures/"+csv_filename, "rb")
-    chat_id = update.message.chat_id
     context.bot.sendDocument(chat_id=chat_id, document=csv_file)
     is_testing = False
 
