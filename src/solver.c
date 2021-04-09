@@ -69,7 +69,7 @@ int TSP_opt(instance *inst) {
     int ncols = CPXgetnumcols(env, lp);
 	double *xstar = (double *) calloc(ncols, sizeof(double));
     status = CPXgetx(env, lp, xstar, 0, ncols-1);
-	if ( status ) {
+	if ( status && !inst->params.perf_prof) {
         //Stats here: https://www.tu-chemnitz.de/mathematik/discrete/manuals/cplex/doc/refman/html/appendixB.html
         int stat = CPXgetstat(env, lp);
         printf("Status: %d\n", stat);
@@ -89,7 +89,9 @@ int TSP_opt(instance *inst) {
     // Storing the solutions edges into an array
     save_solution_edges(inst, xstar);
 
-    export_tour(inst);
+    if (!inst->params.perf_prof) {
+        export_tour(inst);
+    }
     
     
     if (inst->params.verbose >= 1) {
@@ -116,9 +118,15 @@ int TSP_opt(instance *inst) {
     }
 	
 
-    plot_solution(inst);
+    if (!inst->params.perf_prof) {
+        plot_solution(inst);
+    }
 
-    printf("\n\n\nTIME TO SOLVE %0.6fs\n\n\n", elapsed); // Time should be printed only when no errors occur
+    if (inst->params.perf_prof) {
+        printf("%0.6f", elapsed);
+    } else {
+        printf("\n\n\nTIME TO SOLVE %0.6fs\n\n\n", elapsed); // Time should be printed only when no errors occur
+    }
 
     free(xstar);
 

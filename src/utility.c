@@ -51,7 +51,7 @@ void parse_comand_line(int argc, const char *argv[], instance *inst) {
         exit(1);
     }
 
-    inst->params.type = DEFAULT_EDGE; //Default edge type
+    inst->params.type = DIR_EDGE; //Default edge type
     inst->params.time_limit = -1; //Default time limit value. -1 means no constraints in time limit 
     inst->params.num_threads = -1; //Default value -1. Means no limit on number of threads
     inst->params.file_path = NULL;
@@ -59,6 +59,7 @@ void parse_comand_line(int argc, const char *argv[], instance *inst) {
     inst->params.sol_type = SOLVE_DEFAULT; // Default solver
     inst->params.integer_cost = 1; // Default integer costs
     inst->params.seed = -1; // No seed specified
+    inst->params.perf_prof = 0;
     inst->name = NULL;
     inst->comment = NULL;
     inst->nodes = NULL;
@@ -115,6 +116,7 @@ void parse_comand_line(int argc, const char *argv[], instance *inst) {
         }
         if (strcmp("--fcost", argv[i]) == 0) { inst->params.integer_cost = 0; continue; }
         if (strcmp("--methods", argv[i]) == 0) {show_methods = 1; continue;}
+        if (strcmp("--perfprof", argv[i]) == 0) {inst->params.perf_prof = 1; continue;}
         if (strcmp("--v", argv[i]) == 0 || strcmp("--version", argv[i]) == 0) { printf("Version %s\n", VERSION); exit(0);} //Version of the software
         if (strcmp("--help", argv[i]) == 0) { need_help = 1; continue; } // For comands documentation
         need_help = 1;

@@ -60,6 +60,7 @@ typedef struct {
     int integer_cost;
     int sol_type;
     int seed; // Seed for random generation
+    int perf_prof; // Need to know wheter the computation is executed for performance profile
 } instance_params;
 
 // Definition of Point
