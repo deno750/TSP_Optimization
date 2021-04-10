@@ -72,7 +72,7 @@ def threaded_test(update, context):
     paths = ["../data/berlin52.tsp", "../data/eil51.tsp", "../data/att48.tsp", "../data/st70.tsp", "../data/pr76.tsp"]
     for name in glob.glob('../data/compact_models/*/*'):
         paths.append(name)
-    methods = ["MTZ", "MTZL", "MTZI", "MTZLI", "MTZ_IND", "GG"]
+    methods = ["MTZ", "MTZL", "MTZI", "MTZLI", "GG"]
     time_limit = "3600"
     total_runs = len(methods) * len(paths)
 
@@ -116,8 +116,11 @@ def threaded_test(update, context):
 
 def run_test(update, context):
     threads = threading.enumerate()
-    threads = [t for t in threads if t.is_alive()]
+    threads = [t for t in threads if t.is_alive() and t.name == "TSPWorker"]
     print(threads)
+    if len(threads) > 0:
+        update.message.reply_text('The test is already running!!!')
+        return
     th = threading.Thread(target=threaded_test, args=(update, context))
     th.name = "TSPWorker"
     th.start()
