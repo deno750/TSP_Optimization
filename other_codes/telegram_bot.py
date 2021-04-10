@@ -6,6 +6,7 @@ import subprocess
 import csv
 import pandas as pd
 import os
+import threading
 
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 
@@ -52,7 +53,11 @@ def error(update, context):
 
 is_testing = False
 completed = 0
-def run_test(update, context):
+
+csv_filename="compact.csv"
+
+def threaded_test(update, context):
+
     global is_testing
     global completed
     if is_testing:
@@ -66,7 +71,6 @@ def run_test(update, context):
     methods = ["MTZ", "MTZL", "MTZI", "MTZLI", "MTZ_IND", "GG"]
     time_limit = "3600"
     total_runs = len(methods) * len(paths)
-    csv_filename="compact.csv"
 
     #if file csv do not exist, create it.
     if not os.path.exists('../measures/'+csv_filename):
@@ -104,9 +108,22 @@ def run_test(update, context):
     context.bot.sendDocument(chat_id=chat_id, document=csv_file)
     is_testing = False
 
+def run_test(update, context):
+    threads = threading.enumerate()
+    threads = [t for t in threads if t.is_alive()]
+    print(threads)
+    th = threading.Thread(target=threaded_test, args=(update, context))
+    th.name = "TSPWorker"
+    th.start()
+
 
 def get_completion(update, context):
     update.message.reply_text(str(completed) + "%")
+
+def get_scv(update, context):
+    chat_id = update.message.chat_id
+    csv_file = open("../measures/" + csv_filename, "rb")
+    context.bot.sendDocument(chat_id=chat_id, document=csv_file)
 
 
 def main():
@@ -124,6 +141,7 @@ def main():
     dp.add_handler(CommandHandler("start", start))
     dp.add_handler(CommandHandler("help", help))
     dp.add_handler(CommandHandler("runtest", run_test))
+    dp.add_handler(CommandHandler("getcsv", get_scv))
     dp.add_handler(CommandHandler("completion", get_completion))
     # on noncommand i.e message - echo the message on Telegram
     dp.add_handler(MessageHandler(Filters.document, echo))
