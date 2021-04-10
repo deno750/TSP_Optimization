@@ -55,11 +55,15 @@ is_testing = False
 completed = 0
 
 csv_filename="compact.csv"
+current_method = ""
+current_instance = ""
 
 def threaded_test(update, context):
 
     global is_testing
     global completed
+    global current_method
+    global current_instance
     if is_testing:
         update.message.reply_text('The test is already running!')
         return
@@ -85,6 +89,8 @@ def threaded_test(update, context):
         for m in methods:
             num_runs += 1
             completed = num_runs / total_runs * 100
+            current_instance = tsp
+            current_method = m
             row = df.index.get_loc(tsp)
             if not pd.isnull(df[m].values[row]):
                 continue
@@ -99,7 +105,7 @@ def threaded_test(update, context):
             else:
                 output= time_limit
                 update.message.reply_text("Terminated with exit code: " + str(exit_code))
-            update.message.reply_text('Completed ' + tsp + " with method " + m + " in " +str(output) + " COMPLETED: " + str(completed))
+            update.message.reply_text('Completed ' + tsp + " with method " + m + " in " +str(output) + " COMPLETED: " + str(completed) + "%")
 
             print("\t"+m+": "+str(output))
             df.loc[tsp,m]=output
@@ -125,6 +131,12 @@ def get_scv(update, context):
     csv_file = open("../measures/" + csv_filename, "rb")
     context.bot.sendDocument(chat_id=chat_id, document=csv_file)
 
+def get_info(update, context):
+    global current_method
+    global current_instance
+    update.message.reply_text("Running " +current_instance + " with method " + current_method)
+
+
 
 def main():
     """Start the bot."""
@@ -141,7 +153,8 @@ def main():
     dp.add_handler(CommandHandler("start", start))
     dp.add_handler(CommandHandler("help", help))
     dp.add_handler(CommandHandler("runtest", run_test))
-    dp.add_handler(CommandHandler("getcsv", get_scv))
+    dp.add_handler(CommandHandler("csv", get_scv))
+    dp.add_handler(CommandHandler("info", get_info))
     dp.add_handler(CommandHandler("completion", get_completion))
     # on noncommand i.e message - echo the message on Telegram
     dp.add_handler(MessageHandler(Filters.document, echo))
