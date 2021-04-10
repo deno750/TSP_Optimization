@@ -87,9 +87,14 @@ def run_test(update, context):
             str_exec = "../build/tsp -f {path} -verbose -1 -method {method} -t {time_lim} --perfprof"
             str_exec = str_exec.format(path=tsp, method=m, time_lim=time_limit)
             print("Testing on " +m+ " on instance " +tsp)
-            output = subprocess.check_output(str_exec, shell=True)
-            #with open('performances.csv', mode='w') as perf_file:
-            output=float(output.decode("utf-8"))
+            process = subprocess.Popen(str_exec, stderr=subprocess.PIPE, stdout=subprocess.PIPE, shell=True)
+            output, stderr = process.communicate()
+            exit_code =  process.wait()
+            if exit_code == 0:
+                output = float(output.decode("utf-8"))
+            else:
+                output= time_limit
+                update.message.reply_text("Terminated with exit code: " + str(exit_code))
             update.message.reply_text('Completed ' + tsp + " with method " + m + " in " +str(output) + " COMPLETED: " + str(completed))
 
             print("\t"+m+": "+str(output))
