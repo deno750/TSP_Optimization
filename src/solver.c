@@ -66,7 +66,7 @@ int TSP_opt(instance *inst) {
     int ncols = CPXgetnumcols(env, lp);
 	double *xstar = (double *) calloc(ncols, sizeof(double));
     status = CPXgetx(env, lp, xstar, 0, ncols-1);
-	if ( status && !inst->params.perf_prof) {
+	if ( status ) {
         //Stats here: https://www.tu-chemnitz.de/mathematik/discrete/manuals/cplex/doc/refman/html/appendixB.html
         int stat = CPXgetstat(env, lp);
         printf("Status: %d\n", stat);
