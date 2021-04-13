@@ -9,34 +9,53 @@
 #include "benders.h"
 #include "callback.h"
 
-int TSP_opt(instance *inst) {
-    int error;
-    CPXENVptr env = CPXopenCPLEX(&error);       // generate new environment, in err will be saved errors
-    CPXLPptr lp = CPXcreateprob(env, &error, inst->name);   // create new empty linear programming problem (no variables, no constraints ...)
-    
-    // Build the model (add variable and constrains to the empty one)
-    build_model(inst, env, lp);
-
-    // Setting the time limit to cplex
-    if (inst->params.time_limit > 0) { // Time limits <= 0 not allowed
-        double time_limit = inst->params.time_limit;
+static void set_cplex_params(CPXENVptr env, instance_params params) {
+    if (params.time_limit > 0) { // Time limits <= 0 not allowed
+        double time_limit = params.time_limit;
         CPXsetdblparam(env, CPXPARAM_TimeLimit, time_limit);
     }
-    if (inst->params.seed >= 0) {
-        CPXsetintparam(env, CPX_PARAM_RANDOMSEED, inst->params.seed);
+    if (params.seed >= 0) {
+        CPXsetintparam(env, CPX_PARAM_RANDOMSEED, params.seed);
     }
-    if (inst->params.num_threads > 0) {
-        CPXsetintparam(env, CPXPARAM_Threads, inst->params.num_threads);
+    if (params.num_threads > 0) {
+        CPXsetintparam(env, CPXPARAM_Threads, params.num_threads);
     }
+}
 
-    // Tells cplex to store the log files
-    save_cplex_log(env, inst);
+static double get_elapsed_time(struct timeval start, struct timeval end) {
+    long seconds = end.tv_sec - start.tv_sec;
+    long microseconds = end.tv_usec - start.tv_usec;
+    double elapsed = seconds + microseconds * 1e-6;
+    return elapsed;
+}
 
-    //Optimize the model (the solution is stored inside the env variable)
-    struct timeval start, end;
-    gettimeofday(&start, 0);
+static void print_solution(instance *inst) {
+    if (inst->params.verbose >= 1) {
+
+        printf("Optimal solution found!\n");
+
+        if (inst->params.verbose >= 2) {
+            printf("The best bjective value is %f\n", inst->solution.obj_best);
+        }
+        
+
+        // Next level of verbosity
+        if (inst->params.verbose >= 3) {
+            printf("\nThe optimal edges are:\n\n");
+
+            for ( int i = 0; i < inst->num_nodes; i++ ){
+                edge e = inst->solution.edges[i];
+                printf("x(%3d,%3d) = 1\n", e.i+1,e.j+1);
+            }
+        }
+
+        printf("\n");
+
+    }
+}
+
+static int solve_problem(CPXENVptr env, CPXLPptr lp, instance *inst) {
     int status;
-    
     if (inst->params.sol_type == SOLVE_LOOP) {
         // Solve using benders algorithm
         status = benders_loop(inst, env, lp);
@@ -50,6 +69,27 @@ int TSP_opt(instance *inst) {
 
         status = CPXmipopt(env, lp);
     }
+    return status;
+}
+
+int TSP_opt(instance *inst) {
+    int error;
+    CPXENVptr env = CPXopenCPLEX(&error);       // generate new environment, in err will be saved errors
+    CPXLPptr lp = CPXcreateprob(env, &error, inst->name);   // create new empty linear programming problem (no variables, no constraints ...)
+    
+    // Build the model (add variable and constrains to the empty one)
+    build_model(inst, env, lp);
+
+    // Setting cplex's parameters
+    set_cplex_params(env, inst->params);
+
+    // Tells cplex to store the log files
+    save_cplex_log(env, inst);
+
+    //Optimize the model (the solution is stored inside the env variable)
+    struct timeval start, end;
+    gettimeofday(&start, 0);
+    int status = solve_problem(env, lp, inst);
     gettimeofday(&end, 0);
     if (status) {
         if (inst->params.verbose >= 5) {
@@ -57,9 +97,7 @@ int TSP_opt(instance *inst) {
         }
         print_error("Cplex solver encountered an error.");
     }
-    long seconds = end.tv_sec - start.tv_sec;
-    long microseconds = end.tv_usec - start.tv_usec;
-    double elapsed = seconds + microseconds * 1e-6;
+    double elapsed = get_elapsed_time(start, end);
     inst->solution.time_to_solve = elapsed;
     
     // Use the solution
@@ -84,28 +122,7 @@ int TSP_opt(instance *inst) {
 
     export_tour(inst);
     
-    if (inst->params.verbose >= 1) {
-
-        printf("Optimal solution found!\n");
-
-        if (inst->params.verbose >= 2) {
-            printf("The best bjective value is %f\n", inst->solution.obj_best);
-        }
-        
-
-        // Next level of verbosity
-        if (inst->params.verbose >= 3) {
-            printf("\nThe optimal edges are:\n\n");
-
-            for ( int i = 0; i < inst->num_nodes; i++ ){
-                edge e = inst->solution.edges[i];
-                printf("x(%3d,%3d) = 1\n", e.i+1,e.j+1);
-            }
-        }
-
-        printf("\n");
-
-    }
+    print_solution(inst);
 	
     plot_solution(inst);
 
