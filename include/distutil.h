@@ -3,7 +3,7 @@
 
 #include "utility.h"
 
-#define PI 3.141592
+#define PI 3.14159265358979323846264
 #define EARTH_RAD 6378.388
 
 /**

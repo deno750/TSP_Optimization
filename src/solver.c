@@ -20,6 +20,11 @@ static void set_cplex_params(CPXENVptr env, instance_params params) {
     if (params.num_threads > 0) {
         CPXsetintparam(env, CPXPARAM_Threads, params.num_threads);
     }
+
+    // Cplex precision
+    CPXsetdblparam(env, CPX_PARAM_EPINT, 0.0);		
+	CPXsetdblparam(env, CPX_PARAM_EPGAP, 1e-9);	 
+	CPXsetdblparam(env, CPX_PARAM_EPRHS, 1e-9); 
 }
 
 static double get_elapsed_time(struct timeval start, struct timeval end) {
@@ -62,7 +67,9 @@ static int solve_problem(CPXENVptr env, CPXLPptr lp, instance *inst) {
     } else {
 
         if (inst->params.sol_type == SOLVE_CALLBACK) {
-            CPXLONG contextid = CPX_CALLBACKCONTEXT_CANDIDATE;
+            int ncols = CPXgetnumcols(env, lp);
+            inst->num_columns = ncols; // The callbacks needs the number of cols
+            CPXLONG contextid = CPX_CALLBACKCONTEXT_CANDIDATE | CPX_CALLBACKCONTEXT_RELAXATION;
             status = CPXcallbacksetfunc(env, lp, contextid, SEC_cuts_callback, inst);
             if (status) print_error("CPXcallbacksetfunc() error");
         }
