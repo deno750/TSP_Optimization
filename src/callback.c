@@ -3,7 +3,6 @@
 #include <string.h>
 #include <concorde.h>
 #include <cut.h>
-#include "utility.h"
 
 static int add_SEC_cuts(instance *inst, CPXCALLBACKCONTEXTptr context, int current_tour, int *comp, int *indexes, double *values) {
     double rhs; 
@@ -38,6 +37,10 @@ static int CPXPUBLIC SEC_cuts_callback_candidate(CPXCALLBACKCONTEXTptr context, 
     memset(comp, -1, inst->num_nodes * sizeof(int));
     int num_comp = count_components(inst, xstar, succ, comp);
 
+    if (inst->params.verbose >= 5) {
+        printf("Candidate callback\n");
+    }
+
     if (num_comp > 1) { // More than one tours found. Violated so add the cuts
         if (inst->params.verbose >= 5) {
             printf("Added SEC cut in node %d\n", currentnode);
@@ -60,19 +63,14 @@ static int CPXPUBLIC SEC_cuts_callback_candidate(CPXCALLBACKCONTEXTptr context, 
     return 0;
 }
 
-typedef struct {
-    CPXCALLBACKCONTEXTptr context;
-    instance *inst;
-
-} relaxation_params;
-
-static int doit_fn(double cutval, int num_nodes, int* members, void* param) {
-    relaxation_params *params = (relaxation_params*) param;
+static int violated_cuts_callback(double cutval, int num_nodes, int* members, void* param) {
+    relaxation_callback_params *params = (relaxation_callback_params*) param;
     instance *inst = params->inst;
     CPXCALLBACKCONTEXTptr context = params->context;
-    //printf("Cut Val: %f\n", cutval);
-    //printf("num nodes %d\n", num_nodes);
-    //printf("Doit function\n");
+    if (inst->params.verbose >= 5) {
+        //printf("Single component violated cuts\n");
+        printf("A cut with %d nodes has cut value of %f\n", num_nodes, cutval);
+    }
 
     double rhs = num_nodes - 1;
     char sense = 'L';
@@ -82,6 +80,7 @@ static int doit_fn(double cutval, int num_nodes, int* members, void* param) {
     int purgeable = CPX_USECUT_FILTER;
 	int local = 0;
     int status = CPXcallbackaddusercuts(context, 1, num_nodes, &rhs, &sense, &matbeg, members, values, &purgeable, &local);
+    free(values);
     if (status) print_error("Error in CPXcallbackaddusercuts when conn comps = 1");
     return 0;
 }
@@ -96,7 +95,9 @@ static int CPXPUBLIC SEC_cuts_callback_relaxation(CPXCALLBACKCONTEXTptr context,
     CPXcallbackgetinfoint(context, CPXCALLBACKINFO_THREADID, &threadid); 
     if (node % 7 != 0) return 0; // hyperparameter tuning
     //if (depth > 10) return 0; // Hyperparameter tuning
-    //printf("Relaxationnnn\n");
+    if (inst->params.verbose >= 5) {
+        printf("\nRelaxation cut\n");
+    }
     int ncols = inst->num_columns;
     double *xstar = (double*) malloc(ncols * sizeof(double));
     int status = CPXcallbackgetrelaxationpoint(context, xstar, 0, ncols - 1 , &objval);
@@ -115,25 +116,38 @@ static int CPXPUBLIC SEC_cuts_callback_relaxation(CPXCALLBACKCONTEXTptr context,
             elist[k++] = j;
         }
     }
+    // Checking whether or not the graph is connected with the fractional solution.
     status = CCcut_connect_components(inst->num_nodes, ncols, elist, xstar, &numcomps, &compscount, &comps);
     if (status) {
         print_error("Error in CCcut_connect_components");
     }
 
-    //printf("Num comps: %d\n", numcomps);
-
     if (numcomps == 1) {
-        relaxation_params params = {.context = context, .inst = inst};
-        status = CCcut_violated_cuts(inst->num_nodes, ncols, elist, xstar, 2.0 - EPS, doit_fn, &params);
+        if (inst->params.verbose >= 5) {
+            printf("Single component\n");
+        }
+        relaxation_callback_params params = {.context = context, .inst = inst};
+        // At this point we have a connected graph. This graph could not be a "tsp". We interpret the fractional
+        // solution as capacity of a cut. A cut of a graph G is composed by S and T = V - S where V is the nodes set.
+        // The capacity of the cut is the sum of all ingoing and outgoing edges of the cut. Since we have a TSP,
+        // we want that for each cut, we have a capacity of 2 (i.e. one ingoing edge and one outgoing edge).
+        // So we want to seek the cuts which don't have a capacity of 2. The cuts with capacity < 2 violates the 
+        // constraints and we are going to add SEC to them.
+        // NB: We use cutoff as 2.0 - EPS for numerical stability due the fractional values we obtain in the solution. 
+        status = CCcut_violated_cuts(inst->num_nodes, ncols, elist, xstar, 2.0 - EPS, violated_cuts_callback, &params);
         if (status) {
             print_error("Error in CCcut_connect_components");
         }
     }
     if (numcomps > 1) {
+        if (inst->params.verbose >= 5) {
+            printf("Num components: %d\n", numcomps);
+        }
         int startindex = 0;
 
         int *components = (int*) malloc(inst->num_nodes * sizeof(int));
 
+        // Transforming the concorde's component format into our component format in order to use our addSEC function
         for (int subtour = 0; subtour < numcomps; subtour++) {
 
             for (int i = startindex; i < startindex + compscount[subtour]; i++) {
@@ -153,6 +167,9 @@ static int CPXPUBLIC SEC_cuts_callback_relaxation(CPXCALLBACKCONTEXTptr context,
             if (status) {
                 printf("Status: %d\n", status);
                 print_error("Error with add_SEC_cuts");
+            }
+            if (inst->params.verbose >= 5) {
+                printf("Added SEC cuts to tour %d\n", subtour);
             }
         }
         free(indexes);
