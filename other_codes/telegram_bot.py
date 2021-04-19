@@ -54,7 +54,7 @@ def error(update, context):
 is_testing = False
 completed = 0
 
-csv_filename="compact.csv"
+csv_filename="exact.csv"
 current_method = ""
 current_instance = ""
 
@@ -69,10 +69,11 @@ def threaded_test(update, context):
         return
     is_testing = True
     update.message.reply_text('Started testing!')
-    paths = ["../data/berlin52.tsp", "../data/eil51.tsp", "../data/att48.tsp", "../data/st70.tsp", "../data/pr76.tsp"]
-    for name in glob.glob('../data/compact_models/*/*'):
+    paths = []#["../data/berlin52.tsp", "../data/eil51.tsp", "../data/att48.tsp", "../data/st70.tsp", "../data/pr76.tsp"]
+    for name in glob.glob('../data/exact_models/*'):
         paths.append(name)
-    methods = ["MTZ", "MTZL", "MTZI", "MTZLI", "GG"]
+        print(name)
+    methods = ["LOOP", "CALLBACK", "CALLBACK2"]
     time_limit = "3600"
     total_runs = len(methods) * len(paths)
 

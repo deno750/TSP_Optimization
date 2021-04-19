@@ -51,7 +51,7 @@ void parse_comand_line(int argc, const char *argv[], instance *inst) {
         exit(1);
     }
 
-    inst->params.type = DIR_EDGE; //Default edge type
+    inst->params.type = DEFAULT_EDGE; //Default edge type
     inst->params.time_limit = -1; //Default time limit value. -1 means no constraints in time limit 
     inst->params.num_threads = -1; //Default value -1. Means no limit on number of threads
     inst->params.file_path = NULL;
@@ -91,12 +91,30 @@ void parse_comand_line(int argc, const char *argv[], instance *inst) {
             if (check_input_index_validity(i, argc, &need_help)) continue;
             const char* method = argv[++i];
             // Directed graph methods
-            if (strncmp(method, "MTZ", 3) == 0) inst->params.sol_type = SOLVE_MTZ;
-            if (strncmp(method, "MTZL", 4) == 0) inst->params.sol_type = SOLVE_MTZL;
-            if (strncmp(method, "MTZI", 4) == 0) inst->params.sol_type = SOLVE_MTZI;
-            if (strncmp(method, "MTZLI", 5) == 0) inst->params.sol_type = SOLVE_MTZLI;
-            if (strncmp(method, "MTZ_IND", 5) == 0) inst->params.sol_type = SOLVE_MTZ_IND;
-            if (strncmp(method, "GG", 2) == 0) inst->params.sol_type = SOLVE_GG;
+            if (strncmp(method, "MTZ", 3) == 0) {
+                inst->params.sol_type = SOLVE_MTZ;
+                inst->params.type = DIR_EDGE;
+            }
+            if (strncmp(method, "MTZL", 4) == 0) {
+                inst->params.sol_type = SOLVE_MTZL;
+                inst->params.type = DIR_EDGE;
+            }
+            if (strncmp(method, "MTZI", 4) == 0) {
+                inst->params.sol_type = SOLVE_MTZI;
+                inst->params.type = DIR_EDGE;
+            }
+            if (strncmp(method, "MTZLI", 5) == 0) {
+                inst->params.sol_type = SOLVE_MTZLI;
+                inst->params.type = DIR_EDGE;
+            }
+            if (strncmp(method, "MTZ_IND", 5) == 0) {
+                inst->params.sol_type = SOLVE_MTZ_IND;
+                inst->params.type = DIR_EDGE;
+            }
+            if (strncmp(method, "GG", 2) == 0) {
+                inst->params.sol_type = SOLVE_GG;
+                inst->params.type = DIR_EDGE;
+            }
 
             // Undirected graph methods
             if (strncmp(method, "LOOP", 4) == 0) {
@@ -105,6 +123,10 @@ void parse_comand_line(int argc, const char *argv[], instance *inst) {
             }
             if (strncmp(method, "CALLBACK", 8) == 0) {
                 inst->params.sol_type = SOLVE_CALLBACK;
+                inst->params.type = UDIR_EDGE;
+            }
+            if (strncmp(method, "CALLBACK2", 9) == 0) {
+                inst->params.sol_type = SOLVE_CALLBACK2;
                 inst->params.type = UDIR_EDGE;
             }
             continue;
@@ -131,6 +153,7 @@ void parse_comand_line(int argc, const char *argv[], instance *inst) {
         printf("GG           GG constraints\n");
         printf("LOOP         Benders Method\n");
         printf("CALLBACK     Callback Method\n");
+        printf("CALLBACK2    Callback Method with also callbacks in fractional solutions\n");
         exit(0);
     }
 

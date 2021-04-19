@@ -66,10 +66,15 @@ static int solve_problem(CPXENVptr env, CPXLPptr lp, instance *inst) {
         status = benders_loop(inst, env, lp);
     } else {
 
-        if (inst->params.sol_type == SOLVE_CALLBACK) {
+        if (inst->params.sol_type == SOLVE_CALLBACK || inst->params.sol_type == SOLVE_CALLBACK2) {
             int ncols = CPXgetnumcols(env, lp);
-            inst->num_columns = ncols; // The callbacks needs the number of cols
-            CPXLONG contextid = CPX_CALLBACKCONTEXT_CANDIDATE | CPX_CALLBACKCONTEXT_RELAXATION;
+            inst->num_columns = ncols; // The callbacks need the number of cols
+            CPXLONG contextid;
+            if (inst->params.sol_type == SOLVE_CALLBACK2) {
+                contextid = CPX_CALLBACKCONTEXT_CANDIDATE | CPX_CALLBACKCONTEXT_RELAXATION;
+            } else {
+                contextid = CPX_CALLBACKCONTEXT_CANDIDATE;
+            }
             status = CPXcallbacksetfunc(env, lp, contextid, SEC_cuts_callback, inst);
             if (status) print_error("CPXcallbacksetfunc() error");
         }

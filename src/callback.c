@@ -93,8 +93,8 @@ static int CPXPUBLIC SEC_cuts_callback_relaxation(CPXCALLBACKCONTEXTptr context,
     CPXcallbackgetinfoint(context, CPXCALLBACKINFO_NODEDEPTH, &depth);
     CPXcallbackgetinfoint(context, CPXCALLBACKINFO_NODECOUNT, &node);
     CPXcallbackgetinfoint(context, CPXCALLBACKINFO_THREADID, &threadid); 
-    if (node % 7 != 0) return 0; // hyperparameter tuning
-    //if (depth > 10) return 0; // Hyperparameter tuning
+    //if (node % 7 != 0) return 0; // hyperparameter tuning
+    if (depth > 5) return 0; // Hyperparameter tuning
     if (inst->params.verbose >= 5) {
         printf("\nRelaxation cut\n");
     }

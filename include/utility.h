@@ -24,14 +24,15 @@
 
 
 // =============== Solvers available ==================
-#define SOLVE_MTZ       100
-#define SOLVE_MTZL      101
-#define SOLVE_MTZI      102
-#define SOLVE_MTZLI     103
-#define SOLVE_MTZ_IND   104
-#define SOLVE_GG        105
-#define SOLVE_LOOP      106
-#define SOLVE_CALLBACK  107
+#define SOLVE_MTZ          100
+#define SOLVE_MTZL         101
+#define SOLVE_MTZI         102
+#define SOLVE_MTZLI        103
+#define SOLVE_MTZ_IND      104
+#define SOLVE_GG           105
+#define SOLVE_LOOP         106
+#define SOLVE_CALLBACK     107
+#define SOLVE_CALLBACK2    108
 
 
 
