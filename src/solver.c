@@ -27,13 +27,6 @@ static void set_cplex_params(CPXENVptr env, instance_params params) {
 	CPXsetdblparam(env, CPX_PARAM_EPRHS, 1e-9); 
 }
 
-static double get_elapsed_time(struct timeval start, struct timeval end) {
-    long seconds = end.tv_sec - start.tv_sec;
-    long microseconds = end.tv_usec - start.tv_usec;
-    double elapsed = seconds + microseconds * 1e-6;
-    return elapsed;
-}
-
 static void print_solution(instance *inst) {
     if (inst->params.verbose >= 1) {
 

@@ -6,6 +6,7 @@
 #define UTILITY_H
 
 #include <cplex.h>
+#include <sys/time.h>
 
 
 #define VERSION "TSP 0.4"
@@ -236,5 +237,7 @@ int count_components(instance *inst, double* xstar, int* successors, int* comp);
 int prepare_SEC(instance *inst, int tour, int *comp, char *sense, int *indexes, double *values, double *rhs);
 
 void save_cplex_log(CPXENVptr env, instance *inst);
+
+double get_elapsed_time(struct timeval start, struct timeval end);
 
 #endif
