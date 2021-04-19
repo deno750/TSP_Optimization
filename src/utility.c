@@ -532,3 +532,10 @@ void save_cplex_log(CPXENVptr env, instance *inst) {
     sprintf(log_path, "../logs/%s.log", inst->name);
     CPXsetlogfilename(env, log_path, "w");
 }
+
+double get_elapsed_time(struct timeval start, struct timeval end) {
+    long seconds = end.tv_sec - start.tv_sec;
+    long microseconds = end.tv_usec - start.tv_usec;
+    double elapsed = seconds + microseconds * 1e-6;
+    return elapsed;
+}

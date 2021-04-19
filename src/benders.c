@@ -1,5 +1,6 @@
 #include "benders.h"
 
+#include <sys/time.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -22,13 +23,28 @@ int benders_loop(instance *inst, CPXENVptr env, CPXLPptr lp) {
     char names[100];
     int numcomp = 1;
     int rowscount = 0;
+    struct timeval start, end;
+    gettimeofday(&start, 0);
+    
     do {
+        gettimeofday(&end, 0);
+        double elapsed = get_elapsed_time(start, end);
+        double timelimit = (double) inst->params.time_limit;
+        if (elapsed > timelimit) {
+            free(successors);
+            free(comp);
+            return CPX_STAT_ABORT_TIME_LIM;
+        }
+        int status = CPXmipopt(env, lp);
+        if (status) { 
+            free(successors);
+            free(comp);
+            return status;
+        }
+
         //Initialization of successors and comp arrays with -1
         memset(successors, -1, inst->num_nodes * sizeof(int)); 
         memset(comp, -1, inst->num_nodes * sizeof(int));
-
-        int status = CPXmipopt(env, lp);
-        if (status) { print_error("Benders CPXmipopt error"); }
 
         
         int ncols = CPXgetnumcols(env, lp);
