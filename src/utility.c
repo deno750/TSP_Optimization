@@ -129,6 +129,10 @@ void parse_comand_line(int argc, const char *argv[], instance *inst) {
                 inst->params.sol_type = SOLVE_CALLBACK2;
                 inst->params.type = UDIR_EDGE;
             }
+            if (strncmp(method, "CALLBACK3", 9) == 0) {
+                inst->params.sol_type = SOLVE_CALLBACK3;
+                inst->params.type = UDIR_EDGE;
+            }
             continue;
         }
         if (strcmp("-seed", argv[i]) == 0) {
@@ -153,7 +157,8 @@ void parse_comand_line(int argc, const char *argv[], instance *inst) {
         printf("GG           GG constraints\n");
         printf("LOOP         Benders Method\n");
         printf("CALLBACK     Callback Method\n");
-        printf("CALLBACK2    Callback Method with also callbacks in fractional solutions\n");
+        printf("CALLBACK2    Callback Method using usercuts\n");
+        printf("CALLBACK3    Callback Method wusing usercuts without SEC when number component is 1 in fractional solution\n");
         exit(0);
     }
 
@@ -315,6 +320,10 @@ void print_instance(instance inst) {
                 method_name = "LOOP";
             } else if (sol_type == SOLVE_CALLBACK) {
                 method_name = "CALLBACK";
+            } else if (sol_type == SOLVE_CALLBACK2) {
+                method_name = "CALLBACK2";
+            } else if (sol_type == SOLVE_CALLBACK3) {
+                method_name = "CALLBACK3";
             }
             
             printf("Edge type: %s\n", edge);

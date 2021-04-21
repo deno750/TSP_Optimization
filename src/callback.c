@@ -83,11 +83,9 @@ static int violated_cuts_callback(double cutval, int num_nodes, int* members, vo
     int k = 0;
     for (int i = 0; i < num_nodes; i++) {
         for (int j = i+1; j < num_nodes; j++) {
-            printf("Edge x(%d,%d)\n", members[i], members[j]);
             edges[k++] = x_udir_pos(members[i], members[j], inst->num_nodes);
         }
     }
-    printf("\n\n");
     int purgeable = CPX_USECUT_FILTER;
 	int local = 0;
     int status = CPXcallbackaddusercuts(context, 1, num_edges, &rhs, &sense, &matbeg, edges, values, &purgeable, &local);
