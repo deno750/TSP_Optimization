@@ -76,11 +76,21 @@ static int violated_cuts_callback(double cutval, int num_nodes, int* members, vo
     double rhs = num_nodes - 1;
     char sense = 'L';
     int matbeg = 0;
-    double *values = (double*) malloc(num_nodes * sizeof(double));
-    memset(values, 1.0, num_nodes * sizeof(double));
+    int num_edges = num_nodes * (num_nodes - 1) / 2;
+    double *values = (double*) malloc(num_edges * sizeof(double));
+    memset(values, 1.0, num_edges * sizeof(double));
+    int *edges = (int*) malloc(num_edges * sizeof(int));
+    int k = 0;
+    for (int i = 0; i < num_nodes; i++) {
+        for (int j = i+1; j < num_nodes; j++) {
+            printf("Edge x(%d,%d)\n", members[i], members[j]);
+            edges[k++] = x_udir_pos(members[i], members[j], inst->num_nodes);
+        }
+    }
+    printf("\n\n");
     int purgeable = CPX_USECUT_FILTER;
 	int local = 0;
-    int status = CPXcallbackaddusercuts(context, 1, num_nodes, &rhs, &sense, &matbeg, members, values, &purgeable, &local);
+    int status = CPXcallbackaddusercuts(context, 1, num_edges, &rhs, &sense, &matbeg, edges, values, &purgeable, &local);
     free(values);
     if (status) print_error("Error in CPXcallbackaddusercuts when conn comps = 1");
     return 0;
@@ -111,14 +121,18 @@ static int CPXPUBLIC SEC_cuts_callback_relaxation(CPXCALLBACKCONTEXTptr context,
     int *compscount = NULL; 
     int *comps = NULL;
     int k = 0;
+
+    int num_edges = 0;
     for (int i = 0; i < inst->num_nodes; i++) {
         for (int j = i+1; j < inst->num_nodes; j++) {
+            //if (fabs(xstar[x_udir_pos(i, j, inst->num_nodes)]) <= EPS) continue;
             elist[k++] = i;
             elist[k++] = j;
+            num_edges++;
         }
     }
     // Checking whether or not the graph is connected with the fractional solution.
-    status = CCcut_connect_components(inst->num_nodes, ncols, elist, xstar, &numcomps, &compscount, &comps);
+    status = CCcut_connect_components(inst->num_nodes, num_edges, elist, xstar, &numcomps, &compscount, &comps);
     if (status) {
         print_error("Error in CCcut_connect_components");
     }

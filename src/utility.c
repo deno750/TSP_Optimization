@@ -509,7 +509,7 @@ int prepare_SEC(instance *inst, int tour, int *comp, char *sense, int *indexes, 
     // Could it be faster if we use the successors array?? Nope.
     for (int i = 0; i < inst->num_nodes; i++) {
         if (comp[i] != tour) continue;
-            num_nodes++;
+        num_nodes++;
 
         for (int j = i+1; j < inst->num_nodes; j++) {
             if (comp[j] != tour) continue;
