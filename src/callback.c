@@ -37,8 +37,9 @@ static int CPXPUBLIC SEC_cuts_callback_candidate(CPXCALLBACKCONTEXTptr context, 
     memset(comp, -1, inst->num_nodes * sizeof(int));
     int num_comp = count_components(inst, xstar, succ, comp);
 
-    if (inst->params.verbose >= 5) {
-        printf("Candidate callback\n");
+    if (inst->params.verbose >= 4) {
+        //printf("Candidate callback\n");
+        printf("Num components candidate: %d\n", num_comp);
     }
 
     if (num_comp > 1) { // More than one tours found. Violated so add the cuts
@@ -123,7 +124,7 @@ static int CPXPUBLIC SEC_cuts_callback_relaxation(CPXCALLBACKCONTEXTptr context,
     }
 
     if (numcomps == 1) {
-        if (inst->params.verbose >= 5) {
+        if (inst->params.verbose >= 4) {
             printf("Single component\n");
         }
         relaxation_callback_params params = {.context = context, .inst = inst};
@@ -140,8 +141,8 @@ static int CPXPUBLIC SEC_cuts_callback_relaxation(CPXCALLBACKCONTEXTptr context,
         }
     }
     if (numcomps > 1) {
-        if (inst->params.verbose >= 5) {
-            printf("Num components: %d\n", numcomps);
+        if (inst->params.verbose >= 4) {
+            printf("Num components fractional: %d\n", numcomps);
         }
         int startindex = 0;
 
