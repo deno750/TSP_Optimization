@@ -33,7 +33,8 @@
 #define SOLVE_GG           105
 #define SOLVE_LOOP         106
 #define SOLVE_CALLBACK     107
-#define SOLVE_CALLBACK2    108
+#define SOLVE_CALLBACK2    108 // Uses user cuts callback.
+#define SOLVE_CALLBACK3    109 // User cuts callback but without adding SEC for connected components in the relaxation
 
 
 

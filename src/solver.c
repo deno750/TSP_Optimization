@@ -59,7 +59,7 @@ static int solve_problem(CPXENVptr env, CPXLPptr lp, instance *inst) {
         status = benders_loop(inst, env, lp);
     } else {
 
-        if (inst->params.sol_type == SOLVE_CALLBACK || inst->params.sol_type == SOLVE_CALLBACK2) {
+        if (inst->params.sol_type == SOLVE_CALLBACK || inst->params.sol_type == SOLVE_CALLBACK2 || inst->params.sol_type == SOLVE_CALLBACK3) {
             int ncols = CPXgetnumcols(env, lp);
             inst->num_columns = ncols; // The callbacks need the number of cols
             CPXLONG contextid;

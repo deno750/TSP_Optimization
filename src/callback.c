@@ -137,7 +137,7 @@ static int CPXPUBLIC SEC_cuts_callback_relaxation(CPXCALLBACKCONTEXTptr context,
         print_error("Error in CCcut_connect_components");
     }
 
-    if (numcomps == 1) {
+    if (numcomps == 1 && inst->params.sol_type == SOLVE_CALLBACK2) { // CALLBACK3 won't run this piece of code
         if (inst->params.verbose >= 4) {
             printf("Single component\n");
         }
