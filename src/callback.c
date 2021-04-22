@@ -33,9 +33,9 @@ static int CPXPUBLIC SEC_cuts_callback_candidate(CPXCALLBACKCONTEXTptr context, 
     if (status) print_error("Error with CPXcallbackgetcandidatepoint");
 
     int *succ = MALLOC(inst->num_nodes, int);
-    memset(succ, -1, inst->num_nodes * sizeof(int));
-    int *comp = MALLOC(inst->num_nodes, int);
-    memset(comp, -1, inst->num_nodes * sizeof(int));
+    MEMSET(succ, -1, inst->num_nodes, int);
+    int *comp = MALLOC(inst->num_nodes,int);
+    MEMSET(comp, -1, inst->num_nodes, int);
     int num_comp = count_components(inst, xstar, succ, comp);
 
     if (inst->params.verbose >= 4) {
@@ -80,7 +80,7 @@ static int violated_cuts_callback(double cutval, int num_nodes, int* members, vo
     int matbeg = 0;
     int num_edges = num_nodes * (num_nodes - 1) / 2;
     double *values = MALLOC(num_edges, double);
-    memset(values, 1.0, num_edges * sizeof(double));
+    MEMSET(values, 1.0, num_edges, double);
     int *edges = MALLOC(num_edges, int);
     int k = 0;
     for (int i = 0; i < num_nodes; i++) {

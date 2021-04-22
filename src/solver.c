@@ -100,7 +100,11 @@ int TSP_opt(instance *inst) {
         if (inst->params.verbose >= 5) {
             printf("Cplex error code: %d\n", status);
         }
-        print_error("Cplex solver encountered an error.");
+        if (status = CPX_STAT_ABORT_TIME_LIM) {
+            printf("Time limit exceeded\n");
+        } else {
+            print_error("Cplex solver encountered an error.");
+        }
     }
     double elapsed = get_elapsed_time(start, end);
     inst->solution.time_to_solve = elapsed;
@@ -111,8 +115,8 @@ int TSP_opt(instance *inst) {
     status = CPXgetx(env, lp, xstar, 0, ncols-1);
 	if ( status ) {
         //Stats here: https://www.tu-chemnitz.de/mathematik/discrete/manuals/cplex/doc/refman/html/appendixB.html
-        int stat = CPXgetstat(env, lp);
-        printf("Status: %d\n", stat);
+        //int stat = CPXgetstat(env, lp);
+        //printf("Status: %d\n", stat);
         // Cplex error codes: https://www.tu-chemnitz.de/mathematik/discrete/manuals/cplex/doc/refman/html/appendixC2.html
         if (status == CPXERR_NO_SOLN) {
             print_error("No Solution exists");	

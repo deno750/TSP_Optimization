@@ -30,11 +30,20 @@ int benders_loop(instance *inst, CPXENVptr env, CPXLPptr lp) {
         gettimeofday(&end, 0);
         double elapsed = get_elapsed_time(start, end);
         double timelimit = (double) inst->params.time_limit;
-        if (elapsed > timelimit) {
+        if (timelimit > 0 && elapsed > timelimit) {
             free(successors);
             free(comp);
             return CPX_STAT_ABORT_TIME_LIM;
         }
+
+        // We apply to cplex the residual time left to solve the problem
+        if (timelimit > 0 && elapsed < timelimit) {
+            double new_timelim = timelimit - elapsed; // The residual time limit that is left
+            CPXsetdblparam(env, CPXPARAM_TimeLimit, new_timelim);
+            double here = 0;
+            CPXgetdblparam(env, CPXPARAM_TimeLimit, &here);
+        }
+
         int status = CPXmipopt(env, lp);
         if (status) { 
             free(successors);
@@ -43,9 +52,11 @@ int benders_loop(instance *inst, CPXENVptr env, CPXLPptr lp) {
         }
 
         //Initialization of successors and comp arrays with -1
-        memset(successors, -1, inst->num_nodes * sizeof(int)); 
-        memset(comp, -1, inst->num_nodes * sizeof(int));
-
+        MEMSET(successors, -1, inst->num_nodes, int);
+        MEMSET(comp, -1, inst->num_nodes, int);
+        /*for (int i = 0; i < inst->num_nodes; i++) {
+            printf("Comp %d\n", comp[i]);
+        }*/
         
         int ncols = CPXgetnumcols(env, lp);
 

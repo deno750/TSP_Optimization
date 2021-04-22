@@ -450,8 +450,8 @@ void save_solution_edges(instance *inst, double *xstar) {
 
         int *succ = MALLOC(inst->num_nodes, int);
         int *comp = MALLOC(inst->num_nodes, int);
-        memset(succ, -1, inst->num_nodes * sizeof(int));
-        memset(comp, -1, inst->num_nodes * sizeof(int));
+        MEMSET(succ, -1, inst->num_nodes, int);
+        MEMSET(comp, -1, inst->num_nodes, int);
         count_components(inst, xstar, succ, comp);
         for (int i = 0; i < inst->num_nodes; i++) {
             edge *e = &(inst->solution.edges[i]);

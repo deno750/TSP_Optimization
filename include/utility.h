@@ -13,6 +13,18 @@
 
 #define MALLOC(nnum,type) ( (type *) malloc (nnum * sizeof(type)) )
 #define CALLOC(nnum,type) ( (type *) calloc (nnum, sizeof(type)) )
+#define MEMSET(ptr,defval,nnum,type) {                  \
+    type *new_ptr = (type*) ptr;                        \
+    type newval = (type) defval;                        \
+    if (newval == ((type)0) || newval == ((type)-1)) {  \
+        memset(new_ptr, newval, nnum * sizeof(type));   \
+    } else {                                            \
+        for (int i = 0; i < nnum; i++) {                \
+            new_ptr[i] = newval;                        \
+        }                                               \
+    }                                                   \
+}                                                                                                       
+
 
 // Constant that is useful for numerical errors
 #define EPS 1e-5
