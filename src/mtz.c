@@ -28,7 +28,7 @@ static void add_u_variables(instance *inst, CPXENVptr env, CPXLPptr lp, char **n
 
 void add_mtz_constraints(instance *inst, CPXENVptr env, CPXLPptr lp, int secd2) {
 
-    char* names = (char *) calloc(100, sizeof(char));
+    char* names = CALLOC(100, char);
 
     add_u_variables(inst, env, lp, &names);
 
@@ -94,7 +94,7 @@ void add_mtz_constraints(instance *inst, CPXENVptr env, CPXLPptr lp, int secd2) 
 }
 
 void add_mtz_lazy_constraints(instance *inst, CPXENVptr env, CPXLPptr lp, int secd2) {
-    char* names = (char *) calloc(100, sizeof(char));
+    char* names = CALLOC(100, char);
 
     add_u_variables(inst, env, lp, &names);
 
@@ -144,7 +144,7 @@ void add_mtz_lazy_constraints(instance *inst, CPXENVptr env, CPXLPptr lp, int se
 }
 
 void add_mtz_indicator_constraints(instance *inst, CPXENVptr env, CPXLPptr lp) {
-    char* names = (char *) calloc(100, sizeof(char));
+    char* names = CALLOC(100, char);
 
     add_u_variables(inst, env, lp, &names);
     double rhs = 1.0;

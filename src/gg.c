@@ -7,7 +7,7 @@ static int y_pos(int i, int j, int num_nodes) {
 
 void add_gg_constraints(instance *inst, CPXENVptr env, CPXLPptr lp) {
 
-    char* names = (char *) calloc(100, sizeof(char));
+    char* names = CALLOC(100, char);
     char xctype = 'I';
     
     for (int i = 0; i < inst->num_nodes; i++) {

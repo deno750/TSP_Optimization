@@ -17,8 +17,8 @@ static int add_SEC(instance *inst, CPXENVptr env, CPXLPptr lp, int current_tour,
 
 int benders_loop(instance *inst, CPXENVptr env, CPXLPptr lp) {
 
-    int* successors = (int*) malloc(inst->num_nodes * sizeof(int)); //malloc since those arrays will be initialized to -1
-    int* comp = (int*) malloc(inst->num_nodes * sizeof(int));
+    int* successors = MALLOC(inst->num_nodes, int); //malloc since those arrays will be initialized to -1
+    int* comp = MALLOC(inst->num_nodes, int);
     
     char names[100];
     int numcomp = 1;
@@ -50,9 +50,9 @@ int benders_loop(instance *inst, CPXENVptr env, CPXLPptr lp) {
         int ncols = CPXgetnumcols(env, lp);
 
         // initialization of the following vectors is not useful here, so we use malloc because is faster than calloc
-        int *indexes = (int*) malloc(ncols * sizeof(int));
-        double *values = (double*) malloc(ncols * sizeof(double));
-        double *xstar = (double*) malloc(ncols * sizeof(double));
+        int *indexes = MALLOC(ncols, int);
+        double *values = MALLOC(ncols, double);
+        double *xstar = MALLOC(ncols, double);
 
         status = CPXgetx(env, lp, xstar, 0, ncols-1);
         if (status) { print_error("Benders CPXgetx error"); }

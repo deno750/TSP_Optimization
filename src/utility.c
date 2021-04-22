@@ -71,7 +71,7 @@ void parse_comand_line(int argc, const char *argv[], instance *inst) {
         if (strcmp("-f", argv[i]) == 0) { 
             if (check_input_index_validity(i, argc, &need_help)) continue;
             const char* path = argv[++i];
-            inst->params.file_path = (char *) calloc(strlen(path), sizeof(char));
+            inst->params.file_path = CALLOC(strlen(path), char);
             strncpy(inst->params.file_path, path, strlen(path)); 
             continue; 
         } // Input file
@@ -210,7 +210,7 @@ void parse_instance(instance *inst) {
         if(strncmp(par_name, "NAME", 4) == 0){
 			active_section = 0;
             token1 = strtok(NULL, sep);
-            inst->name = (char *) calloc(strlen(token1), sizeof(char));         
+            inst->name = CALLOC(strlen(token1), char);   
             strncpy(inst->name, token1, strlen(token1));
 			continue;
 		}
@@ -232,7 +232,7 @@ void parse_instance(instance *inst) {
         if(strncmp(par_name, "DIMENSION", 9) == 0 ){
             token1 = strtok(NULL, sep);
             inst->num_nodes = atoi(token1);
-            inst->nodes = (point *) calloc(inst->num_nodes, sizeof(point));
+            inst->nodes = CALLOC(inst->num_nodes, point);
             active_section = 0;  
             continue;
 		}
@@ -444,12 +444,12 @@ int count_components(instance *inst, double* xstar, int* successors, int* comp) 
 }
 
 void save_solution_edges(instance *inst, double *xstar) {
-    inst->solution.edges = (edge *) calloc(inst->num_nodes, sizeof(edge));
+    inst->solution.edges = CALLOC(inst->num_nodes, edge);
 
     if (inst->params.type == UDIR_EDGE) {
 
-        int *succ = (int*) malloc(inst->num_nodes * sizeof(int));
-        int *comp = (int*) malloc(inst->num_nodes * sizeof(int));
+        int *succ = MALLOC(inst->num_nodes, int);
+        int *comp = MALLOC(inst->num_nodes, int);
         memset(succ, -1, inst->num_nodes * sizeof(int));
         memset(comp, -1, inst->num_nodes * sizeof(int));
         count_components(inst, xstar, succ, comp);

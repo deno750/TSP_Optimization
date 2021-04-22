@@ -4,6 +4,7 @@
 #include <concorde.h>
 #include <cut.h>
 
+
 static int add_SEC_cuts(instance *inst, CPXCALLBACKCONTEXTptr context, int current_tour, int *comp, int *indexes, double *values) {
     double rhs; 
     char sense;
@@ -24,16 +25,16 @@ static int add_SEC_cuts_fractional(instance *inst, CPXCALLBACKCONTEXTptr context
 
 static int CPXPUBLIC SEC_cuts_callback_candidate(CPXCALLBACKCONTEXTptr context, CPXLONG contextid, instance *inst ) {
     int ncols = inst->num_columns;
-    double *xstar = (double*) malloc(ncols * sizeof(double));
+    double *xstar = MALLOC(ncols, double);
     double objval = CPX_INFBOUND;
     int currentnode = -1; CPXcallbackgetinfoint(context, CPXCALLBACKINFO_NODECOUNT, &currentnode);
 
     int status = CPXcallbackgetcandidatepoint(context, xstar, 0, ncols - 1 , &objval);
     if (status) print_error("Error with CPXcallbackgetcandidatepoint");
 
-    int *succ = (int*) malloc(inst->num_nodes * sizeof(int));
+    int *succ = MALLOC(inst->num_nodes, int);
     memset(succ, -1, inst->num_nodes * sizeof(int));
-    int *comp = (int*) malloc(inst->num_nodes * sizeof(int));
+    int *comp = MALLOC(inst->num_nodes, int);
     memset(comp, -1, inst->num_nodes * sizeof(int));
     int num_comp = count_components(inst, xstar, succ, comp);
 
@@ -46,8 +47,8 @@ static int CPXPUBLIC SEC_cuts_callback_candidate(CPXCALLBACKCONTEXTptr context, 
         if (inst->params.verbose >= 5) {
             printf("Added SEC cut in node %d\n", currentnode);
         }
-        int *indexes = (int*) malloc(ncols * sizeof(int));
-        double *values = (double*) malloc(ncols * sizeof(double));
+        int *indexes = MALLOC(ncols, int);
+        double *values = MALLOC(ncols, double);
         for (int subtour = 1; subtour <= num_comp; subtour++) {
             // For each subtour we add the constraints in one shot
             status = add_SEC_cuts(inst, context, subtour, comp, indexes, values);
@@ -73,13 +74,14 @@ static int violated_cuts_callback(double cutval, int num_nodes, int* members, vo
         printf("A cut with %d nodes has cut value of %f\n", num_nodes, cutval);
     }
 
+
     double rhs = num_nodes - 1;
     char sense = 'L';
     int matbeg = 0;
     int num_edges = num_nodes * (num_nodes - 1) / 2;
-    double *values = (double*) malloc(num_edges * sizeof(double));
+    double *values = MALLOC(num_edges, double);
     memset(values, 1.0, num_edges * sizeof(double));
-    int *edges = (int*) malloc(num_edges * sizeof(int));
+    int *edges = MALLOC(num_edges, int);
     int k = 0;
     for (int i = 0; i < num_nodes; i++) {
         for (int j = i+1; j < num_nodes; j++) {
@@ -108,14 +110,14 @@ static int CPXPUBLIC SEC_cuts_callback_relaxation(CPXCALLBACKCONTEXTptr context,
         printf("\nRelaxation cut\n");
     }
     int ncols = inst->num_columns;
-    double *xstar = (double*) malloc(ncols * sizeof(double));
+    double *xstar = MALLOC(ncols, double);
     int status = CPXcallbackgetrelaxationpoint(context, xstar, 0, ncols - 1 , &objval);
     if (status) {
         printf("Status: %d\n", status);
         print_error("CPXcallbackgetrelaxationpoint error");
     }
     int numcomps = 0;
-    int *elist = (int*) malloc(2*ncols * sizeof(int)); // elist contains each pair of vertex such as (1,2), (1,3), (1,4), (2, 3), (2,4), (3,4) so in list becomes: 1,2,1,3,1,4,2,3,2,4,3,4
+    int *elist = MALLOC(2*ncols, int); // elist contains each pair of vertex such as (1,2), (1,3), (1,4), (2, 3), (2,4), (3,4) so in list becomes: 1,2,1,3,1,4,2,3,2,4,3,4
     int *compscount = NULL; 
     int *comps = NULL;
     int k = 0;
@@ -158,7 +160,7 @@ static int CPXPUBLIC SEC_cuts_callback_relaxation(CPXCALLBACKCONTEXTptr context,
         }
         int startindex = 0;
 
-        int *components = (int*) malloc(inst->num_nodes * sizeof(int));
+        int *components = MALLOC(inst->num_nodes, int);
 
         // Transforming the concorde's component format into our component format in order to use our addSEC function
         for (int subtour = 0; subtour < numcomps; subtour++) {
@@ -172,8 +174,8 @@ static int CPXPUBLIC SEC_cuts_callback_relaxation(CPXCALLBACKCONTEXTptr context,
             
         }
 
-        int *indexes = (int*) malloc(ncols * sizeof(int));
-        double *values = (double*) malloc(ncols * sizeof(double));
+        int *indexes = MALLOC(ncols, int);
+        double *values = MALLOC(ncols, double);
         for (int subtour = 1; subtour <= numcomps; subtour++) {
             // For each subtour we add the constraints in one shot
             status = add_SEC_cuts_fractional(inst, context, subtour, components, indexes, values);

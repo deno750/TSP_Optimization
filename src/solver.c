@@ -107,7 +107,7 @@ int TSP_opt(instance *inst) {
     
     // Use the solution
     int ncols = CPXgetnumcols(env, lp);
-	double *xstar = (double *) calloc(ncols, sizeof(double));
+	double *xstar = CALLOC(ncols, double);
     status = CPXgetx(env, lp, xstar, 0, ncols-1);
 	if ( status ) {
         //Stats here: https://www.tu-chemnitz.de/mathematik/discrete/manuals/cplex/doc/refman/html/appendixB.html
@@ -147,7 +147,7 @@ int TSP_opt(instance *inst) {
 
 static void build_udir_model(instance *inst, CPXENVptr env, CPXLPptr lp) {
     char xctype = 'B';  // B=binary variable
-    char *names = (char *) calloc(100, sizeof(char));
+    char *names = CALLOC(100, char);
 
     // We add one variable at time. We may also add them all in a single shot. i<j
     for (int i = 0; i < inst->num_nodes; i++) {
@@ -198,7 +198,7 @@ static void build_udir_model(instance *inst, CPXENVptr env, CPXLPptr lp) {
 
 static void build_dir_model(instance *inst, CPXENVptr env, CPXLPptr lp) {
     char xctype = 'B';  // B=binary variable
-    char *names = (char *) calloc(100, sizeof(char));
+    char *names = CALLOC(100, char);
     
     // We add one variable at time. We may also add them all in a single shot. i<j
     for (int i = 0; i < inst->num_nodes; i++) {

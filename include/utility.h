@@ -11,6 +11,9 @@
 
 #define VERSION "TSP 0.4"
 
+#define MALLOC(nnum,type) ( (type *) malloc (nnum * sizeof(type)) )
+#define CALLOC(nnum,type) ( (type *) calloc (nnum, sizeof(type)) )
+
 // Constant that is useful for numerical errors
 #define EPS 1e-5
 
