@@ -158,7 +158,7 @@ void parse_comand_line(int argc, const char *argv[], instance *inst) {
         printf("LOOP         Benders Method\n");
         printf("CALLBACK     Callback Method\n");
         printf("CALLBACK2    Callback Method using usercuts\n");
-        printf("CALLBACK3    Callback Method wusing usercuts without SEC when number component is 1 in fractional solution\n");
+        printf("CALLBACK3    Callback Method using usercuts without SEC when number component is 1 in fractional solution\n");
         exit(0);
     }
 
