@@ -64,8 +64,12 @@ int hard_fixing(instance *inst, CPXENVptr env, CPXLPptr lp, int total_timelimit)
         //Call solver with small time limit.
         //.....
 
-        //Get solution.
+        
+
+        //Get solution cost
         //...
+
+        // Save (timestamp,solution) to file .txt
 
         //Unfix all the variables.
         //....
