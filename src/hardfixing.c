@@ -31,18 +31,50 @@ void random_fix(CPXENVptr env, CPXLPptr lp, double prob){
 
 
 
-int hard_fixing(instance *inst, CPXENVptr env, CPXLPptr lp) {
+int hard_fixing(instance *inst, CPXENVptr env, CPXLPptr lp, int total_timelimit) {
+
+    double prob_rate[] = {0.9, 0.8, 0.5, 0.2};
+    int done=0;
+
+    struct timeval start, end;
+
+    //Start counting time from now
+    gettimeofday(&start, 0);
 
     //Calculate initial solution with small time limit or 0 node limit.
     //TODO....
 
+    //Iterate untill time limit expires.
+    while(!done){
+        gettimeofday(&end, 0);
+        double elapsed = get_elapsed_time(start, end);
 
-    //x_H best solution till now
-	//Fix some edges. (change their lower bound to 1)
-	//Call solver with small time limit.
-	//Get better solution.
-	//Unfix all the variables.
-	//Iterate till time limit expires.
+        if (elapsed > total_timelimit) {
+            //STOP
+
+        }
+
+
+        //x_H best solution till now
+        //....
+
+        //Fix some edges. (change their lower bound to 1)
+        //...
+
+        //Call solver with small time limit.
+        //.....
+
+        //Get solution.
+        //...
+
+        //Unfix all the variables.
+        //....
+
+        
+
+    }
+
+    
 
 
     
