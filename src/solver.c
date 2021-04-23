@@ -54,16 +54,16 @@ static void print_solution(instance *inst) {
 
 static int solve_problem(CPXENVptr env, CPXLPptr lp, instance *inst) {
     int status;
-    if (inst->params.sol_type == SOLVE_LOOP) {
+    if (inst->params.method.id == SOLVE_LOOP) {
         // Solve using benders algorithm
         status = benders_loop(inst, env, lp);
     } else {
 
-        if (inst->params.sol_type == SOLVE_CALLBACK || inst->params.sol_type == SOLVE_CALLBACK2 || inst->params.sol_type == SOLVE_CALLBACK3) {
+        if (inst->params.method.id == SOLVE_CALLBACK || inst->params.method.id == SOLVE_UCUT) {
             int ncols = CPXgetnumcols(env, lp);
             inst->num_columns = ncols; // The callbacks need the number of cols
             CPXLONG contextid;
-            if (inst->params.sol_type == SOLVE_CALLBACK2) {
+            if (inst->params.method.id == SOLVE_UCUT) {
                 contextid = CPX_CALLBACKCONTEXT_CANDIDATE | CPX_CALLBACKCONTEXT_RELAXATION;
             } else {
                 contextid = CPX_CALLBACKCONTEXT_CANDIDATE;
@@ -262,18 +262,18 @@ static void build_dir_model(instance *inst, CPXENVptr env, CPXLPptr lp) {
         deg++;
     }
 
-    int sol_type = inst->params.sol_type;
-    if (sol_type == SOLVE_MTZ) {
+    int method = inst->params.method.id;
+    if (method == SOLVE_MTZ) {
         add_mtz_constraints(inst, env, lp, 0);
-    } else if (sol_type == SOLVE_MTZL) {
+    } else if (method == SOLVE_MTZL) {
         add_mtz_lazy_constraints(inst, env, lp, 0);
-    } else if (sol_type == SOLVE_MTZI) {
+    } else if (method == SOLVE_MTZI) {
         add_mtz_constraints(inst, env, lp, 1);
-    } else if (sol_type == SOLVE_MTZLI) {
+    } else if (method == SOLVE_MTZLI) {
         add_mtz_lazy_constraints(inst, env, lp, 1);
-    } else if (sol_type == SOLVE_MTZ_IND) {
+    } else if (method == SOLVE_MTZ_IND) {
         add_mtz_indicator_constraints(inst, env, lp);
-    } else if (sol_type == SOLVE_GG) {
+    } else if (method == SOLVE_GG) {
         add_gg_constraints(inst, env, lp);
     }
 
@@ -284,7 +284,7 @@ static void build_model(instance *inst, CPXENVptr env, CPXLPptr lp) {
 
     // Checks the type of the edge in order to
     // build the correct model
-    if (inst->params.type == UDIR_EDGE) {
+    if (inst->params.method.edge_type == UDIR_EDGE) {
         build_udir_model(inst, env, lp);
     } else {
         build_dir_model(inst, env, lp);

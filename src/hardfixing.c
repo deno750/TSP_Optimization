@@ -1,6 +1,6 @@
 #include "hardfixing.h"
 
-
+/*
 
 //Function that UNfix the edges
 void set_default_lb(CPXENVptr env, CPXLPptr lp){
@@ -86,4 +86,4 @@ int hard_fixing(instance *inst, CPXENVptr env, CPXLPptr lp, int total_timelimit)
 
 
     return 0;
-}
+}*/

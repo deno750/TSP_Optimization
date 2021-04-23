@@ -47,14 +47,18 @@
 #define SOLVE_MTZ_IND      104
 #define SOLVE_GG           105
 #define SOLVE_LOOP         106
-#define SOLVE_CALLBACK     107
-#define SOLVE_CALLBACK2    108 // Uses user cuts callback.
-#define SOLVE_CALLBACK3    109 // User cuts callback but without adding SEC for connected components in the relaxation
+#define SOLVE_CALLBACK     107 // Uses the callback before the updating of the incubement
+#define SOLVE_UCUT         108 // Uses user cuts callback
+#define SOLVE_HARD_FIXING  109 // Uses the hard fixing heuristic
 
 
 
 // The default solver definition
 #define SOLVE_DEFAULT SOLVE_CALLBACK
+// The default edge definition
+#define DEFAULT_EDGE UDIR_EDGE
+// The default method name definition
+#define SOLVER_DEFAULT_NAME "INCUBEMENT CALLBACK"
 
 
 
@@ -62,21 +66,23 @@
 #define UDIR_EDGE 0
 #define DIR_EDGE 1
 
-// The default edge definition
-#define DEFAULT_EDGE UDIR_EDGE
-
 
 // ==================== STRUCTS ==========================
 
+typedef struct {
+    int id;
+    int edge_type; // Describes if the graph is directed or undirected
+    char* name;
+} sol_method;
+
 // Struct which stores the parameters of the problem
 typedef struct {
-    char *file_path;
-    int type;  // Describes if the graph is directed or undirected
+    char* file_path;
     int num_threads; 
     int time_limit;
+    sol_method method;
     int verbose; // Verbose level of debugging printing
     int integer_cost;
-    int sol_type;
     int seed; // Seed for random generation
     int perf_prof; // Need to know wheter the computation is executed for performance profile
 } instance_params;
@@ -237,7 +243,6 @@ void save_lp(CPXENVptr env, CPXLPptr lp, char *name);
  */
 int count_components(instance *inst, double* xstar, int* successors, int* comp);
 
-//TODO: This function is temporary added in utility. Evaluate whether there's a better place for this function. (Perhaps a callback_cuts.h file??)
 /**
  * Prepares the passed parameters to be comfortable with SEC constraints for functions CPXaddnewrows and CPXcallbackrejectcandidate
  * 
@@ -252,8 +257,20 @@ int count_components(instance *inst, double* xstar, int* successors, int* comp);
  */
 int prepare_SEC(instance *inst, int tour, int *comp, char *sense, int *indexes, double *values, double *rhs);
 
+/**
+ * Tells cplex to store the logs file during the execution of the problem. The logs are named accordignly with the instance name and stored in logs folder
+ * 
+ * @param env The cplex's environment
+ * @param inst The instance pointer of the problem
+ */
 void save_cplex_log(CPXENVptr env, instance *inst);
 
+/**
+ * Helpe function which calculates the elapsed time between passed times
+ * 
+ * @param start The time val struct of the starting time of the measurement
+ * @param start The time val struct of the ending time of the measurement
+ */
 double get_elapsed_time(struct timeval start, struct timeval end);
 
 #endif

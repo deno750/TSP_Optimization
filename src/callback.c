@@ -34,7 +34,7 @@ static int CPXPUBLIC SEC_cuts_callback_candidate(CPXCALLBACKCONTEXTptr context, 
 
     int *succ = MALLOC(inst->num_nodes, int);
     MEMSET(succ, -1, inst->num_nodes, int);
-    int *comp = MALLOC(inst->num_nodes,int);
+    int *comp = MALLOC(inst->num_nodes, int);
     MEMSET(comp, -1, inst->num_nodes, int);
     int num_comp = count_components(inst, xstar, succ, comp);
 
@@ -137,7 +137,7 @@ static int CPXPUBLIC SEC_cuts_callback_relaxation(CPXCALLBACKCONTEXTptr context,
         print_error("Error in CCcut_connect_components");
     }
 
-    if (numcomps == 1 && inst->params.sol_type == SOLVE_CALLBACK2) { // CALLBACK3 won't run this piece of code
+    if (numcomps == 1) { // USER_CUT2 won't run this piece of code
         if (inst->params.verbose >= 4) {
             printf("Single component\n");
         }

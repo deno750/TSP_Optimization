@@ -1,3 +1,6 @@
+/**
+ * Implementation of hard fixing heuristic
+ */
 #ifndef HARDFIXING_H
 #define HARDFIXING_H
 

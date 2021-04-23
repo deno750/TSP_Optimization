@@ -51,12 +51,13 @@ void parse_comand_line(int argc, const char *argv[], instance *inst) {
         exit(1);
     }
 
-    inst->params.type = DEFAULT_EDGE; //Default edge type
+    inst->params.method.id = SOLVE_DEFAULT; // Default solver
+    inst->params.method.edge_type = DEFAULT_EDGE; //Default edge type
+    inst->params.method.name = SOLVER_DEFAULT_NAME;
     inst->params.time_limit = -1; //Default time limit value. -1 means no constraints in time limit 
     inst->params.num_threads = -1; //Default value -1. Means no limit on number of threads
     inst->params.file_path = NULL;
     inst->params.verbose = 1; //Default verbose level of 1
-    inst->params.sol_type = SOLVE_DEFAULT; // Default solver
     inst->params.integer_cost = 1; // Default integer costs
     inst->params.seed = -1; // No seed specified
     inst->params.perf_prof = 0;
@@ -90,48 +91,59 @@ void parse_comand_line(int argc, const char *argv[], instance *inst) {
         if (strcmp("-method", argv[i]) == 0) {
             if (check_input_index_validity(i, argc, &need_help)) continue;
             const char* method = argv[++i];
+            
             // Directed graph methods
             if (strncmp(method, "MTZ", 3) == 0) {
-                inst->params.sol_type = SOLVE_MTZ;
-                inst->params.type = DIR_EDGE;
+                inst->params.method.id = SOLVE_MTZ;
+                inst->params.method.edge_type = DIR_EDGE;
+                inst->params.method.name = "MTZ Static";
             }
             if (strncmp(method, "MTZL", 4) == 0) {
-                inst->params.sol_type = SOLVE_MTZL;
-                inst->params.type = DIR_EDGE;
+                inst->params.method.id = SOLVE_MTZL;
+                inst->params.method.edge_type = DIR_EDGE;
+                inst->params.method.name = "MTZ Lazy";
             }
             if (strncmp(method, "MTZI", 4) == 0) {
-                inst->params.sol_type = SOLVE_MTZI;
-                inst->params.type = DIR_EDGE;
+                inst->params.method.id = SOLVE_MTZI;
+                inst->params.method.edge_type = DIR_EDGE;
+                inst->params.method.name = "MTZ with SEC of degree 2";
             }
             if (strncmp(method, "MTZLI", 5) == 0) {
-                inst->params.sol_type = SOLVE_MTZLI;
-                inst->params.type = DIR_EDGE;
+                inst->params.method.id = SOLVE_MTZLI;
+                inst->params.method.edge_type = DIR_EDGE;
+                inst->params.method.name = "MTZ lazy with SEC of degree 2";
             }
             if (strncmp(method, "MTZ_IND", 5) == 0) {
-                inst->params.sol_type = SOLVE_MTZ_IND;
-                inst->params.type = DIR_EDGE;
+                inst->params.method.id = SOLVE_MTZ_IND;
+                inst->params.method.edge_type = DIR_EDGE;
+                inst->params.method.name = "MTZ with indicator constraints";
             }
             if (strncmp(method, "GG", 2) == 0) {
-                inst->params.sol_type = SOLVE_GG;
-                inst->params.type = DIR_EDGE;
+                inst->params.method.id = SOLVE_GG;
+                inst->params.method.edge_type = DIR_EDGE;
+                inst->params.method.name = "GG";
             }
 
             // Undirected graph methods
             if (strncmp(method, "LOOP", 4) == 0) {
-                inst->params.sol_type = SOLVE_LOOP;
-                inst->params.type = UDIR_EDGE;
+                inst->params.method.id = SOLVE_LOOP;
+                inst->params.method.edge_type = UDIR_EDGE;
+                inst->params.method.name = "BENDERS' LOOP";
             }
             if (strncmp(method, "CALLBACK", 8) == 0) {
-                inst->params.sol_type = SOLVE_CALLBACK;
-                inst->params.type = UDIR_EDGE;
+                inst->params.method.id = SOLVE_CALLBACK;
+                inst->params.method.edge_type = UDIR_EDGE;
+                inst->params.method.name = "INCUBEMENT CALLBACK";
             }
-            if (strncmp(method, "CALLBACK2", 9) == 0) {
-                inst->params.sol_type = SOLVE_CALLBACK2;
-                inst->params.type = UDIR_EDGE;
+            if (strncmp(method, "USER_CUT", 9) == 0) {
+                inst->params.method.id = SOLVE_UCUT;
+                inst->params.method.edge_type = UDIR_EDGE;
+                inst->params.method.name = "USER CUT CALLBACK";
             }
-            if (strncmp(method, "CALLBACK3", 9) == 0) {
-                inst->params.sol_type = SOLVE_CALLBACK3;
-                inst->params.type = UDIR_EDGE;
+            if (strncmp(method, "HARD_FIX", 8) == 0) {
+                inst->params.method.id = SOLVE_HARD_FIXING;
+                inst->params.method.edge_type = UDIR_EDGE;
+                inst->params.method.name = "HARD FIXING HEURISTIC";
             }
             continue;
         }
@@ -157,8 +169,8 @@ void parse_comand_line(int argc, const char *argv[], instance *inst) {
         printf("GG           GG constraints\n");
         printf("LOOP         Benders Method\n");
         printf("CALLBACK     Callback Method\n");
-        printf("CALLBACK2    Callback Method using usercuts\n");
-        printf("CALLBACK3    Callback Method using usercuts without SEC when number component is 1 in fractional solution\n");
+        printf("USER_CUT     Callback Method using usercuts\n");
+        printf("HARD_FIX     Hard fixing heuristic method\n");
         exit(0);
     }
 
@@ -293,7 +305,7 @@ void print_instance(instance inst) {
             printf("\n");
             printf("======== PARAMS =========\n");
             const char* edge;
-            switch (inst.params.type) {
+            switch (inst.params.method.edge_type) {
             case UDIR_EDGE:
                 edge = "Undirected";
                 break;
@@ -301,33 +313,9 @@ void print_instance(instance inst) {
                 edge = "Directed";
                 break;
             }
-
-            int sol_type = inst.params.sol_type;
-            const char* method_name = NULL;
-            if (sol_type == SOLVE_MTZ) {
-                method_name = "MTZ";
-            } else if (sol_type == SOLVE_MTZL) {
-                method_name = "MTZ Lazy";
-            } else if (sol_type == SOLVE_MTZI) {
-                method_name = "MTZ with subtour elimination constraints of degree 2";
-            } else if (sol_type == SOLVE_MTZLI) {
-                method_name = "MTZ lazy with subtour elimination constraints of degree 2";
-            } else if (sol_type == SOLVE_MTZ_IND) {
-                method_name = "MTZ with indicator constraints";
-            } else if (sol_type == SOLVE_GG) {
-                method_name = "GG";
-            } else if (sol_type == SOLVE_LOOP) {
-                method_name = "LOOP";
-            } else if (sol_type == SOLVE_CALLBACK) {
-                method_name = "CALLBACK";
-            } else if (sol_type == SOLVE_CALLBACK2) {
-                method_name = "CALLBACK2";
-            } else if (sol_type == SOLVE_CALLBACK3) {
-                method_name = "CALLBACK3";
-            }
             
             printf("Edge type: %s\n", edge);
-            printf("Solver method: %s\n", method_name);
+            printf("Solver method: %s\n", inst.params.method.name);
             if (inst.params.time_limit > 0) printf("Time Limit: %d\n", inst.params.time_limit);
             if (inst.params.num_threads > 0) printf("Threads: %d\n", inst.params.num_threads);
             if (inst.params.seed >= 0) printf("Seed: %d\n", inst.params.seed);
@@ -446,7 +434,7 @@ int count_components(instance *inst, double* xstar, int* successors, int* comp) 
 void save_solution_edges(instance *inst, double *xstar) {
     inst->solution.edges = CALLOC(inst->num_nodes, edge);
 
-    if (inst->params.type == UDIR_EDGE) {
+    if (inst->params.method.edge_type == UDIR_EDGE) {
 
         int *succ = MALLOC(inst->num_nodes, int);
         int *comp = MALLOC(inst->num_nodes, int);

@@ -1,3 +1,12 @@
+/**
+ * Callbacks implementation. The callbacks implemented are of two types. 
+ * The first one is the callback which is called befor the incubement update in 
+ * the integer solution that cplex found.
+ * The second one is the implementation of callbacks in the solution of the relaxation problem (fractional solution). This second implementation
+ * uses helper functions from concorde library in order to find the connected components in the fractional solution and the violated cuts in the fractional
+ * solution with only one connected component. 
+ */
+
 #ifndef CALLBACK_H
 #define CALLBACK_H
 
