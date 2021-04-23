@@ -8,6 +8,18 @@
 #include "gg.h"
 #include "benders.h"
 #include "callback.h"
+#include "hardfixing.h"
+
+// USER CUT SOLVER
+int opt_best_solver(CPXENVptr env, CPXLPptr lp, instance *inst) {
+    int ncols = CPXgetnumcols(env, lp);
+    inst->num_columns = ncols; // The callbacks need the number of cols
+    CPXLONG contextid = CPX_CALLBACKCONTEXT_CANDIDATE | CPX_CALLBACKCONTEXT_RELAXATION;
+    int status = CPXcallbacksetfunc(env, lp, contextid, SEC_cuts_callback, inst);
+    if (status) LOG_E("CPXcallbacksetfunc() error returned status %d", status);
+    status = CPXmipopt(env, lp);
+    return status;
+}
 
 static void set_cplex_params(CPXENVptr env, instance_params params) {
     if (params.time_limit > 0) { // Time limits <= 0 not allowed
@@ -39,7 +51,7 @@ static void print_solution(instance *inst) {
 
         // Next level of verbosity
         if (inst->params.verbose >= 3) {
-            LOG_I("\nThe optimal edges are:\n");
+            LOG_I("The optimal edges are:\n");
 
             for ( int i = 0; i < inst->num_nodes; i++ ){
                 edge e = inst->solution.edges[i];
@@ -57,6 +69,8 @@ static int solve_problem(CPXENVptr env, CPXLPptr lp, instance *inst) {
     if (inst->params.method.id == SOLVE_LOOP) {
         // Solve using benders algorithm
         status = benders_loop(inst, env, lp);
+    } else if (inst->params.method.id == SOLVE_HARD_FIXING) {
+        status = hard_fixing_solver(inst, env, lp);
     } else {
 
         if (inst->params.method.id == SOLVE_CALLBACK || inst->params.method.id == SOLVE_UCUT) {

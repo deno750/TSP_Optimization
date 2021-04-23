@@ -40,4 +40,18 @@ static void build_model(instance *inst, CPXENVptr env, CPXLPptr lp);
  */ 
 int TSP_opt(instance *inst);
 
+/**
+ * Solves the problem with the best optimal solver found so far.
+ * It is used on heuristics solvers which needs the fastest optimal solver.
+ * 
+ * The implemented solver is USER_CUT. 
+ * It may be possible that in the future the implemented solver can be different.
+ * 
+ * 
+ * @param inst The instance pointer of the problem
+ * @param env The cplex's environment
+ * @param lp The cplex's problem object
+ */
+int opt_best_solver(CPXENVptr env, CPXLPptr lp, instance *inst);
+
 #endif

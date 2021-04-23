@@ -352,12 +352,12 @@ void print_instance(instance inst) {
             break;
         }
         printf("weight type: %s\n", weight);
-        if (inst.params.verbose >= 3) {
+        /*if (inst.params.verbose >= 3) {
             for (int i = 0; i < inst.num_nodes; i++) {
                 point node = inst.nodes[i];
                 printf("node %d: %0.2f, %0.2f\n", i+1, node.x, node.y);
             }
-        }
+        }*/
         
     
         printf("\n");

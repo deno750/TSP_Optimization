@@ -1,36 +1,52 @@
 #include "hardfixing.h"
 
-/*
+#include "solver.h"
+#include "utility.h"
+
+#define HARD_FIX_TIME_LIM_DEFAULT 20
+
+
 
 //Function that UNfix the edges
-void set_default_lb(CPXENVptr env, CPXLPptr lp){
-	double zero = 0.0;
-	char lb = 'L';
-
-	for(int i = 0; i < .....; i++){
-		CPXchgbds(env, lp, 1, &i, &lb, &zero);
-	}
+void set_default_lb(CPXENVptr env, CPXLPptr lp, int ncols, int *indexes){
+	double *zeros = MALLOC(ncols, double);
+    MEMSET(zeros, 0.0, ncols, double);
+	char *lbs = MALLOC(ncols, char); // Lower bound
+    MEMSET(lbs, 'L', ncols, char);
+    int status = CPXchgbds(env, lp, ncols, indexes, lbs, zeros); // this function changes the lower and/or upper bound
+    if (status) {LOG_E("CPXchgbds() error code %d", status);}
+    free(zeros);
+    free(lbs);
 }
 
 //Function that fix the edges randomly
-void random_fix(CPXENVptr env, CPXLPptr lp, double prob){
+void random_fix(CPXENVptr env, CPXLPptr lp, double prob, int *ncols, int *indexes){
     double rand;
-	double one = 1.0;
-	char lb = 'L';
-    if(prob < 0 || prob > 1) {print_error("probability must be in [0,1]");}
+	//double one = 1.0;
+	//char lb = 'L'; // Lower Bound
+    *ncols = 0;
+    if(prob < 0 || prob > 1) {LOG_E("probability must be in [0,1]");}
 
-    for(int i = 0; i < .......; i++){
+    int num_cols = CPXgetnumcols(env, lp);
+    for(int i = 0; i < num_cols; i++){
 		rand = (double) random() / RAND_MAX;
-		
+
 		if(rand < prob){
-			CPXchgbds(env, lp, 1, &i, &lb, &one);
+			//CPXchgbds(env, lp, 1, &i, &lb, &one); // this function changes the lower and/or upper bound
+            indexes[(*ncols)++] = i;
 		}
 	}
+    double *ones = MALLOC(*ncols, double);
+    MEMSET(ones, 1.0, *ncols, double);
+    char *lbs = MALLOC(*ncols, char);
+    MEMSET(lbs, 'L', *ncols, char);
+    int status = CPXchgbds(env, lp, *ncols, indexes, lbs, ones); // this function changes the lower and/or upper bound
+    if (status) {LOG_E("CPXchgbds() error code %d", status);}
+    free(ones);
+    free(lbs);
 }
 
-
-
-
+/*
 int hard_fixing(instance *inst, CPXENVptr env, CPXLPptr lp, int total_timelimit) {
 
     double prob_rate[] = {0.9, 0.8, 0.5, 0.2};
@@ -108,3 +124,45 @@ int hard_fixing(instance *inst, CPXENVptr env, CPXLPptr lp, int total_timelimit)
 
     return 0;
 }*/
+
+int hard_fixing_solver(instance *inst, CPXENVptr env, CPXLPptr lp) {
+    // For other emphasis params check there: https://www.ibm.com/docs/en/icos/20.1.0?topic=parameters-mip-emphasis-switch
+    CPXsetintparam(env, CPXPARAM_Emphasis_MIP, CPX_MIPEMPHASIS_HEURISTIC); // We want that cplex finds an high quality solution earlier
+    //CPXsetintparam(env, CPXPARAM_Emphasis_MIP, CPX_MIPEMPHASIS_FEASIBILITY);
+    CPXsetintparam(env, CPX_PARAM_NODELIM, 0);
+
+    double time_limit = inst->params.time_limit > 0 ? inst->params.time_limit : HARD_FIX_TIME_LIM_DEFAULT;
+    CPXsetdblparam(env, CPXPARAM_TimeLimit, time_limit);
+
+    struct timeval start, end; 
+    gettimeofday(&start, 0);
+
+    int cols_tot = CPXgetnumcols(env, lp);
+
+    int *indexes = MALLOC(cols_tot, int); 
+
+    int ncols_fixed;
+    double prob = 0.7;
+    do {
+        random_fix(env, lp, prob, &ncols_fixed, indexes);
+        LOG_D("RANDOMMM");
+        save_lp(env, lp, "YEEEEE");
+
+        int status = opt_best_solver(env, lp, inst);
+        if (status) {
+            LOG_E("Best opt error code %d", status);
+        }
+        gettimeofday(&end, 0);
+
+        double elapsed = get_elapsed_time(start, end);
+
+        double time_remain = time_limit - elapsed; // this is the time remained that is going to be splitted with every mipopt execution
+
+        set_default_lb(env, lp, ncols_fixed, indexes);
+    } while(0);
+    
+    
+
+    free(indexes);
+    return 0;
+}

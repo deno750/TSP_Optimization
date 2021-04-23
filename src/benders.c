@@ -9,6 +9,7 @@ static int add_SEC(instance *inst, CPXENVptr env, CPXLPptr lp, int current_tour,
     char sense;
     int matbeg = 0; // Contains the index of the beginning column. In this case we add 1 row at a time so no need for an array
     int nnz = prepare_SEC(inst, current_tour, comp, &sense, indexes, values, &rhs);
+    LOG_D("Adding SEC cut");
     if (inst->params.verbose >= 5) {
         LOG_I("Tour %d has %d nodes", current_tour, (int) (rhs + 1)); // Since rhs is |S| - 1 we add +1 to get |S|.
     }

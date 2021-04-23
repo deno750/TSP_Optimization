@@ -7,6 +7,7 @@
 
 #include <cplex.h>
 #include <sys/time.h>
+#include <string.h>
 
 
 #define VERSION "TSP 0.4"
@@ -25,7 +26,7 @@
     }                                                   \
 }               
 
-//#define DEBUG // Uncomment when the debugging logs are needed
+#define DEBUG // Comment when the debugging logs are not needed
 
 #ifdef DEBUG
 #define LOG_D(fmt, ...) {fprintf(stdout, "[DEBUG] ");fprintf(stdout, fmt, ## __VA_ARGS__);fprintf(stdout, "\n");}
