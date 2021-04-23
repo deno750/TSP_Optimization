@@ -30,20 +30,20 @@ static void set_cplex_params(CPXENVptr env, instance_params params) {
 static void print_solution(instance *inst) {
     if (inst->params.verbose >= 1) {
 
-        printf("Optimal solution found!\n");
+        LOG_I("Optimal solution found!");
 
         if (inst->params.verbose >= 2) {
-            printf("The best bjective value is %f\n", inst->solution.obj_best);
+            LOG_I("The best bjective value is %f", inst->solution.obj_best);
         }
         
 
         // Next level of verbosity
         if (inst->params.verbose >= 3) {
-            printf("\nThe optimal edges are:\n\n");
+            LOG_I("\nThe optimal edges are:\n");
 
             for ( int i = 0; i < inst->num_nodes; i++ ){
                 edge e = inst->solution.edges[i];
-                printf("x(%3d,%3d) = 1\n", e.i+1,e.j+1);
+                LOG_I("x(%3d,%3d) = 1", e.i+1,e.j+1);
             }
         }
 
@@ -69,7 +69,7 @@ static int solve_problem(CPXENVptr env, CPXLPptr lp, instance *inst) {
                 contextid = CPX_CALLBACKCONTEXT_CANDIDATE;
             }
             status = CPXcallbacksetfunc(env, lp, contextid, SEC_cuts_callback, inst);
-            if (status) print_error("CPXcallbacksetfunc() error");
+            if (status) LOG_E("CPXcallbacksetfunc() error returned status %d", status);
         }
 
         status = CPXmipopt(env, lp);
@@ -97,13 +97,13 @@ int TSP_opt(instance *inst) {
     int status = solve_problem(env, lp, inst);
     gettimeofday(&end, 0);
     if (status) {
-        if (inst->params.verbose >= 5) {
-            printf("Cplex error code: %d\n", status);
-        }
+        /*if (inst->params.verbose >= 5) {
+            LOG_I("Cplex error code: %d", status);
+        }*/
         if (status = CPX_STAT_ABORT_TIME_LIM) {
-            printf("Time limit exceeded\n");
+            LOG_I("Time limit exceeded");
         } else {
-            print_error("Cplex solver encountered an error.");
+            LOG_E("Cplex solver encountered an error with error code: %d", status);
         }
     }
     double elapsed = get_elapsed_time(start, end);
@@ -116,13 +116,12 @@ int TSP_opt(instance *inst) {
 	if ( status ) {
         //Stats here: https://www.tu-chemnitz.de/mathematik/discrete/manuals/cplex/doc/refman/html/appendixB.html
         //int stat = CPXgetstat(env, lp);
-        //printf("Status: %d\n", stat);
+        //LOG_I("Status: %d", stat);
         // Cplex error codes: https://www.tu-chemnitz.de/mathematik/discrete/manuals/cplex/doc/refman/html/appendixC2.html
         if (status == CPXERR_NO_SOLN) {
-            print_error("No Solution exists");	
+            LOG_E("No Solution exists");	
         }
-        printf("Error Code: %d\n", status);
-        print_error("CPXgetx() error");	
+        LOG_E("CPXgetx() error code %d", status);	
     }
     CPXgetobjval(env, lp, &(inst->solution.obj_best));
     
@@ -167,11 +166,11 @@ static void build_udir_model(instance *inst, CPXENVptr env, CPXLPptr lp) {
 
             int status = CPXnewcols(env, lp, 1, &obj, &lb, &ub, &xctype, &names);
             if (status) {
-                print_error("An error occured inserting a new variable");
+                LOG_E("An error occured inserting a new variable");
             }
             int numcols = CPXgetnumcols(env, lp);
             if (numcols - 1 != x_udir_pos(i, j, inst->num_nodes)) { // numcols -1 because we need the position index of the new variable
-                print_error("Wrong position of variable");
+                LOG_E("Wrong position of variable in build_udri_model");
             }
         }
     }
@@ -183,7 +182,7 @@ static void build_udir_model(instance *inst, CPXENVptr env, CPXLPptr lp) {
         sprintf(names, "degree(%d)", h+1);
         int status = CPXnewrows(env, lp, 1, &rhs, &sense, NULL, &names);
         if (status) {
-            print_error("An error occured inserting a new constraint");
+            LOG_E("CPXnewrows() error code %d", status);
         }
 
         for (int i = 0; i < inst->num_nodes; i++) {
@@ -191,7 +190,7 @@ static void build_udir_model(instance *inst, CPXENVptr env, CPXLPptr lp) {
 
             status = CPXchgcoef(env, lp, h, x_udir_pos(h, i, inst->num_nodes), 1.0);
             if (status) {
-                print_error("An error occured in filling a constraint");
+                LOG_E("CPXchgcoef() error code %d", status);
             }
         }
         
@@ -216,11 +215,11 @@ static void build_dir_model(instance *inst, CPXENVptr env, CPXLPptr lp) {
 
             int status = CPXnewcols(env, lp, 1, &obj, &lb, &ub, &xctype, &names); 
             if (status) {
-                print_error("An error occured inserting a new variable");
+                LOG_E("CPXnewcols() error code %d", status);
             }
             int numcols = CPXgetnumcols(env, lp);
             if (numcols - 1 != x_dir_pos(i, j, inst->num_nodes)) { // numcols -1 because we need the position index of the new variable
-                print_error("Wrong position of variable");
+                LOG_E("Wrong position of variable in build_dir_model");
             }
         }
     }
@@ -233,13 +232,13 @@ static void build_dir_model(instance *inst, CPXENVptr env, CPXLPptr lp) {
         sprintf(names, "degree(%d)", deg + 1);
         int status = CPXnewrows(env, lp, 1, &rhs, &sense, NULL, &names);
         if (status) {
-            print_error("An error occured inserting a new constraint");
+            LOG_E("CPXnewrows() error code %d", status);
         }
         for (int j = 0; j < inst->num_nodes; j++) {
             if (i == j) continue;
             status = CPXchgcoef(env, lp, deg, x_dir_pos(i, j, inst->num_nodes), 1.0);
             if (status) {
-                print_error("An error occured in filling a constraint");
+                LOG_E("CPXchgcoef() error code %d", status);
             }
         }
         deg++;
@@ -250,13 +249,13 @@ static void build_dir_model(instance *inst, CPXENVptr env, CPXLPptr lp) {
         sprintf(names, "degree(%d)", deg + 1);
         int status = CPXnewrows(env, lp, 1, &rhs, &sense, NULL, &names);
         if (status) {
-            print_error("An error occured inserting a new constraint");
+            LOG_E("CPXnewrows() error code %d", status);
         }
         for (int i = 0; i < inst->num_nodes; i++) {
             if (i == j) continue;
             status = CPXchgcoef(env, lp, deg, x_dir_pos(i, j, inst->num_nodes), 1.0);
             if (status) {
-                print_error("An error occured in filling a constraint");
+                LOG_E("CPXchgcoef() error code %d", status);
             }
         }
         deg++;

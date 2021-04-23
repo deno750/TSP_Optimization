@@ -10,7 +10,7 @@ static int add_SEC(instance *inst, CPXENVptr env, CPXLPptr lp, int current_tour,
     int matbeg = 0; // Contains the index of the beginning column. In this case we add 1 row at a time so no need for an array
     int nnz = prepare_SEC(inst, current_tour, comp, &sense, indexes, values, &rhs);
     if (inst->params.verbose >= 5) {
-        printf("Tour %d has %d nodes\n", current_tour, (int) (rhs + 1)); // Since rhs is |S| - 1 we add +1 to get |S|.
+        LOG_I("Tour %d has %d nodes", current_tour, (int) (rhs + 1)); // Since rhs is |S| - 1 we add +1 to get |S|.
     }
     return CPXaddrows(env, lp, 0, 1, nnz, &rhs, &sense, &matbeg, indexes, values, NULL, &names);    
 }
@@ -55,7 +55,7 @@ int benders_loop(instance *inst, CPXENVptr env, CPXLPptr lp) {
         MEMSET(successors, -1, inst->num_nodes, int);
         MEMSET(comp, -1, inst->num_nodes, int);
         /*for (int i = 0; i < inst->num_nodes; i++) {
-            printf("Comp %d\n", comp[i]);
+            LOG_I("Comp %d", comp[i]);
         }*/
         
         int ncols = CPXgetnumcols(env, lp);
@@ -66,10 +66,10 @@ int benders_loop(instance *inst, CPXENVptr env, CPXLPptr lp) {
         double *xstar = MALLOC(ncols, double);
 
         status = CPXgetx(env, lp, xstar, 0, ncols-1);
-        if (status) { print_error("Benders CPXgetx error"); }
+        if (status) { LOG_E("Benders CPXgetx() error code %d", status); }
         numcomp = count_components(inst, xstar, successors, comp);
         if (inst->params.verbose >= 4) {
-            printf("NUM COMPONENTS: %d\n", numcomp);
+            LOG_I("NUM COMPONENTS: %d", numcomp);
         }
         
         // Condition numComp > 1 is needed in order to avoid to add the SEC constraints when the TSP's hamiltonian cycle is found
@@ -77,7 +77,7 @@ int benders_loop(instance *inst, CPXENVptr env, CPXLPptr lp) {
             sprintf(names, "SEC(%d)", ++rowscount);
             // For each subtour we add the constraints in one shot
             status = add_SEC(inst, env, lp, subtour, comp, indexes, values, names);
-            if (status) { print_error("An error occurred adding SEC"); }
+            if (status) { LOG_E("An error occurred adding SEC. Error code %d", status); }
             save_lp(env, lp, inst->name);
         }
         if (inst->params.verbose >= 5) {

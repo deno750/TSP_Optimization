@@ -23,7 +23,17 @@
             new_ptr[i] = newval;                        \
         }                                               \
     }                                                   \
-}                                                                                                       
+}               
+
+//#define DEBUG // Uncomment when the debugging logs are needed
+
+#ifdef DEBUG
+#define LOG_D(fmt, ...) {fprintf(stdout, "[DEBUG] ");fprintf(stdout, fmt, ## __VA_ARGS__);fprintf(stdout, "\n");}
+#else
+#define LOG_D(fmt, ...) // An empty macro
+#endif
+#define LOG_I(fmt, ...) {fprintf(stdout, "[INFO]  ");fprintf(stdout, fmt, ## __VA_ARGS__);fprintf(stdout, "\n");}
+#define LOG_E(fmt, ...) {fprintf(stderr, "[ERROR] ");fprintf(stderr, fmt, ## __VA_ARGS__);fprintf(stdout, "\n");fflush(NULL);exit(1);}
 
 
 // Constant that is useful for numerical errors
@@ -122,9 +132,6 @@ typedef struct {
 } instance;
 
 // ===================== FUNCTIONS =============================
-
-// Error print function
-void print_error(const char *err); 
 
 /**
  * Calculates the maximum between two doubles

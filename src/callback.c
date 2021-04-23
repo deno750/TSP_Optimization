@@ -30,7 +30,7 @@ static int CPXPUBLIC SEC_cuts_callback_candidate(CPXCALLBACKCONTEXTptr context, 
     int currentnode = -1; CPXcallbackgetinfoint(context, CPXCALLBACKINFO_NODECOUNT, &currentnode);
 
     int status = CPXcallbackgetcandidatepoint(context, xstar, 0, ncols - 1 , &objval);
-    if (status) print_error("Error with CPXcallbackgetcandidatepoint");
+    if (status) LOG_E("CPXcallbackgetcandidatepoint() error code %d", status);
 
     int *succ = MALLOC(inst->num_nodes, int);
     MEMSET(succ, -1, inst->num_nodes, int);
@@ -39,20 +39,20 @@ static int CPXPUBLIC SEC_cuts_callback_candidate(CPXCALLBACKCONTEXTptr context, 
     int num_comp = count_components(inst, xstar, succ, comp);
 
     if (inst->params.verbose >= 4) {
-        //printf("Candidate callback\n");
-        printf("Num components candidate: %d\n", num_comp);
+        //LOG_I("Candidate callback");
+        LOG_I("Num components candidate: %d", num_comp);
     }
 
     if (num_comp > 1) { // More than one tours found. Violated so add the cuts
         if (inst->params.verbose >= 5) {
-            printf("Added SEC cut in node %d\n", currentnode);
+            LOG_I("Added SEC cut in node %d", currentnode);
         }
         int *indexes = MALLOC(ncols, int);
         double *values = MALLOC(ncols, double);
         for (int subtour = 1; subtour <= num_comp; subtour++) {
             // For each subtour we add the constraints in one shot
             status = add_SEC_cuts(inst, context, subtour, comp, indexes, values);
-            if (status) print_error("Error with add_SEC_cuts");
+            if (status) LOG_E("Error with add_SEC_cuts. Error code %d", status);
         }
         free(indexes);
         free(values);
@@ -70,8 +70,8 @@ static int violated_cuts_callback(double cutval, int num_nodes, int* members, vo
     instance *inst = params->inst;
     CPXCALLBACKCONTEXTptr context = params->context;
     if (inst->params.verbose >= 5) {
-        //printf("Single component violated cuts\n");
-        printf("A cut with %d nodes has cut value of %f\n", num_nodes, cutval);
+        //LOG_I("Single component violated cuts");
+        LOG_I("A cut with %d nodes has cut value of %f", num_nodes, cutval);
     }
 
 
@@ -92,7 +92,7 @@ static int violated_cuts_callback(double cutval, int num_nodes, int* members, vo
 	int local = 0;
     int status = CPXcallbackaddusercuts(context, 1, num_edges, &rhs, &sense, &matbeg, edges, values, &purgeable, &local);
     free(values);
-    if (status) print_error("Error in CPXcallbackaddusercuts when conn comps = 1");
+    if (status) LOG_E("CPXcallbackaddusercuts() when conn comps = 1. Error code %d", status);
     return 0;
 }
 
@@ -107,14 +107,13 @@ static int CPXPUBLIC SEC_cuts_callback_relaxation(CPXCALLBACKCONTEXTptr context,
     //if (node % 7 != 0) return 0; // hyperparameter tuning
     if (depth > 5) return 0; // Hyperparameter tuning
     if (inst->params.verbose >= 5) {
-        printf("\nRelaxation cut\n");
+        LOG_I("Relaxation cut");
     }
     int ncols = inst->num_columns;
     double *xstar = MALLOC(ncols, double);
     int status = CPXcallbackgetrelaxationpoint(context, xstar, 0, ncols - 1 , &objval);
     if (status) {
-        printf("Status: %d\n", status);
-        print_error("CPXcallbackgetrelaxationpoint error");
+        LOG_E("CPXcallbackgetrelaxationpoint() error code %d", status);
     }
     int numcomps = 0;
     int *elist = MALLOC(2*ncols, int); // elist contains each pair of vertex such as (1,2), (1,3), (1,4), (2, 3), (2,4), (3,4) so in list becomes: 1,2,1,3,1,4,2,3,2,4,3,4
@@ -134,12 +133,12 @@ static int CPXPUBLIC SEC_cuts_callback_relaxation(CPXCALLBACKCONTEXTptr context,
     // Checking whether or not the graph is connected with the fractional solution.
     status = CCcut_connect_components(inst->num_nodes, num_edges, elist, xstar, &numcomps, &compscount, &comps);
     if (status) {
-        print_error("Error in CCcut_connect_components");
+        LOG_E("CCcut_connect_components() error code %d", status);
     }
 
-    if (numcomps == 1) { // USER_CUT2 won't run this piece of code
+    if (numcomps == 1) { 
         if (inst->params.verbose >= 4) {
-            printf("Single component\n");
+            LOG_I("Single component");
         }
         relaxation_callback_params params = {.context = context, .inst = inst};
         // At this point we have a connected graph. This graph could not be a "tsp". We interpret the fractional
@@ -151,12 +150,12 @@ static int CPXPUBLIC SEC_cuts_callback_relaxation(CPXCALLBACKCONTEXTptr context,
         // NB: We use cutoff as 2.0 - EPS for numerical stability due the fractional values we obtain in the solution. 
         status = CCcut_violated_cuts(inst->num_nodes, ncols, elist, xstar, 2.0 - EPS, violated_cuts_callback, &params);
         if (status) {
-            print_error("Error in CCcut_connect_components");
+            LOG_E("CCcut_violated_cuts() error code %d", status);
         }
     }
     if (numcomps > 1) {
         if (inst->params.verbose >= 4) {
-            printf("Num components fractional: %d\n", numcomps);
+            LOG_I("Num components fractional: %d", numcomps);
         }
         int startindex = 0;
 
@@ -180,11 +179,10 @@ static int CPXPUBLIC SEC_cuts_callback_relaxation(CPXCALLBACKCONTEXTptr context,
             // For each subtour we add the constraints in one shot
             status = add_SEC_cuts_fractional(inst, context, subtour, components, indexes, values);
             if (status) {
-                printf("Status: %d\n", status);
-                print_error("Error with add_SEC_cuts");
+                LOG_E("Error with add_SEC_cuts. Error code %d", status);
             }
             if (inst->params.verbose >= 5) {
-                printf("Added SEC cuts to tour %d\n", subtour);
+                LOG_I("Added SEC cuts to tour %d", subtour);
             }
         }
         free(indexes);

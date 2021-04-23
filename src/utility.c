@@ -9,16 +9,14 @@
 
 #include "plot.h"
 
-void print_error(const char *err) { printf("\n\n ERROR: %s \n\n", err); fflush(NULL); exit(1); } 
-
 double dmax(double d1, double d2) {
     return d1 > d2 ? d1 : d2;
 }
 
 int x_udir_pos(int i, int j, int num_nodes) {
-    if (i == j) print_error("Indexes passed are equal!");
+    if (i == j) LOG_E("Indexes passed are equal!");
     if (i > num_nodes - 1 || j > num_nodes -1 ) {
-        print_error("Indexes passed greater than the number of nodes");
+        LOG_E("Indexes passed greater than the number of nodes");
     }
     // Since the problem has undirected edges that connects two nodes,
     // if we have i > j means that we have already the edge that connects j
@@ -29,9 +27,8 @@ int x_udir_pos(int i, int j, int num_nodes) {
 }
 
 int x_dir_pos(int i, int j, int num_nodes) {
-    //if (i == j) { print_error("Indexes passed are equal!"); }
     if (i > num_nodes - 1 || j > num_nodes -1 ) {
-        print_error("Indexes passed greater than the number of nodes");
+        LOG_E("Indexes passed greater than the number of nodes");
     }
     return i * num_nodes + j;
 }
@@ -197,7 +194,7 @@ void free_instance(instance *inst) {
 }
 
 void parse_instance(instance *inst) {
-    if (inst->params.file_path == NULL) { print_error("You didn't pass any file!"); }
+    if (inst->params.file_path == NULL) { LOG_E("You didn't pass any file!"); }
 
     //Default values
     inst->num_nodes = -1;
@@ -205,7 +202,7 @@ void parse_instance(instance *inst) {
 
     // Open file
     FILE *fp = fopen(inst->params.file_path, "r");
-    if(fp == NULL) { print_error("Unable to open file!"); }
+    if(fp == NULL) { LOG_E("Unable to open file!"); }
    
     char line[128];          // 1 line of the file
     char *par_name;          // name of the parameter in the readed line
@@ -236,7 +233,7 @@ void parse_instance(instance *inst) {
 
         if(strncmp(par_name, "TYPE", 4) == 0){
             token1 = strtok(NULL, sep);  
-            if(strncmp(token1, "TSP", 3) != 0) print_error(" format error:  only TYPE == TSP implemented so far!!!!!!");
+            if(strncmp(token1, "TSP", 3) != 0) LOG_E(" format error:  only TYPE == TSP implemented so far!");
             active_section = 0;
             continue;
 		}
@@ -262,7 +259,7 @@ void parse_instance(instance *inst) {
             if (strncmp(token1, "CEIL_2D", 7) == 0) inst->weight_type = CEIL_2D;
             if (strncmp(token1, "GEO", 3) == 0) inst->weight_type = GEO;
             if (strncmp(token1, "ATT", 3) == 0) inst->weight_type = ATT;
-            if (strncmp(token1, "EXPLICIT", 8) == 0) print_error("Wrong edge weight type, this program resolve only 2D TSP case with coordinate type.");
+            if (strncmp(token1, "EXPLICIT", 8) == 0) LOG_E("Wrong edge weight type, this program resolve only 2D TSP case with coordinate type.");
             active_section = 0;  
             continue;
 		}
@@ -280,7 +277,7 @@ void parse_instance(instance *inst) {
         // NODE_COORD_SECTION
         if(active_section == 1){ 
             int i = atoi(par_name) - 1; // Nodes in problem's file start from index 1
-			if ( i < 0 || i >= inst->num_nodes) print_error(" ... unknown node in NODE_COORD_SECTION section");     
+			if ( i < 0 || i >= inst->num_nodes) LOG_E(" ... unknown node in NODE_COORD_SECTION section");     
 			token1 = strtok(NULL, sep);
 			token2 = strtok(NULL, sep);
             point p = {atof(token1), atof(token2)};

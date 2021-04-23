@@ -19,11 +19,11 @@ void add_gg_constraints(instance *inst, CPXENVptr env, CPXLPptr lp) {
             if (i == 0 && i != j) ub = inst->num_nodes - 1; // Flow from node 1 to node j since y1j <= n-1
             int status = CPXnewcols(env, lp, 1, &obj, &lb, &ub, &xctype, &names); 
             if (status) {
-                print_error("An error occured inserting a new variable");
+                LOG_E("An error occured inserting a new variable. Error code %d", status);
             }
             int numcols = CPXgetnumcols(env, lp);
             if (numcols - 1 != y_pos(i, j, inst->num_nodes)) { // numcols -1 because we need the position index of the new variable
-                print_error("Wrong position of variable y");
+                LOG_E("Wrong position of variable y. Error code %d", status);
             }
         }
     }
@@ -38,17 +38,17 @@ void add_gg_constraints(instance *inst, CPXENVptr env, CPXLPptr lp) {
 
         int status = CPXnewrows(env, lp, 1, &rhs, &sense, NULL, &names);
         if (status) {
-            print_error("Error adding new row"); 
+            LOG_E("CPXnewrows() error code %d", status); 
         }
         for (int i = 0; i < inst->num_nodes; i++) {
             if (h == i) continue;
             status = CPXchgcoef(env, lp, num_rows, y_pos(i, h, inst->num_nodes), 1.0);
-            if (status)  print_error("An error occured in filling constraint y(i, h)");
+            if (status)  LOG_E("An error occured in filling constraint y(i, h). Error code %d", status);
         }
         for (int j = 0; j < inst->num_nodes; j++) {
             if (h == j) continue;
             status = CPXchgcoef(env, lp, num_rows, y_pos(h, j, inst->num_nodes), -1.0);
-            if (status)  print_error("An error occured in filling constraint y(h, j)");
+            if (status)  LOG_E("An error occured in filling constraint y(h, j). Error code %d", status);
         }
     }
 
@@ -60,9 +60,9 @@ void add_gg_constraints(instance *inst, CPXENVptr env, CPXLPptr lp) {
         int num_rows = CPXgetnumrows(env, lp);
         int status = CPXnewrows(env, lp, 1, &rhs, &sense, NULL, &names);
         status = CPXchgcoef(env, lp, num_rows, y_pos(0, j, inst->num_nodes), 1.0);
-        if (status)  print_error("An error occured in filling constraint y(1, j)");
+        if (status)  LOG_E("An error occured in filling constraint y(1, j). Error code %d", status);
         status = CPXchgcoef(env, lp, num_rows, x_dir_pos(0, j, inst->num_nodes), - (inst->num_nodes - 1));
-        if (status)  print_error("An error occured in filling constraint x(1, j)");
+        if (status)  LOG_E("An error occured in filling constraint x(1, j). Error code %d", status);
     }
 
     k = 1;
@@ -78,9 +78,9 @@ void add_gg_constraints(instance *inst, CPXENVptr env, CPXLPptr lp) {
             int status = CPXnewrows(env, lp, 1, &rhs, &sense, NULL, &names);
 
             status = CPXchgcoef(env, lp, num_rows, y_pos(i, j, inst->num_nodes), 1.0);
-            if (status)  print_error("An error occured in filling constraint y(i, j)");
+            if (status)  LOG_E("An error occured in filling constraint y(i, j). Error code %d", status);
             status = CPXchgcoef(env, lp, num_rows, x_dir_pos(i, j, inst->num_nodes), - (inst->num_nodes - 2));
-            if (status)  print_error("An error occured in filling constraint x(i, j)");
+            if (status)  LOG_E("An error occured in filling constraint x(i, j). Error code %d", status);
         }
     }
     free(names);

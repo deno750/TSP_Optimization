@@ -17,11 +17,11 @@ static void add_u_variables(instance *inst, CPXENVptr env, CPXLPptr lp, char **n
 
         int status = CPXnewcols(env, lp, 1, &obj, &lb, &ub, &xctype, names); 
         if (status) {
-            print_error("An error occured inserting a new variable");
+            LOG_E("CPXnewcols() error code %d", status);
         }
         int numcols = CPXgetnumcols(env, lp);
         if (numcols - 1 != u_pos(i, inst->num_nodes)) { // numcols -1 because we need the position index of the new variable
-            print_error("Wrong position of variable");
+            LOG_E("Wrong position of variable in add_u_variable");
         }
     }
 }
@@ -48,20 +48,20 @@ void add_mtz_constraints(instance *inst, CPXENVptr env, CPXLPptr lp, int secd2) 
 
             int status = CPXnewrows(env, lp, 1, &rhs, &sense, NULL, &names);
             if (status) {
-                print_error("Error adding new row");
+                LOG_E("CPXnewrows() error code %d", status);
             }
 
             // Adding M*xij
             status = CPXchgcoef(env, lp, num_rows, x_dir_pos(i, j, inst->num_nodes), BIG_M);
-            if (status)  print_error("An error occured in filling constraint x(i, j)");
+            if (status)  LOG_E("An error occured in filling constraint x(i, j) big M. Error code %d", status);
 
             // Adding ui
             status = CPXchgcoef(env, lp, num_rows, u_pos(i, inst->num_nodes), 1);
-            if (status)  print_error("An error occured in filling constraint u(i)");
+            if (status)  LOG_E("An error occured in filling constraint u(i). Error code %d", status);
             
             // Adding -uj
             status = CPXchgcoef(env, lp, num_rows, u_pos(j, inst->num_nodes), -1);
-            if (status)  print_error("An error occured in filling constraint u(j)");
+            if (status)  LOG_E("An error occured in filling constraint u(j). Error code %d", status);
         }
     }
 
@@ -77,14 +77,14 @@ void add_mtz_constraints(instance *inst, CPXENVptr env, CPXLPptr lp, int secd2) 
 
                 int status = CPXnewrows(env, lp, 1, &rhs, &sense, NULL, &names);
                 if (status) {
-                    print_error("Error adding new row");
+                    LOG_E("CPXnewrows() error code %d", status);
                 }
 
                 status = CPXchgcoef(env, lp, num_rows, x_dir_pos(i, j, inst->num_nodes), 1.0);
-                if (status)  print_error("An error occured in filling constraint x(i, j)");
+                if (status)  LOG_E("An error occured in filling constraint x(i, j). Error code %d", status);
 
                 status = CPXchgcoef(env, lp, num_rows, x_dir_pos(j, i, inst->num_nodes), 1.0);
-                if (status)  print_error("An error occured in filling constraint u(i)");
+                if (status)  LOG_E("An error occured in filling constraint u(i). Error code %d", status);
             }
         }
     }
@@ -118,7 +118,7 @@ void add_mtz_lazy_constraints(instance *inst, CPXENVptr env, CPXLPptr lp, int se
 			index[2] = x_dir_pos(i, j, inst->num_nodes);
 			value[2] = BIG_M;
             int status = CPXaddlazyconstraints(env, lp, 1, nnz, &rhs, &sense, &izero, index, value, &names);
-			if (status) print_error("wrong CPXlazyconstraints() for u-consistency");
+			if (status) LOG_E("wrong CPXlazyconstraints() for u-consistency. Error code %d", status);
 		}
 	}
 
@@ -136,7 +136,7 @@ void add_mtz_lazy_constraints(instance *inst, CPXENVptr env, CPXLPptr lp, int se
                 index[1] = x_dir_pos(j, i, inst->num_nodes);
                 value[1] = 1.0;
                 int status = CPXaddlazyconstraints(env, lp, 1, nnz, &rhs, &sense, &izero, index, value, &names);
-                if (status) print_error("wrong CPXlazyconstraints() for ben");
+                if (status) LOG_E("wrong CPXlazyconstraints() for sec 2 degree. Error code %d", status);
             }
         }
     }
