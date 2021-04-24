@@ -22,12 +22,27 @@ void set_default_lb(CPXENVptr env, CPXLPptr lp, int ncols, int *indexes){
 //Function that fix the edges randomly
 void random_fix(CPXENVptr env, CPXLPptr lp, double prob, int *ncols, int *indexes, double *xh){
     double rand_num;
-	//double one = 1.0;
-	//char lb = 'L'; // Lower Bound
-    *ncols = 0;
+	double one = 1.0;
+	char lb = 'L'; // Lower Bound
+    //*ncols = 0;
     if(prob < 0 || prob > 1) {LOG_E("probability must be in [0,1]");}
     int num_cols = CPXgetnumcols(env, lp);
+
+
+    
+	struct timeval start;
     for(int i = 0; i < num_cols; i++){
+        gettimeofday(&start, NULL);
+		srand(start.tv_usec);//Get a different seed at every iteration
+		rand_num = (double) random() / RAND_MAX;
+		
+		if(xh[i] > 0.5 && rand_num < prob)
+		{
+			CPXchgbds(env, lp, 1, &i, &lb, &one);
+		}
+    }
+
+    /*for(int i = 0; i < num_cols; i++){
 		rand_num = (double) rand() / RAND_MAX;
 		if(xh[i] > 0.5 && rand_num < prob){
             indexes[(*ncols)++] = i;
@@ -40,7 +55,7 @@ void random_fix(CPXENVptr env, CPXLPptr lp, double prob, int *ncols, int *indexe
     int status = CPXchgbds(env, lp, *ncols, indexes, lbs, ones); // this function changes the lower and/or upper bound
     if (status) {LOG_E("CPXchgbds() error code %d", status);}
     free(ones);
-    free(lbs);
+    free(lbs);*/
 }
 
 /*
