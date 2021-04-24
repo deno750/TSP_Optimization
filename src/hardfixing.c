@@ -22,14 +22,12 @@ void set_default_lb(CPXENVptr env, CPXLPptr lp, int ncols, int *indexes){
 //Function that fix the edges randomly
 void random_fix(CPXENVptr env, CPXLPptr lp, double prob, int *ncols, int *indexes, double *xh){
     double rand_num;
-	//double one = 1.0;
-	//char lb = 'L'; // Lower Bound
     *ncols = 0;
-    if(prob < 0 || prob > 1) {LOG_E("probability must be in [0,1]");}
+    if(prob < 0 || prob > 1) { LOG_E("probability must be in [0,1]"); }
     int num_cols = CPXgetnumcols(env, lp);
-    for(int i = 0; i < num_cols; i++){
+    for(int i = 0; i < num_cols; i++) {
 		rand_num = (double) rand() / RAND_MAX;
-		if(xh[i] > 0.5 && rand_num < prob){
+		if(xh[i] > 0.5 && rand_num < prob) {
             indexes[(*ncols)++] = i;
 		}
 	}
@@ -38,7 +36,7 @@ void random_fix(CPXENVptr env, CPXLPptr lp, double prob, int *ncols, int *indexe
     char *lbs = MALLOC(*ncols, char);
     MEMSET(lbs, 'L', *ncols, char);
     int status = CPXchgbds(env, lp, *ncols, indexes, lbs, ones); // this function changes the lower and/or upper bound
-    if (status) {LOG_E("CPXchgbds() error code %d", status);}
+    if (status) { LOG_E("CPXchgbds() error code %d", status); }
     free(ones);
     free(lbs);
 }
@@ -156,12 +154,15 @@ int hard_fixing_solver(instance *inst, CPXENVptr env, CPXLPptr lp) {
     srand(seed); // This should go on the beginning of the program
     int num = 0;
     do {
+        CPXsetdblparam(env, CPXPARAM_TimeLimit, time_remain);
         random_fix(env, lp, prob, &ncols_fixed, indexes, xh);
         LOG_D("COLS %d", ncols_fixed);
         save_lp(env, lp, "YEEEEE");
 
         status = CPXmipopt(env, lp);
-        if (status) {LOG_E("CPXmipopt error code %d", status);}
+        if (status) {
+            LOG_E("CPXmipopt error code %d", status);
+        }
 
         status = CPXgetx(env, lp, xh, 0, cols_tot - 1);
         if (status) {LOG_E("CPXgetx error code %d", status);}
@@ -169,10 +170,7 @@ int hard_fixing_solver(instance *inst, CPXENVptr env, CPXLPptr lp) {
         
         set_default_lb(env, lp, ncols_fixed, indexes);
         save_lp(env, lp, "YEEEEE2");
-    } while(num++ < 3);
-    
-    
-
+    } while(num++ < 10);
     free(indexes);
     free(xh);
     return 0;
