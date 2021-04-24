@@ -20,7 +20,7 @@ void set_default_lb(CPXENVptr env, CPXLPptr lp, int ncols, int *indexes){
 }
 
 //Function that fix the edges randomly
-void random_fix(CPXENVptr env, CPXLPptr lp, double prob, int *ncols, int *indexes){
+void random_fix(CPXENVptr env, CPXLPptr lp, double prob, int *ncols, int *indexes, double *xh){
     double rand_num;
 	//double one = 1.0;
 	//char lb = 'L'; // Lower Bound
@@ -29,7 +29,7 @@ void random_fix(CPXENVptr env, CPXLPptr lp, double prob, int *ncols, int *indexe
     int num_cols = CPXgetnumcols(env, lp);
     for(int i = 0; i < num_cols; i++){
 		rand_num = (double) rand() / RAND_MAX;
-		if(rand_num < prob){
+		if(xh[i] > 0.5 && rand_num < prob){
             indexes[(*ncols)++] = i;
 		}
 	}
@@ -125,42 +125,55 @@ int hard_fixing(instance *inst, CPXENVptr env, CPXLPptr lp, int total_timelimit)
 int hard_fixing_solver(instance *inst, CPXENVptr env, CPXLPptr lp) {
     // For other emphasis params check there: https://www.ibm.com/docs/en/icos/20.1.0?topic=parameters-mip-emphasis-switch
     CPXsetintparam(env, CPXPARAM_Emphasis_MIP, CPX_MIPEMPHASIS_HEURISTIC); // We want that cplex finds an high quality solution earlier
-    //CPXsetintparam(env, CPXPARAM_Emphasis_MIP, CPX_MIPEMPHASIS_FEASIBILITY);
     CPXsetintparam(env, CPX_PARAM_NODELIM, 0);
-
     double time_limit = inst->params.time_limit > 0 ? inst->params.time_limit : HARD_FIX_TIME_LIM_DEFAULT;
     CPXsetdblparam(env, CPXPARAM_TimeLimit, time_limit);
+
+    int status;
+
+    int cols_tot = CPXgetnumcols(env, lp);
+    int *indexes = MALLOC(cols_tot, int);
+    double *xh = CALLOC(cols_tot, double);
 
     struct timeval start, end; 
     gettimeofday(&start, 0);
 
-    int cols_tot = CPXgetnumcols(env, lp);
+    status = opt_best_solver(env, lp, inst);
+    if (status) {
+        LOG_E("Best opt error code %d", status);
+    }
+    gettimeofday(&end, 0);
 
-    int *indexes = MALLOC(cols_tot, int); 
+    double elapsed = get_elapsed_time(start, end);
+    double time_remain = time_limit - elapsed; // this is the time remained that is going to be splitted with every mipopt execution
+
+    status = CPXgetx(env, lp, xh, 0, cols_tot - 1);
+    if (status) {LOG_E("CPXgetx error code %d", status);}
 
     int ncols_fixed;
     double prob = 0.7;
     unsigned int seed = inst->params.seed >= 0 ? inst->params.seed : 0;
     srand(seed); // This should go on the beginning of the program
+    int num = 0;
     do {
-        random_fix(env, lp, prob, &ncols_fixed, indexes);
+        random_fix(env, lp, prob, &ncols_fixed, indexes, xh);
         LOG_D("COLS %d", ncols_fixed);
+        save_lp(env, lp, "YEEEEE");
 
-        int status = opt_best_solver(env, lp, inst);
-        if (status) {
-            LOG_E("Best opt error code %d", status);
-        }
-        gettimeofday(&end, 0);
+        status = CPXmipopt(env, lp);
+        if (status) {LOG_E("CPXmipopt error code %d", status);}
 
-        double elapsed = get_elapsed_time(start, end);
+        status = CPXgetx(env, lp, xh, 0, cols_tot - 1);
+        if (status) {LOG_E("CPXgetx error code %d", status);}
 
-        double time_remain = time_limit - elapsed; // this is the time remained that is going to be splitted with every mipopt execution
-
+        
         set_default_lb(env, lp, ncols_fixed, indexes);
-    } while(0);
+        save_lp(env, lp, "YEEEEE2");
+    } while(num++ < 3);
     
     
 
     free(indexes);
+    free(xh);
     return 0;
 }
