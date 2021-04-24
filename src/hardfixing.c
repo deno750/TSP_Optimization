@@ -21,18 +21,15 @@ void set_default_lb(CPXENVptr env, CPXLPptr lp, int ncols, int *indexes){
 
 //Function that fix the edges randomly
 void random_fix(CPXENVptr env, CPXLPptr lp, double prob, int *ncols, int *indexes){
-    double rand;
+    double rand_num;
 	//double one = 1.0;
 	//char lb = 'L'; // Lower Bound
     *ncols = 0;
     if(prob < 0 || prob > 1) {LOG_E("probability must be in [0,1]");}
-
     int num_cols = CPXgetnumcols(env, lp);
     for(int i = 0; i < num_cols; i++){
-		rand = (double) random() / RAND_MAX;
-
-		if(rand < prob){
-			//CPXchgbds(env, lp, 1, &i, &lb, &one); // this function changes the lower and/or upper bound
+		rand_num = (double) rand() / RAND_MAX;
+		if(rand_num < prob){
             indexes[(*ncols)++] = i;
 		}
 	}
@@ -143,10 +140,11 @@ int hard_fixing_solver(instance *inst, CPXENVptr env, CPXLPptr lp) {
 
     int ncols_fixed;
     double prob = 0.7;
+    unsigned int seed = inst->params.seed >= 0 ? inst->params.seed : 0;
+    srand(seed); // This should go on the beginning of the program
     do {
         random_fix(env, lp, prob, &ncols_fixed, indexes);
-        LOG_D("RANDOMMM");
-        save_lp(env, lp, "YEEEEE");
+        LOG_D("COLS %d", ncols_fixed);
 
         int status = opt_best_solver(env, lp, inst);
         if (status) {
