@@ -35,6 +35,7 @@
 #endif
 #define LOG_I(fmt, ...) {fprintf(stdout, "[INFO]  ");fprintf(stdout, fmt, ## __VA_ARGS__);fprintf(stdout, "\n");}
 #define LOG_E(fmt, ...) {fprintf(stderr, "[ERROR] ");fprintf(stderr, fmt, ## __VA_ARGS__);fprintf(stdout, "\n");fflush(NULL);exit(1);}
+#define FREE(ptr) free(ptr); ptr=NULL;
 
 
 // Constant that is useful for numerical errors
@@ -115,7 +116,8 @@ typedef struct {
 typedef struct {
     double obj_best; // Stores the best value of the objective function
     edge *edges; // List the solution's edges
-    double time_to_solve; 
+    double time_to_solve;
+    double *xbest; // The best solution found in heuristics implementations
 } solution;
 
 // Instance data structure where all the information of the problem are stored
@@ -250,6 +252,8 @@ void save_lp(CPXENVptr env, CPXLPptr lp, char *name);
  * @returns The number of subtorus. The returned value must be >= 1. If not, an error occured
  */
 int count_components(instance *inst, double* xstar, int* successors, int* comp);
+
+int count_components_adv(instance *inst, double* xstar, int* successors, int* comp, void (*close_cycle_callback)(int, int, void*), void* data);
 
 /**
  * Prepares the passed parameters to be comfortable with SEC constraints for functions CPXaddnewrows and CPXcallbackrejectcandidate

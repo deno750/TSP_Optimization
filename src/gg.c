@@ -83,5 +83,5 @@ void add_gg_constraints(instance *inst, CPXENVptr env, CPXLPptr lp) {
             if (status)  LOG_E("An error occured in filling constraint x(i, j). Error code %d", status);
         }
     }
-    free(names);
+    FREE(names);
 }

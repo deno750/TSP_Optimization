@@ -90,7 +90,7 @@ void add_mtz_constraints(instance *inst, CPXENVptr env, CPXLPptr lp, int secd2) 
     }
     
 
-    free(names);
+    FREE(names);
 }
 
 void add_mtz_lazy_constraints(instance *inst, CPXENVptr env, CPXLPptr lp, int secd2) {

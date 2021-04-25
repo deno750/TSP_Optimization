@@ -62,6 +62,7 @@ void parse_comand_line(int argc, const char *argv[], instance *inst) {
     inst->comment = NULL;
     inst->nodes = NULL;
     inst->solution.edges = NULL;
+    inst->solution.xbest = NULL;
     int need_help = 0;
     int show_methods = 0;
     
@@ -186,11 +187,12 @@ void parse_comand_line(int argc, const char *argv[], instance *inst) {
 }
 
 void free_instance(instance *inst) {
-    free(inst->params.file_path);
-    free(inst->name);
-    free(inst->comment);
-    free(inst->nodes);
-    free(inst->solution.edges);
+    FREE(inst->params.file_path);
+    FREE(inst->name);
+    FREE(inst->comment);
+    FREE(inst->nodes);
+    FREE(inst->solution.edges);
+    FREE(inst->solution.xbest);
 }
 
 void parse_instance(instance *inst) {
@@ -399,6 +401,10 @@ void export_tour(instance *inst) {
 }
 
 int count_components(instance *inst, double* xstar, int* successors, int* comp) {
+    return count_components_adv(inst, xstar, successors, comp, NULL, NULL);
+}
+
+int count_components_adv(instance *inst, double* xstar, int* successors, int* comp, void (*close_cycle_callback)(int, int, void*), void* data) {
 
     int num_comp = 0;
 
@@ -409,6 +415,7 @@ int count_components(instance *inst, double* xstar, int* successors, int* comp) 
 		num_comp++;
 		int current_node = i;
 		int visit_comp = 0; // 
+        int comp_members = 1;
 		while ( !visit_comp ) { // go and visit the current component
 			comp[current_node] = num_comp;
 			visit_comp = 1; // We set the flag visited to true until we find the successor
@@ -418,11 +425,15 @@ int count_components(instance *inst, double* xstar, int* successors, int* comp) 
 					successors[current_node] = j;
 					current_node = j;
 					visit_comp = 0;
+                    comp_members++;
 					break;
 				}
 			}
 		}	
 		successors[current_node] = i;  // last arc to close the cycle
+        if (close_cycle_callback && comp_members > 2) {
+            close_cycle_callback(current_node, i, data);
+        }
 	}
     
     return num_comp;
@@ -444,8 +455,8 @@ void save_solution_edges(instance *inst, double *xstar) {
             e->i = i;
             e->j = succ[i];
         }
-        free(succ);
-        free(comp);
+        FREE(succ);
+        FREE(comp);
 
     } else {
         int k = 0;

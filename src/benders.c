@@ -32,8 +32,8 @@ int benders_loop(instance *inst, CPXENVptr env, CPXLPptr lp) {
         double elapsed = get_elapsed_time(start, end);
         double timelimit = (double) inst->params.time_limit;
         if (timelimit > 0 && elapsed > timelimit) {
-            free(successors);
-            free(comp);
+            FREE(successors);
+            FREE(comp);
             return CPX_STAT_ABORT_TIME_LIM;
         }
 
@@ -47,8 +47,8 @@ int benders_loop(instance *inst, CPXENVptr env, CPXLPptr lp) {
 
         int status = CPXmipopt(env, lp);
         if (status) { 
-            free(successors);
-            free(comp);
+            FREE(successors);
+            FREE(comp);
             return status;
         }
 
@@ -85,14 +85,14 @@ int benders_loop(instance *inst, CPXENVptr env, CPXLPptr lp) {
             printf("\n");
         }
 
-        free(indexes);
-        free(values);
-        free(xstar);
+        FREE(indexes);
+        FREE(values);
+        FREE(xstar);
             
     } while (numcomp > 1);
 
-    free(successors);
-    free(comp);
+    FREE(successors);
+    FREE(comp);
 
     return 0;
 }

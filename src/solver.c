@@ -17,7 +17,7 @@ int opt_best_solver(CPXENVptr env, CPXLPptr lp, instance *inst) {
     CPXLONG contextid = CPX_CALLBACKCONTEXT_CANDIDATE | CPX_CALLBACKCONTEXT_RELAXATION;
     int status = CPXcallbacksetfunc(env, lp, contextid, SEC_cuts_callback, inst);
     if (status) LOG_E("CPXcallbacksetfunc() error returned status %d", status);
-    status = CPXmipopt(env, lp);
+    //status = CPXmipopt(env, lp);
     return status;
 }
 
@@ -125,23 +125,28 @@ int TSP_opt(instance *inst) {
     
     // Use the solution
     int ncols = CPXgetnumcols(env, lp);
-	double *xstar = CALLOC(ncols, double);
-    status = CPXgetx(env, lp, xstar, 0, ncols-1);
-	if ( status ) {
-        //Stats here: https://www.tu-chemnitz.de/mathematik/discrete/manuals/cplex/doc/refman/html/appendixB.html
-        //int stat = CPXgetstat(env, lp);
-        //LOG_I("Status: %d", stat);
-        // Cplex error codes: https://www.tu-chemnitz.de/mathematik/discrete/manuals/cplex/doc/refman/html/appendixC2.html
-        if (status == CPXERR_NO_SOLN) {
-            LOG_E("No Solution exists");	
+    if (inst->solution.xbest == NULL) {
+        double *xstar = CALLOC(ncols, double);
+        status = CPXgetx(env, lp, xstar, 0, ncols-1);
+        if ( status ) {
+            //Stats here: https://www.tu-chemnitz.de/mathematik/discrete/manuals/cplex/doc/refman/html/appendixB.html
+            //int stat = CPXgetstat(env, lp);
+            //LOG_I("Status: %d", stat);
+            // Cplex error codes: https://www.tu-chemnitz.de/mathematik/discrete/manuals/cplex/doc/refman/html/appendixC2.html
+            if (status == CPXERR_NO_SOLN) {
+                LOG_E("No Solution exists");	
+            }
+            LOG_E("CPXgetx() error code %d", status);	
         }
-        LOG_E("CPXgetx() error code %d", status);	
-    }
-    CPXgetobjval(env, lp, &(inst->solution.obj_best));
-    
-    // Storing the solutions edges into an array
-    save_solution_edges(inst, xstar);
+        CPXgetobjval(env, lp, &(inst->solution.obj_best));
 
+        // Storing the solutions edges into an array
+        save_solution_edges(inst, xstar);
+        FREE(xstar);
+    } else {
+        save_solution_edges(inst, inst->solution.xbest);
+    }
+	
     export_tour(inst);
     
     print_solution(inst);
@@ -153,8 +158,6 @@ int TSP_opt(instance *inst) {
     } else {
         printf("\n\n\nTIME TO SOLVE %0.6fs\n\n\n", elapsed); // Time should be printed only when no errors occur
     }
-
-    free(xstar);
 
     //Free the problem and close cplex environment
     CPXfreeprob(env, &lp);
@@ -210,7 +213,7 @@ static void build_udir_model(instance *inst, CPXENVptr env, CPXLPptr lp) {
         
     }
 
-    free(names);
+    FREE(names);
 }
 
 static void build_dir_model(instance *inst, CPXENVptr env, CPXLPptr lp) {
@@ -290,7 +293,7 @@ static void build_dir_model(instance *inst, CPXENVptr env, CPXLPptr lp) {
         add_gg_constraints(inst, env, lp);
     }
 
-    free(names);
+    FREE(names);
 }
 
 static void build_model(instance *inst, CPXENVptr env, CPXLPptr lp) {
