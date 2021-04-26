@@ -28,6 +28,24 @@ void set_default_lb2(CPXENVptr env, CPXLPptr lp, int ncols, int *indexes){
     }
 }
 
+void set_default_bounds(CPXENVptr env, CPXLPptr lp, int ncols, int *indexes, char *bounds){
+    double value;
+    char bound;
+    int status = 0;
+    for (int i = 0; i < ncols; i++) {
+        bound = bounds[i];
+        if (bound == 'L') {
+            value = 0.0;
+        } else if (bound == 'U') {
+            value = 1.0;
+        } else {
+            LOG_E("An unknown bound is set: %c", bound);
+        }
+        status = CPXchgbds(env, lp, 1, &(indexes[i]), &bound, &value);
+        if (status) {LOG_E("CPXchgbds() error code %d", status);}
+    }
+}
+
 //Function that fix the edges randomly
 void random_fix2(CPXENVptr env, CPXLPptr lp, double prob, int *ncols, int *indexes, double *xh){
     double rand_num;
@@ -72,6 +90,9 @@ typedef struct {
     CPXENVptr env;
     CPXLPptr lp;
     instance *inst;
+    int *ncols;
+    int *indexes;
+    char *bounds;
 } callback_params;
 
 void close_cycle_callback(int i, int j, void* data) {
@@ -79,14 +100,20 @@ void close_cycle_callback(int i, int j, void* data) {
     instance *inst = param->inst;
     CPXENVptr env = param->env;
     CPXLPptr lp = param->lp;
+    int *ncols = param->ncols;
+    int *indexes = param->indexes;
+    char *bounds = param->bounds;
     int index = x_udir_pos(i, j, inst->num_nodes);
     char ub = 'U';
     double zero = 0.0;
+    indexes[*ncols] = index;
+    bounds[*ncols] = ub;
+    (*ncols)++;
     CPXchgbds(env, lp, 1, &index, &ub, &zero);
 }
 
 
-void advanced_fix(CPXENVptr env, CPXLPptr lp, instance *inst, double prob, int *ncols, int *indexes, double *xh) {
+void advanced_fix(CPXENVptr env, CPXLPptr lp, instance *inst, double prob, int *ncols, int *indexes, char *bounds, double *xh) {
     double rand_num;
 	double one = 1.0;
 	char lb = 'L'; // Lower Bound
@@ -102,35 +129,23 @@ void advanced_fix(CPXENVptr env, CPXLPptr lp, instance *inst, double prob, int *
 		
 		if(xh[i] > 0.5 && rand_num < prob) {
 			CPXchgbds(env, lp, 1, &i, &lb, &one);
-            indexes[(*ncols)++] = i;
+            indexes[*ncols] = i;
+            bounds[*ncols] = lb;
+            (*ncols)++;
             xfake[i] = 1.0;
 		}
     }
-
+ 
     int *succ = MALLOC(inst->num_nodes, int);
     MEMSET(succ, -1, inst->num_nodes, int);
     int *comp = MALLOC(inst->num_nodes, int);
     MEMSET(comp, -1, inst->num_nodes, int);
-    callback_params param = {.env = env, .lp = lp, .inst = inst};
+    callback_params param = {.env = env, .lp = lp, .inst = inst, .indexes = indexes, .bounds = bounds, .ncols = ncols};
     int numcomp = count_components_adv(inst, xfake, succ, comp, close_cycle_callback, &param);
-    
-    /*for (int tour = 1; tour <= numcomp; tour++) {
 
-    }
-    LOG_D("Num comps %d" , numcomp);
-    int start = 0;
-    int current = start;
-    while (comp[current] == 1 && numcomp != inst->num_nodes) {
-        LOG_D("%d -> %d", current, succ[current]);
-        current = succ[current];
-    }
-    
-    for (int i = 0; i < inst->num_nodes; i++) {
-        LOG_D("S: %d -> %d", i, succ[i]);
-        LOG_D("C: %d -> %d", comp[i] + 1, comp[succ[i]] + 1);
-    }*/
-
-    
+    FREE(xfake);
+    FREE(succ);
+    FREE(comp);    
 }
 
 int hard_fixing_solver(instance *inst, CPXENVptr env, CPXLPptr lp) {
@@ -143,6 +158,7 @@ int hard_fixing_solver(instance *inst, CPXENVptr env, CPXLPptr lp) {
     int status = opt_best_solver(env, lp, inst);
     int cols_tot = CPXgetnumcols(env, lp);
     int *indexes = MALLOC(cols_tot, int);
+    char *bounds = MALLOC(cols_tot, char);
     double *xh = CALLOC(cols_tot, double); // The current solution found
     inst->solution.xbest = CALLOC(cols_tot, double); // The best solution found till now
 
@@ -166,14 +182,14 @@ int hard_fixing_solver(instance *inst, CPXENVptr env, CPXLPptr lp) {
         double time_remain = time_limit - elapsed; // this is the time remained 
         CPXsetdblparam(env, CPXPARAM_TimeLimit, time_lim_frac);
         //random_fix2(env, lp, prob, &ncols_fixed, indexes, xh);
-        advanced_fix(env, lp, inst, prob, &ncols_fixed, indexes, xh);
+        advanced_fix(env, lp, inst, prob, &ncols_fixed, indexes, bounds, xh);
         status = CPXmipopt(env, lp);
         LOG_I("COLS %d", ncols_fixed);
-        //save_lp(env, lp, "YEEEEE");
+        save_lp(env, lp, "YEEEEE");
         if (status) {
             LOG_E("CPXmipopt error code %d", status);
         }
-
+//0x00000001034cc000 "LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU\x82J\x01"
         status = CPXgetx(env, lp, xh, 0, cols_tot - 1);
         CPXgetobjval(env, lp, &objval);
         if (status) { LOG_D("CPXgetx error code %d", status); }
@@ -186,8 +202,9 @@ int hard_fixing_solver(instance *inst, CPXENVptr env, CPXLPptr lp) {
 
         
         // Unfix the variables
-        set_default_lb2(env, lp, ncols_fixed, indexes);
-        //save_lp(env, lp, "YEEEEE2");
+        //set_default_lb2(env, lp, ncols_fixed, indexes);
+        set_default_bounds(env, lp, ncols_fixed, indexes, bounds);
+        save_lp(env, lp, "YEEEEE2");
     } while(num++ < num_iter);
     FREE(indexes);
     FREE(xh);
