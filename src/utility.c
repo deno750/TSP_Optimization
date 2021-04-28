@@ -404,7 +404,7 @@ int count_components(instance *inst, double* xstar, int* successors, int* comp) 
     return count_components_adv(inst, xstar, successors, comp, NULL, NULL);
 }
 
-int count_components_adv(instance *inst, double* xstar, int* successors, int* comp, void (*close_cycle_callback)(int, int, void*), void* data) {
+int count_components_adv(instance *inst, double* xstar, int* successors, int* comp, edge* close_cycle_edges, int* num_closed_cycles) {
 
     int num_comp = 0;
 
@@ -431,8 +431,9 @@ int count_components_adv(instance *inst, double* xstar, int* successors, int* co
 			}
 		}	
 		successors[current_node] = i;  // last arc to close the cycle
-        if (close_cycle_callback && comp_members > 2) {
-            close_cycle_callback(current_node, i, data);
+        if (close_cycle_edges && num_closed_cycles && comp_members > 2) {
+            edge e = {i, current_node};
+            close_cycle_edges[(*num_closed_cycles)++] = e; 
         }
 	}
     

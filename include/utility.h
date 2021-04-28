@@ -253,7 +253,7 @@ void save_lp(CPXENVptr env, CPXLPptr lp, char *name);
  */
 int count_components(instance *inst, double* xstar, int* successors, int* comp);
 
-int count_components_adv(instance *inst, double* xstar, int* successors, int* comp, void (*close_cycle_callback)(int, int, void*), void* data);
+int count_components_adv(instance *inst, double* xstar, int* successors, int* comp, edge* close_cycle_edges, int* num_closed_cycles);
 
 /**
  * Prepares the passed parameters to be comfortable with SEC constraints for functions CPXaddnewrows and CPXcallbackrejectcandidate
