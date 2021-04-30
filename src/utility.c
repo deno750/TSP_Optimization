@@ -143,6 +143,11 @@ void parse_comand_line(int argc, const char *argv[], instance *inst) {
                 inst->params.method.edge_type = UDIR_EDGE;
                 inst->params.method.name = "HARD FIXING HEURISTIC";
             }
+            if (strncmp(method, "SOFT_FIX", 8) == 0) {
+                inst->params.method.id = SOLVE_SOFT_FIXING;
+                inst->params.method.edge_type = UDIR_EDGE;
+                inst->params.method.name = "SOFT FIXING HEURISTIC";
+            }
             continue;
         }
         if (strcmp("-seed", argv[i]) == 0) {
@@ -169,6 +174,7 @@ void parse_comand_line(int argc, const char *argv[], instance *inst) {
         printf("CALLBACK     Callback Method\n");
         printf("USER_CUT     Callback Method using usercuts\n");
         printf("HARD_FIX     Hard fixing heuristic method\n");
+        printf("SOFT_FIX     Soft fixing heuristic method\n");
         exit(0);
     }
 
