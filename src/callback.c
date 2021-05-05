@@ -65,7 +65,7 @@ static int CPXPUBLIC SEC_cuts_callback_candidate(CPXCALLBACKCONTEXTptr context, 
 }
 
 static int violated_cuts_callback(double cutval, int num_nodes, int* members, void* param) {
-    LOG_D("Violated cuts callback");
+    //LOG_D("Violated cuts callback");
     relaxation_callback_params *params = (relaxation_callback_params*) param;
     instance *inst = params->inst;
     CPXCALLBACKCONTEXTptr context = params->context;
@@ -79,15 +79,17 @@ static int violated_cuts_callback(double cutval, int num_nodes, int* members, vo
     char sense = 'L';
     int matbeg = 0;
     int num_edges = num_nodes * (num_nodes - 1) / 2;
-    LOG_D("Num edges: %d\n", num_edges);
+    //LOG_D("Num edges: %d\n", num_edges);
     double *values = MALLOC(num_edges, double);
     MEMSET(values, 1.0, num_edges, double);
     int *edges = MALLOC(num_edges, int);
     int k = 0;
     for (int i = 0; i < num_nodes; i++) {
-        for (int j = i+1; j < num_nodes; j++) {
-            edges[k++] = x_udir_pos(members[i], members[j], inst->num_nodes);
-            //LOG_D("X(%d,%d)", members[i], members[j]);
+        for (int j = 0; j < num_nodes; j++) {
+            if (members[i] < members[j]) {
+                edges[k++] = x_udir_pos(members[i], members[j], inst->num_nodes);
+                //LOG_D("X(%d,%d)", members[i], members[j]);
+            }
         }
     }
     int purgeable = CPX_USECUT_FILTER;
@@ -106,9 +108,9 @@ static int CPXPUBLIC SEC_cuts_callback_relaxation(CPXCALLBACKCONTEXTptr context,
     CPXcallbackgetinfoint(context, CPXCALLBACKINFO_NODEDEPTH, &depth);
     CPXcallbackgetinfoint(context, CPXCALLBACKINFO_NODECOUNT, &node);
     CPXcallbackgetinfoint(context, CPXCALLBACKINFO_THREADID, &threadid); 
-    LOG_D("Depth is %d", depth);
-    LOG_D("Current node %d", node);
-    LOG_D("Thread id: %d\n", threadid);
+    //LOG_D("Depth is %d", depth);
+    //LOG_D("Current node %d", node);
+    //LOG_D("Thread id: %d\n", threadid);
     //if (node % 7 != 0) return 0; // hyperparameter tuning
     if (depth > 5) return 0; // Hyperparameter tuning
     if (inst->params.verbose >= 5) {

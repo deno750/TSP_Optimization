@@ -36,6 +36,7 @@
 #define LOG_I(fmt, ...) {fprintf(stdout, "[INFO]  ");fprintf(stdout, fmt, ## __VA_ARGS__);fprintf(stdout, "\n");}
 #define LOG_E(fmt, ...) {fprintf(stderr, "[ERROR] ");fprintf(stderr, fmt, ## __VA_ARGS__);fprintf(stdout, "\n");fflush(NULL);exit(1);}
 #define FREE(ptr) free(ptr); ptr=NULL;
+#define LEN(arr) (sizeof(arr) / sizeof(*arr))
 
 
 // Constant that is useful for numerical errors

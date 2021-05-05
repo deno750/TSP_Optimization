@@ -9,6 +9,7 @@
 #include "benders.h"
 #include "callback.h"
 #include "hardfixing.h"
+#include "softfixing.h"
 
 // USER CUT SOLVER
 int opt_best_solver(CPXENVptr env, CPXLPptr lp, instance *inst) {
@@ -17,7 +18,7 @@ int opt_best_solver(CPXENVptr env, CPXLPptr lp, instance *inst) {
     CPXLONG contextid = CPX_CALLBACKCONTEXT_CANDIDATE | CPX_CALLBACKCONTEXT_RELAXATION;
     int status = CPXcallbacksetfunc(env, lp, contextid, SEC_cuts_callback, inst);
     if (status) LOG_E("CPXcallbacksetfunc() error returned status %d", status);
-    //status = CPXmipopt(env, lp);
+    status = CPXmipopt(env, lp);
     return status;
 }
 
@@ -71,11 +72,11 @@ static int solve_problem(CPXENVptr env, CPXLPptr lp, instance *inst) {
         status = benders_loop(inst, env, lp);
     } else if (inst->params.method.id == SOLVE_HARD_FIXING) {
         status = hard_fixing_solver(inst, env, lp);
+    } else if (inst->params.method.id == SOLVE_SOFT_FIXING) {
+        status = soft_fixing_solver(inst, env, lp);
     } else {
-
         if (inst->params.method.id == SOLVE_CALLBACK || inst->params.method.id == SOLVE_UCUT) {
-            int ncols = CPXgetnumcols(env, lp);
-            inst->num_columns = ncols; // The callbacks need the number of cols
+            
             CPXLONG contextid;
             if (inst->params.method.id == SOLVE_UCUT) {
                 contextid = CPX_CALLBACKCONTEXT_CANDIDATE | CPX_CALLBACKCONTEXT_RELAXATION;
@@ -95,7 +96,6 @@ int TSP_opt(instance *inst) {
     int error;
     CPXENVptr env = CPXopenCPLEX(&error);       // generate new environment, in err will be saved errors
     CPXLPptr lp = CPXcreateprob(env, &error, inst->name);   // create new empty linear programming problem (no variables, no constraints ...)
-    
     // Build the model (add variable and constrains to the empty one)
     build_model(inst, env, lp);
 
@@ -104,6 +104,14 @@ int TSP_opt(instance *inst) {
 
     // Tells cplex to store the log files
     save_cplex_log(env, inst);
+
+    
+    if (inst->params.seed >= 0) {
+        srand(inst->params.seed); // Setting the random seed for rand()
+    }
+    int ncols = CPXgetnumcols(env, lp);
+    inst->num_columns = ncols; // The callbacks need the number of cols
+    inst->solution.xbest = CALLOC(ncols, double); // The best solution found till now
 
     //Optimize the model (the solution is stored inside the env variable)
     struct timeval start, end;
@@ -124,7 +132,7 @@ int TSP_opt(instance *inst) {
     inst->solution.time_to_solve = elapsed;
     
     // Use the solution
-    int ncols = CPXgetnumcols(env, lp);
+    //int ncols = CPXgetnumcols(env, lp);
     if (inst->solution.xbest == NULL) {
         double *xstar = CALLOC(ncols, double);
         status = CPXgetx(env, lp, xstar, 0, ncols-1);

@@ -7,12 +7,16 @@
 #include <cplex.h>
 #include "utility.h"
 
+#define HARD_FIX_TIME_LIM_DEFAULT 60 * 15 // 15 min
+#define MIN_IMPROVEMENT 0.015
+#define MAX_LITTLE_IMPROVEMENTS 3
+
 /**
  * Function which the hard fixing solving procedure occurs
  * 
- * @param inst
- * @param env
- * @param lp
+ * @param inst The instance pointer of the problem
+ * @param env The cplex's environment
+ * @param lp The cplex's problem object
  **/
 int hard_fixing_solver(instance *inst, CPXENVptr env, CPXLPptr lp);
 
