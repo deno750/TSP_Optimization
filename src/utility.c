@@ -56,7 +56,7 @@ void parse_comand_line(int argc, const char *argv[], instance *inst) {
     inst->params.file_path = NULL;
     inst->params.verbose = 1; //Default verbose level of 1
     inst->params.integer_cost = 1; // Default integer costs
-    inst->params.seed = -1; // No seed specified
+    inst->params.seed = time(0); // We want to specify the random seed as the current time in order to have a real randomness when user doesn't explicitly choose the seed
     inst->params.perf_prof = 0;
     inst->name = NULL;
     inst->comment = NULL;
