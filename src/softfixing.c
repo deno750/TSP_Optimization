@@ -21,7 +21,7 @@ int soft_fixing_solver(instance *inst, CPXENVptr env, CPXLPptr lp) {
     int status = opt_best_solver(env, lp, inst);
     if (status) {LOG_E("CPXmipopt in hard fixing error code %d", status);}
     status = CPXgetx(env, lp, xh, 0, cols_tot - 1); // save the first solution found
-    CPXsetintparam(env, CPX_PARAM_NODELIM, 100); // Resetting the node limit to infinite
+    CPXsetintparam(env, CPX_PARAM_NODELIM, 100); 
 
     CPXsetintparam(env, CPXPARAM_Emphasis_MIP, CPX_MIPEMPHASIS_OPTIMALITY);
     double radius[] = {3, 5, 7, 9};
@@ -71,17 +71,15 @@ int soft_fixing_solver(instance *inst, CPXENVptr env, CPXLPptr lp) {
         LOG_D("Improvement %0.4f", obj_improv);
         if (objval < objbest && !status) {
             done = 0;
-            /*if (obj_improv < 0.015) {
+            if (obj_improv < SOFT_FIX_MIN_IMPROVEMENT) {
                 LOG_D("NOT IMPROVED TOO MUCH");
                 number_little_improvements++;
-                LOG_D("Prob_index: %d Len Prob: %lu", rad_index, LEN(radius));
-                if (number_little_improvements == 3 && rad_index < LEN(radius) - 1) {
+                LOG_D("Prob_index: %d Len Prob: %lu Num Little improv: %d", rad_index, LEN(radius), number_little_improvements);
+                if (number_little_improvements % SOFT_FIX_MAX_LITTLE_IMPROVEMENTS == 0 && rad_index < LEN(radius) - 1) {
                     rad_index++;
                     LOG_D("CONSECUTIVE LITTLE IMPROVMENETS. UPDATING THE PROB INDEX");
                 }
-            } else {
-                number_little_improvements = 0;
-            }*/
+            }
             LOG_I("Updated incubement: %f", objval);
             objbest = objval;
             inst->solution.obj_best = objval;

@@ -5,6 +5,8 @@
 #include "utility.h"
 
 #define SOFT_FIX_TIME_LIM_DEFAULT 900
+#define SOFT_FIX_MIN_IMPROVEMENT 0.015
+#define SOFT_FIX_MAX_LITTLE_IMPROVEMENTS 3
 
 /**
  * Function which the soft fixing solving procedure occurs
