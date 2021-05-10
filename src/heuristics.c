@@ -97,12 +97,52 @@ int HEU_extramileage(instance *inst) {
     for (int i = 0; i < hsize - 1; i++) {
         inst->solution.xbest[x_udir_pos(hindex[i], hindex[i+1], inst->num_nodes)] = 1.0;
         edge e;
-        e.i = i;
-        e.j = i+1;
+        e.i = hindex[i];
+        e.j = hindex[i+1];
         edges[i] = e;
     }
-    /*while (num_visited < inst->num_nodes) {
+    save_solution_edges(inst, inst->solution.xbest);
+    plot_solution(inst);
+    while (num_visited < inst->num_nodes) {
+        for (int i = 0; i < inst->num_nodes; i++) {
+            if (nodes_visited[i]) { continue; }
+            
+            double min_mileage = DBL_MAX;
+            edge best_edge;
+            int best_edge_idx = -1;
+            for (int j = 0; j < num_visited; j++) {
+                edge e = edges[j];
+                int a = e.i;
+                int b = e.j;
+                int c = i;
+                double cost1 = calc_dist(a, c, inst);
+                double cost2 = calc_dist(c, b, inst);
+                double cost3 = calc_dist(a, b, inst);
+                double deltacost = cost1 + cost2 - cost3;
+                if (deltacost < min_mileage) {
+                    min_mileage = deltacost;
+                    best_edge = e;
+                    best_edge_idx = j;
+                }
+            }
+            if (best_edge_idx == -1) {
+                break;
+            }
+            edge e1;
+            e1.i = best_edge.i;
+            e1.j = i;
+            edge e2;
+            e2.i = i;
+            e2.j = best_edge.j;
+            inst->solution.xbest[x_udir_pos(best_edge.i, best_edge.j, inst->num_nodes)] = 0.0;
+            inst->solution.xbest[x_udir_pos(e1.i, e1.j, inst->num_nodes)] = 1.0;
+            inst->solution.xbest[x_udir_pos(e2.i, e2.j, inst->num_nodes)] = 1.0;
+            edges[best_edge_idx] = e1;
+            edges[num_visited++] = e2;
 
-    }*/
+            save_solution_edges(inst, inst->solution.xbest);
+            plot_solution(inst);
+        }
+    }
     return 0;
 }
