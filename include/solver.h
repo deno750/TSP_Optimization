@@ -33,12 +33,20 @@ static void build_dir_model(instance *inst, CPXENVptr env, CPXLPptr lp);
 static void build_model(instance *inst, CPXENVptr env, CPXLPptr lp);
 
 /**
- * Solves the problem
+ * Solves the problem utilizing method using cplex
  *
  * @param inst The instance pointer of the problem
  * @returns An error code when occurs. 0 when no errors occur
  */ 
 int TSP_opt(instance *inst);
+
+/**
+ * Solves the problem without the help of cplex
+ *
+ * @param inst The instance pointer of the problem
+ * @returns An error code when occurs. 0 when no errors occur
+ */ 
+int TSP_heuc(instance *inst);
 
 /**
  * Solves the problem with the best optimal solver found so far.

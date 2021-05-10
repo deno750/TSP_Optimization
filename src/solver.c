@@ -10,6 +10,7 @@
 #include "callback.h"
 #include "hardfixing.h"
 #include "softfixing.h"
+#include "heuristics.h"
 
 // USER CUT SOLVER
 int opt_best_solver(CPXENVptr env, CPXLPptr lp, instance *inst) {
@@ -43,7 +44,7 @@ static void set_cplex_params(CPXENVptr env, instance_params params) {
 static void print_solution(instance *inst) {
     if (inst->params.verbose >= 1) {
 
-        LOG_I("Optimal solution found!");
+        LOG_I("Solution found!");
 
         if (inst->params.verbose >= 2) {
             LOG_I("The best bjective value is %f", inst->solution.obj_best);
@@ -72,6 +73,8 @@ static int solve_problem(CPXENVptr env, CPXLPptr lp, instance *inst) {
         status = benders_loop(inst, env, lp);
     } else if (inst->params.method.id == SOLVE_HARD_FIXING) {
         status = hard_fixing_solver(inst, env, lp);
+    } else if (inst->params.method.id == SOLVE_HARD_FIXING2) {
+        status = hard_fixing_solver2(inst, env, lp);
     } else if (inst->params.method.id == SOLVE_SOFT_FIXING) {
         status = soft_fixing_solver(inst, env, lp);
     } else {
@@ -88,6 +91,16 @@ static int solve_problem(CPXENVptr env, CPXLPptr lp, instance *inst) {
         }
 
         status = CPXmipopt(env, lp);
+    }
+    return status;
+}
+
+static int solve_problem_HEUC(instance *inst) {
+    int status;
+    if (inst->params.method.id == SOLVE_GREEDY) {
+        status = HEU_greedy(inst);
+    } else {
+        LOG_E("No Heuristic method specified!!!");
     }
     return status;
 }
@@ -111,7 +124,6 @@ int TSP_opt(instance *inst) {
     }
     int ncols = CPXgetnumcols(env, lp);
     inst->num_columns = ncols; // The callbacks need the number of cols
-    inst->solution.xbest = CALLOC(ncols, double); // The best solution found till now
 
     //Optimize the model (the solution is stored inside the env variable)
     struct timeval start, end;
@@ -171,6 +183,39 @@ int TSP_opt(instance *inst) {
     CPXfreeprob(env, &lp);
     CPXcloseCPLEX(&env);
     return error;
+}
+
+int TSP_heuc(instance *inst) {
+
+    if (inst->params.seed >= 0) {
+        srand(inst->params.seed); // Setting the random seed for rand()
+    }
+    inst->num_columns = inst->num_nodes * (inst->num_nodes - 1) / 2; 
+    inst->solution.xbest = CALLOC(inst->num_columns, double); // The best solution found till now
+
+    //Optimize the model (the solution is stored inside the env variable)
+    struct timeval start, end;
+    gettimeofday(&start, 0);
+    int status = solve_problem_HEUC(inst);
+    gettimeofday(&end, 0);
+    double elapsed = get_elapsed_time(start, end);
+    inst->solution.time_to_solve = elapsed;
+    
+    save_solution_edges(inst, inst->solution.xbest);
+	
+    export_tour(inst);
+    
+    print_solution(inst);
+	
+    plot_solution(inst);
+
+    if (inst->params.perf_prof) {
+        printf("%0.6f", elapsed);
+    } else {
+        printf("\n\n\nTIME TO SOLVE %0.6fs\n\n\n", elapsed); // Time should be printed only when no errors occur
+    }
+
+    return 0;
 }
 
 static void build_udir_model(instance *inst, CPXENVptr env, CPXLPptr lp) {

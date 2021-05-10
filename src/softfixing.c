@@ -9,7 +9,7 @@ int soft_fixing_solver(instance *inst, CPXENVptr env, CPXLPptr lp) {
     CPXsetintparam(env, CPX_PARAM_NODELIM, 0); // We limit the first solution space to the root node
     double time_limit = inst->params.time_limit > 0 ? inst->params.time_limit : SOFT_FIX_TIME_LIM_DEFAULT;
     CPXsetdblparam(env, CPXPARAM_TimeLimit, time_limit);
-
+    inst->solution.xbest = CALLOC(inst->num_columns, double); // The best solution found till now
     int cols_tot = CPXgetnumcols(env, lp);
     int *indexes = CALLOC(cols_tot, int);
     double *values = CALLOC(cols_tot, double);

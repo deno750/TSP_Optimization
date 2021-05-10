@@ -12,12 +12,21 @@
 #define HARD_FIX_MAX_LITTLE_IMPROVEMENTS 3
 
 /**
- * Function which the hard fixing solving procedure occurs
+ * Function which uses the hard fixing solver with fixed probability
  * 
  * @param inst The instance pointer of the problem
  * @param env The cplex's environment
  * @param lp The cplex's problem object
  **/
 int hard_fixing_solver(instance *inst, CPXENVptr env, CPXLPptr lp);
+
+/**
+ * Function which uses the hard fixing solver with variable probabilities
+ * 
+ * @param inst The instance pointer of the problem
+ * @param env The cplex's environment
+ * @param lp The cplex's problem object
+ **/
+int hard_fixing_solver2(instance *inst, CPXENVptr env, CPXLPptr lp);
 
 #endif

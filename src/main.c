@@ -19,7 +19,12 @@ int main(int argc, const char *argv[])
     
     print_instance(inst);
 
-    TSP_opt(&inst);
+    if (inst.params.method.use_cplex) {
+        TSP_opt(&inst);
+    } else {
+        TSP_heuc(&inst);
+    }
+    
     
     free_instance(&inst);
     return 0;

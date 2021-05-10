@@ -95,31 +95,37 @@ void parse_comand_line(int argc, const char *argv[], instance *inst) {
                 inst->params.method.id = SOLVE_MTZ;
                 inst->params.method.edge_type = DIR_EDGE;
                 inst->params.method.name = "MTZ Static";
+                inst->params.method.use_cplex = 1;
             }
             if (strncmp(method, "MTZL", 4) == 0) {
                 inst->params.method.id = SOLVE_MTZL;
                 inst->params.method.edge_type = DIR_EDGE;
                 inst->params.method.name = "MTZ Lazy";
+                inst->params.method.use_cplex = 1;
             }
             if (strncmp(method, "MTZI", 4) == 0) {
                 inst->params.method.id = SOLVE_MTZI;
                 inst->params.method.edge_type = DIR_EDGE;
                 inst->params.method.name = "MTZ with SEC of degree 2";
+                inst->params.method.use_cplex = 1;
             }
             if (strncmp(method, "MTZLI", 5) == 0) {
                 inst->params.method.id = SOLVE_MTZLI;
                 inst->params.method.edge_type = DIR_EDGE;
                 inst->params.method.name = "MTZ lazy with SEC of degree 2";
+                inst->params.method.use_cplex = 1;
             }
             if (strncmp(method, "MTZ_IND", 5) == 0) {
                 inst->params.method.id = SOLVE_MTZ_IND;
                 inst->params.method.edge_type = DIR_EDGE;
                 inst->params.method.name = "MTZ with indicator constraints";
+                inst->params.method.use_cplex = 1;
             }
             if (strncmp(method, "GG", 2) == 0) {
                 inst->params.method.id = SOLVE_GG;
                 inst->params.method.edge_type = DIR_EDGE;
                 inst->params.method.name = "GG";
+                inst->params.method.use_cplex = 1;
             }
 
             // Undirected graph methods
@@ -127,26 +133,43 @@ void parse_comand_line(int argc, const char *argv[], instance *inst) {
                 inst->params.method.id = SOLVE_LOOP;
                 inst->params.method.edge_type = UDIR_EDGE;
                 inst->params.method.name = "BENDERS' LOOP";
+                inst->params.method.use_cplex = 1;
             }
             if (strncmp(method, "CALLBACK", 8) == 0) {
                 inst->params.method.id = SOLVE_CALLBACK;
                 inst->params.method.edge_type = UDIR_EDGE;
                 inst->params.method.name = "INCUBEMENT CALLBACK";
+                inst->params.method.use_cplex = 1;
             }
             if (strncmp(method, "USER_CUT", 9) == 0) {
                 inst->params.method.id = SOLVE_UCUT;
                 inst->params.method.edge_type = UDIR_EDGE;
                 inst->params.method.name = "USER CUT CALLBACK";
+                inst->params.method.use_cplex = 1;
             }
             if (strncmp(method, "HARD_FIX", 8) == 0) {
                 inst->params.method.id = SOLVE_HARD_FIXING;
                 inst->params.method.edge_type = UDIR_EDGE;
-                inst->params.method.name = "HARD FIXING HEURISTIC";
+                inst->params.method.name = "HARD FIXING HEURISTIC FIXED PROB";
+                inst->params.method.use_cplex = 1;
+            }
+            if (strncmp(method, "HARD_FIX2", 9) == 0) {
+                inst->params.method.id = SOLVE_HARD_FIXING2;
+                inst->params.method.edge_type = UDIR_EDGE;
+                inst->params.method.name = "HARD FIXING HEURISTIC VARIABLE PROB";
+                inst->params.method.use_cplex = 1;
             }
             if (strncmp(method, "SOFT_FIX", 8) == 0) {
                 inst->params.method.id = SOLVE_SOFT_FIXING;
                 inst->params.method.edge_type = UDIR_EDGE;
                 inst->params.method.name = "SOFT FIXING HEURISTIC";
+                inst->params.method.use_cplex = 1;
+            }
+            if (strncmp(method, "GREEDY", 6) == 0) {
+                inst->params.method.id = SOLVE_GREEDY;
+                inst->params.method.edge_type = UDIR_EDGE;
+                inst->params.method.name = "GREEDY HEURISTIC";
+                inst->params.method.use_cplex = 0;
             }
             continue;
         }
@@ -173,7 +196,8 @@ void parse_comand_line(int argc, const char *argv[], instance *inst) {
         printf("LOOP         Benders Method\n");
         printf("CALLBACK     Callback Method\n");
         printf("USER_CUT     Callback Method using usercuts\n");
-        printf("HARD_FIX     Hard fixing heuristic method\n");
+        printf("HARD_FIX     Hard fixing heuristic method with fixed prob\n");
+        printf("HARD_FIX2    Hard fixing heuristic method with variable prob\n");
         printf("SOFT_FIX     Soft fixing heuristic method\n");
         exit(0);
     }
@@ -207,6 +231,7 @@ void parse_instance(instance *inst) {
     //Default values
     inst->num_nodes = -1;
     inst->weight_type = -1;
+    inst->num_columns = -1;
 
     // Open file
     FILE *fp = fopen(inst->params.file_path, "r");

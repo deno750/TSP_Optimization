@@ -53,17 +53,19 @@
 
 
 // =============== Solvers available ==================
-#define SOLVE_MTZ          100
-#define SOLVE_MTZL         101
-#define SOLVE_MTZI         102
-#define SOLVE_MTZLI        103
-#define SOLVE_MTZ_IND      104
-#define SOLVE_GG           105
-#define SOLVE_LOOP         106
-#define SOLVE_CALLBACK     107 // Uses the callback before the updating of the incubement
-#define SOLVE_UCUT         108 // Uses user cuts callback
-#define SOLVE_HARD_FIXING  109 // Uses the hard fixing heuristic
-#define SOLVE_SOFT_FIXING  110 // Uses the hard fixing heuristic
+#define SOLVE_MTZ               100
+#define SOLVE_MTZL              101
+#define SOLVE_MTZI              102
+#define SOLVE_MTZLI             103
+#define SOLVE_MTZ_IND           104
+#define SOLVE_GG                105
+#define SOLVE_LOOP              106
+#define SOLVE_CALLBACK          107 // Uses the callback before the updating of the incubement
+#define SOLVE_UCUT              108 // Uses user cuts callback
+#define SOLVE_HARD_FIXING       109 // Uses the hard fixing heuristic with fixed probability
+#define SOLVE_HARD_FIXING2      110 // Uses the hard fixing heuristic with decremental probability
+#define SOLVE_SOFT_FIXING       111 // Uses the hard fixing heuristic
+#define SOLVE_GREEDY            112 // Uses the greedy heuristic
 
 
 
@@ -87,6 +89,7 @@ typedef struct {
     int id;
     int edge_type; // Describes if the graph is directed or undirected
     char* name;
+    int use_cplex;
 } sol_method;
 
 // Struct which stores the parameters of the problem
