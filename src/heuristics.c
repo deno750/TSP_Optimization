@@ -5,6 +5,7 @@
 
 #include <float.h>
 #include <sys/stat.h>
+#include <unistd.h>
  
 #define WRONG_STARTING_NODE 1
 
@@ -94,15 +95,22 @@ int HEU_extramileage(instance *inst) {
     }
     // initialized convex hull edges
     edge *edges = CALLOC(inst->num_nodes, edge);
+    double obj = 0;
     for (int i = 0; i < hsize - 1; i++) {
         inst->solution.xbest[x_udir_pos(hindex[i], hindex[i+1], inst->num_nodes)] = 1.0;
         edge e;
         e.i = hindex[i];
         e.j = hindex[i+1];
         edges[i] = e;
+        obj += calc_dist(e.i, e.j, inst);
+        
+        /*save_solution_edges(inst, inst->solution.xbest);
+        plot_solution(inst);
+        sleep(1);*/
     }
-    save_solution_edges(inst, inst->solution.xbest);
-    plot_solution(inst);
+    
+    /*save_solution_edges(inst, inst->solution.xbest);
+    plot_solution(inst);*/
     while (num_visited < inst->num_nodes) {
         for (int i = 0; i < inst->num_nodes; i++) {
             if (nodes_visited[i]) { continue; }
@@ -128,6 +136,7 @@ int HEU_extramileage(instance *inst) {
             if (best_edge_idx == -1) {
                 break;
             }
+        
             edge e1;
             e1.i = best_edge.i;
             e1.j = i;
@@ -140,10 +149,13 @@ int HEU_extramileage(instance *inst) {
             edges[best_edge_idx] = e1;
             edges[num_visited++] = e2;
             nodes_visited[i] = 1;
+            obj += min_mileage; // Correct????
 
-            save_solution_edges(inst, inst->solution.xbest);
+            /*save_solution_edges(inst, inst->solution.xbest);
             plot_solution(inst);
+            sleep(1);*/
         }
     }
+    inst->solution.obj_best = obj;
     return 0;
 }
