@@ -139,6 +139,7 @@ int HEU_extramileage(instance *inst) {
             inst->solution.xbest[x_udir_pos(e2.i, e2.j, inst->num_nodes)] = 1.0;
             edges[best_edge_idx] = e1;
             edges[num_visited++] = e2;
+            nodes_visited[i] = 1;
 
             save_solution_edges(inst, inst->solution.xbest);
             plot_solution(inst);
