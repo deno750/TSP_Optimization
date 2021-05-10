@@ -126,7 +126,7 @@ int TSP_opt(instance *inst) {
     if (inst->params.seed >= 0) {
         srand(inst->params.seed); // Setting the random seed for rand()
     }
-    int ncols = CPXgetnumcols(env, lp);
+    long ncols = CPXgetnumcols(env, lp);
     inst->num_columns = ncols; // The callbacks need the number of cols
 
     //Optimize the model (the solution is stored inside the env variable)
@@ -194,7 +194,7 @@ int TSP_heuc(instance *inst) {
     if (inst->params.seed >= 0) {
         srand(inst->params.seed); // Setting the random seed for rand()
     }
-    inst->num_columns = inst->num_nodes * (inst->num_nodes - 1) / 2; 
+    inst->num_columns = (long) inst->num_nodes * (inst->num_nodes - 1) / 2; 
     inst->solution.xbest = CALLOC(inst->num_columns, double); // The best solution found till now
 
     //Optimize the model (the solution is stored inside the env variable)

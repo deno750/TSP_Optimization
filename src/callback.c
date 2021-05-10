@@ -23,7 +23,7 @@ static int add_SEC_cuts_fractional(instance *inst, CPXCALLBACKCONTEXTptr context
 }
 
 static int CPXPUBLIC SEC_cuts_callback_candidate(CPXCALLBACKCONTEXTptr context, CPXLONG contextid, instance *inst ) {
-    int ncols = inst->num_columns;
+    long ncols = inst->num_columns;
     double *xstar = MALLOC(ncols, double);
     double objval = CPX_INFBOUND;
     int currentnode = -1; CPXcallbackgetinfoint(context, CPXCALLBACKINFO_NODECOUNT, &currentnode);
@@ -116,7 +116,7 @@ static int CPXPUBLIC SEC_cuts_callback_relaxation(CPXCALLBACKCONTEXTptr context,
     if (inst->params.verbose >= 5) {
         LOG_I("Relaxation cut");
     }
-    int ncols = inst->num_columns;
+    long ncols = inst->num_columns;
     double *xstar = MALLOC(ncols, double);
     int status = CPXcallbackgetrelaxationpoint(context, xstar, 0, ncols - 1 , &objval);
     if (status) {

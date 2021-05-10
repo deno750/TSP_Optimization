@@ -13,17 +13,16 @@ static int greedy(instance *inst, int starting_node) {
         return WRONG_STARTING_NODE;
     }
 
-    int *visited = CALLOC(inst->num_columns, int);
+    int *visited = CALLOC(inst->num_nodes, int);
     double obj = 0;
 
     int curr = starting_node;
-    int called = 0;
+    visited[starting_node] = 1;
     while (1) {
         int minidx = -1;
         double mindist = DBL_MAX;
-        //LOG_D("CALLED %d", ++called);
         for (int i = 0; i < inst->num_nodes; i++) {
-            if (curr == i || visited[x_udir_pos(curr, i, inst->num_nodes)]) { continue; }
+            if (curr == i || visited[i]) { continue; }
             double currdist = calc_dist(curr, i, inst);
             if (currdist < mindist) {
                 mindist = currdist;
@@ -34,12 +33,12 @@ static int greedy(instance *inst, int starting_node) {
             break;
         }
         
-        
         inst->solution.xbest[x_udir_pos(curr, minidx, inst->num_nodes)] = 1.0;
-        visited[x_udir_pos(curr, minidx, inst->num_nodes)] = 1;
+        visited[minidx] = 1;
         obj += mindist;
         curr = minidx;
     }
+
     inst->solution.obj_best = obj;
     FREE(visited);
 }
@@ -77,21 +76,33 @@ int HEU_extramileage(instance *inst) {
     int hsize;
     point *hull = convexHull(inst->nodes, inst->num_nodes, &hsize);
     int *hindex = CALLOC(hsize, int);
-    LOG_D("Convex hull");
+    int *nodes_visited = CALLOC(inst->num_nodes, int); // Stores nodes visited in tour
+    int num_visited = hsize;
+    
     int k = 0;
     for (int i = 0; i < hsize; i++) {
         point p1 = hull[i];
         for (int j = 0; j < inst->num_nodes; j++) {
             point p2 = inst->nodes[j];
             if (p1.x == p2.x && p1.y == p2.y) {
-                hindex[k++] = j;
+                hindex[k] = j;
+                nodes_visited[j] = 1;
+                k++;
                 break;
             }
         }
     }
     // initialized convex hull edges
+    edge *edges = CALLOC(inst->num_nodes, edge);
     for (int i = 0; i < hsize - 1; i++) {
         inst->solution.xbest[x_udir_pos(hindex[i], hindex[i+1], inst->num_nodes)] = 1.0;
+        edge e;
+        e.i = i;
+        e.j = i+1;
+        edges[i] = e;
     }
+    /*while (num_visited < inst->num_nodes) {
+
+    }*/
     return 0;
 }

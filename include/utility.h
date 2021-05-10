@@ -136,7 +136,7 @@ typedef struct {
     point *nodes;
     int num_nodes;
     int weight_type;
-    int num_columns; // The number of variables. It is used in callback method
+    long num_columns; // The number of variables. It is used in callback method
 
     solution solution;
 } instance;
