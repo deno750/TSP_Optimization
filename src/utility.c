@@ -171,6 +171,12 @@ void parse_comand_line(int argc, const char *argv[], instance *inst) {
                 inst->params.method.name = "GREEDY HEURISTIC";
                 inst->params.method.use_cplex = 0;
             }
+            if (strncmp(method, "EXTR_MIL", 6) == 0) {
+                inst->params.method.id = SOLVE_EXTR_MIL;
+                inst->params.method.edge_type = UDIR_EDGE;
+                inst->params.method.name = "EXTRA MILEAGE HEURISTIC";
+                inst->params.method.use_cplex = 0;
+            }
             continue;
         }
         if (strcmp("-seed", argv[i]) == 0) {
@@ -199,6 +205,8 @@ void parse_comand_line(int argc, const char *argv[], instance *inst) {
         printf("HARD_FIX     Hard fixing heuristic method with fixed prob\n");
         printf("HARD_FIX2    Hard fixing heuristic method with variable prob\n");
         printf("SOFT_FIX     Soft fixing heuristic method\n");
+        printf("GREEDY       Greedy algorithm method\n");
+        printf("EXTR_MILE    Extra mileage method\n");
         exit(0);
     }
 

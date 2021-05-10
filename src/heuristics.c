@@ -1,69 +1,12 @@
 #include "heuristics.h"
 
 #include "distutil.h"
-#include "float.h"
+#include "convexhull.h"
 
+#include <float.h>
 #include <sys/stat.h>
  
 #define WRONG_STARTING_NODE 1
-
-int is_connected(instance *inst, double* xstar) {
-
-    int num_comp = 0;
-    int* comp = MALLOC(inst->num_nodes, int);
-    MEMSET(comp, -1.0, inst->num_nodes, int);
-    for (int i = 0; i < inst->num_nodes; i++ ) {
-		if ( comp[i] >= 0 ) continue; 
-
-		// a new component is found
-		num_comp++;
-		int current_node = i;
-		int visit_comp = 0; // 
-        int comp_members = 1;
-		while ( !visit_comp ) { // go and visit the current component
-			comp[current_node] = num_comp;
-			visit_comp = 1; // We set the flag visited to true until we find the successor
-			for ( int j = 0; j < inst->num_nodes; j++ ) {
-                if (current_node == j || comp[j] >= 0) continue;
-				if (fabs(xstar[x_udir_pos(current_node,j,inst->num_nodes)]) >= EPS ) {
-					current_node = j;
-					visit_comp = 0;
-                    comp_members++;
-					break;
-				}
-			}
-		}	
-	}
-    FREE(comp);
-    return num_comp == 1;
-}
-
-void HEU_kruskal(instance *inst) {
-    int num_edges = inst->num_nodes * (inst->num_nodes - 1) / 2;
-    double *dists = MALLOC(num_edges, double);
-    MEMSET(dists, -1, num_edges, double);
-    int k = 0;
-    for (int i = 0; i < inst->num_nodes; i++) {
-        //point p1 = inst->nodes[i];
-        for (int j = i + 1; j < inst->num_nodes; j++) {
-            
-            //point p2 = inst->nodes[j];
-            double distance = calc_dist(i, j, inst);
-            /*if (k == 0) {
-                dists[k++] = distance;
-                continue;
-            }
-            double temp = distance; 
-            for (int h = 0; h < k; h++) {
-                if (distance >= dists[h]) { continue; }
-            }*/
-            dists[k++];
-        }
-    }
-    
-
-    FREE(dists);
-}
 
 static int greedy(instance *inst, int starting_node) {
     if (starting_node >= inst->num_nodes) {
@@ -101,6 +44,8 @@ static int greedy(instance *inst, int starting_node) {
     FREE(visited);
 }
 
+
+
 int HEU_greedy(instance *inst) {
     int status;
     double *xbest = CALLOC(inst->num_columns, double);
@@ -124,5 +69,29 @@ int HEU_greedy(instance *inst) {
     //inst->solution.obj_best = objbest;
     //memcpy(inst->solution.xbest, xbest, inst->num_columns);
     FREE(xbest);
+    return 0;
+}
+
+int HEU_extramileage(instance *inst) {
+
+    int hsize;
+    point *hull = convexHull(inst->nodes, inst->num_nodes, &hsize);
+    int *hindex = CALLOC(hsize, int);
+    LOG_D("Convex hull");
+    int k = 0;
+    for (int i = 0; i < hsize; i++) {
+        point p1 = hull[i];
+        for (int j = 0; j < inst->num_nodes; j++) {
+            point p2 = inst->nodes[j];
+            if (p1.x == p2.x && p1.y == p2.y) {
+                hindex[k++] = j;
+                break;
+            }
+        }
+    }
+    // initialized convex hull edges
+    for (int i = 0; i < hsize - 1; i++) {
+        inst->solution.xbest[x_udir_pos(hindex[i], hindex[i+1], inst->num_nodes)] = 1.0;
+    }
     return 0;
 }

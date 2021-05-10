@@ -14,6 +14,7 @@
 
 #define MALLOC(nnum,type) ( (type *) malloc (nnum * sizeof(type)) )
 #define CALLOC(nnum,type) ( (type *) calloc (nnum, sizeof(type)) )
+#define REALLOC(ptr, nnum, type) ( realloc(ptr, nnum * sizeof(type)) )
 #define MEMSET(ptr,defval,nnum,type) {                  \
     type *new_ptr = (type*) ptr;                        \
     type newval = (type) defval;                        \
@@ -66,6 +67,7 @@
 #define SOLVE_HARD_FIXING2      110 // Uses the hard fixing heuristic with decremental probability
 #define SOLVE_SOFT_FIXING       111 // Uses the hard fixing heuristic
 #define SOLVE_GREEDY            112 // Uses the greedy heuristic
+#define SOLVE_EXTR_MIL            113 // Uses the extra mileage heuristic
 
 
 

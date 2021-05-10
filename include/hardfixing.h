@@ -17,6 +17,7 @@
  * @param inst The instance pointer of the problem
  * @param env The cplex's environment
  * @param lp The cplex's problem object
+ * @return The error code
  **/
 int hard_fixing_solver(instance *inst, CPXENVptr env, CPXLPptr lp);
 
@@ -26,6 +27,7 @@ int hard_fixing_solver(instance *inst, CPXENVptr env, CPXLPptr lp);
  * @param inst The instance pointer of the problem
  * @param env The cplex's environment
  * @param lp The cplex's problem object
+ * @return The error code
  **/
 int hard_fixing_solver2(instance *inst, CPXENVptr env, CPXLPptr lp);
 
