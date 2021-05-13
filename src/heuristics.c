@@ -8,18 +8,28 @@
 #include <unistd.h>
  
 #define WRONG_STARTING_NODE 1
+#define TIME_LIMIT_EXCEEDED 2
 
 static int greedy(instance *inst, int starting_node) {
     if (starting_node >= inst->num_nodes) {
         return WRONG_STARTING_NODE;
     }
 
+    struct timeval start, end;
+    gettimeofday(&start, 0);
     int *visited = CALLOC(inst->num_nodes, int);
     double obj = 0;
 
     int curr = starting_node;
     visited[starting_node] = 1;
+    int status = 0;
     while (1) {
+        gettimeofday(&end, 0);
+        double elapsed = get_elapsed_time(start, end);
+        if (inst->params.time_limit > 0 && elapsed > inst->params.time_limit) {
+            status = TIME_LIMIT_EXCEEDED;
+            break;
+        }
         int minidx = -1;
         double mindist = DBL_MAX;
         for (int i = 0; i < inst->num_nodes; i++) {
@@ -42,6 +52,7 @@ static int greedy(instance *inst, int starting_node) {
 
     inst->solution.obj_best = obj;
     FREE(visited);
+    return status;
 }
 
 
@@ -73,7 +84,6 @@ int HEU_greedy(instance *inst) {
 }
 
 int HEU_extramileage(instance *inst) {
-
     int hsize;
     point *hull = convexHull(inst->nodes, inst->num_nodes, &hsize);
     int *hindex = CALLOC(hsize, int);
@@ -162,7 +172,13 @@ int HEU_extramileage(instance *inst) {
 
 int HEU_2opt(instance *inst) {
 
-    HEU_greedy(inst);
+    struct timeval start, end;
+    gettimeofday(&start, 0);
+    int status = HEU_greedy(inst);
+    if (status == TIME_LIMIT_EXCEEDED) {
+        LOG_I("Constructive heuristics time exceeded");
+        return TIME_LIMIT_EXCEEDED;
+    }
     double minchange;
     int *prev = MALLOC(inst->num_nodes, int);
     MEMSET(prev, -1, inst->num_nodes, int);
@@ -174,6 +190,13 @@ int HEU_2opt(instance *inst) {
     int mina = 0;
     int minb = 0;
     do {
+        gettimeofday(&end, 0);
+        double elapsed = get_elapsed_time(start, end);
+        if (inst->params.time_limit > 0 && elapsed > inst->params.time_limit) {
+            status = TIME_LIMIT_EXCEEDED;
+            LOG_I("2-opt heuristics time exceeded");
+            break;
+        }
         minchange = 0;
         for (int i = 0; i < inst->num_nodes - 2; i++) {
             for (int j = i+1; j < inst->num_nodes - 1; j++) {
@@ -231,5 +254,5 @@ int HEU_2opt(instance *inst) {
         inst->solution.xbest[x_udir_pos(e.i, e.j, inst->num_nodes)] = 1.0;
     }
     FREE(prev);
-    return 0;
+    return status;
 }

@@ -531,7 +531,12 @@ int plot_solution(instance *inst) {
         return 1;
     }
     plot_in_file(gnuplotPipe, inst->name);
-    add_plot_param(gnuplotPipe, "plot '-' using 1:2 w linespoints pt 7");
+    if (inst->num_nodes <= 5000) {
+        add_plot_param(gnuplotPipe, "plot '-' using 1:2 w linespoints pt 7");
+    } else {
+        add_plot_param(gnuplotPipe, "plot '-' using 1:2 w lines");
+    }
+    
 
     for (int i = 0; i < inst->num_nodes; i++) {
         edge e = inst->solution.edges[i];
