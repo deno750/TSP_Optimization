@@ -99,9 +99,10 @@ static int solve_problem_HEUC(instance *inst) {
     int status;
     if (inst->params.method.id == SOLVE_GREEDY) {
         status = HEU_greedy(inst);
-    } 
-    else if (inst->params.method.id == SOLVE_EXTR_MIL) {
+    } else if (inst->params.method.id == SOLVE_EXTR_MIL) {
         status = HEU_extramileage(inst);
+    } else if (inst->params.method.id == SOLVE_2OPT) {
+        status = HEU_2opt(inst);
     }
     else {
         LOG_E("No Heuristic method specified!!!");

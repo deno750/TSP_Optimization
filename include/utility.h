@@ -67,7 +67,8 @@
 #define SOLVE_HARD_FIXING2      110 // Uses the hard fixing heuristic with decremental probability
 #define SOLVE_SOFT_FIXING       111 // Uses the hard fixing heuristic
 #define SOLVE_GREEDY            112 // Uses the greedy heuristic
-#define SOLVE_EXTR_MIL            113 // Uses the extra mileage heuristic
+#define SOLVE_EXTR_MIL          113 // Uses the extra mileage heuristic
+#define SOLVE_2OPT              114 // Uses the 2 opt algorithm
 
 
 

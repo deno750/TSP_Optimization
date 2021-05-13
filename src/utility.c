@@ -177,6 +177,12 @@ void parse_comand_line(int argc, const char *argv[], instance *inst) {
                 inst->params.method.name = "EXTRA MILEAGE HEURISTIC";
                 inst->params.method.use_cplex = 0;
             }
+            if (strncmp(method, "2OPT", 4) == 0) {
+                inst->params.method.id = SOLVE_2OPT;
+                inst->params.method.edge_type = UDIR_EDGE;
+                inst->params.method.name = "2-OPT HEURISTIC";
+                inst->params.method.use_cplex = 0;
+            }
             continue;
         }
         if (strcmp("-seed", argv[i]) == 0) {

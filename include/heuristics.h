@@ -18,4 +18,12 @@ int HEU_greedy(instance *inst);
  * @return The error code
  */
 int HEU_extramileage(instance *inst);
+
+/**
+ * Applies a the 2-opt algorithm to solve the instance
+ * 
+ * @param inst The instance pointer of the problem
+ * @return The error code
+ */
+int HEU_2opt(instance *inst);
 #endif

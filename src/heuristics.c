@@ -149,7 +149,7 @@ int HEU_extramileage(instance *inst) {
             edges[best_edge_idx] = e1;
             edges[num_visited++] = e2;
             nodes_visited[i] = 1;
-            obj += min_mileage; // Correct????
+            obj += min_mileage; 
 
             /*save_solution_edges(inst, inst->solution.xbest);
             plot_solution(inst);
@@ -157,5 +157,79 @@ int HEU_extramileage(instance *inst) {
         }
     }
     inst->solution.obj_best = obj;
+    return 0;
+}
+
+int HEU_2opt(instance *inst) {
+
+    HEU_greedy(inst);
+    double minchange;
+    int *prev = MALLOC(inst->num_nodes, int);
+    MEMSET(prev, -1, inst->num_nodes, int);
+    save_solution_edges(inst, inst->solution.xbest);
+    for (int i = 0; i < inst->num_nodes; i++) {
+        prev[inst->solution.edges[i].j] = i;
+    }
+    plot_solution(inst);
+    int mina = 0;
+    int minb = 0;
+    do {
+        minchange = 0;
+        for (int i = 0; i < inst->num_nodes - 2; i++) {
+            for (int j = i+1; j < inst->num_nodes - 1; j++) {
+                int a = i;
+                int b = j;
+                int a1 = inst->solution.edges[a].j;
+                int b1 = inst->solution.edges[b].j;
+                double change = calc_dist(a, b, inst) + calc_dist(a1, b1, inst) - calc_dist(a, a1, inst) - calc_dist(b, b1, inst);
+                if (change < minchange) {
+                    minchange = change;
+                    mina = i;
+                    minb = j;
+                }
+            }
+        }
+        /*for (int k = 0; k < inst->num_nodes; k++) {
+            LOG_D("%d -> %d",  inst->solution.edges[k].i,  inst->solution.edges[k].j);
+        }
+        LOG_D("\n=======\n");*/
+        int a1 = inst->solution.edges[mina].j;
+        int b1 = inst->solution.edges[minb].j; 
+        int a1_succ = inst->solution.edges[a1].j;
+        int b1_succ = inst->solution.edges[b1].j;
+        inst->solution.edges[mina].j = minb;
+        //plot_solution(inst);
+        //sleep(1);
+        inst->solution.edges[a1].j = b1;
+        //plot_solution(inst);
+        //sleep(1);
+        int currnode = minb;
+        
+        while (1) {
+            int node = prev[currnode];
+            inst->solution.edges[currnode].j = node;
+            currnode = node;
+            if (node == a1) {
+                break;
+            }
+        }
+        for (int k = 0; k < inst->num_nodes; k++) {
+            prev[inst->solution.edges[k].j] = k;
+            //LOG_D("%d -> %d",  inst->solution.edges[k].i,  inst->solution.edges[k].j);
+        }
+        
+        //plot_solution(inst);
+        //sleep(1);
+        
+    } while(minchange < 0);
+    //plot_solution(inst);
+    MEMSET(inst->solution.xbest, 0.0, inst->num_columns, double);
+    inst->solution.obj_best = 0.0;
+    for (int i = 0; i < inst->num_nodes; i++) {
+        edge e = inst->solution.edges[i];
+        inst->solution.obj_best += calc_dist(e.i, e.j, inst);
+        inst->solution.xbest[x_udir_pos(e.i, e.j, inst->num_nodes)] = 1.0;
+    }
+    FREE(prev);
     return 0;
 }
