@@ -56,10 +56,6 @@ static int greedy(instance *inst, int starting_node) {
 
         
     }
-    for (int i = 0; i < inst->num_nodes; i++) {
-        edge e = inst->solution.edges[i];
-        LOG_D("%d - %d", e.i, e.j);
-    }
     inst->solution.obj_best = obj;
     FREE(visited);
     return status;
@@ -179,10 +175,6 @@ int HEU_extramileage(instance *inst) {
             plot_solution(inst);
             sleep(1);*/
         }
-    }
-    for (int i = 0; i < inst->num_nodes; i++) {
-        edge e = inst->solution.edges[i]; 
-        LOG_D("%d - %d", e.i, e.j);
     }
     inst->solution.obj_best = obj;
     FREE(hindex);
