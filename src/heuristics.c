@@ -40,16 +40,26 @@ static int greedy(instance *inst, int starting_node) {
                 minidx = i;
             }
         }
+
         if (minidx == -1) {
+            // Closing the tsp cycle 
+            inst->solution.edges[curr].i = curr;
+            inst->solution.edges[curr].j = starting_node;
             break;
         }
         
-        inst->solution.xbest[x_udir_pos(curr, minidx, inst->num_nodes)] = 1.0;
+        inst->solution.edges[curr].i = curr;
+        inst->solution.edges[curr].j = minidx;
         visited[minidx] = 1;
         obj += mindist;
         curr = minidx;
-    }
 
+        
+    }
+    for (int i = 0; i < inst->num_nodes; i++) {
+        edge e = inst->solution.edges[i];
+        LOG_D("%d - %d", e.i, e.j);
+    }
     inst->solution.obj_best = obj;
     FREE(visited);
     return status;
@@ -59,7 +69,6 @@ static int greedy(instance *inst, int starting_node) {
 
 int HEU_greedy(instance *inst) {
     int status;
-    double *xbest = CALLOC(inst->num_columns, double);
     double objbest = DBL_MAX;
     /*for (int i = 0; i < inst->num_nodes; i++) {
         if (inst->params.verbose >= 4) {
@@ -78,8 +87,6 @@ int HEU_greedy(instance *inst) {
     }*/
     status = greedy(inst, 0);
     //inst->solution.obj_best = objbest;
-    //memcpy(inst->solution.xbest, xbest, inst->num_columns);
-    FREE(xbest);
     return 0;
 }
 
@@ -107,20 +114,25 @@ int HEU_extramileage(instance *inst) {
     edge *edges = CALLOC(inst->num_nodes, edge);
     double obj = 0;
     for (int i = 0; i < hsize - 1; i++) {
-        inst->solution.xbest[x_udir_pos(hindex[i], hindex[i+1], inst->num_nodes)] = 1.0;
         edge e;
         e.i = hindex[i];
         e.j = hindex[i+1];
+        inst->solution.edges[hindex[i]] = e;
         edges[i] = e;
         obj += calc_dist(e.i, e.j, inst);
         
-        /*save_solution_edges(inst, inst->solution.xbest);
+        /*
         plot_solution(inst);
         sleep(1);*/
     }
+    // Closing the hamyltonian cycle 
+    edge last_edge;
+    last_edge.i = hindex[hsize - 1];
+    last_edge.j = hindex[0];
+    inst->solution.edges[last_edge.i] = last_edge;
     
-    /*save_solution_edges(inst, inst->solution.xbest);
-    plot_solution(inst);*/
+    
+    plot_solution(inst);
     while (num_visited < inst->num_nodes) {
         for (int i = 0; i < inst->num_nodes; i++) {
             if (nodes_visited[i]) { continue; }
@@ -153,20 +165,30 @@ int HEU_extramileage(instance *inst) {
             edge e2;
             e2.i = i;
             e2.j = best_edge.j;
-            inst->solution.xbest[x_udir_pos(best_edge.i, best_edge.j, inst->num_nodes)] = 0.0;
-            inst->solution.xbest[x_udir_pos(e1.i, e1.j, inst->num_nodes)] = 1.0;
-            inst->solution.xbest[x_udir_pos(e2.i, e2.j, inst->num_nodes)] = 1.0;
+            inst->solution.edges[e1.i] = e1;
+            inst->solution.edges[e2.i] = e2;
+            //inst->solution.xbest[x_udir_pos(best_edge.i, best_edge.j, inst->num_nodes)] = 0.0;
+            //inst->solution.xbest[x_udir_pos(e1.i, e1.j, inst->num_nodes)] = 1.0;
+            //inst->solution.xbest[x_udir_pos(e2.i, e2.j, inst->num_nodes)] = 1.0;
             edges[best_edge_idx] = e1;
             edges[num_visited++] = e2;
             nodes_visited[i] = 1;
             obj += min_mileage; 
 
-            /*save_solution_edges(inst, inst->solution.xbest);
+            /*
             plot_solution(inst);
             sleep(1);*/
         }
     }
+    for (int i = 0; i < inst->num_nodes; i++) {
+        edge e = inst->solution.edges[i]; 
+        LOG_D("%d - %d", e.i, e.j);
+    }
     inst->solution.obj_best = obj;
+    FREE(hindex);
+    FREE(nodes_visited);
+    FREE(hull);
+    FREE(edges);
     return 0;
 }
 
@@ -182,7 +204,6 @@ int HEU_2opt(instance *inst) {
     double minchange;
     int *prev = MALLOC(inst->num_nodes, int);
     MEMSET(prev, -1, inst->num_nodes, int);
-    save_solution_edges(inst, inst->solution.xbest);
     for (int i = 0; i < inst->num_nodes; i++) {
         prev[inst->solution.edges[i].j] = i;
     }
@@ -246,12 +267,10 @@ int HEU_2opt(instance *inst) {
         
     } while(minchange < 0);
     //plot_solution(inst);
-    MEMSET(inst->solution.xbest, 0.0, inst->num_columns, double);
     inst->solution.obj_best = 0.0;
     for (int i = 0; i < inst->num_nodes; i++) {
         edge e = inst->solution.edges[i];
         inst->solution.obj_best += calc_dist(e.i, e.j, inst);
-        inst->solution.xbest[x_udir_pos(e.i, e.j, inst->num_nodes)] = 1.0;
     }
     FREE(prev);
     return status;

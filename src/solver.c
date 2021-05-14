@@ -195,9 +195,9 @@ int TSP_heuc(instance *inst) {
     if (inst->params.seed >= 0) {
         srand(inst->params.seed); // Setting the random seed for rand()
     }
+    // In heuristic xbest is not used since it's a quadratic data structure. Since heuristics solves very large problems, the amount of memory required by xbest is very huge
     inst->num_columns = (long) inst->num_nodes * (inst->num_nodes - 1) / 2; 
-    inst->solution.xbest = CALLOC(inst->num_columns, double); // The best solution found till now
-
+    inst->solution.edges = CALLOC(inst->num_nodes, edge);
     //Optimize the model (the solution is stored inside the env variable)
     struct timeval start, end;
     gettimeofday(&start, 0);
@@ -206,7 +206,6 @@ int TSP_heuc(instance *inst) {
     double elapsed = get_elapsed_time(start, end);
     inst->solution.time_to_solve = elapsed;
     
-    save_solution_edges(inst, inst->solution.xbest);
 	
     export_tour(inst);
     
