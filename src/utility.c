@@ -207,6 +207,18 @@ void parse_comand_line(int argc, const char *argv[], instance *inst) {
                 inst->params.method.name = "VNS META-HEURISTIC";
                 inst->params.method.use_cplex = 0;
             }
+            if (strncmp(method, "TABU", 4) == 0) {
+                inst->params.method.id = SOLVE_TABU;
+                inst->params.method.edge_type = UDIR_EDGE;
+                inst->params.method.name = "TABU SEARCH META-HEURISTIC";
+                inst->params.method.use_cplex = 0;
+            }
+            if (strncmp(method, "GENETIC", 7) == 0) {
+                inst->params.method.id = SOLVE_GENETIC;
+                inst->params.method.edge_type = UDIR_EDGE;
+                inst->params.method.name = "GENETIC ALGORITHM META-HEURISTIC";
+                inst->params.method.use_cplex = 0;
+            }
             continue;
         }
         if (strcmp("-seed", argv[i]) == 0) {
@@ -242,6 +254,8 @@ void parse_comand_line(int argc, const char *argv[], instance *inst) {
         printf("GRASP        GRASP method\n");
         printf("GRASP_REF    GRASP with 2-OPT refinement method\n");
         printf("VNS          VNS method\n");
+        printf("TABU         TABU Search method\n");
+        printf("GENETIC      GENETIC Algorithm\n");
         exit(0);
     }
 

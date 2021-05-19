@@ -73,6 +73,8 @@
 #define SOLVE_GRASP             116 // Uses the GRASP algorithm
 #define SOLVE_GRASP_REF         117 // Uses the GRASP and 2opt algorithm algorithm
 #define SOLVE_VNS               118 // Uses the VNS local search algorithm
+#define SOLVE_TABU              119 // Uses the Tabu search algorithm
+#define SOLVE_GENETIC           120 // Uses the Genetic algorithm
 
 
 

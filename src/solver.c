@@ -111,6 +111,10 @@ static int solve_problem_HEUC(instance *inst) {
         status = HEU_Grasp2opt(inst);
     } else if (inst->params.method.id == SOLVE_VNS) {
         status = HEU_VNS(inst);
+    } else if (inst->params.method.id == SOLVE_TABU) {
+        status = HEU_Tabu(inst);
+    } else if (inst->params.method.id == SOLVE_GENETIC) {
+        status = HEU_Genetic(inst);
     }
     else {
         LOG_E("No Heuristic method specified!");
