@@ -163,9 +163,6 @@ int HEU_extramileage(instance *inst) {
             e2.j = best_edge.j;
             inst->solution.edges[e1.i] = e1;
             inst->solution.edges[e2.i] = e2;
-            //inst->solution.xbest[x_udir_pos(best_edge.i, best_edge.j, inst->num_nodes)] = 0.0;
-            //inst->solution.xbest[x_udir_pos(e1.i, e1.j, inst->num_nodes)] = 1.0;
-            //inst->solution.xbest[x_udir_pos(e2.i, e2.j, inst->num_nodes)] = 1.0;
             edges[best_edge_idx] = e1;
             edges[num_visited++] = e2;
             nodes_visited[i] = 1;
@@ -182,6 +179,25 @@ int HEU_extramileage(instance *inst) {
     FREE(hull);
     FREE(edges);
     return 0;
+}
+
+void reverse(int start_node, int end_node, int *prev, edge *edges, int num_nodes) {
+    int currnode = start_node;
+        
+    while (1) {
+        int node = prev[currnode];
+        edges[currnode].j = node;
+        currnode = node;
+        if (node == end_node) {
+            break;
+        }
+    }
+
+    LOG_D("\n\n");
+    for (int k = 0; k < num_nodes; k++) {
+        prev[edges[k].j] = k;
+        LOG_D("%d -> %d",  edges[k].i,  edges[k].j);
+    }
 }
 
 int HEU_2opt(instance *inst) {
@@ -202,7 +218,7 @@ int HEU_2opt(instance *inst) {
     plot_solution(inst);
     int mina = 0;
     int minb = 0;
-    do {
+    while(1) {
         gettimeofday(&end, 0);
         double elapsed = get_elapsed_time(start, end);
         if (inst->params.time_limit > 0 && elapsed > inst->params.time_limit) {
@@ -211,8 +227,8 @@ int HEU_2opt(instance *inst) {
             break;
         }
         minchange = 0;
-        for (int i = 0; i < inst->num_nodes - 2; i++) {
-            for (int j = i+1; j < inst->num_nodes - 1; j++) {
+        for (int i = 0; i < inst->num_nodes - 1; i++) {
+            for (int j = i+1; j < inst->num_nodes; j++) {
                 int a = i;
                 int b = j;
                 int a1 = inst->solution.edges[a].j;
@@ -224,6 +240,9 @@ int HEU_2opt(instance *inst) {
                     minb = j;
                 }
             }
+        }
+        if (minchange >= 0) {
+            break;
         }
         /*for (int k = 0; k < inst->num_nodes; k++) {
             LOG_D("%d -> %d",  inst->solution.edges[k].i,  inst->solution.edges[k].j);
@@ -239,25 +258,13 @@ int HEU_2opt(instance *inst) {
         inst->solution.edges[a1].j = b1;
         //plot_solution(inst);
         //sleep(1);
-        int currnode = minb;
         
-        while (1) {
-            int node = prev[currnode];
-            inst->solution.edges[currnode].j = node;
-            currnode = node;
-            if (node == a1) {
-                break;
-            }
-        }
-        for (int k = 0; k < inst->num_nodes; k++) {
-            prev[inst->solution.edges[k].j] = k;
-            //LOG_D("%d -> %d",  inst->solution.edges[k].i,  inst->solution.edges[k].j);
-        }
+        reverse(minb, a1, prev, inst->solution.edges, inst->num_nodes);
         
         //plot_solution(inst);
         //sleep(1);
         
-    } while(minchange < 0);
+    }
     //plot_solution(inst);
     inst->solution.obj_best = 0.0;
     for (int i = 0; i < inst->num_nodes; i++) {
@@ -266,4 +273,98 @@ int HEU_2opt(instance *inst) {
     }
     FREE(prev);
     return status;
+}
+
+double reverse_3opt(int i, int j, int k, instance *inst) {
+    int a = i;
+    int b = j;
+    int c = k;
+    int a1 = inst->solution.edges[a].j;
+    //if (a1 == b || a1 == c) continue;
+    int b1 = inst->solution.edges[b].j;
+    //if (b1 == a || b1 == c) continue;
+    int c1 = inst->solution.edges[c].j;
+    //if (c1 == a || c1 == b) continue;
+    // file:///C:/Users/denis/Downloads/jcssp.2012.846.8521.pdf fig 2
+    /*double d0 = calc_dist(a, a1, inst) + calc_dist(b, b1, inst) + calc_dist(c, c1, inst);
+    double d1 = calc_dist(a, b1, inst) + calc_dist(a1, c1, inst) + calc_dist(b, c, inst);
+    double d2 = calc_dist(a, c, inst) + calc_dist(a1, b1, inst) + calc_dist(b, c1, inst);
+    double d3 = calc_dist(a, b, inst) + calc_dist(a1, c, inst) + calc_dist(b1, c1, inst);
+    double d4 = calc_dist(a, b1, inst) + calc_dist(a1, c, inst) + calc_dist(b, c1, inst);*/
+
+    double d0 = calc_dist(a, a1, inst) + calc_dist(b, b1, inst) + calc_dist(c, c1, inst);
+    double d1 = calc_dist(a, b1, inst) + calc_dist(a1, c1, inst) + calc_dist(b, c, inst);
+    double d2 = calc_dist(a, c, inst) + calc_dist(a1, b1, inst) + calc_dist(b, c1, inst);
+    double d3 = calc_dist(a, b, inst) + calc_dist(a1, c, inst) + calc_dist(b1, c1, inst);
+    double d4 = calc_dist(a, b1, inst) + calc_dist(a1, c, inst) + calc_dist(b, c1, inst);
+    if (d0 > d1) {
+
+        return d1 - d0;
+    } else if (d0 > d2) {
+
+        return d2 - d0;
+    } else if (d0 > d3) {
+
+        return d3 - d0;
+    } else if (d0 > d4) {
+
+        return d4 - d0;
+    }
+    return 0.0;
+}
+
+int HEU_3opt(instance *inst) {
+    struct timeval start, end;
+    gettimeofday(&start, 0);
+    int status = HEU_greedy(inst);
+    if (status == TIME_LIMIT_EXCEEDED) {
+        LOG_I("Constructive heuristics time exceeded");
+        return TIME_LIMIT_EXCEEDED;
+    }
+    double minchange;
+    int *prev = MALLOC(inst->num_nodes, int);
+    MEMSET(prev, -1, inst->num_nodes, int);
+    for (int i = 0; i < inst->num_nodes; i++) {
+        prev[inst->solution.edges[i].j] = i;
+    }
+    plot_solution(inst);
+    while (1) {
+        double delta = 0.0;
+        for (int i = 0; i < inst->num_nodes - 2; i++) {
+            for (int j = i+1; j < inst->num_nodes - 1; j++) {
+                for (int k = j+1; k < inst->num_nodes; k++) {
+                    
+                }
+            }
+        }
+        if (delta >= 0.0) {
+            break;
+        }
+    }
+    //plot_solution(inst);
+    inst->solution.obj_best = 0.0;
+    for (int i = 0; i < inst->num_nodes; i++) {
+        edge e = inst->solution.edges[i];
+        inst->solution.obj_best += calc_dist(e.i, e.j, inst);
+    }
+    FREE(prev);
+    return status;
+    return 0;
+}
+
+int shake(edge *edges, int k, int num_nodes) {
+
+    for (int i = 0; i < k; i++) {
+        double random = rand() / RAND_MAX;
+        int node = (int) random * num_nodes;
+    }
+    
+
+}
+
+int HEU_VNS(instance *inst) {
+
+
+
+    return 0;
 }
