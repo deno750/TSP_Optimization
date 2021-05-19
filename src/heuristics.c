@@ -126,6 +126,7 @@ int HEU_extramileage(instance *inst) {
     last_edge.i = hindex[hsize - 1];
     last_edge.j = hindex[0];
     inst->solution.edges[last_edge.i] = last_edge;
+    obj += calc_dist(last_edge.i, last_edge.j, inst);
     
     
     plot_solution(inst);
