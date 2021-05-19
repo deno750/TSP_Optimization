@@ -69,6 +69,7 @@
 #define SOLVE_GREEDY            112 // Uses the greedy heuristic
 #define SOLVE_EXTR_MIL          113 // Uses the extra mileage heuristic
 #define SOLVE_2OPT              114 // Uses the 2 opt algorithm
+#define SOLVE_3OPT              115 // Uses the 3 opt algorithm
 
 
 

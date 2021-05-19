@@ -26,4 +26,14 @@ int HEU_extramileage(instance *inst);
  * @return The error code
  */
 int HEU_2opt(instance *inst);
+
+/**
+ * Applies a the 3-opt algorithm to solve the instance
+ * 
+ * @param inst The instance pointer of the problem
+ * @return The error code
+ */
+int HEU_3opt(instance *inst);
+
+int HEU_VNS(instance *inst);
 #endif

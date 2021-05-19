@@ -23,7 +23,7 @@ static int add_SEC_cuts_fractional(instance *inst, CPXCALLBACKCONTEXTptr context
 }
 
 static int CPXPUBLIC SEC_cuts_callback_candidate(CPXCALLBACKCONTEXTptr context, CPXLONG contextid, instance *inst ) {
-    long ncols = inst->num_columns;
+    int ncols = inst->num_columns;
     double *xstar = MALLOC(ncols, double);
     double objval = CPX_INFBOUND;
     int currentnode = -1; CPXcallbackgetinfoint(context, CPXCALLBACKINFO_NODECOUNT, &currentnode);
@@ -86,10 +86,9 @@ static int violated_cuts_callback(double cutval, int num_nodes, int* members, vo
     int k = 0;
     for (int i = 0; i < num_nodes; i++) {
         for (int j = 0; j < num_nodes; j++) {
-            if (members[i] < members[j]) {
-                edges[k++] = x_udir_pos(members[i], members[j], inst->num_nodes);
-                //LOG_D("X(%d,%d)", members[i], members[j]);
-            }
+            if (members[i] >= members[j]) { continue; }
+            edges[k++] = x_udir_pos(members[i], members[j], inst->num_nodes);
+            //LOG_D("X(%d,%d)", members[i], members[j]);
         }
     }
     int purgeable = CPX_USECUT_FILTER;

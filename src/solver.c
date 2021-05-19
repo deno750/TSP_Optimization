@@ -103,6 +103,8 @@ static int solve_problem_HEUC(instance *inst) {
         status = HEU_extramileage(inst);
     } else if (inst->params.method.id == SOLVE_2OPT) {
         status = HEU_2opt(inst);
+    } else if (inst->params.method.id == SOLVE_3OPT) {
+        status = HEU_3opt(inst);
     }
     else {
         LOG_E("No Heuristic method specified!!!");

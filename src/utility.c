@@ -183,6 +183,12 @@ void parse_comand_line(int argc, const char *argv[], instance *inst) {
                 inst->params.method.name = "2-OPT HEURISTIC";
                 inst->params.method.use_cplex = 0;
             }
+            if (strncmp(method, "3OPT", 4) == 0) {
+                inst->params.method.id = SOLVE_3OPT;
+                inst->params.method.edge_type = UDIR_EDGE;
+                inst->params.method.name = "3-OPT HEURISTIC";
+                inst->params.method.use_cplex = 0;
+            }
             continue;
         }
         if (strcmp("-seed", argv[i]) == 0) {
@@ -213,6 +219,8 @@ void parse_comand_line(int argc, const char *argv[], instance *inst) {
         printf("SOFT_FIX     Soft fixing heuristic method\n");
         printf("GREEDY       Greedy algorithm method\n");
         printf("EXTR_MILE    Extra mileage method\n");
+        printf("2OPT         2-OPT method\n");
+        printf("3OPT         3-OPT method\n");
         exit(0);
     }
 

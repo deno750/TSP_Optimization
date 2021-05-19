@@ -5,7 +5,7 @@ import random
 
 
 ######READ TSP FILE
-filename="stefano_128k"
+filename="killua"
 f = open("../data/art/"+filename+".tsp", "r")
 found=False
 
@@ -47,7 +47,7 @@ f.close()
 ######PLOT
 plt.rcParams["figure.figsize"] = (10,10)
 plt.axis('off')
-plt.plot(X,Y)
+plt.plot(X,Y, c="#651FFF")
 plt.savefig("../plot/"+filename+".png",dpi=300)
 plt.show()
 
