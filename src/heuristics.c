@@ -193,10 +193,10 @@ void reverse(int start_node, int end_node, int *prev, edge *edges, int num_nodes
         }
     }
 
-    LOG_D("\n\n");
+    //LOG_D("\n\n");
     for (int k = 0; k < num_nodes; k++) {
         prev[edges[k].j] = k;
-        LOG_D("%d -> %d",  edges[k].i,  edges[k].j);
+        //LOG_D("%d -> %d",  edges[k].i,  edges[k].j);
     }
 }
 
@@ -360,6 +360,52 @@ int shake(edge *edges, int k, int num_nodes) {
     }
     
 
+}
+
+int HEU_Grasp(instance *inst) {
+    int maxiter = inst->num_nodes * 0.5;
+    int status = 0;
+    double bestobj = DBL_MAX;
+    edge *bestedges = CALLOC(inst->num_nodes, edge);
+    struct timeval start, end;
+    gettimeofday(&start, 0);
+    for (int i = 0; i < maxiter; i++) {
+        gettimeofday(&end, 0);
+        double elapsed = get_elapsed_time(start, end);
+        if (inst->params.time_limit >= 0 && elapsed >= inst->params.time_limit) {
+            status = TIME_LIMIT_EXCEEDED;
+            break;
+        }
+        double rand_num = ((double) rand() / (double) RAND_MAX);
+        int node = (int) (rand_num * (inst->num_nodes - 1)); // The starting node taken randomly
+        if (inst->params.verbose >= 5) {
+            LOG_I("GRASP starting node: %d", node);
+        }
+        status = greedy(inst, node);
+        if (status) { break; }
+        if (inst->solution.obj_best < bestobj) {
+            if(inst->params.verbose >= 4) {
+                LOG_I("New Best: %f", inst->solution.obj_best);
+            }
+            bestobj = inst->solution.obj_best;
+            memcpy(bestedges, inst->solution.edges, inst->num_nodes * sizeof(edge));
+        }
+    }
+    inst->solution.obj_best = bestobj;
+    memcpy(inst->solution.edges, bestedges, inst->num_nodes * sizeof(edge));
+    FREE(bestedges);
+    return status;
+}
+
+int HEU_Grasp2opt(instance *inst) {
+    int status = HEU_Grasp(inst);
+    if(inst->params.verbose >= 5) {
+        LOG_I("COMPLETED GRASP");
+        LOG_I("STARTED 2-OPT RREFINEMENT");
+    }
+    plot_solution(inst);
+    status = HEU_2opt(inst);
+    return status;
 }
 
 int HEU_VNS(instance *inst) {

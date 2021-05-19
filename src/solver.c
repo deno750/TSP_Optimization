@@ -105,9 +105,15 @@ static int solve_problem_HEUC(instance *inst) {
         status = HEU_2opt(inst);
     } else if (inst->params.method.id == SOLVE_3OPT) {
         status = HEU_3opt(inst);
+    } else if (inst->params.method.id == SOLVE_GRASP) {
+        status = HEU_Grasp(inst);
+    } else if (inst->params.method.id == SOLVE_GRASP_REF) {
+        status = HEU_Grasp2opt(inst);
+    } else if (inst->params.method.id == SOLVE_VNS) {
+        status = HEU_VNS(inst);
     }
     else {
-        LOG_E("No Heuristic method specified!!!");
+        LOG_E("No Heuristic method specified!");
     }
     return status;
 }

@@ -35,5 +35,9 @@ int HEU_2opt(instance *inst);
  */
 int HEU_3opt(instance *inst);
 
+int HEU_Grasp(instance *inst);
+
+int HEU_Grasp2opt(instance *inst);
+
 int HEU_VNS(instance *inst);
 #endif

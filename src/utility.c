@@ -189,6 +189,24 @@ void parse_comand_line(int argc, const char *argv[], instance *inst) {
                 inst->params.method.name = "3-OPT HEURISTIC";
                 inst->params.method.use_cplex = 0;
             }
+            if (strncmp(method, "GRASP", 5) == 0) {
+                inst->params.method.id = SOLVE_GRASP;
+                inst->params.method.edge_type = UDIR_EDGE;
+                inst->params.method.name = "GRASP HEURISTIC";
+                inst->params.method.use_cplex = 0;
+            }
+            if (strncmp(method, "GRASP_REF", 9) == 0) {
+                inst->params.method.id = SOLVE_GRASP_REF;
+                inst->params.method.edge_type = UDIR_EDGE;
+                inst->params.method.name = "GRASP WITH 2-OPT HEURISTIC";
+                inst->params.method.use_cplex = 0;
+            }
+            if (strncmp(method, "VNS", 3) == 0) {
+                inst->params.method.id = SOLVE_VNS;
+                inst->params.method.edge_type = UDIR_EDGE;
+                inst->params.method.name = "VNS META-HEURISTIC";
+                inst->params.method.use_cplex = 0;
+            }
             continue;
         }
         if (strcmp("-seed", argv[i]) == 0) {
@@ -221,6 +239,9 @@ void parse_comand_line(int argc, const char *argv[], instance *inst) {
         printf("EXTR_MILE    Extra mileage method\n");
         printf("2OPT         2-OPT method\n");
         printf("3OPT         3-OPT method\n");
+        printf("GRASP        GRASP method\n");
+        printf("GRASP_REF    GRASP with 2-OPT refinement method\n");
+        printf("VNS          VNS method\n");
         exit(0);
     }
 

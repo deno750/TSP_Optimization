@@ -70,6 +70,9 @@
 #define SOLVE_EXTR_MIL          113 // Uses the extra mileage heuristic
 #define SOLVE_2OPT              114 // Uses the 2 opt algorithm
 #define SOLVE_3OPT              115 // Uses the 3 opt algorithm
+#define SOLVE_GRASP             116 // Uses the GRASP algorithm
+#define SOLVE_GRASP_REF         117 // Uses the GRASP and 2opt algorithm algorithm
+#define SOLVE_VNS               118 // Uses the VNS local search algorithm
 
 
 
