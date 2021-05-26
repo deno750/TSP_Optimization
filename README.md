@@ -1,3 +1,17 @@
+<!-- MARKDOWN LINKS & IMAGES -->
+[contributors-shield]: https://img.shields.io/github/contributors/deno750/TSP_Optimization.svg?style=for-the-badge
+[contributors-url]: https://github.com/deno750/TSP_Optimization/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/deno750/TSP_Optimization.svg?style=for-the-badge
+[forks-url]: https://github.com/deno750/TSP_Optimization/network/members
+[stars-shield]: https://img.shields.io/github/stars/deno750/TSP_Optimization.svg?style=for-the-badge
+[stars-url]: https://github.com/deno750/TSP_Optimization/stargazers
+[issues-shield]: https://img.shields.io/github/issues/deno750/TSP_Optimization.svg?style=for-the-badge
+[issues-url]: https://github.com/deno750/TSP_Optimization/issues
+[license-shield]: https://img.shields.io/github/license/deno750/TSP_Optimization.svg?style=for-the-badge
+[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
+[linkedin-url]: https://linkedin.com/in/stefano-ivancich/
+[product-screenshot]: https://github.com/ivaste/pattern_matching/blob/main/images/pattern_matching.png
+
 # TSP_Optimization
 Repository for the course Ricerca Operativa 2
 
