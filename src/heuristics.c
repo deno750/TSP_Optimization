@@ -10,6 +10,8 @@
 #define WRONG_STARTING_NODE 1
 #define TIME_LIMIT_EXCEEDED 2
 
+#define GRASP_RAND 0.9
+
 static int greedy(instance *inst, int starting_node) {
     if (starting_node >= inst->num_nodes) {
         return WRONG_STARTING_NODE;
@@ -61,29 +63,102 @@ static int greedy(instance *inst, int starting_node) {
     return status;
 }
 
+static int grasp(instance *inst, int starting_node) {
+    if (starting_node >= inst->num_nodes) {
+        return WRONG_STARTING_NODE;
+    }
 
+    struct timeval start, end;
+    gettimeofday(&start, 0);
+    int *visited = CALLOC(inst->num_nodes, int);
+    double obj = 0;
+
+    int curr = starting_node;
+    visited[starting_node] = 1;
+    int status = 0;
+    while (1) {
+        gettimeofday(&end, 0);
+        double elapsed = get_elapsed_time(start, end);
+        if (inst->params.time_limit > 0 && elapsed > inst->params.time_limit) {
+            status = TIME_LIMIT_EXCEEDED;
+            break;
+        }
+        int minidx = -1;
+        double mindist = DBL_MAX;
+        int prev_minidx = minidx;
+        double prev_mindist = mindist;
+        for (int i = 0; i < inst->num_nodes; i++) {
+            if (curr == i || visited[i]) { continue; }
+            double currdist = calc_dist(curr, i, inst);
+            if (currdist < mindist) {
+                prev_mindist = mindist;
+                prev_minidx = minidx;
+                mindist = currdist;
+                minidx = i;
+            }
+        }
+        
+        double random = URAND();
+        int idxsel = random < GRASP_RAND || minidx == -1 || prev_minidx == -1 ? minidx : prev_minidx;
+        double distsel = random < GRASP_RAND || minidx == -1 || prev_minidx == -1 ? mindist : prev_mindist;
+
+        if (idxsel == -1) {
+            // Closing the tsp cycle 
+            inst->solution.edges[curr].i = curr;
+            inst->solution.edges[curr].j = starting_node;
+            break;
+        }
+        
+        inst->solution.edges[curr].i = curr;
+        inst->solution.edges[curr].j = idxsel;
+        visited[idxsel] = 1;
+        obj += distsel;
+        curr = idxsel;
+
+        
+    }
+    inst->solution.obj_best = obj;
+    FREE(visited);
+    return status;
+}
 
 int HEU_greedy(instance *inst) {
     int status;
-    double objbest = DBL_MAX;
-    /*for (int i = 0; i < inst->num_nodes; i++) {
-        if (inst->params.verbose >= 4) {
-            LOG_I("Starting node %d", i);
-        }
-        
-        status = greedy(inst, i);
-        if (status) {
-            return status;
-        }
-        if (inst->solution.obj_best < objbest) {
-            LOG_D("FOUND BEST OBJ");
-            objbest = inst->solution.obj_best;
-            memcpy(xbest, inst->solution.xbest, inst->num_columns);
-        }
-    }*/
     status = greedy(inst, 0);
-    //inst->solution.obj_best = objbest;
-    return 0;
+    return status;
+}
+
+int HEU_Greedy_iter(instance *inst) {
+    int maxiter = inst->num_nodes;
+    int status = 0;
+    double bestobj = DBL_MAX;
+    edge *bestedges = CALLOC(inst->num_nodes, edge);
+    struct timeval start, end;
+    gettimeofday(&start, 0);
+    for (int node = 0; node < maxiter; node++) {
+        gettimeofday(&end, 0);
+        double elapsed = get_elapsed_time(start, end);
+        if (inst->params.time_limit >= 0 && elapsed >= inst->params.time_limit) {
+            status = TIME_LIMIT_EXCEEDED;
+            break;
+        }
+        if (inst->params.verbose >= 5) {
+            LOG_I("GREEDY starting node: %d", node);
+        }
+        status = greedy(inst, node);
+        if (status) { break; }
+        if (inst->solution.obj_best < bestobj) {
+            if(inst->params.verbose >= 4) {
+                LOG_I("New Best: %f", inst->solution.obj_best);
+            }
+            bestobj = inst->solution.obj_best;
+            memcpy(bestedges, inst->solution.edges, inst->num_nodes * sizeof(edge));
+        }
+    }
+    inst->solution.obj_best = bestobj;
+    memcpy(inst->solution.edges, bestedges, inst->num_nodes * sizeof(edge));
+    FREE(bestedges);
+    return status;
 }
 
 int HEU_extramileage(instance *inst) {
@@ -205,7 +280,7 @@ int HEU_2opt(instance *inst) {
 
     struct timeval start, end;
     gettimeofday(&start, 0);
-    int status = HEU_greedy(inst);
+    int status = HEU_Grasp_iter(inst);
     if (status == TIME_LIMIT_EXCEEDED) {
         LOG_I("Constructive heuristics time exceeded");
         return TIME_LIMIT_EXCEEDED;
@@ -364,25 +439,27 @@ int shake(edge *edges, int k, int num_nodes) {
 }
 
 int HEU_Grasp(instance *inst) {
-    int maxiter = inst->num_nodes * 0.5;
+    return grasp(inst, 0);
+}
+
+int HEU_Grasp_iter(instance *inst) {
+    int maxiter = inst->num_nodes;
     int status = 0;
     double bestobj = DBL_MAX;
     edge *bestedges = CALLOC(inst->num_nodes, edge);
     struct timeval start, end;
     gettimeofday(&start, 0);
-    for (int i = 0; i < maxiter; i++) {
+    for (int node = 0; node < maxiter; node++) {
         gettimeofday(&end, 0);
         double elapsed = get_elapsed_time(start, end);
         if (inst->params.time_limit >= 0 && elapsed >= inst->params.time_limit) {
             status = TIME_LIMIT_EXCEEDED;
             break;
         }
-        double rand_num = ((double) rand() / (double) RAND_MAX);
-        int node = (int) (rand_num * (inst->num_nodes - 1)); // The starting node taken randomly
         if (inst->params.verbose >= 5) {
-            LOG_I("GRASP starting node: %d", node);
+            LOG_I("GREEDY starting node: %d", node);
         }
-        status = greedy(inst, node);
+        status = grasp(inst, node);
         if (status) { break; }
         if (inst->solution.obj_best < bestobj) {
             if(inst->params.verbose >= 4) {
@@ -397,6 +474,8 @@ int HEU_Grasp(instance *inst) {
     FREE(bestedges);
     return status;
 }
+
+
 
 int HEU_Grasp2opt(instance *inst) {
     int status = HEU_Grasp(inst);

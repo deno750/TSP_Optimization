@@ -38,6 +38,7 @@
 #define LOG_E(fmt, ...) {fprintf(stderr, "[ERROR] ");fprintf(stderr, fmt, ## __VA_ARGS__);fprintf(stdout, "\n");fflush(NULL);exit(1);}
 #define FREE(ptr) free(ptr); ptr=NULL;
 #define LEN(arr) (sizeof(arr) / sizeof(*arr))
+#define URAND() ( ((double) rand()) / RAND_MAX )
 
 
 // Constant that is useful for numerical errors
@@ -67,14 +68,16 @@
 #define SOLVE_HARD_FIXING2      110 // Uses the hard fixing heuristic with decremental probability
 #define SOLVE_SOFT_FIXING       111 // Uses the hard fixing heuristic
 #define SOLVE_GREEDY            112 // Uses the greedy heuristic
-#define SOLVE_EXTR_MIL          113 // Uses the extra mileage heuristic
-#define SOLVE_2OPT              114 // Uses the 2 opt algorithm
-#define SOLVE_3OPT              115 // Uses the 3 opt algorithm
-#define SOLVE_GRASP             116 // Uses the GRASP algorithm
-#define SOLVE_GRASP_REF         117 // Uses the GRASP and 2opt algorithm algorithm
-#define SOLVE_VNS               118 // Uses the VNS local search algorithm
-#define SOLVE_TABU              119 // Uses the Tabu search algorithm
-#define SOLVE_GENETIC           120 // Uses the Genetic algorithm
+#define SOLVE_GREEDY_ITER       113 // Uses the greedy heuristic with iterated starting node
+#define SOLVE_EXTR_MIL          114 // Uses the extra mileage heuristic
+#define SOLVE_2OPT              115 // Uses the 2 opt algorithm
+#define SOLVE_3OPT              116 // Uses the 3 opt algorithm
+#define SOLVE_GRASP             117 // Uses the GRASP algorithm
+#define SOLVE_GRASP_ITER        118 // Uses the iterative GRASP algorithm
+#define SOLVE_GRASP_REF         119 // Uses the GRASP and 2opt algorithm
+#define SOLVE_VNS               120 // Uses the VNS local search algorithm
+#define SOLVE_TABU              121 // Uses the Tabu search algorithm
+#define SOLVE_GENETIC           122 // Uses the Genetic algorithm
 
 
 

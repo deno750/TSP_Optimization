@@ -171,6 +171,12 @@ void parse_comand_line(int argc, const char *argv[], instance *inst) {
                 inst->params.method.name = "GREEDY HEURISTIC";
                 inst->params.method.use_cplex = 0;
             }
+            if (strncmp(method, "GREEDY_ITER", 11) == 0) {
+                inst->params.method.id = SOLVE_GREEDY_ITER;
+                inst->params.method.edge_type = UDIR_EDGE;
+                inst->params.method.name = "GREEDY ITERATIVE HEURISTIC";
+                inst->params.method.use_cplex = 0;
+            }
             if (strncmp(method, "EXTR_MIL", 6) == 0) {
                 inst->params.method.id = SOLVE_EXTR_MIL;
                 inst->params.method.edge_type = UDIR_EDGE;
@@ -193,6 +199,12 @@ void parse_comand_line(int argc, const char *argv[], instance *inst) {
                 inst->params.method.id = SOLVE_GRASP;
                 inst->params.method.edge_type = UDIR_EDGE;
                 inst->params.method.name = "GRASP HEURISTIC";
+                inst->params.method.use_cplex = 0;
+            }
+            if (strncmp(method, "GRASP_ITER", 10) == 0) {
+                inst->params.method.id = SOLVE_GRASP_ITER;
+                inst->params.method.edge_type = UDIR_EDGE;
+                inst->params.method.name = "GRASP ITERATIVE HEURISTIC";
                 inst->params.method.use_cplex = 0;
             }
             if (strncmp(method, "GRASP_REF", 9) == 0) {
@@ -248,10 +260,12 @@ void parse_comand_line(int argc, const char *argv[], instance *inst) {
         printf("HARD_FIX2    Hard fixing heuristic method with variable prob\n");
         printf("SOFT_FIX     Soft fixing heuristic method\n");
         printf("GREEDY       Greedy algorithm method\n");
+        printf("GREEDY_ITER  Iterative Greedy algorithm method\n");
         printf("EXTR_MILE    Extra mileage method\n");
         printf("2OPT         2-OPT method\n");
         printf("3OPT         3-OPT method\n");
         printf("GRASP        GRASP method\n");
+        printf("GRASP_ITER   Iterative GRASP method\n");
         printf("GRASP_REF    GRASP with 2-OPT refinement method\n");
         printf("VNS          VNS method\n");
         printf("TABU         TABU Search method\n");
