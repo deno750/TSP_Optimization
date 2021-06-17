@@ -11,6 +11,7 @@
 #include "hardfixing.h"
 #include "softfixing.h"
 #include "heuristics.h"
+#include "tabusearch.h"
 
 // USER CUT SOLVER
 int opt_best_solver(CPXENVptr env, CPXLPptr lp, instance *inst) {
@@ -52,7 +53,7 @@ static void print_solution(instance *inst) {
         
 
         // Next level of verbosity
-        if (inst->params.verbose >= 3) {
+        if (inst->params.verbose >= 5) {
             LOG_I("The optimal edges are:\n");
 
             for ( int i = 0; i < inst->num_nodes; i++ ){
@@ -110,7 +111,7 @@ static int solve_problem_HEUC(instance *inst) {
     } else if (inst->params.method.id == SOLVE_GRASP) {
         status = HEU_Grasp(inst);
     } else if (inst->params.method.id == SOLVE_GRASP_ITER) {
-        status = HEU_Grasp_iter(inst);
+        status = HEU_Grasp_iter(inst, inst->params.time_limit);
     } else if (inst->params.method.id == SOLVE_GRASP_REF) {
         status = HEU_Grasp2opt(inst);
     } else if (inst->params.method.id == SOLVE_VNS) {

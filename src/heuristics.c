@@ -6,11 +6,9 @@
 #include <float.h>
 #include <sys/stat.h>
 #include <unistd.h>
- 
-#define WRONG_STARTING_NODE 1
-#define TIME_LIMIT_EXCEEDED 2
 
 #define GRASP_RAND 0.9
+#define GRASP_TIME_LIM_DEF 10//120 // 2 minutes
 
 static int greedy(instance *inst, int starting_node) {
     if (starting_node >= inst->num_nodes) {
@@ -259,7 +257,6 @@ int HEU_extramileage(instance *inst) {
 
 void reverse(int start_node, int end_node, int *prev, edge *edges, int num_nodes) {
     int currnode = start_node;
-        
     while (1) {
         int node = prev[currnode];
         edges[currnode].j = node;
@@ -276,22 +273,17 @@ void reverse(int start_node, int end_node, int *prev, edge *edges, int num_nodes
     }
 }
 
-int HEU_2opt(instance *inst) {
-
+int alg_2opt(instance *inst, int *skip_node, int *stored_prev) {
     struct timeval start, end;
     gettimeofday(&start, 0);
-    int status = HEU_Grasp_iter(inst);
-    if (status == TIME_LIMIT_EXCEEDED) {
-        LOG_I("Constructive heuristics time exceeded");
-        return TIME_LIMIT_EXCEEDED;
-    }
     double minchange;
+    int status = 0;
     int *prev = MALLOC(inst->num_nodes, int);
     MEMSET(prev, -1, inst->num_nodes, int);
     for (int i = 0; i < inst->num_nodes; i++) {
         prev[inst->solution.edges[i].j] = i;
     }
-    plot_solution(inst);
+    //plot_solution(inst);
     int mina = 0;
     int minb = 0;
     while(1) {
@@ -304,11 +296,15 @@ int HEU_2opt(instance *inst) {
         }
         minchange = 0;
         for (int i = 0; i < inst->num_nodes - 1; i++) {
+            if (skip_node && skip_node[i]) { continue; } // Checking here for i can remove an useless cycle
             for (int j = i+1; j < inst->num_nodes; j++) {
                 int a = i;
                 int b = j;
                 int a1 = inst->solution.edges[a].j;
                 int b1 = inst->solution.edges[b].j;
+                if (skip_node && (skip_node[a] || skip_node[b] || skip_node[a1] || skip_node[b1])) {
+                    continue;
+                }
                 double change = calc_dist(a, b, inst) + calc_dist(a1, b1, inst) - calc_dist(a, a1, inst) - calc_dist(b, b1, inst);
                 if (change < minchange) {
                     minchange = change;
@@ -326,8 +322,6 @@ int HEU_2opt(instance *inst) {
         LOG_D("\n=======\n");*/
         int a1 = inst->solution.edges[mina].j;
         int b1 = inst->solution.edges[minb].j; 
-        int a1_succ = inst->solution.edges[a1].j;
-        int b1_succ = inst->solution.edges[b1].j;
         inst->solution.edges[mina].j = minb;
         //plot_solution(inst);
         //sleep(1);
@@ -347,8 +341,21 @@ int HEU_2opt(instance *inst) {
         edge e = inst->solution.edges[i];
         inst->solution.obj_best += calc_dist(e.i, e.j, inst);
     }
+    if(stored_prev) {
+        memcpy(stored_prev, prev, sizeof(int) * inst->num_nodes);
+    }
     FREE(prev);
     return status;
+}
+
+int HEU_2opt(instance *inst) {
+    int grasp_time_lim = inst->params.time_limit / 5;
+    int status = HEU_Greedy_iter(inst);
+    if (status == TIME_LIMIT_EXCEEDED) {
+        LOG_I("Constructive heuristics time exceeded");
+        return TIME_LIMIT_EXCEEDED;
+    }
+    return alg_2opt(inst, NULL, NULL);
 }
 
 double reverse_3opt(int i, int j, int k, instance *inst) {
@@ -442,22 +449,24 @@ int HEU_Grasp(instance *inst) {
     return grasp(inst, 0);
 }
 
-int HEU_Grasp_iter(instance *inst) {
-    int maxiter = inst->num_nodes;
+int HEU_Grasp_iter(instance *inst, int time_lim) {
     int status = 0;
     double bestobj = DBL_MAX;
     edge *bestedges = CALLOC(inst->num_nodes, edge);
     struct timeval start, end;
+    int grasp_time_lim = time_lim > 0 ? time_lim : GRASP_TIME_LIM_DEF;
     gettimeofday(&start, 0);
-    for (int node = 0; node < maxiter; node++) {
+    
+    while (1) {
+        int node = URAND() * (inst->num_nodes - 1);
         gettimeofday(&end, 0);
         double elapsed = get_elapsed_time(start, end);
-        if (inst->params.time_limit >= 0 && elapsed >= inst->params.time_limit) {
+        if (elapsed >= grasp_time_lim) {
             status = TIME_LIMIT_EXCEEDED;
             break;
         }
         if (inst->params.verbose >= 5) {
-            LOG_I("GREEDY starting node: %d", node);
+            LOG_I("GRASP starting node: %d", node);
         }
         status = grasp(inst, node);
         if (status) { break; }
@@ -478,10 +487,11 @@ int HEU_Grasp_iter(instance *inst) {
 
 
 int HEU_Grasp2opt(instance *inst) {
-    int status = HEU_Grasp(inst);
+    int grasp_time_lim = inst->params.time_limit / 5; // Dividing it is safe even when time limit is -1
+    int status = HEU_Grasp_iter(inst, grasp_time_lim);
     if(inst->params.verbose >= 5) {
         LOG_I("COMPLETED GRASP");
-        LOG_I("STARTED 2-OPT RREFINEMENT");
+        LOG_I("STARTED 2-OPT REFINEMENT");
     }
     plot_solution(inst);
     status = HEU_2opt(inst);
@@ -492,10 +502,6 @@ int HEU_VNS(instance *inst) {
 
 
 
-    return 0;
-}
-
-int HEU_Tabu(instance *inst) {
     return 0;
 }
 
