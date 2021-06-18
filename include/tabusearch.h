@@ -7,4 +7,6 @@ int HEU_Tabu_step(instance *inst);
 
 int HEU_Tabu_lin(instance *inst);
 
+int HEU_Tabu_rand(instance *inst);
+
 #endif

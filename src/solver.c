@@ -120,6 +120,8 @@ static int solve_problem_HEUC(instance *inst) {
         status = HEU_Tabu_step(inst);
     } else if (inst->params.method.id == SOLVE_TABU_LIN) {
         status = HEU_Tabu_lin(inst);
+    } else if (inst->params.method.id == SOLVE_TABU_RAND) {
+        status = HEU_Tabu_rand(inst);
     } else if (inst->params.method.id == SOLVE_GENETIC) {
         status = HEU_Genetic(inst);
     }

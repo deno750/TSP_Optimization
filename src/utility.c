@@ -232,6 +232,12 @@ void parse_comand_line(int argc, const char *argv[], instance *inst) {
                 inst->params.method.name = "TABU SEARCH META-HEURISTIC WITH LINEAR POLICY";
                 inst->params.method.use_cplex = 0;
             }
+            if (strncmp(method, "TABU_RAND", 9) == 0) {
+                inst->params.method.id = SOLVE_TABU_RAND;
+                inst->params.method.edge_type = UDIR_EDGE;
+                inst->params.method.name = "TABU SEARCH META-HEURISTIC WITH RANDOM POLICY";
+                inst->params.method.use_cplex = 0;
+            }
             if (strncmp(method, "GENETIC", 7) == 0) {
                 inst->params.method.id = SOLVE_GENETIC;
                 inst->params.method.edge_type = UDIR_EDGE;
@@ -277,6 +283,7 @@ void parse_comand_line(int argc, const char *argv[], instance *inst) {
         printf("VNS          VNS method\n");
         printf("TABU_STEP    TABU Search method with step policy\n");
         printf("TABU_LIN     TABU Search method with linear policy\n");
+        printf("TABU_RAND    TABU Search method with random policy\n");
         printf("GENETIC      GENETIC Algorithm\n");
         exit(0);
     }

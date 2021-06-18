@@ -78,7 +78,8 @@
 #define SOLVE_VNS               120 // Uses the VNS local search algorithm
 #define SOLVE_TABU_STEP         121 // Uses the Tabu search algorithm with step policy
 #define SOLVE_TABU_LIN          122 // Uses the Tabu search algorithm with linear policy
-#define SOLVE_GENETIC           123 // Uses the Genetic algorithm
+#define SOLVE_TABU_RAND         123 // Uses the Tabu search algorithm with random policy
+#define SOLVE_GENETIC           124 // Uses the Genetic algorithm
 
 
 
