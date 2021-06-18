@@ -4,9 +4,12 @@
 #include <unistd.h>
 #include <float.h>
 
-#define STEP_POLICY 0
-#define LINEAR_POLICY 1
-#define RANDOM_POLICY 2
+typedef struct tenure_policy {
+    int min_tenure;
+    int max_tenure;
+    int current_tenure;
+    int incr_tenure; // Variable for checking whether the tenure should increase or decrease in linear policy
+} tenure_policy;
 
 // Chooses between one of the four paramethers randomly
 static int random_choice(int a, int b, int a1, int b1) {
@@ -24,12 +27,37 @@ static int random_choice(int a, int b, int a1, int b1) {
     return node_fixed;
 }
 
-static int random_tenure(int min_tenure, int max_tenure) {
-    return min_tenure + (int) (URAND() * (max_tenure - min_tenure));
+static void step_policy(tenure_policy *policy, int curr_iter) {
+    if (curr_iter % 100 == 0) { // The number of steps is an hyper parameter
+        policy->current_tenure = policy->current_tenure == policy->min_tenure ? policy->max_tenure : policy->min_tenure;
+    }
 }
 
+static void linear_policy(tenure_policy *policy, int curr_iter) {
+    if (policy->current_tenure > policy->max_tenure) {
+        policy->current_tenure = policy->max_tenure;
+    }
+    if (policy->current_tenure < policy->min_tenure) {
+        policy->current_tenure = policy->min_tenure;
+    }
+    if (policy->current_tenure == policy->max_tenure || policy->current_tenure == policy->min_tenure) {
+        policy->incr_tenure = !policy->incr_tenure;
+    }
+
+    if (policy->incr_tenure) { policy->current_tenure++; } else { policy->current_tenure--; }
+}
+
+static void random_policy(tenure_policy *policy, int curr_iter) {
+    if (curr_iter == 1 || curr_iter % 100 == 0) { // The number of steps is an hyper parameter
+        policy->current_tenure = policy->min_tenure + (int) (URAND() * (policy->max_tenure - policy->min_tenure));
+    } 
+}
+
+
+
+
 // The policy parameter 
-static int tabu(instance *inst, int policy) {
+static int tabu(instance *inst, void (*policy_ptr)(tenure_policy*, int)) {
     int status = 0;
     struct timeval start, end;
     gettimeofday(&start, 0);
@@ -47,21 +75,21 @@ static int tabu(instance *inst, int policy) {
 
     double best_obj = DBL_MAX;
     edge *best_sol = CALLOC(inst->num_nodes, edge);
-    int min_tenure = 20; // Hyper parameter
-    int max_tenure = inst->num_nodes / 10; // Hyper parameter
+    tenure_policy tenure_policy;
+    tenure_policy.min_tenure = 15; // Hyper parameter
+    tenure_policy.max_tenure = inst->num_nodes / 10; // Hyper parameter
 
     // The following code is useful only with small instances (i.e. less than 200 nodes). Implemented just to avoid infinite loops for those instances or any other error
-    if (min_tenure > max_tenure) {
+    /*if (min_tenure > max_tenure) {
         min_tenure = max_tenure / 2;
     }
     if (min_tenure <= 1) {
         min_tenure = 2;
-    }
+    }*/
 
 
-    int tenure = min_tenure;
-
-    int incr_tenure = 0;
+    tenure_policy.current_tenure = tenure_policy.min_tenure;
+    tenure_policy.incr_tenure = 0;
 
     int iter = 1; // Starting from 1 in order to have 0 on nodes which are not in tabu list
     while (1) {
@@ -73,6 +101,7 @@ static int tabu(instance *inst, int policy) {
             break;
         }
         status = alg_2opt(inst, tabu_node, prev);
+        //LOG_D("Objective: %0.0f Best: %0.0f", inst->solution.obj_best, best_obj);
         if (inst->solution.obj_best < best_obj) {
             best_obj = inst->solution.obj_best;
             memcpy(best_sol, inst->solution.edges, inst->num_nodes * sizeof(edge));
@@ -96,60 +125,63 @@ static int tabu(instance *inst, int policy) {
             b = (int) (URAND() * (inst->num_nodes - 1));
             a1 = inst->solution.edges[a].j;
             b1 = inst->solution.edges[b].j;
+            if (tabu_node[a] || tabu_node[b] || tabu_node[a1] || tabu_node[b1]) {
+                a = 0; b = 0; a1 = 0; b1 = 0;
+                //LOG_D("FOUND TABU");
+            }
+        }
+        if (tabu_node[a] || tabu_node[b] || tabu_node[a1] || tabu_node[b1]) {
+            
+            LOG_D("FOUND TABU");
         }
         inst->solution.edges[a].j = b;
         inst->solution.edges[a1].j = b1;
         reverse_path(inst, b, a1, prev);
 
-        if (policy == STEP_POLICY) {
-            if (iter % 1000 == 0) { // The number of steps is also an hyper parameter
-                tenure = tenure == min_tenure ? max_tenure : min_tenure;
-            }
-        } else if (policy == LINEAR_POLICY) {
-            if (tenure == max_tenure || tenure == min_tenure) {
-                incr_tenure = !incr_tenure;
-            }
-
-            if (incr_tenure) { tenure++; } else { tenure--; }
-        } else if (policy == RANDOM_POLICY) {
-            if (iter % 100 == 0) { // From time to time we assign a ranom tenure between [min_tenure, max_tenure]
-                tenure = random_tenure(min_tenure, max_tenure);
-            }
-        } else {
-            LOG_E("Unrecognized policy: %d", policy);
-        }
+        (*policy_ptr)(&tenure_policy, iter);
 
         if (inst->params.verbose >= 5) {
-            LOG_I("Current tenure %d", tenure);
+            LOG_I("Current tenure %d", tenure_policy.current_tenure);
         }
         for (int i = 0; i < inst->num_nodes; i++) {
-            if (iter - tabu_node[i] > tenure) {
+            /*if (tabu_node[i]) {
+                printf("%d: %d, ", i, iter - tabu_node[i]);
+            }*/
+            if (iter - tabu_node[i] > tenure_policy.current_tenure) {
                 tabu_node[i] = 0;
             }
         }
+        //printf("\n\n\n\n");
+        //plot_solution(inst);
+        //sleep(1);
         
         int node_fixed = random_choice(a, b, a1, b1);
         tabu_node[node_fixed] = iter;
         
         iter++;
+
+        if (iter % 10 == 0) {
+            //alg_2opt(inst, NULL, NULL);
+        }
     }
 
     inst->solution.obj_best = best_obj;
     memcpy(inst->solution.edges, best_sol, inst->num_nodes * sizeof(edge));
     status = alg_2opt(inst, NULL, NULL); // A very fast 2-opt which removes the remaining crossing edges (generally few crossing edges)
     FREE(tabu_node);
+    FREE(prev);
     return status;
 }
 
 int HEU_Tabu_step(instance *inst) {
-    return tabu(inst, STEP_POLICY);
+    return tabu(inst, step_policy);
 }
 
 int HEU_Tabu_lin(instance *inst) {
-    return tabu(inst, LINEAR_POLICY);
+    return tabu(inst, linear_policy);
 }
 
 int HEU_Tabu_rand(instance *inst) {
-    return tabu(inst, RANDOM_POLICY);
+    return tabu(inst, random_policy);
 }
 
