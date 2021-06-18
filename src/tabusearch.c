@@ -22,12 +22,19 @@ void reverse2(int start_node, int end_node, int *prev, edge *edges, int num_node
     }
 }
 
-int step_tenure_policy(int min_tenure, int max_tenure, int curr_tenure, int current_iter) {
-    if (current_iter % 1000 == 0) {
-        if (curr_tenure == min_tenure) return max_tenure;
-        if (curr_tenure == max_tenure) return min_tenure;
+int random_choice(int a, int b, int a1, int b1) {
+    double random = URAND();
+    int node_fixed;
+    if (random < 0.25) {
+        node_fixed = a;
+    } else if (random >= 0.25 && random < 0.5) {
+        node_fixed = b;
+    } else if (random >= 0.5 && random < 0.75) {
+        node_fixed = a1;
+    } else {
+        node_fixed = b1;
     }
-    return curr_tenure;
+    return node_fixed;
 }
 
 int HEU_Tabu(instance *inst) {
@@ -40,14 +47,14 @@ int HEU_Tabu(instance *inst) {
     //MEMSET(tabu_node, -1, inst->num_nodes, int);
 
     int grasp_time_lim = inst->params.time_limit / 5;
-    HEU_Greedy_iter(inst); // Use grasp when completed
+    HEU_Greedy_iter(inst);//HEU_Grasp_iter(inst, grasp_time_lim); // Use grasp when completed
 
     plot_solution(inst);
 
     double best_obj = DBL_MAX;
     edge *best_sol = CALLOC(inst->num_nodes, edge);
-    int min_tenure = 2;
-    int max_tenure = inst->num_nodes / 10;
+    int min_tenure = 5; // Hyper parameter
+    int max_tenure = inst->num_nodes / 10; // Hyper parameter
     int tenure = min_tenure;
 
     int incr_tenure = 0;
@@ -92,11 +99,16 @@ int HEU_Tabu(instance *inst) {
         }
         LOG_D("\n\n\n");*/
 
+        // The chose of policy time is another hyper parameter
+
         // ============== STEP Policy ===================
-        /*if (iter % 1000 == 0) {
+        if (iter % 1000 == 0) { // The number of steps is also an hyper parameter
             tenure = tenure == min_tenure ? max_tenure : min_tenure;
-        } */
-        if (tenure == max_tenure || tenure == min_tenure) {
+        } 
+        // ============== STEP Policy ===================
+
+        // ============ Linear Policy ===================
+        /*if (tenure == max_tenure || tenure == min_tenure) {
             incr_tenure = !incr_tenure;
         }
 
@@ -104,7 +116,9 @@ int HEU_Tabu(instance *inst) {
             tenure++;
         } else {
             tenure--;
-        }
+        }*/
+
+        // ========== Linear Policy =====================
 
         if (inst->params.verbose >= 4) {
             LOG_I("Current tenure %d", tenure);
@@ -114,24 +128,15 @@ int HEU_Tabu(instance *inst) {
                 tabu_node[i] = 0;
             }
         }
-        double random = URAND();
-        int node_fixed;
-        if (random < 0.25) {
-            node_fixed = a;
-        } else if (random >= 0.25 && random < 0.5) {
-            node_fixed = b;
-        } else if (random >= 0.5 && random < 0.75) {
-            node_fixed = a1;
-        } else {
-            node_fixed = b1;
-        }
+        
+        int node_fixed = random_choice(a, b, a1, b1);
         tabu_node[node_fixed] = iter;
         
-        //LOG_D("ITER %d", iter);
         iter++;
-        //sleep(1);
     }
 
+    inst->solution.obj_best = best_obj;
+    memcpy(inst->solution.edges, best_sol, inst->num_nodes * sizeof(edge));
     FREE(tabu_node);
     return status;
 }
