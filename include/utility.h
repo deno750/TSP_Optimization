@@ -271,6 +271,19 @@ void save_lp(CPXENVptr env, CPXLPptr lp, char *name);
  */
 int count_components(instance *inst, double* xstar, int* successors, int* comp);
 
+/**
+ * Counts the number of subtours in the graph and returns the edges which close the cycles for each subtour
+ * 
+ * @param inst The instance pointer of the problem
+ * @param xtar The solution returned by cplex as form of array
+ * @param successors An array whose the successor of each node is stored. 
+ * The size of this array must be equal to the number of nodes in the problem (i.e. inst->num_nodes).
+ * @param comp An array whose the subtour which belongs each node is stored.
+ * The size of this array must be equal to the number of nodes in the problem (i.e. inst->num_nodes).
+ * @param close_cycle_edges An array which stores the edges which close the cycles for each subtour.
+ * @param num_closed_cycles The number closing cycle edges.
+ * @returns The number of subtorus. The returned value must be >= 1. If not, an error occured
+ */
 int count_components_adv(instance *inst, double* xstar, int* successors, int* comp, edge* close_cycle_edges, int* num_closed_cycles);
 
 /**
