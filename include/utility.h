@@ -76,8 +76,9 @@
 #define SOLVE_GRASP_ITER        118 // Uses the iterative GRASP algorithm
 #define SOLVE_GRASP_REF         119 // Uses the GRASP and 2opt algorithm
 #define SOLVE_VNS               120 // Uses the VNS local search algorithm
-#define SOLVE_TABU              121 // Uses the Tabu search algorithm
-#define SOLVE_GENETIC           122 // Uses the Genetic algorithm
+#define SOLVE_TABU_STEP         121 // Uses the Tabu search algorithm with step policy
+#define SOLVE_TABU_LIN          122 // Uses the Tabu search algorithm with linear policy
+#define SOLVE_GENETIC           123 // Uses the Genetic algorithm
 
 
 
@@ -301,5 +302,15 @@ void save_cplex_log(CPXENVptr env, instance *inst);
  * @param start The time val struct of the ending time of the measurement
  */
 double get_elapsed_time(struct timeval start, struct timeval end);
+
+/**
+ * Reverses the path from a chosen starting node and end node. Useful for 2-opt
+ * 
+ * @param inst The instance pointer of the problem
+ * @param start_node The starting node of the reversed path
+ * @param end_node The end node of the reversed path 
+ * @param prev An array which stores the previous node of each node (i.e. like a successors array)
+ */
+void reverse_path(instance *inst, int start_node, int end_node, int *prev);
 
 #endif

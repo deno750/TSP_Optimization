@@ -3,6 +3,8 @@
 
 #include "utility.h"
 
-int HEU_Tabu(instance *inst);
+int HEU_Tabu_step(instance *inst);
+
+int HEU_Tabu_lin(instance *inst);
 
 #endif

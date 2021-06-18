@@ -255,24 +255,6 @@ int HEU_extramileage(instance *inst) {
     return 0;
 }
 
-void reverse(int start_node, int end_node, int *prev, edge *edges, int num_nodes) {
-    int currnode = start_node;
-    while (1) {
-        int node = prev[currnode];
-        edges[currnode].j = node;
-        currnode = node;
-        if (node == end_node) {
-            break;
-        }
-    }
-
-    //LOG_D("\n\n");
-    for (int k = 0; k < num_nodes; k++) {
-        prev[edges[k].j] = k;
-        //LOG_D("%d -> %d",  edges[k].i,  edges[k].j);
-    }
-}
-
 int alg_2opt(instance *inst, int *skip_node, int *stored_prev) {
     struct timeval start, end;
     gettimeofday(&start, 0);
@@ -329,7 +311,7 @@ int alg_2opt(instance *inst, int *skip_node, int *stored_prev) {
         //plot_solution(inst);
         //sleep(1);
         
-        reverse(minb, a1, prev, inst->solution.edges, inst->num_nodes);
+        reverse_path(inst, minb, a1, prev);
         
         //plot_solution(inst);
         //sleep(1);
