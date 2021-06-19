@@ -255,7 +255,7 @@ int HEU_extramileage(instance *inst) {
     return 0;
 }
 
-int alg_2opt(instance *inst, int *skip_node, int *stored_prev) {
+int alg_2opt(instance *inst) {
     struct timeval start, end;
     gettimeofday(&start, 0);
     double minchange;
@@ -278,15 +278,13 @@ int alg_2opt(instance *inst, int *skip_node, int *stored_prev) {
         }
         minchange = 0;
         for (int i = 0; i < inst->num_nodes - 1; i++) {
-            if (skip_node && skip_node[i]) { continue; } // Checking here for i can remove an useless cycle
             for (int j = i+1; j < inst->num_nodes; j++) {
                 int a = i;
                 int b = j;
                 int a1 = inst->solution.edges[a].j;
                 int b1 = inst->solution.edges[b].j;
-                if (skip_node && (skip_node[a] || skip_node[b] || skip_node[a1] || skip_node[b1])) {
-                    continue;
-                }
+                // a1 == b1 never occurs because the edges are repsresented as directed. a->a1 then a1->b so it cannot be a->a1 b->a1
+                if (a1 == b1 || a == b1 || b == a1) {continue;}
                 double change = calc_dist(a, b, inst) + calc_dist(a1, b1, inst) - calc_dist(a, a1, inst) - calc_dist(b, b1, inst);
                 if (change < minchange) {
                     minchange = change;
@@ -323,9 +321,6 @@ int alg_2opt(instance *inst, int *skip_node, int *stored_prev) {
         edge e = inst->solution.edges[i];
         inst->solution.obj_best += calc_dist(e.i, e.j, inst);
     }
-    if(stored_prev) {
-        memcpy(stored_prev, prev, sizeof(int) * inst->num_nodes);
-    }
     FREE(prev);
     return status;
 }
@@ -337,7 +332,7 @@ int HEU_2opt(instance *inst) {
         LOG_I("Constructive heuristics time exceeded");
         return TIME_LIMIT_EXCEEDED;
     }
-    return alg_2opt(inst, NULL, NULL);
+    return alg_2opt(inst);
 }
 
 double reverse_3opt(int i, int j, int k, instance *inst) {

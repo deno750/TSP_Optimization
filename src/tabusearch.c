@@ -1,6 +1,7 @@
 #include "tabusearch.h"
 
 #include "heuristics.h"
+#include "distutil.h"
 #include <unistd.h>
 #include <float.h>
 
@@ -53,6 +54,81 @@ static void random_policy(tenure_policy *policy, int curr_iter) {
     } 
 }
 
+int check_tenure(int* node_val, int iter, int tenure) {
+    if (*node_val == 0) return 0;
+    if (iter - *node_val > tenure) {
+        *node_val = 0;
+        return 0;
+    }
+    
+    return 1;
+}
+
+int worsening_move(instance *inst, int *skip_node, int iter, int *tabu_size, int tenure) {
+    struct timeval start, end;
+    gettimeofday(&start, 0);
+    
+    int status = 0;
+    int *prev = MALLOC(inst->num_nodes, int);
+    MEMSET(prev, -1, inst->num_nodes, int);
+    for (int i = 0; i < inst->num_nodes; i++) {
+        prev[inst->solution.edges[i].j] = i;
+    }
+    int mina = 0;
+    int minb = 0;
+    double maxDelta = 0;
+    for (int i = 0; i < inst->num_nodes - 1; i++) {
+        if (skip_node && skip_node[i]) { 
+            if (check_tenure(&(skip_node[i]), iter, tenure)) {
+                continue;
+            }
+        } // Checking here for i can remove an useless cycle
+        for (int j = i+1; j < inst->num_nodes; j++) {
+            int a = i;
+            int b = j;
+            int a1 = inst->solution.edges[a].j;
+            int b1 = inst->solution.edges[b].j;
+            // a1 == b1 never occurs because the edges are repsresented as directed. a->a1 then a1->b so it cannot be a->a1 b->a1
+            if (a1 == b1 || a == b1 || b == a1) {continue;}
+            
+            if (skip_node && 
+                (check_tenure(&(skip_node[a]), iter, tenure)  || 
+                check_tenure(&(skip_node[b]), iter, tenure)   || 
+                check_tenure(&(skip_node[a1]), iter, tenure)  || 
+                check_tenure(&(skip_node[b1]), iter, tenure))
+                ) {
+                continue;
+            }
+            double delta = calc_dist(a, b, inst) + calc_dist(a1, b1, inst) - calc_dist(a, a1, inst) - calc_dist(b, b1, inst);
+            if (delta > maxDelta) {
+                maxDelta = delta;
+                mina = i;
+                minb = j;
+            }
+        }
+    }
+    //inst->solution.obj_best += maxDelta;
+    int a1 = inst->solution.edges[mina].j;
+    int b1 = inst->solution.edges[minb].j; 
+    inst->solution.edges[mina].j = minb;
+    inst->solution.edges[a1].j = b1;
+    
+        
+    reverse_path(inst, minb, a1, prev);
+    int node_fixed = random_choice(mina, minb, a1, b1);
+    skip_node[node_fixed] = iter;
+    (*tabu_size)++;
+    
+    
+    inst->solution.obj_best = 0.0;
+    for (int i = 0; i < inst->num_nodes; i++) {
+        edge e = inst->solution.edges[i];
+        inst->solution.obj_best += calc_dist(e.i, e.j, inst);
+    }
+    FREE(prev);
+    return status;
+}
+
 
 
 
@@ -64,19 +140,23 @@ static int tabu(instance *inst, void (*policy_ptr)(tenure_policy*, int)) {
 
     int *tabu_node = CALLOC(inst->num_nodes, int);
     int *prev = CALLOC(inst->num_nodes, int);
+    int tabu_size = 0;
 
     int grasp_time_lim = inst->params.time_limit / 5;
     HEU_Greedy_iter(inst);//HEU_Grasp_iter(inst, grasp_time_lim);
+    alg_2opt(inst, NULL, NULL);
     if (inst->params.verbose >= 5) {
         LOG_I("Completed initialization");
     }
 
     plot_solution(inst);
 
-    double best_obj = DBL_MAX;
+    //double best_obj = DBL_MAX;
+    double best_obj = inst->solution.obj_best;
     edge *best_sol = CALLOC(inst->num_nodes, edge);
+    memcpy(best_sol, inst->solution.edges, inst->num_nodes * sizeof(edge));
     tenure_policy tenure_policy;
-    tenure_policy.min_tenure = 15; // Hyper parameter
+    tenure_policy.min_tenure = inst->num_nodes / 50; // Hyper parameter
     tenure_policy.max_tenure = inst->num_nodes / 10; // Hyper parameter
 
     // The following code is useful only with small instances (i.e. less than 200 nodes). Implemented just to avoid infinite loops for those instances or any other error
@@ -100,69 +180,37 @@ static int tabu(instance *inst, void (*policy_ptr)(tenure_policy*, int)) {
             LOG_I("Tabu Search time exceeded");
             break;
         }
-        status = alg_2opt(inst, tabu_node, prev);
-        //LOG_D("Objective: %0.0f Best: %0.0f", inst->solution.obj_best, best_obj);
-        if (inst->solution.obj_best < best_obj) {
-            best_obj = inst->solution.obj_best;
-            memcpy(best_sol, inst->solution.edges, inst->num_nodes * sizeof(edge));
-            if (inst->params.verbose >= 3) {
-                LOG_I("Updated incubement: %f", best_obj);
-            }
-            
-            plot_solution(inst);
-        }
+        // This cycle can be avoided. In the 2opt move when is checking if the node is in tabu list can check whether the iteration is greater than current tenure and update it
+        status = worsening_move(inst, tabu_node, iter, &tabu_size, tenure_policy.current_tenure);
         
         if (status) {
             LOG_I("2-opt move returned status %d", status);
             break;
         }
-        // We're in local minimum now. We have to swap two edges and add a node in the tabu list
-
-        int a = 0, b = 0, a1 = 0, b1 = 0; 
-        // Seeking the pair edges to change. We don't want to choose two adiacent edges to swap
-        while (a == b || a1 == b1 || a == a1 || a == b1 || b == a1 || b == b1) {
-            a = (int) (URAND() * (inst->num_nodes - 1));
-            b = (int) (URAND() * (inst->num_nodes - 1));
-            a1 = inst->solution.edges[a].j;
-            b1 = inst->solution.edges[b].j;
-            if (tabu_node[a] || tabu_node[b] || tabu_node[a1] || tabu_node[b1]) {
-                a = 0; b = 0; a1 = 0; b1 = 0;
-                //LOG_D("FOUND TABU");
+        if (tabu_size % tenure_policy.current_tenure == 0) {
+            tabu_size = 0;
+            MEMSET(tabu_node, 0, inst->num_nodes, int);
+            status = alg_2opt(inst);
+        }
+        //LOG_D("Objective: %0.0f Best: %0.0f", inst->solution.obj_best, best_obj);
+        if (inst->solution.obj_best < best_obj) {
+            best_obj = inst->solution.obj_best;
+            memcpy(best_sol, inst->solution.edges, inst->num_nodes * sizeof(edge));
+            if (inst->params.verbose >= 3) {
+                LOG_I("Updated incubement: %0.0f", best_obj);
+                LOG_D("Current tenure %d", tenure_policy.current_tenure);
             }
-        }
-        if (tabu_node[a] || tabu_node[b] || tabu_node[a1] || tabu_node[b1]) {
             
-            LOG_D("FOUND TABU");
+            plot_solution(inst);
         }
-        inst->solution.edges[a].j = b;
-        inst->solution.edges[a1].j = b1;
-        reverse_path(inst, b, a1, prev);
 
         (*policy_ptr)(&tenure_policy, iter);
 
         if (inst->params.verbose >= 5) {
             LOG_I("Current tenure %d", tenure_policy.current_tenure);
         }
-        for (int i = 0; i < inst->num_nodes; i++) {
-            /*if (tabu_node[i]) {
-                printf("%d: %d, ", i, iter - tabu_node[i]);
-            }*/
-            if (iter - tabu_node[i] > tenure_policy.current_tenure) {
-                tabu_node[i] = 0;
-            }
-        }
-        //printf("\n\n\n\n");
-        //plot_solution(inst);
-        //sleep(1);
-        
-        int node_fixed = random_choice(a, b, a1, b1);
-        tabu_node[node_fixed] = iter;
         
         iter++;
-
-        if (iter % 10 == 0) {
-            //alg_2opt(inst, NULL, NULL);
-        }
     }
 
     inst->solution.obj_best = best_obj;
