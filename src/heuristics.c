@@ -481,7 +481,3 @@ int HEU_VNS(instance *inst) {
 
     return 0;
 }
-
-int HEU_Genetic(instance *inst) {
-    return 0;
-}
