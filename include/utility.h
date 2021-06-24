@@ -76,8 +76,10 @@
 #define SOLVE_GRASP_ITER        118 // Uses the iterative GRASP algorithm
 #define SOLVE_GRASP_REF         119 // Uses the GRASP and 2opt algorithm
 #define SOLVE_VNS               120 // Uses the VNS local search algorithm
-#define SOLVE_TABU              121 // Uses the Tabu search algorithm
-#define SOLVE_GENETIC           122 // Uses the Genetic algorithm
+#define SOLVE_TABU_STEP         121 // Uses the Tabu search algorithm with step policy
+#define SOLVE_TABU_LIN          122 // Uses the Tabu search algorithm with linear policy
+#define SOLVE_TABU_RAND         123 // Uses the Tabu search algorithm with random policy
+#define SOLVE_GENETIC           124 // Uses the Genetic algorithm
 
 
 
@@ -270,6 +272,19 @@ void save_lp(CPXENVptr env, CPXLPptr lp, char *name);
  */
 int count_components(instance *inst, double* xstar, int* successors, int* comp);
 
+/**
+ * Counts the number of subtours in the graph and returns the edges which close the cycles for each subtour
+ * 
+ * @param inst The instance pointer of the problem
+ * @param xtar The solution returned by cplex as form of array
+ * @param successors An array whose the successor of each node is stored. 
+ * The size of this array must be equal to the number of nodes in the problem (i.e. inst->num_nodes).
+ * @param comp An array whose the subtour which belongs each node is stored.
+ * The size of this array must be equal to the number of nodes in the problem (i.e. inst->num_nodes).
+ * @param close_cycle_edges An array which stores the edges which close the cycles for each subtour.
+ * @param num_closed_cycles The number closing cycle edges.
+ * @returns The number of subtorus. The returned value must be >= 1. If not, an error occured
+ */
 int count_components_adv(instance *inst, double* xstar, int* successors, int* comp, edge* close_cycle_edges, int* num_closed_cycles);
 
 /**
@@ -301,5 +316,15 @@ void save_cplex_log(CPXENVptr env, instance *inst);
  * @param start The time val struct of the ending time of the measurement
  */
 double get_elapsed_time(struct timeval start, struct timeval end);
+
+/**
+ * Reverses the path from a chosen starting node and end node. Useful for 2-opt
+ * 
+ * @param inst The instance pointer of the problem
+ * @param start_node The starting node of the reversed path
+ * @param end_node The end node of the reversed path 
+ * @param prev An array which stores the previous node of each node (i.e. like a successors array)
+ */
+void reverse_path(instance *inst, int start_node, int end_node, int *prev);
 
 #endif

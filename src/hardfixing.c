@@ -96,7 +96,7 @@ void advanced_fix(CPXENVptr env, CPXLPptr lp, instance *inst, double prob, int *
     
     double *xfake = CALLOC(num_cols, double); // We create a fake solution where the the nodes selected have the value of 1. This is threated such as a solution with subtours.
     for(int i = 0; i < num_cols; i++){
-		rand_num = (double) rand() / RAND_MAX;
+		rand_num = URAND();
 		
 		if(xh[i] > 0.5 && rand_num < prob) {
 			CPXchgbds(env, lp, 1, &i, &lb, &one);

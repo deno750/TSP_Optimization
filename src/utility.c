@@ -6,6 +6,7 @@
 #include <errno.h>
 #include <sys/stat.h>
 #include <math.h>
+#include <time.h>
 
 #include "plot.h"
 
@@ -56,7 +57,7 @@ void parse_comand_line(int argc, const char *argv[], instance *inst) {
     inst->params.file_path = NULL;
     inst->params.verbose = 1; //Default verbose level of 1
     inst->params.integer_cost = 1; // Default integer costs
-    inst->params.seed = time(0); // We want to specify the random seed as the current time in order to have a real randomness when user doesn't explicitly choose the seed
+    inst->params.seed = time(NULL); // We want to specify the random seed as the current time in order to have a real randomness when user doesn't explicitly choose the seed
     inst->params.perf_prof = 0;
     inst->name = NULL;
     inst->comment = NULL;
@@ -219,10 +220,22 @@ void parse_comand_line(int argc, const char *argv[], instance *inst) {
                 inst->params.method.name = "VNS META-HEURISTIC";
                 inst->params.method.use_cplex = 0;
             }
-            if (strncmp(method, "TABU", 4) == 0) {
-                inst->params.method.id = SOLVE_TABU;
+            if (strncmp(method, "TABU_STEP", 9) == 0) {
+                inst->params.method.id = SOLVE_TABU_STEP;
                 inst->params.method.edge_type = UDIR_EDGE;
-                inst->params.method.name = "TABU SEARCH META-HEURISTIC";
+                inst->params.method.name = "TABU SEARCH META-HEURISTIC WITH STEP POLICY";
+                inst->params.method.use_cplex = 0;
+            }
+            if (strncmp(method, "TABU_LIN", 8) == 0) {
+                inst->params.method.id = SOLVE_TABU_LIN;
+                inst->params.method.edge_type = UDIR_EDGE;
+                inst->params.method.name = "TABU SEARCH META-HEURISTIC WITH LINEAR POLICY";
+                inst->params.method.use_cplex = 0;
+            }
+            if (strncmp(method, "TABU_RAND", 9) == 0) {
+                inst->params.method.id = SOLVE_TABU_RAND;
+                inst->params.method.edge_type = UDIR_EDGE;
+                inst->params.method.name = "TABU SEARCH META-HEURISTIC WITH RANDOM POLICY";
                 inst->params.method.use_cplex = 0;
             }
             if (strncmp(method, "GENETIC", 7) == 0) {
@@ -268,7 +281,9 @@ void parse_comand_line(int argc, const char *argv[], instance *inst) {
         printf("GRASP_ITER   Iterative GRASP method\n");
         printf("GRASP_REF    GRASP with 2-OPT refinement method\n");
         printf("VNS          VNS method\n");
-        printf("TABU         TABU Search method\n");
+        printf("TABU_STEP    TABU Search method with step policy\n");
+        printf("TABU_LIN     TABU Search method with linear policy\n");
+        printf("TABU_RAND    TABU Search method with random policy\n");
         printf("GENETIC      GENETIC Algorithm\n");
         exit(0);
     }
@@ -651,4 +666,20 @@ double get_elapsed_time(struct timeval start, struct timeval end) {
     long microseconds = end.tv_usec - start.tv_usec;
     double elapsed = seconds + microseconds * 1e-6;
     return elapsed;
+}
+
+void reverse_path(instance *inst, int start_node, int end_node, int *prev) {
+    int currnode = start_node;
+    while (1) {
+        int node = prev[currnode];
+        inst->solution.edges[currnode].j = node;
+        currnode = node;
+        if (node == end_node) {
+            break;
+        }
+    }
+
+    for (int k = 0; k < inst->num_nodes; k++) {
+        prev[inst->solution.edges[k].j] = k;
+    }
 }
