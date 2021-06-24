@@ -144,7 +144,7 @@ static int tabu(instance *inst, void (*policy_ptr)(tenure_policy*, int)) {
 
     int grasp_time_lim = inst->params.time_limit / 5;
     HEU_Greedy_iter(inst);//HEU_Grasp_iter(inst, grasp_time_lim);
-    alg_2opt(inst, NULL, NULL);
+    alg_2opt(inst);
     if (inst->params.verbose >= 5) {
         LOG_I("Completed initialization");
     }
@@ -215,7 +215,7 @@ static int tabu(instance *inst, void (*policy_ptr)(tenure_policy*, int)) {
 
     inst->solution.obj_best = best_obj;
     memcpy(inst->solution.edges, best_sol, inst->num_nodes * sizeof(edge));
-    status = alg_2opt(inst, NULL, NULL); // A very fast 2-opt which removes the remaining crossing edges (generally few crossing edges)
+    status = alg_2opt(inst); // A very fast 2-opt which removes the remaining crossing edges (generally few crossing edges)
     FREE(tabu_node);
     FREE(prev);
     return status;

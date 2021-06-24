@@ -39,7 +39,7 @@ int HEU_extramileage(instance *inst);
  * @param stored_prev A list of previous nodes that 2-opt calculates
  * @return The error code
  */
-int alg_2opt(instance *inst, int *skip_node, int *stored_prev);
+int alg_2opt(instance *inst);
 
 /**
  * Applies the 2-opt algorithm to solve the instance
