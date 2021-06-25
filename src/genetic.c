@@ -6,7 +6,7 @@
 #include <float.h>
 
 typedef struct individual{
-    int* cromosome; // List of visitin nodes. i.e. the order of nodes which are visited in the tsp
+    int* cromosome; // List of visiting nodes. i.e. the order of nodes which are visited in the tsp
     double fitness;
 } individual;
 
@@ -194,6 +194,21 @@ void fitness_metrics(individual* population, int pop_size, double* best, double*
     *mean /= pop_size;
 }
 
+void random_generation(int* cromosome, int num_nodes) {
+    for (int i = 0; i < num_nodes; i++) {  
+        cromosome[i] = i;
+    }
+
+    for (int i = 0; i < num_nodes; i++) {  
+        int idx1 = rand_choice(0, num_nodes);
+        int idx2 = rand_choice(0, num_nodes);
+
+        int tmp = cromosome[idx1];
+        cromosome[idx1] = cromosome[idx2];
+        cromosome[idx2] = tmp;
+    }
+}
+
 int HEU_Genetic(instance *inst) {
     int status = 0;
     struct timeval start, end;
@@ -207,7 +222,7 @@ int HEU_Genetic(instance *inst) {
         population[i].cromosome = CALLOC(inst->num_nodes, int);
 
         // Using greedy for initialization. Might be a better way
-        int start_node = rand_choice(0, inst->num_nodes - 1);
+        /*int start_node = rand_choice(0, inst->num_nodes - 1);
         greedy(inst, start_node);
         
         int node_idx = start_node;
@@ -215,7 +230,8 @@ int HEU_Genetic(instance *inst) {
         while (node_iter < inst->num_nodes) {
             population[i].cromosome[node_iter++] = inst->solution.edges[node_idx].i;
             node_idx = inst->solution.edges[node_idx].j;
-        }
+        }*/
+        random_generation(population[i].cromosome, inst->num_nodes);
         fitness(inst, &(population[i]));
 
     }
@@ -267,6 +283,7 @@ int HEU_Genetic(instance *inst) {
             inst->solution.edges[index].i = best_individual.cromosome[inst->num_nodes - 1];
             inst->solution.edges[index].j = best_individual.cromosome[0];
             inst->solution.obj_best = best_fitness;
+            //alg_2opt(inst);
             plot_solution(inst);
             LOG_I("UPDATED INCUBEMENT");
         }
