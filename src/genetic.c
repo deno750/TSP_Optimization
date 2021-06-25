@@ -55,16 +55,17 @@ void crossover(instance* inst, individual *population, int parent1, int parent2,
         if (i <= rand_index) {
             int node = p1.cromosome[i];
             visited[node] = 1;
-            cromosome[idx++] = node;
+            cromosome[idx] = node;
         } else {
             int node = p2.cromosome[i];
             if (visited[node]) { continue; }
-            cromosome[idx++] = node;
+            cromosome[idx] = node;
         }
+        idx++;
     }
 
     if (idx < inst->num_nodes) {
-        for (int i = 0; i < rand_index; i++) {
+        for (int i = 0; i <= rand_index; i++) {
             int node = p2.cromosome[i];
             if (visited[node]) { continue; }
             cromosome[idx++] = node;
@@ -128,16 +129,57 @@ void selection(instance* inst, individual* population, int pop_size, individual*
                 min_idx = i;
             }
         }
+        // Diversification phase
+        double rand_diversification = URAND();
+        if (rand_diversification < 0.1) {
+            int rand_index = rand_choice(0, N - 1);
+            while (visited[rand_index] || rand_index == min_idx) {
+                rand_index = rand_choice(0, N - 1);
+            }
+            min_idx = rand_index;
+        }
         visited[min_idx] = 1;
         memcpy(population[count].cromosome, total[min_idx].cromosome, sizeof(int) * inst->num_nodes);
         population[count].fitness = total[min_idx].fitness;
+        double rand_mut = URAND();
+
+        // Mutation phase
+        if (rand_mut < 0.05) {
+            int rand_index1 = rand_choice(0, inst->num_nodes - 1);
+            int rand_index2 = rand_choice(0, inst->num_nodes - 1);
+            if (rand_index1 == rand_index2) {
+                // Dont' assign manually. Just for test
+                if (rand_index1 < inst->num_nodes - 1) {
+                    rand_index2 = rand_index1 + 1;
+                } else {
+                    rand_index2 = rand_index1 - 1;
+                }
+                
+            }
+            //printf("\nBEFORE\n");
+            //for (int i = 0; i < inst->num_nodes; i++) {
+            //    printf("%d ", population[count].cromosome[i]);
+            //}
+            //printf("     %0.0f", population[count].fitness);
+            int temp = population[count].cromosome[rand_index1];
+            population[count].cromosome[rand_index1] = population[count].cromosome[rand_index2];
+            population[count].cromosome[rand_index2] = temp;
+            fitness(inst, &(population[count]));
+            //printf("\nAFTER\n");
+            //for (int i = 0; i < inst->num_nodes; i++) {
+            //    printf("%d ", population[count].cromosome[i]);
+            //}
+            //printf("     %0.0f", population[count].fitness);
+            //printf("\n\n\n");
+            
+        }
         count++;
     }
     FREE(visited);
     FREE(total);
 }
 
-void fitness_metrics(individual* population, int pop_size, double* best, double* mean) {
+void fitness_metrics(individual* population, int pop_size, double* best, double* mean, int *best_idx) {
     *best = DBL_MAX;
     *mean = 0;
     for (int i = 0; i < pop_size; i++) {
@@ -145,6 +187,7 @@ void fitness_metrics(individual* population, int pop_size, double* best, double*
         *mean += fitness;
         if (fitness < *best) {
             *best = fitness;
+            *best_idx = i;
         }
     }
 
@@ -152,7 +195,10 @@ void fitness_metrics(individual* population, int pop_size, double* best, double*
 }
 
 int HEU_Genetic(instance *inst) {
-    int pop_size = 100; // Population size
+    int status = 0;
+    struct timeval start, end;
+    gettimeofday(&start, 0);
+    int pop_size = 1000; // Population size
 
     individual *population = CALLOC(pop_size, individual);
 
@@ -188,18 +234,42 @@ int HEU_Genetic(instance *inst) {
     //#endif
 
     int generation = 1;
-    int parent_size = 20;
+    int parent_size = 400;
     int* parents = CALLOC(parent_size, int); // Parents indexes
     int offspring_size = (parent_size - 1) * parent_size / 2;
     individual* offsprings = CALLOC(offspring_size, individual);
     for (int i = 0; i < offspring_size; i++) {
         offsprings[i].cromosome = CALLOC(inst->num_nodes, int);
     }
-    double best_fitness = 0;
+    double best_fitness = DBL_MAX;
     double mean_fitness = 0;
-    while (generation < 1000) {
+    int best_idx = 0;
+    double incubement = best_fitness;
+    while (1) {
+        gettimeofday(&end, 0);
+        double elapsed = get_elapsed_time(start, end);
+        if (inst->params.time_limit > 0 && elapsed > inst->params.time_limit) {
+            status = TIME_LIMIT_EXCEEDED;
+            break;
+        }
 
-        fitness_metrics(population, pop_size, &best_fitness, &mean_fitness);
+        fitness_metrics(population, pop_size, &best_fitness, &mean_fitness, &best_idx);
+        if (best_fitness < incubement) {
+            
+            incubement = best_fitness;
+            individual best_individual = population[best_idx];
+            for (int i = 0; i < inst->num_nodes - 1; i++) {
+                int index = best_individual.cromosome[i];
+                inst->solution.edges[index].i = best_individual.cromosome[i];
+                inst->solution.edges[index].j = best_individual.cromosome[i + 1];
+            }
+            int index = best_individual.cromosome[inst->num_nodes - 1];
+            inst->solution.edges[index].i = best_individual.cromosome[inst->num_nodes - 1];
+            inst->solution.edges[index].j = best_individual.cromosome[0];
+            inst->solution.obj_best = best_fitness;
+            plot_solution(inst);
+            LOG_I("UPDATED INCUBEMENT");
+        }
 
         LOG_D("Generation %d -> Mean: %0.2f      Best: %0.0f", generation, mean_fitness, best_fitness);
 
@@ -249,5 +319,7 @@ int HEU_Genetic(instance *inst) {
         FREE(offsprings[i].cromosome);
     }
     FREE(offsprings);
-    return 0; 
+
+    alg_2opt(inst);
+    return status; 
 }
