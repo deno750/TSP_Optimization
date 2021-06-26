@@ -246,48 +246,52 @@ void selection(instance* inst, individual* population, int pop_size, individual*
             population[count].cromosome[rand_index2] = temp;
             fitness(inst, &(population[count]));*/
 
-            // Mutation method 2
-            // It takes a subtour and reverses it. e.g. 1-4-3-7-9 becomes 9-7-3-4-1
-            /*int rand_index1 = rand_choice(0, inst->num_nodes - 1);
-            int rand_index2 = rand_choice(0, inst->num_nodes - 1);
-            if (rand_index1 > rand_index2) {
-                int tmp = rand_index1;
-                rand_index1 = rand_index2;
-                rand_index2 = tmp;
-            }
-            if (rand_index1 == rand_index2) {
-                if (rand_index1 > 0) {
-                    rand_index1 -= 1;
-                } else {
-                    rand_index2 += 1;
+            double rand_num = URAND();
+            // We can implement an exponential decay to increase the probability to use 2opt as a mutation. We want apply
+            // 2opt when the edges are quite good in order to have a faster convergence
+            if (rand_num > 0.0) {
+                // Mutation method 2
+                // It takes a subtour and reverses it. e.g. 1-4-3-7-9 becomes 9-7-3-4-1
+                int rand_index1 = rand_choice(0, inst->num_nodes - 1);
+                int rand_index2 = rand_choice(0, inst->num_nodes - 1);
+                if (rand_index1 > rand_index2) {
+                    int tmp = rand_index1;
+                    rand_index1 = rand_index2;
+                    rand_index2 = tmp;
                 }
+                if (rand_index1 == rand_index2) {
+                    if (rand_index1 > 0) {
+                        rand_index1 -= 1;
+                    } else {
+                        rand_index2 += 1;
+                    }
+                }
+
+                int tot_iter = rand_index2 - rand_index1;
+                int incr_idx = rand_index1;
+                int decr_idx = rand_index2;
+                for (int i = 0; i < tot_iter / 2; i++) {
+                    int tmp = population[count].cromosome[incr_idx];
+                    population[count].cromosome[incr_idx] = population[count].cromosome[decr_idx];
+                    population[count].cromosome[decr_idx] = tmp;
+                    incr_idx++;
+                    decr_idx--;
+                }
+            } else {
+                // Mutation method3
+                // Applies 2opt algoritm.
+                instance tmp_inst;
+                copy_instance(&tmp_inst, inst);
+                from_cromosome_to_edges(&tmp_inst, population[count]);
+                alg_2opt(&tmp_inst);
+                int node_idx = 0;
+                int node_iter = 0;
+                while (node_iter < tmp_inst.num_nodes) {
+                    population[count].cromosome[node_iter++] = tmp_inst.solution.edges[node_idx].i;
+                    node_idx = tmp_inst.solution.edges[node_idx].j;
+                }
+                free_instance(&tmp_inst);
             }
-
-            int tot_iter = rand_index2 - rand_index1;
-            int incr_idx = rand_index1;
-            int decr_idx = rand_index2;
-            for (int i = 0; i < tot_iter / 2; i++) {
-                int tmp = population[count].cromosome[incr_idx];
-                population[count].cromosome[incr_idx] = population[count].cromosome[decr_idx];
-                population[count].cromosome[decr_idx] = tmp;
-                incr_idx++;
-                decr_idx--;
-            }*/
-
-            // Mutation method3
-            // Applies 2opt algoritm.
-            instance tmp_inst;
-            copy_instance(&tmp_inst, inst);
-            from_cromosome_to_edges(&tmp_inst, population[count]);
-            alg_2opt(&tmp_inst);
-            int node_idx = 0;
-            int node_iter = 0;
-            while (node_iter < tmp_inst.num_nodes) {
-                population[count].cromosome[node_iter++] = tmp_inst.solution.edges[node_idx].i;
-                node_idx = tmp_inst.solution.edges[node_idx].j;
-            }
-            free_instance(&tmp_inst);
-
         }
 
         
