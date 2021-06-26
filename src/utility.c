@@ -330,7 +330,6 @@ void free_instance(instance *inst) {
     FREE(inst->thread_seeds);
     FREE(inst->solution.edges);
     FREE(inst->solution.xbest);
-    FREE(inst->params.method.name);
 }
 
 void parse_instance(instance *inst) {

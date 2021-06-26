@@ -29,7 +29,7 @@ void fitness(instance* inst, individual* individual) {
 void select_parents(int* parents, int parent_size, int pop_size) {
     MEMSET(parents, -1, parent_size, int);
     int count = 0;
-    // Use a better policy to choose the parents. Only random is not good
+    // Some papers say that random pick of parents is a good thing
     while (count < parent_size) {
         int rand_sel = rand_choice(0, pop_size - 1);
         int is_added = 0;
@@ -47,8 +47,11 @@ void select_parents(int* parents, int parent_size, int pop_size) {
 void crossover(instance* inst, individual *population, int parent1, int parent2, int* cromosome) {
     individual p1 = population[parent1];
     individual p2 = population[parent2];
-    int rand_index = rand_choice(1, inst->num_nodes - 2);
     int *visited = CALLOC(inst->num_nodes, int);
+
+    // Crossover method 1
+    // This method takes a random index which splits the cromosome. 
+    /*int rand_index = rand_choice(0, inst->num_nodes);
     int idx = 0;
     for (int i = 0; i < inst->num_nodes; i++) {
         
@@ -70,8 +73,76 @@ void crossover(instance* inst, individual *population, int parent1, int parent2,
             if (visited[node]) { continue; }
             cromosome[idx++] = node;
         }
+    }*/
+
+    
+    // Crossover method 2
+    // Using this method instead to split the cromosome's array in 2 parts, we want to obtain a random substring of the parent1's cromosome. 
+    // This substring is going to be added in the same position of offspring's cromosome. The remaining offspring's cromosome positions are
+    // going to be filled by the remaining nodes in parent's 2 cromosome in order of appearing from rand_index2. 
+    // Here's an image which describes this procedure: https://miro.medium.com/max/1458/1*YhmzBBCyAG3rtEBbI0gz4w.jpeg
+    int rand_index1 = rand_choice(0, inst->num_nodes);
+    int rand_index2 = rand_choice(0, inst->num_nodes);
+    if (rand_index1 > rand_index2) {
+        int tmp = rand_index1;
+        rand_index1 = rand_index2;
+        rand_index2 = tmp;
     }
-    //LOG_D("OFFSPRING: %0.0f", offspring.fitness);
+    if (rand_index1 == rand_index2) {
+        if (rand_index1 > 0) {
+            rand_index1 -= 1;
+        } else {
+            rand_index2 += 1;
+        }
+    }
+
+    int nodes_added = 0;
+    for (int i = rand_index1; i <= rand_index2; i++) {
+        int node = p1.cromosome[i];
+        visited[node] = 1;
+        cromosome[i] = node;
+        nodes_added++;
+    }
+
+    // A little bit confusing code. 
+    // parent2_counter starts from rand_index2 + 1 because we want to start from the following node in parent2 array. It is an increasing number for every iteration
+    // the while loop below does.
+    // offspring_crom_counter increases only when a new entry is added to the offspring's cromosome. 
+    // Both of these counters overflows the cromosome's size. So a modulo operation with number of nodes should be done in order to retrieve the correct index
+    // of the partent 2 index and offspring's index
+    int parent2_counter = rand_index2 + 1; 
+    int offspring_crom_counter = parent2_counter;
+    while (nodes_added < inst->num_nodes) {
+        int p2_index = parent2_counter % inst->num_nodes; // Getting the current looking gene on parent2's cromosome.
+        int node = p2.cromosome[p2_index];
+        if (!visited[node]) {
+            int offspring_index = offspring_crom_counter % inst->num_nodes; // Gettings the current index of offspring's cromosome where the new entry will be added
+            cromosome[offspring_index] = node;
+            nodes_added++;
+            offspring_crom_counter++;
+        }
+
+        parent2_counter++;
+    }
+
+    // Decomment here to see the printing of the parents' cromosomes and offsprings cromosome 
+    /*printf("Parent 1\n");
+    for (int i = 0; i < inst->num_nodes; i++) {
+        printf("%d ", p1.cromosome[i]);
+    }
+    printf("\n\nParent 2\n");
+    for (int i = 0; i < inst->num_nodes; i++) {
+        printf("%d ", p2.cromosome[i]);
+    }
+    printf("\n\nOffspring\n");
+    for (int i = 0; i < inst->num_nodes; i++) {
+        printf("%d ", cromosome[i]);
+    }
+    printf("\n\n");
+    sleep(5);
+    */
+    
+    
     
     FREE(visited);
 }
