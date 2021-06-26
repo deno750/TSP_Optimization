@@ -3,6 +3,7 @@
 #include <sys/time.h>
 #include <string.h>
 #include <sys/stat.h>
+#include <time.h>
 #include "distutil.h"
 #include "mtz.h"
 #include "gg.h"
@@ -82,13 +83,22 @@ static int solve_problem(CPXENVptr env, CPXLPptr lp, instance *inst) {
         if (inst->params.method.id == SOLVE_CALLBACK || inst->params.method.id == SOLVE_UCUT) {
             
             inst->ind = MALLOC(inst->num_columns, int);
-        
             int k = 0;
             for (int i = 0; i < inst->num_nodes; i++) {
                 for (int j = i + 1; j < inst->num_nodes; j++) {
                     inst->ind[k++] = x_udir_pos(i, j, inst->num_nodes);
                 }
             }
+
+            // As cplex's documentations says, the maximal number of threads used by cplex is 32 if not specified a higher number
+            // Check it here: https://www.ibm.com/docs/en/icos/12.8.0.0?topic=parameters-global-thread-count
+            int max_threads = inst->params.num_threads > 32 ? inst->params.num_threads : 32;
+            inst->thread_seeds = CALLOC(max_threads, unsigned int);
+            for (int i = 0; i < max_threads; i++) {
+                unsigned int seed = (unsigned int) time(NULL);
+                inst->thread_seeds[i] = (seed & 0xFFFFFFF0) | (i + 1);
+            }
+
             CPXLONG contextid;
             if (inst->params.method.id == SOLVE_UCUT) {
                 contextid = CPX_CALLBACKCONTEXT_CANDIDATE | CPX_CALLBACKCONTEXT_RELAXATION;

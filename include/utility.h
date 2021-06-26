@@ -151,6 +151,7 @@ typedef struct {
     int weight_type;
     long num_columns; // The number of variables. It is used in callback method
     int* ind; // List of the indices of solution values in cplex. Needed for updating manually the incubement in cplex. Used in callbacks
+    unsigned int* thread_seeds; // An array which contains the seed for each thread. Used in relaxation callback to create a randomness
 
     solution solution;
 } instance;

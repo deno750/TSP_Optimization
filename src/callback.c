@@ -38,7 +38,7 @@ static int CPXPUBLIC SEC_cuts_callback_candidate(CPXCALLBACKCONTEXTptr context, 
     MEMSET(comp, -1, inst->num_nodes, int);
     int num_comp = count_components(inst, xstar, succ, comp);
 
-    if (inst->params.verbose >= 4) {
+    if (inst->params.verbose >= 5) {
         //LOG_I("Candidate callback");
         LOG_I("Num components candidate: %d", num_comp);
     }
@@ -135,12 +135,29 @@ static int CPXPUBLIC SEC_cuts_callback_relaxation(CPXCALLBACKCONTEXTptr context,
     CPXcallbackgetinfoint(context, CPXCALLBACKINFO_NODEDEPTH, &depth);
     CPXcallbackgetinfoint(context, CPXCALLBACKINFO_NODECOUNT, &node);
     CPXcallbackgetinfoint(context, CPXCALLBACKINFO_THREADID, &threadid); 
+    
     //LOG_D("Depth is %d", depth);
     //LOG_D("Current node %d", node);
     //LOG_D("Thread id: %d\n", threadid);
-    //if (node % 7 != 0) return 0; // hyperparameter tuning
-    if (depth > 5) return 0; // Hyperparameter tuning
-    if (inst->params.verbose >= 5) {
+    
+    // Uses nano time as seed parameter for randomness
+    //struct timeval time_now;
+    //gettimeofday(&time_now, 0);
+    //unsigned int seed =  ((unsigned int) time_now.tv_usec) ^ threadid;
+ 
+    // Uses the thread_seeds array in the instance to obtain a seed for randomness
+    unsigned int seed = inst->thread_seeds[threadid];
+    // Modifying an array on the fly in a threaded code is not a great idea. 
+    // However, each thread accesses only in it's specific index on the array. 
+    // So it cannot occur that two different threads access at the same location
+    // in the array causing race condition
+    inst->thread_seeds[threadid] += 1; 
+    
+    double rand_num = ((double) (rand_r(&seed))) / RAND_MAX;
+
+    if (rand_num > 0.1) return 0; // Hyperparameter tuning
+    //if (depth > 5) return 0; // Hyperparameter tuning
+    if (inst->params.verbose >= 4) {
         LOG_I("Relaxation cut");
     }
     long ncols = inst->num_columns;
@@ -186,8 +203,7 @@ static int CPXPUBLIC SEC_cuts_callback_relaxation(CPXCALLBACKCONTEXTptr context,
         if (status) {
             LOG_E("CCcut_violated_cuts() error code %d", status);
         }
-    }
-    if (numcomps > 1) {
+    } else if (numcomps > 1) {
         if (inst->params.verbose >= 4) {
             LOG_I("Num components fractional: %d", numcomps);
         }
