@@ -216,7 +216,10 @@ void selection(instance* inst, individual* population, int pop_size, individual*
 
         // Mutation phase
         if (rand_mut < 0.05) {
-            int rand_index1 = rand_choice(0, inst->num_nodes - 1);
+
+            // Mutation method 1
+            // It takes two nodes and swaps them
+            /*int rand_index1 = rand_choice(0, inst->num_nodes - 1);
             int rand_index2 = rand_choice(0, inst->num_nodes - 1);
             if (rand_index1 == rand_index2) {
                 // Dont' assign manually. Just for test
@@ -227,22 +230,39 @@ void selection(instance* inst, individual* population, int pop_size, individual*
                 }
                 
             }
-            //printf("\nBEFORE\n");
-            //for (int i = 0; i < inst->num_nodes; i++) {
-            //    printf("%d ", population[count].cromosome[i]);
-            //}
-            //printf("     %0.0f", population[count].fitness);
             int temp = population[count].cromosome[rand_index1];
             population[count].cromosome[rand_index1] = population[count].cromosome[rand_index2];
             population[count].cromosome[rand_index2] = temp;
-            fitness(inst, &(population[count]));
-            //printf("\nAFTER\n");
-            //for (int i = 0; i < inst->num_nodes; i++) {
-            //    printf("%d ", population[count].cromosome[i]);
-            //}
-            //printf("     %0.0f", population[count].fitness);
-            //printf("\n\n\n");
-            
+            fitness(inst, &(population[count]));*/
+
+            // Mutation method 2
+            // It takes a subtour and reverses it. e.g. 1-4-3-7-9 becomes 9-7-3-4-1
+            int rand_index1 = rand_choice(0, inst->num_nodes - 1);
+            int rand_index2 = rand_choice(0, inst->num_nodes - 1);
+            if (rand_index1 > rand_index2) {
+                int tmp = rand_index1;
+                rand_index1 = rand_index2;
+                rand_index2 = tmp;
+            }
+            if (rand_index1 == rand_index2) {
+                if (rand_index1 > 0) {
+                    rand_index1 -= 1;
+                } else {
+                    rand_index2 += 1;
+                }
+            }
+
+            int tot_iter = rand_index2 - rand_index1;
+            int incr_idx = rand_index1;
+            int decr_idx = rand_index2;
+            for (int i = 0; i < tot_iter / 2; i++) {
+                int tmp = population[count].cromosome[incr_idx];
+                population[count].cromosome[incr_idx] = population[count].cromosome[decr_idx];
+                population[count].cromosome[decr_idx] = tmp;
+                incr_idx++;
+                decr_idx--;
+            }
+
         }
         count++;
     }
