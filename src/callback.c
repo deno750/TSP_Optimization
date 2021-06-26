@@ -2,6 +2,7 @@
 
 #include <concorde.h>
 #include <cut.h>
+#include "heuristics.h"
 
 
 static int add_SEC_cuts(instance *inst, CPXCALLBACKCONTEXTptr context, int current_tour, int *comp, int *indexes, double *values) {
@@ -37,7 +38,7 @@ static int CPXPUBLIC SEC_cuts_callback_candidate(CPXCALLBACKCONTEXTptr context, 
     MEMSET(comp, -1, inst->num_nodes, int);
     int num_comp = count_components(inst, xstar, succ, comp);
 
-    if (inst->params.verbose >= 4) {
+    if (inst->params.verbose >= 5) {
         //LOG_I("Candidate callback");
         LOG_I("Num components candidate: %d", num_comp);
     }
@@ -56,6 +57,33 @@ static int CPXPUBLIC SEC_cuts_callback_candidate(CPXCALLBACKCONTEXTptr context, 
         FREE(indexes);
         FREE(values);
         
+    } else if (inst->params.callback_2opt) {
+        if (inst->params.verbose >= 4) {
+            LOG_I("Solving with 2opt");
+        }
+
+        // To avoid race condition between threads, a new instance is created locally in each thread to compute 2opt refinement
+        instance tempinst;
+        copy_instance(&tempinst, inst);
+        save_solution_edges(&tempinst, xstar);
+        alg_2opt(&tempinst);
+        LOG_D("Incubement: %0.0f", tempinst.solution.obj_best);
+        // Reinit xstar to 0. We want to reuse it in order to avoid another memory allocation
+        MEMSET(xstar, 0.0, inst->num_columns, double);
+       
+        for (int i = 0; i < tempinst.num_nodes; i++) {
+            edge e = tempinst.solution.edges[i];
+            xstar[x_udir_pos(e.i, e.j, tempinst.num_nodes)] = 1.0;
+        }
+
+        // Saving the heuristic solution found with 2opt to cplex in order to improve the convergence speed
+        // Check here for other strategies: https://www.ibm.com/docs/en/icos/20.1.0?topic=manual-cpxcallbacksolutionstrategy
+        int status = CPXcallbackpostheursoln(context, ncols, inst->ind, xstar, tempinst.solution.obj_best, CPXCALLBACKSOLUTION_NOCHECK);
+        if (status) {
+            LOG_I("An error occured on CPXcallbackpostheursoln");
+        }
+        free_instance(&tempinst);
+
     }
 
     FREE(xstar);
@@ -107,12 +135,29 @@ static int CPXPUBLIC SEC_cuts_callback_relaxation(CPXCALLBACKCONTEXTptr context,
     CPXcallbackgetinfoint(context, CPXCALLBACKINFO_NODEDEPTH, &depth);
     CPXcallbackgetinfoint(context, CPXCALLBACKINFO_NODECOUNT, &node);
     CPXcallbackgetinfoint(context, CPXCALLBACKINFO_THREADID, &threadid); 
+    
     //LOG_D("Depth is %d", depth);
     //LOG_D("Current node %d", node);
     //LOG_D("Thread id: %d\n", threadid);
-    //if (node % 7 != 0) return 0; // hyperparameter tuning
-    if (depth > 5) return 0; // Hyperparameter tuning
-    if (inst->params.verbose >= 5) {
+    
+    // Uses nano time as seed parameter for randomness
+    //struct timeval time_now;
+    //gettimeofday(&time_now, 0);
+    //unsigned int seed =  ((unsigned int) time_now.tv_usec) ^ threadid;
+ 
+    // Uses the thread_seeds array in the instance to obtain a seed for randomness
+    unsigned int seed = inst->thread_seeds[threadid];
+    // Modifying an array on the fly in a threaded code is not a great idea. 
+    // However, each thread accesses only in it's specific index on the array. 
+    // So it cannot occur that two different threads access at the same location
+    // in the array causing race condition
+    inst->thread_seeds[threadid] += 1; 
+    
+    double rand_num = ((double) (rand_r(&seed))) / RAND_MAX;
+
+    if (rand_num > 0.1) return 0; // Hyperparameter tuning
+    //if (depth > 5) return 0; // Hyperparameter tuning
+    if (inst->params.verbose >= 4) {
         LOG_I("Relaxation cut");
     }
     long ncols = inst->num_columns;
@@ -158,8 +203,7 @@ static int CPXPUBLIC SEC_cuts_callback_relaxation(CPXCALLBACKCONTEXTptr context,
         if (status) {
             LOG_E("CCcut_violated_cuts() error code %d", status);
         }
-    }
-    if (numcomps > 1) {
+    } else if (numcomps > 1) {
         if (inst->params.verbose >= 4) {
             LOG_I("Num components fractional: %d", numcomps);
         }
