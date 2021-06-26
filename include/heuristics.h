@@ -7,7 +7,16 @@
 #define TIME_LIMIT_EXCEEDED 2
 
 /**
- * Applies a greedy algorithm to solve the instance
+ * Applies a greedy algorithm to solve the instance starting from a specified starting node
+ * 
+ * @param inst The instance pointer of the problem
+ * @param starting_node The node from where the greedy search starts
+ * @return The error code
+ */
+int greedy(instance *inst, int starting_node);
+
+/**
+ * Applies a greedy algorithm to solve the instance which starts from starting node 0
  * 
  * @param inst The instance pointer of the problem
  * @return The error code
@@ -83,6 +92,4 @@ int HEU_Grasp_iter(instance *inst, int time_lim);
 int HEU_Grasp2opt(instance *inst);
 
 int HEU_VNS(instance *inst);
-
-int HEU_Genetic(instance *inst);
 #endif

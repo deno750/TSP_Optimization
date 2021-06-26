@@ -13,6 +13,7 @@
 #include "softfixing.h"
 #include "heuristics.h"
 #include "tabusearch.h"
+#include "genetic.h"
 
 // USER CUT SOLVER
 int opt_best_solver(CPXENVptr env, CPXLPptr lp, instance *inst) {

@@ -10,7 +10,7 @@
 #define GRASP_RAND 0.9
 #define GRASP_TIME_LIM_DEF 10//120 // 2 minutes
 
-static int greedy(instance *inst, int starting_node) {
+int greedy(instance *inst, int starting_node) {
     if (starting_node >= inst->num_nodes) {
         return WRONG_STARTING_NODE;
     }
@@ -479,9 +479,5 @@ int HEU_VNS(instance *inst) {
 
 
 
-    return 0;
-}
-
-int HEU_Genetic(instance *inst) {
     return 0;
 }
