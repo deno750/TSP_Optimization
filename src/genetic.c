@@ -15,6 +15,17 @@ int rand_choice(int from, int to) {
     return from + ((int) (URAND() * (to - from)));
 }
 
+void from_cromosome_to_edges(instance* inst, individual individual) {
+    for (int i = 0; i < inst->num_nodes - 1; i++) {
+        int index = individual.cromosome[i];
+        inst->solution.edges[index].i = individual.cromosome[i];
+        inst->solution.edges[index].j = individual.cromosome[i + 1];
+    }
+    int index = individual.cromosome[inst->num_nodes - 1];
+    inst->solution.edges[index].i = individual.cromosome[inst->num_nodes - 1];
+    inst->solution.edges[index].j = individual.cromosome[0];
+}
+
 void fitness(instance* inst, individual* individual) {
     int prev_node = individual->cromosome[0];
     individual->fitness = 0;
@@ -237,7 +248,7 @@ void selection(instance* inst, individual* population, int pop_size, individual*
 
             // Mutation method 2
             // It takes a subtour and reverses it. e.g. 1-4-3-7-9 becomes 9-7-3-4-1
-            int rand_index1 = rand_choice(0, inst->num_nodes - 1);
+            /*int rand_index1 = rand_choice(0, inst->num_nodes - 1);
             int rand_index2 = rand_choice(0, inst->num_nodes - 1);
             if (rand_index1 > rand_index2) {
                 int tmp = rand_index1;
@@ -261,9 +272,25 @@ void selection(instance* inst, individual* population, int pop_size, individual*
                 population[count].cromosome[decr_idx] = tmp;
                 incr_idx++;
                 decr_idx--;
+            }*/
+
+            // Mutation method3
+            // Applies 2opt algoritm.
+            instance tmp_inst;
+            copy_instance(&tmp_inst, inst);
+            from_cromosome_to_edges(&tmp_inst, population[count]);
+            alg_2opt(&tmp_inst);
+            int node_idx = 0;
+            int node_iter = 0;
+            while (node_iter < tmp_inst.num_nodes) {
+                population[count].cromosome[node_iter++] = tmp_inst.solution.edges[node_idx].i;
+                node_idx = tmp_inst.solution.edges[node_idx].j;
             }
+            free_instance(&tmp_inst);
 
         }
+
+        
         count++;
     }
     FREE(visited);
@@ -365,15 +392,8 @@ int HEU_Genetic(instance *inst) {
             
             incubement = best_fitness;
             individual best_individual = population[best_idx];
-            for (int i = 0; i < inst->num_nodes - 1; i++) {
-                int index = best_individual.cromosome[i];
-                inst->solution.edges[index].i = best_individual.cromosome[i];
-                inst->solution.edges[index].j = best_individual.cromosome[i + 1];
-            }
-            int index = best_individual.cromosome[inst->num_nodes - 1];
-            inst->solution.edges[index].i = best_individual.cromosome[inst->num_nodes - 1];
-            inst->solution.edges[index].j = best_individual.cromosome[0];
             inst->solution.obj_best = best_fitness;
+            from_cromosome_to_edges(inst, best_individual);
             //alg_2opt(inst);
             plot_solution(inst);
             LOG_I("UPDATED INCUBEMENT");

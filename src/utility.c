@@ -728,6 +728,10 @@ void copy_instance(instance *dst, instance *src) {
     dst->nodes = MALLOC(dst->num_nodes, point);
     memcpy(dst->nodes, src->nodes, sizeof(point) * dst->num_nodes);
     dst->ind = MALLOC(dst->num_columns, int);
-    memcpy(dst->ind, src->ind, sizeof(int) * dst->num_columns);
+    if (src->ind) {
+        memcpy(dst->ind, src->ind, sizeof(int) * dst->num_columns);
+    }
+    dst->solution.edges = MALLOC(src->num_nodes, edge);
+    memcpy(dst->solution.edges, src->solution.edges, sizeof(edge) * src->num_nodes);
     dst->thread_seeds = NULL;
 }
