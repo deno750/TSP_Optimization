@@ -81,6 +81,14 @@ static int solve_problem(CPXENVptr env, CPXLPptr lp, instance *inst) {
     } else {
         if (inst->params.method.id == SOLVE_CALLBACK || inst->params.method.id == SOLVE_UCUT) {
             
+            inst->ind = MALLOC(inst->num_columns, int);
+        
+            int k = 0;
+            for (int i = 0; i < inst->num_nodes; i++) {
+                for (int j = i + 1; j < inst->num_nodes; j++) {
+                    inst->ind[k++] = x_udir_pos(i, j, inst->num_nodes);
+                }
+            }
             CPXLONG contextid;
             if (inst->params.method.id == SOLVE_UCUT) {
                 contextid = CPX_CALLBACKCONTEXT_CANDIDATE | CPX_CALLBACKCONTEXT_RELAXATION;

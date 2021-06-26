@@ -61,33 +61,27 @@ static int CPXPUBLIC SEC_cuts_callback_candidate(CPXCALLBACKCONTEXTptr context, 
         if (inst->params.verbose >= 4) {
             LOG_I("Solving with 2opt");
         }
-        
+
+        // To avoid race condition between threads, a new instance is created locally in each thread to compute 2opt refinement
         instance tempinst;
         copy_instance(&tempinst, inst);
         save_solution_edges(&tempinst, xstar);
         alg_2opt(&tempinst);
-        //plot_solution(inst);
         LOG_D("Incubement: %0.0f", tempinst.solution.obj_best);
-        int* ind = MALLOC(ncols, int);
-        
-        int k = 0;
-        for (int i = 0; i < tempinst.num_nodes; i++) {
-            for (int j = i + 1; j < tempinst.num_nodes; j++) {
-                ind[k++] = x_udir_pos(i, j, tempinst.num_nodes);
-            }
-        }
-        double* newbest = CALLOC(ncols, double);
+        // Reinit xstar to 0. We want to reuse it in order to avoid another memory allocation
+        MEMSET(xstar, 0.0, inst->num_columns, double);
+       
         for (int i = 0; i < tempinst.num_nodes; i++) {
             edge e = tempinst.solution.edges[i];
-            newbest[x_udir_pos(e.i, e.j, tempinst.num_nodes)] = 1.0;
+            xstar[x_udir_pos(e.i, e.j, tempinst.num_nodes)] = 1.0;
         }
+
+        // Saving the heuristic solution found with 2opt to cplex in order to improve the convergence speed
         // Check here for other strategies: https://www.ibm.com/docs/en/icos/20.1.0?topic=manual-cpxcallbacksolutionstrategy
-        int status = CPXcallbackpostheursoln(context, ncols, ind, newbest, tempinst.solution.obj_best, CPXCALLBACKSOLUTION_NOCHECK);
+        int status = CPXcallbackpostheursoln(context, ncols, inst->ind, xstar, tempinst.solution.obj_best, CPXCALLBACKSOLUTION_NOCHECK);
         if (status) {
             LOG_I("An error occured on CPXcallbackpostheursoln");
         }
-        FREE(ind);
-        FREE(newbest);
         free_instance(&tempinst);
 
     }

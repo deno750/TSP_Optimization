@@ -60,6 +60,7 @@ void parse_comand_line(int argc, const char *argv[], instance *inst) {
     inst->params.seed = time(NULL); // We want to specify the random seed as the current time in order to have a real randomness when user doesn't explicitly choose the seed
     inst->params.perf_prof = 0;
     inst->params.callback_2opt = 0;
+    inst->ind = NULL;
     inst->name = NULL;
     inst->comment = NULL;
     inst->nodes = NULL;
@@ -324,6 +325,7 @@ void free_instance(instance *inst) {
     FREE(inst->name);
     FREE(inst->comment);
     FREE(inst->nodes);
+    FREE(inst->ind);
     FREE(inst->solution.edges);
     FREE(inst->solution.xbest);
 }
@@ -723,4 +725,6 @@ void copy_instance(instance *dst, instance *src) {
     dst->params.method.name = NULL;
     dst->nodes = MALLOC(dst->num_nodes, point);
     memcpy(dst->nodes, src->nodes, sizeof(point) * dst->num_nodes);
+    dst->ind = MALLOC(dst->num_columns, int);
+    memcpy(dst->ind, src->ind, sizeof(int) * dst->num_columns);
 }

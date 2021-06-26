@@ -150,6 +150,7 @@ typedef struct {
     int num_nodes;
     int weight_type;
     long num_columns; // The number of variables. It is used in callback method
+    int* ind; // List of the indices of solution values in cplex. Needed for updating manually the incubement in cplex. Used in callbacks
 
     solution solution;
 } instance;
@@ -328,6 +329,13 @@ double get_elapsed_time(struct timeval start, struct timeval end);
  */
 void reverse_path(instance *inst, int start_node, int end_node, int *prev);
 
+/**
+ * Copies the src instance to dst instance. Useless parameter like name, comment etc are kept to NULL
+ * int dest.
+ * 
+ * @param dst The destination instance of the problem
+ * @param src The source instance of the problem
+ */
 void copy_instance(instance *dst, instance *src);
 
 #endif
