@@ -2,6 +2,7 @@
 
 #include <concorde.h>
 #include <cut.h>
+#include "heuristics.h"
 
 
 static int add_SEC_cuts(instance *inst, CPXCALLBACKCONTEXTptr context, int current_tour, int *comp, int *indexes, double *values) {
@@ -56,6 +57,39 @@ static int CPXPUBLIC SEC_cuts_callback_candidate(CPXCALLBACKCONTEXTptr context, 
         FREE(indexes);
         FREE(values);
         
+    } else if (inst->params.callback_2opt) {
+        if (inst->params.verbose >= 4) {
+            LOG_I("Solving with 2opt");
+        }
+        
+        instance tempinst;
+        copy_instance(&tempinst, inst);
+        save_solution_edges(&tempinst, xstar);
+        alg_2opt(&tempinst);
+        //plot_solution(inst);
+        LOG_D("Incubement: %0.0f", tempinst.solution.obj_best);
+        int* ind = MALLOC(ncols, int);
+        
+        int k = 0;
+        for (int i = 0; i < tempinst.num_nodes; i++) {
+            for (int j = i + 1; j < tempinst.num_nodes; j++) {
+                ind[k++] = x_udir_pos(i, j, tempinst.num_nodes);
+            }
+        }
+        double* newbest = CALLOC(ncols, double);
+        for (int i = 0; i < tempinst.num_nodes; i++) {
+            edge e = tempinst.solution.edges[i];
+            newbest[x_udir_pos(e.i, e.j, tempinst.num_nodes)] = 1.0;
+        }
+        // Check here for other strategies: https://www.ibm.com/docs/en/icos/20.1.0?topic=manual-cpxcallbacksolutionstrategy
+        int status = CPXcallbackpostheursoln(context, ncols, ind, newbest, tempinst.solution.obj_best, CPXCALLBACKSOLUTION_NOCHECK);
+        if (status) {
+            LOG_I("An error occured on CPXcallbackpostheursoln");
+        }
+        FREE(ind);
+        FREE(newbest);
+        free_instance(&tempinst);
+
     }
 
     FREE(xstar);

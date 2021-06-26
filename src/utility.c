@@ -59,6 +59,7 @@ void parse_comand_line(int argc, const char *argv[], instance *inst) {
     inst->params.integer_cost = 1; // Default integer costs
     inst->params.seed = time(NULL); // We want to specify the random seed as the current time in order to have a real randomness when user doesn't explicitly choose the seed
     inst->params.perf_prof = 0;
+    inst->params.callback_2opt = 0;
     inst->name = NULL;
     inst->comment = NULL;
     inst->nodes = NULL;
@@ -147,6 +148,20 @@ void parse_comand_line(int argc, const char *argv[], instance *inst) {
                 inst->params.method.edge_type = UDIR_EDGE;
                 inst->params.method.name = "USER CUT CALLBACK";
                 inst->params.method.use_cplex = 1;
+            }
+            if (strncmp(method, "CALLBACK_2OPT", 14) == 0) {
+                inst->params.method.id = SOLVE_CALLBACK;
+                inst->params.method.edge_type = UDIR_EDGE;
+                inst->params.method.name = "INCUBEMENT CALLBACK WITH 2OPT";
+                inst->params.method.use_cplex = 1;
+                inst->params.callback_2opt = 1;
+            }
+            if (strncmp(method, "USER_CUT_2OPT", 13) == 0) {
+                inst->params.method.id = SOLVE_UCUT;
+                inst->params.method.edge_type = UDIR_EDGE;
+                inst->params.method.name = "USER CUT CALLBACK WITH 2OPT";
+                inst->params.method.use_cplex = 1;
+                inst->params.callback_2opt = 1;
             }
             if (strncmp(method, "HARD_FIX", 8) == 0) {
                 inst->params.method.id = SOLVE_HARD_FIXING;
@@ -260,31 +275,33 @@ void parse_comand_line(int argc, const char *argv[], instance *inst) {
     }
 
     if (show_methods) {
-        printf("MTZ          MTZ with static constraints\n");
-        printf("MTZL         MTZ with lazy constraints\n");
-        printf("MTZI         MTZ with static constraints and subtour elimination of degree 2\n");
-        printf("MTZLI        MTZ with lazy constraints and subtour elimination of degree 2\n");
-        printf("MTZ_IND      MTZ with indicator constraints\n");
-        printf("GG           GG constraints\n");
-        printf("LOOP         Benders Method\n");
-        printf("CALLBACK     Callback Method\n");
-        printf("USER_CUT     Callback Method using usercuts\n");
-        printf("HARD_FIX     Hard fixing heuristic method with fixed prob\n");
-        printf("HARD_FIX2    Hard fixing heuristic method with variable prob\n");
-        printf("SOFT_FIX     Soft fixing heuristic method\n");
-        printf("GREEDY       Greedy algorithm method\n");
-        printf("GREEDY_ITER  Iterative Greedy algorithm method\n");
-        printf("EXTR_MILE    Extra mileage method\n");
-        printf("2OPT         2-OPT method\n");
-        printf("3OPT         3-OPT method\n");
-        printf("GRASP        GRASP method\n");
-        printf("GRASP_ITER   Iterative GRASP method\n");
-        printf("GRASP_REF    GRASP with 2-OPT refinement method\n");
-        printf("VNS          VNS method\n");
-        printf("TABU_STEP    TABU Search method with step policy\n");
-        printf("TABU_LIN     TABU Search method with linear policy\n");
-        printf("TABU_RAND    TABU Search method with random policy\n");
-        printf("GENETIC      GENETIC Algorithm\n");
+        printf("MTZ                MTZ with static constraints\n");
+        printf("MTZL               MTZ with lazy constraints\n");
+        printf("MTZI               MTZ with static constraints and subtour elimination of degree 2\n");
+        printf("MTZLI              MTZ with lazy constraints and subtour elimination of degree 2\n");
+        printf("MTZ_IND            MTZ with indicator constraints\n");
+        printf("GG                 GG constraints\n");
+        printf("LOOP               Benders Method\n");
+        printf("CALLBACK           Callback Method\n");
+        printf("CALLBACK_2OPT      Callback Method with 2opt refinement\n");
+        printf("USER_CUT           Callback Method using usercuts\n");
+        printf("USER_CUT_2OPT      Callback Method using usercuts with 2opt refinement\n");
+        printf("HARD_FIX           Hard fixing heuristic method with fixed prob\n");
+        printf("HARD_FIX2          Hard fixing heuristic method with variable prob\n");
+        printf("SOFT_FIX           Soft fixing heuristic method\n");
+        printf("GREEDY             Greedy algorithm method\n");
+        printf("GREEDY_ITER        Iterative Greedy algorithm method\n");
+        printf("EXTR_MILE          Extra mileage method\n");
+        printf("2OPT               2-OPT method\n");
+        printf("3OPT               3-OPT method\n");
+        printf("GRASP              GRASP method\n");
+        printf("GRASP_ITER         Iterative GRASP method\n");
+        printf("GRASP_REF          GRASP with 2-OPT refinement method\n");
+        printf("VNS                VNS method\n");
+        printf("TABU_STEP          TABU Search method with step policy\n");
+        printf("TABU_LIN           TABU Search method with linear policy\n");
+        printf("TABU_RAND          TABU Search method with random policy\n");
+        printf("GENETIC            GENETIC Algorithm\n");
         exit(0);
     }
 
@@ -682,4 +699,28 @@ void reverse_path(instance *inst, int start_node, int end_node, int *prev) {
     for (int k = 0; k < inst->num_nodes; k++) {
         prev[inst->solution.edges[k].j] = k;
     }
+}
+
+void copy_instance(instance *dst, instance *src) {
+    /*dst->params.file_path = NULL;
+    dst->comment = NULL;
+    dst->name = NULL;
+    dst->num_nodes = src->num_nodes;
+    dst->num_columns = src->num_columns;
+    dst->weight_type = src->weight_type;
+    dst->solution.obj_best = src->solution.obj_best;
+    dst->solution.edges = CALLOC(src->num_nodes, edge);
+    memcpy(dst->solution.edges, src->solution.edges, sizeof(edge) * src->num_nodes);
+    dst->nodes = CALLOC(src->num_nodes, point);
+    memcpy(dst->nodes, src->nodes, sizeof(point) * src->num_nodes);
+    
+    dst->solution.xbest = CALLOC(src->num_columns, double);
+    memcpy(dst->solution.xbest, src->solution.xbest, sizeof(double) * src->num_columns);*/
+    memcpy(dst, src, sizeof(instance));
+    dst->name = NULL;
+    dst->params.file_path = NULL;
+    dst->comment = NULL;
+    dst->params.method.name = NULL;
+    dst->nodes = MALLOC(dst->num_nodes, point);
+    memcpy(dst->nodes, src->nodes, sizeof(point) * dst->num_nodes);
 }

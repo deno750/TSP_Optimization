@@ -116,6 +116,7 @@ typedef struct {
     int integer_cost;
     int seed; // Seed for random generation
     int perf_prof; // Need to know wheter the computation is executed for performance profile
+    int callback_2opt; // Used in incubement callbacks for 2opt refinement
 } instance_params;
 
 // Definition of Point
@@ -326,5 +327,7 @@ double get_elapsed_time(struct timeval start, struct timeval end);
  * @param prev An array which stores the previous node of each node (i.e. like a successors array)
  */
 void reverse_path(instance *inst, int start_node, int end_node, int *prev);
+
+void copy_instance(instance *dst, instance *src);
 
 #endif
