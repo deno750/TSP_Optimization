@@ -269,16 +269,17 @@ int alg_2opt(instance *inst) {
     int mina = 0;
     int minb = 0;
     while(1) {
-        gettimeofday(&end, 0);
-        double elapsed = get_elapsed_time(start, end);
-        if (inst->params.time_limit > 0 && elapsed > inst->params.time_limit) {
-            status = TIME_LIMIT_EXCEEDED;
-            LOG_I("2-opt heuristics time exceeded");
-            break;
-        }
         minchange = 0;
         for (int i = 0; i < inst->num_nodes - 1; i++) {
+            if (status == TIME_LIMIT_EXCEEDED) {break;}
             for (int j = i+1; j < inst->num_nodes; j++) {
+                gettimeofday(&end, 0);
+                double elapsed = get_elapsed_time(start, end);
+                if (inst->params.time_limit > 0 && elapsed > inst->params.time_limit) {
+                    status = TIME_LIMIT_EXCEEDED;
+                    LOG_I("2-opt heuristics time exceeded");
+                    break;
+                }
                 int a = i;
                 int b = j;
                 int a1 = inst->solution.edges[a].j;

@@ -249,7 +249,7 @@ void selection(instance* inst, individual* population, int pop_size, individual*
             double rand_num = URAND();
             // We can implement an exponential decay to increase the probability to use 2opt as a mutation. We want apply
             // 2opt when the edges are quite good in order to have a faster convergence
-            if (rand_num > 0.0) {
+            if (rand_num > 0.02) {
                 // Mutation method 2
                 // It takes a subtour and reverses it. e.g. 1-4-3-7-9 becomes 9-7-3-4-1
                 int rand_index1 = rand_choice(0, inst->num_nodes - 1);
@@ -280,9 +280,12 @@ void selection(instance* inst, individual* population, int pop_size, individual*
             } else {
                 // Mutation method3
                 // Applies 2opt algoritm.
+                LOG_D("Applying 2opt mutation");
                 instance tmp_inst;
                 copy_instance(&tmp_inst, inst);
                 from_cromosome_to_edges(&tmp_inst, population[count]);
+                // We set 2opt's time limit so it finishes faster and finds a little better solution 
+                tmp_inst.params.time_limit = 5;
                 alg_2opt(&tmp_inst);
                 int node_idx = 0;
                 int node_iter = 0;
