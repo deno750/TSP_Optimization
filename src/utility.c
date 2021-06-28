@@ -712,12 +712,12 @@ void copy_instance(instance *dst, instance *src) {
     dst->comment = NULL;
     dst->params.method.name = NULL;
     if (src->nodes) {
-        dst->nodes = MALLOC(dst->num_nodes, point);
-        memcpy(dst->nodes, src->nodes, sizeof(point) * dst->num_nodes);
+        dst->nodes = MALLOC(src->num_nodes, point);
+        memcpy(dst->nodes, src->nodes, sizeof(point) * src->num_nodes);
     }
     if (src->ind) {
-        dst->ind = MALLOC(dst->num_columns, int);
-        memcpy(dst->ind, src->ind, sizeof(int) * dst->num_columns);
+        dst->ind = MALLOC(src->num_columns, int);
+        memcpy(dst->ind, src->ind, sizeof(int) * src->num_columns);
     }
     if (src->solution.edges) {
         dst->solution.edges = MALLOC(src->num_nodes, edge);

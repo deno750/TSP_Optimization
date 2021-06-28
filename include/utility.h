@@ -10,7 +10,7 @@
 #include <string.h>
 
 
-#define VERSION "TSP 0.4"
+#define VERSION "TSP Optimization - 0.8"
 
 #define MALLOC(nnum,type) ( (type *) malloc (nnum * sizeof(type)) )
 #define CALLOC(nnum,type) ( (type *) calloc (nnum, sizeof(type)) )
@@ -46,41 +46,44 @@
 
 
 // ================ Weight types =====================
-#define EUC_2D 0 // weights are Euclidean distances in 2-D
-#define MAX_2D 1 // weights are maximum distances in 2-D
-#define MAN_2D 2 // weights are Manhattan distances in 2-D
-#define CEIL_2D 3 // weights are Euclidean distances in 2-D rounded up
-#define GEO 4 // weights are geographical distances
-#define ATT 5 // special distance function for problems att48 and att532 (pseudo-Euclidean)
-
+typedef enum {
+    EUC_2D,     // weights are Euclidean distances in 2-D
+    MAX_2D,     // weights are maximum distances in 2-D
+    MAN_2D,     // weights are Manhattan distances in 2-D
+    CEIL_2D,    // weights are Euclidean distances in 2-D rounded up
+    GEO,        // weights are geographical distances
+    ATT         // special distance function for problems att48 and att532 (pseudo-Euclidean)
+} weight_type;
 
 // =============== Solvers available ==================
-#define SOLVE_MTZ               100
-#define SOLVE_MTZL              101
-#define SOLVE_MTZI              102
-#define SOLVE_MTZLI             103
-#define SOLVE_MTZ_IND           104
-#define SOLVE_GG                105
-#define SOLVE_LOOP              106
-#define SOLVE_CALLBACK          107 // Uses the callback before the updating of the incubement
-#define SOLVE_UCUT              108 // Uses user cuts callback
-#define SOLVE_HARD_FIXING       109 // Uses the hard fixing heuristic with fixed probability
-#define SOLVE_HARD_FIXING2      110 // Uses the hard fixing heuristic with decremental probability
-#define SOLVE_SOFT_FIXING       111 // Uses the hard fixing heuristic
-#define SOLVE_GREEDY            112 // Uses the greedy heuristic
-#define SOLVE_GREEDY_ITER       113 // Uses the greedy heuristic with iterated starting node
-#define SOLVE_EXTR_MIL          114 // Uses the extra mileage heuristic
-#define SOLVE_2OPT              115 // Uses the 2 opt algorithm
-#define SOLVE_3OPT              116 // Uses the 3 opt algorithm
-#define SOLVE_GRASP             117 // Uses the GRASP algorithm
-#define SOLVE_GRASP_ITER        118 // Uses the iterative GRASP algorithm
-#define SOLVE_GRASP_REF         119 // Uses the GRASP and 2opt algorithm
-#define SOLVE_VNS               120 // Uses the VNS local search algorithm
-#define SOLVE_TABU_STEP         121 // Uses the Tabu search algorithm with step policy
-#define SOLVE_TABU_LIN          122 // Uses the Tabu search algorithm with linear policy
-#define SOLVE_TABU_RAND         123 // Uses the Tabu search algorithm with random policy
-#define SOLVE_GENETIC           124 // Uses the Genetic algorithm
 
+typedef enum {
+    SOLVE_MTZ,
+    SOLVE_MTZL,
+    SOLVE_MTZI,
+    SOLVE_MTZLI,
+    SOLVE_MTZ_IND,
+    SOLVE_GG,
+    SOLVE_LOOP,
+    SOLVE_CALLBACK,     // Uses the callback before the updating of the incubement
+    SOLVE_UCUT,         // Uses user cuts callback
+    SOLVE_HARD_FIXING,  // Uses the hard fixing heuristic with fixed probability
+    SOLVE_HARD_FIXING2, // Uses the hard fixing heuristic with decremental probability
+    SOLVE_SOFT_FIXING,  // Uses the soft fixing heuristic
+    SOLVE_GREEDY,       // Uses the greedy heuristic
+    SOLVE_GREEDY_ITER,  // Uses the greedy heuristic with iterated starting node
+    SOLVE_EXTR_MIL,     // Uses the extra mileage heuristic
+    SOLVE_2OPT,         // Uses the 2 opt algorithm
+    SOLVE_3OPT,         // Uses the 3 opt algorithm
+    SOLVE_GRASP,        // Uses the GRASP algorithm
+    SOLVE_GRASP_ITER,   // Uses the iterative GRASP algorithm
+    SOLVE_GRASP_REF,    // Uses the GRASP and 2opt algorithm
+    SOLVE_VNS,          // Uses the VNS local search algorithm
+    SOLVE_TABU_STEP,    // Uses the Tabu search algorithm with step policy
+    SOLVE_TABU_LIN,     // Uses the Tabu search algorithm with linear policy
+    SOLVE_TABU_RAND,    // Uses the Tabu search algorithm with random policy
+    SOLVE_GENETIC       // Uses the Genetic algorithm
+} solver_type;
 
 
 // The default solver definition
@@ -93,15 +96,17 @@
 
 
 // ================ Edge types =======================
-#define UDIR_EDGE 0
-#define DIR_EDGE 1
+typedef enum {
+    UDIR_EDGE, // Undirected edge type
+    DIR_EDGE // Directed edge type
+} edge_type;
 
 
 // ==================== STRUCTS ==========================
 
 typedef struct {
-    int id;
-    int edge_type; // Describes if the graph is directed or undirected
+    solver_type id;
+    edge_type edge_type; // Describes if the graph is directed or undirected
     char* name;
     int use_cplex;
 } sol_method;
@@ -148,7 +153,7 @@ typedef struct {
     char *comment;
     point *nodes;
     int num_nodes;
-    int weight_type;
+    weight_type weight_type;
     long num_columns; // The number of variables. It is used in callback method
     int* ind; // List of the indices of solution values in cplex. Needed for updating manually the incubement in cplex. Used in callbacks
     unsigned int* thread_seeds; // An array which contains the seed for each thread. Used in relaxation callback to create a randomness
@@ -331,8 +336,10 @@ double get_elapsed_time(struct timeval start, struct timeval end);
 void reverse_path(instance *inst, int start_node, int end_node, int *prev);
 
 /**
- * Copies the src instance to dst instance. Useless parameter like name, comment etc are kept to NULL
- * int dest.
+ * Copies the src instance to dst instance. Parameter like name, comment etc which are not useful
+ * for the problem solution are setted to NULL. The copied instance is used to make calculations in multi-threaded
+ * method such as callbacks etc and where a calculation for a solution in a specific method should not touch any field
+ * of the original instance such as the current objective value and solution
  * 
  * @param dst The destination instance of the problem
  * @param src The source instance of the problem
