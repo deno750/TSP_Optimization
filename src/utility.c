@@ -706,32 +706,22 @@ void reverse_path(instance *inst, int start_node, int end_node, int *prev) {
 }
 
 void copy_instance(instance *dst, instance *src) {
-    /*dst->params.file_path = NULL;
-    dst->comment = NULL;
-    dst->name = NULL;
-    dst->num_nodes = src->num_nodes;
-    dst->num_columns = src->num_columns;
-    dst->weight_type = src->weight_type;
-    dst->solution.obj_best = src->solution.obj_best;
-    dst->solution.edges = CALLOC(src->num_nodes, edge);
-    memcpy(dst->solution.edges, src->solution.edges, sizeof(edge) * src->num_nodes);
-    dst->nodes = CALLOC(src->num_nodes, point);
-    memcpy(dst->nodes, src->nodes, sizeof(point) * src->num_nodes);
-    
-    dst->solution.xbest = CALLOC(src->num_columns, double);
-    memcpy(dst->solution.xbest, src->solution.xbest, sizeof(double) * src->num_columns);*/
     memcpy(dst, src, sizeof(instance));
     dst->name = NULL;
     dst->params.file_path = NULL;
     dst->comment = NULL;
     dst->params.method.name = NULL;
-    dst->nodes = MALLOC(dst->num_nodes, point);
-    memcpy(dst->nodes, src->nodes, sizeof(point) * dst->num_nodes);
-    dst->ind = MALLOC(dst->num_columns, int);
+    if (src->nodes) {
+        dst->nodes = MALLOC(dst->num_nodes, point);
+        memcpy(dst->nodes, src->nodes, sizeof(point) * dst->num_nodes);
+    }
     if (src->ind) {
+        dst->ind = MALLOC(dst->num_columns, int);
         memcpy(dst->ind, src->ind, sizeof(int) * dst->num_columns);
     }
-    dst->solution.edges = MALLOC(src->num_nodes, edge);
-    memcpy(dst->solution.edges, src->solution.edges, sizeof(edge) * src->num_nodes);
+    if (src->solution.edges) {
+        dst->solution.edges = MALLOC(src->num_nodes, edge);
+        memcpy(dst->solution.edges, src->solution.edges, sizeof(edge) * src->num_nodes);
+    }
     dst->thread_seeds = NULL;
 }
