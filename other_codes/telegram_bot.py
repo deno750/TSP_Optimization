@@ -73,7 +73,7 @@ def threaded_test(update, context):
     for name in glob.glob('../data/exact_models/*'):
         paths.append(name)
         print(name)
-    methods = ["LOOP", "CALLBACK", "CALLBACK2"]
+    methods = ["USER_CUT", "USER_CUT_2OPT", "CALLBACK", "CALLBACK_2OPT", "LOOP"]
     time_limit = "3600"
     total_runs = len(methods) * len(paths)
 
