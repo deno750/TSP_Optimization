@@ -15,7 +15,7 @@
 #include "tabusearch.h"
 #include "genetic.h"
 
-// USER CUT SOLVER
+// BEST SOLVER: USER CUT SOLVER
 int opt_best_solver(CPXENVptr env, CPXLPptr lp, instance *inst) {
     int ncols = CPXgetnumcols(env, lp);
     inst->num_columns = ncols; // The callbacks need the number of cols
@@ -53,7 +53,6 @@ static void print_solution(instance *inst) {
             LOG_I("The best bjective value is %f", inst->solution.obj_best);
         }
         
-
         // Next level of verbosity
         if (inst->params.verbose >= 5) {
             LOG_I("The optimal edges are:\n");

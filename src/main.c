@@ -5,7 +5,7 @@
 
 #include <stdio.h>
 #include <cplex.h>
-#include "utility.h"
+#include "utility.h"    //Structs and function used globally.
 #include "solver.h"
 
 //////////////////////////////////////////////////////
@@ -13,11 +13,11 @@
 //////////////////////////////////////////////////////
 int main(int argc, const char *argv[])
 {
-    instance inst;
-    parse_comand_line(argc, argv, &inst);
-    parse_instance(&inst);
+    instance inst;                          // create an empty tsp istance
+    parse_comand_line(argc, argv, &inst);   // Read the user commands
+    parse_instance(&inst);                  // Read the TSP istance
     
-    print_instance(inst);
+    print_instance(inst);                   // Show the istance
 
     if (inst.params.method.use_cplex) {
         TSP_opt(&inst);
