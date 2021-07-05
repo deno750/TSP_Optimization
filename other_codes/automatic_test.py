@@ -7,13 +7,13 @@ import os
 if __name__ == '__main__':
     # test1.py executed as script
     # do something
-    paths = ["../data/burma14.tsp", "../data/berlin52.tsp", "../data/eil51.tsp", "../data/att48.tsp", "../data/st70.tsp", "../data/pr76.tsp"]
-    for name in glob.glob('../data/compact_models/*/*'):
+    paths = []#["../data/burma14.tsp", "../data/berlin52.tsp", "../data/eil51.tsp", "../data/att48.tsp", "../data/st70.tsp", "../data/pr76.tsp"]
+    for name in glob.glob('../data/exact_models/*'):
         paths.append(name)
-    methods = ["MTZ", "MTZL", "MTZI", "MTZLI", "MTZ_IND", "GG"]
+    methods = ["USER_CUT", "USER_CUT_2OPT", "CALLBACK", "CALLBACK_2OPT", "LOOP"]
     time_limit = "3600"
 
-    csv_filename="compact.csv"
+    csv_filename="exact_methods.csv"
     
     #if file csv do not exist, create it.
     if not os.path.exists('../measures/'+csv_filename):

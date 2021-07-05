@@ -10,7 +10,7 @@
 #include <string.h>
 
 
-#define VERSION "TSP Optimization - 0.8"
+#define VERSION "0.8"
 
 #define MALLOC(nnum,type) ( (type *) malloc (nnum * sizeof(type)) )
 #define CALLOC(nnum,type) ( (type *) calloc (nnum, sizeof(type)) )
@@ -27,7 +27,7 @@
     }                                                   \
 }               
 
-#define DEBUG // Comment when the debugging logs are not needed
+//#define DEBUG // Comment when the debugging logs are not needed
 
 #ifdef DEBUG
 #define LOG_D(fmt, ...) {fprintf(stdout, "[DEBUG] ");fprintf(stdout, fmt, ## __VA_ARGS__);fprintf(stdout, "\n");}

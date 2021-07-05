@@ -57,20 +57,23 @@ static int CPXPUBLIC SEC_cuts_callback_candidate(CPXCALLBACKCONTEXTptr context, 
         FREE(indexes);
         FREE(values);
         
-    } else if (inst->params.callback_2opt) {
-        if (inst->params.verbose >= 4) {
-            LOG_I("Solving with 2opt");
-        }
+    } else if (num_comp == 1 && inst->params.callback_2opt) {
+        // Here we have a candidate TSP solution. It is not optimal and it may have crossing edges. We want to help cplex on finding a better
+        // solution applying the 2-opt algorithm on the solution just found. 
 
         // To avoid race condition between threads, a new instance is created locally in each thread to compute 2opt refinement
         instance tempinst;
         copy_instance(&tempinst, inst);
         save_solution_edges(&tempinst, xstar);
         alg_2opt(&tempinst);
+        if (inst->params.verbose >= 4) {
+            LOG_I("Applied 2-opt refinement");
+        }
         LOG_D("Incubement: %0.0f", tempinst.solution.obj_best);
         // Reinit xstar to 0. We want to reuse it in order to avoid another memory allocation
         MEMSET(xstar, 0.0, inst->num_columns, double);
        
+        // Filling xstar with the solution found by 2-opt
         for (int i = 0; i < tempinst.num_nodes; i++) {
             edge e = tempinst.solution.edges[i];
             xstar[x_udir_pos(e.i, e.j, tempinst.num_nodes)] = 1.0;
