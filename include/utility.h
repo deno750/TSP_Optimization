@@ -43,6 +43,7 @@
 
 // Constant that is useful for numerical errors
 #define EPS 1e-5
+#define DEFAULT_TIME_LIM 900
 
 
 // ================ Weight types =====================

@@ -384,6 +384,10 @@ int HEU_Genetic(instance *inst) {
     //}
     //#endif
 
+    if (inst->params.time_limit <= 0 && inst->params.verbose >= 3) {
+        LOG_I("Default time lim %d setted.", DEFAULT_TIME_LIM);
+    }
+    int time_limit = inst->params.time_limit > 0 ? inst->params.time_limit : DEFAULT_TIME_LIM;
     int generation = 1;
     int parent_size = 400;
     int* parents = CALLOC(parent_size, int); // Parents indexes
@@ -399,7 +403,7 @@ int HEU_Genetic(instance *inst) {
     while (1) {
         gettimeofday(&end, 0);
         double elapsed = get_elapsed_time(start, end);
-        if (inst->params.time_limit > 0 && elapsed > inst->params.time_limit) {
+        if (elapsed > time_limit) {
             status = TIME_LIMIT_EXCEEDED;
             break;
         }

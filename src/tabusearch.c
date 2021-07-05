@@ -152,6 +152,10 @@ static int tabu(instance *inst, void (*policy_ptr)(tenure_policy*, int)) {
     plot_solution(inst);
 
     //double best_obj = DBL_MAX;
+    if (inst->params.time_limit <= 0 && inst->params.verbose >= 3) {
+        LOG_I("Default time lim %d setted.", DEFAULT_TIME_LIM);
+    }
+    int time_limit = inst->params.time_limit > 0 ? inst->params.time_limit : DEFAULT_TIME_LIM;
     double best_obj = inst->solution.obj_best;
     edge *best_sol = CALLOC(inst->num_nodes, edge);
     memcpy(best_sol, inst->solution.edges, inst->num_nodes * sizeof(edge));
@@ -175,7 +179,7 @@ static int tabu(instance *inst, void (*policy_ptr)(tenure_policy*, int)) {
     while (1) {
         gettimeofday(&end, 0);
         double elapsed = get_elapsed_time(start, end);
-        if (inst->params.time_limit > 0 && elapsed > inst->params.time_limit) {
+        if (elapsed > time_limit) {
             status = TIME_LIMIT_EXCEEDED;
             LOG_I("Tabu Search time exceeded");
             break;
