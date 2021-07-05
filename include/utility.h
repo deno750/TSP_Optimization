@@ -118,11 +118,11 @@ typedef struct {
     int num_threads; 
     int time_limit;
     sol_method method;
-    int verbose; // Verbose level of debugging printing
-    int integer_cost;
-    int seed; // Seed for random generation
-    int perf_prof; // Need to know wheter the computation is executed for performance profile
-    int callback_2opt; // Used in incubement callbacks for 2opt refinement
+    int verbose;        // Verbose level of debugging printing
+    int integer_cost;   // 1=integer costs, 0=float
+    int seed;           // Seed for random generation
+    int perf_prof;      // Need to know wheter the computation is executed for performance profile
+    int callback_2opt;  // Used in incubement callbacks for 2opt refinement
 } instance_params;
 
 // Definition of Point
@@ -140,10 +140,10 @@ typedef struct {
 } edge;
 
 typedef struct {
-    double obj_best; // Stores the best value of the objective function
-    edge *edges; // List the solution's edges
-    double time_to_solve;
-    double *xbest; // The best solution found in heuristics implementations
+double obj_best;            // Stores the best value of the objective function
+    edge *edges;            // List the solution's edges: list of pairs (i,j)
+    double time_to_solve;   // Time used to solve the istance
+    double *xbest;          // The best solution found in heuristics implementations
 } solution;
 
 // Instance data structure where all the information of the problem are stored
@@ -155,8 +155,8 @@ typedef struct {
     point *nodes;
     int num_nodes;
     weight_type weight_type;
-    long num_columns; // The number of variables. It is used in callback method
-    int* ind; // List of the indices of solution values in cplex. Needed for updating manually the incubement in cplex. Used in callbacks
+    long num_columns;           // The number of variables. It is used in callback method
+    int* ind;                   // List of the indices of solution values in cplex. Needed for updating manually the incubement in cplex. Used in callbacks
     unsigned int* thread_seeds; // An array which contains the seed for each thread. Used in relaxation callback to create a randomness
 
     solution solution;

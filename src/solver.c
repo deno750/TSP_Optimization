@@ -15,7 +15,7 @@
 #include "tabusearch.h"
 #include "genetic.h"
 
-// USER CUT SOLVER
+// BEST SOLVER: USER CUT SOLVER
 int opt_best_solver(CPXENVptr env, CPXLPptr lp, instance *inst) {
     int ncols = CPXgetnumcols(env, lp);
     inst->num_columns = ncols; // The callbacks need the number of cols
@@ -53,7 +53,6 @@ static void print_solution(instance *inst) {
             LOG_I("The best bjective value is %f", inst->solution.obj_best);
         }
         
-
         // Next level of verbosity
         if (inst->params.verbose >= 5) {
             LOG_I("The optimal edges are:\n");
@@ -132,6 +131,7 @@ static int solve_problem_HEUC(instance *inst) {
     return status;
 }
 
+// Solve the TSP using CPLEX
 int TSP_opt(instance *inst) {
     int error;
     CPXENVptr env = CPXopenCPLEX(&error);       // generate new environment, in err will be saved errors
@@ -395,8 +395,7 @@ static void build_dir_model(instance *inst, CPXENVptr env, CPXLPptr lp) {
 
 static void build_model(instance *inst, CPXENVptr env, CPXLPptr lp) {
 
-    // Checks the type of the edge in order to
-    // build the correct model
+    // Checks the type of the edge in order to build the correct model
     if (inst->params.method.edge_type == UDIR_EDGE) {
         build_udir_model(inst, env, lp);
     } else {
@@ -405,7 +404,6 @@ static void build_model(instance *inst, CPXENVptr env, CPXLPptr lp) {
     
 
     // Saving the model in .lp file
-
     save_lp(env, lp, inst->name);
 
 }
