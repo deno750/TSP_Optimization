@@ -119,7 +119,7 @@ typedef struct {
     int time_limit;
     sol_method method;
     int verbose;        // Verbose level of debugging printing
-    int integer_cost;
+    int integer_cost;   // 1=integer costs, 0=float
     int seed;           // Seed for random generation
     int perf_prof;      // Need to know wheter the computation is executed for performance profile
     int callback_2opt;  // Used in incubement callbacks for 2opt refinement

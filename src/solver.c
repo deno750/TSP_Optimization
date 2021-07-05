@@ -131,6 +131,7 @@ static int solve_problem_HEUC(instance *inst) {
     return status;
 }
 
+// Solve the TSP using CPLEX
 int TSP_opt(instance *inst) {
     int error;
     CPXENVptr env = CPXopenCPLEX(&error);       // generate new environment, in err will be saved errors
@@ -394,8 +395,7 @@ static void build_dir_model(instance *inst, CPXENVptr env, CPXLPptr lp) {
 
 static void build_model(instance *inst, CPXENVptr env, CPXLPptr lp) {
 
-    // Checks the type of the edge in order to
-    // build the correct model
+    // Checks the type of the edge in order to build the correct model
     if (inst->params.method.edge_type == UDIR_EDGE) {
         build_udir_model(inst, env, lp);
     } else {
@@ -404,7 +404,6 @@ static void build_model(instance *inst, CPXENVptr env, CPXLPptr lp) {
     
 
     // Saving the model in .lp file
-
     save_lp(env, lp, inst->name);
 
 }

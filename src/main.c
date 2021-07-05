@@ -19,9 +19,9 @@ int main(int argc, const char *argv[])
     
     print_instance(inst);                   // Show the istance
 
-    if (inst.params.method.use_cplex) {
+    if (inst.params.method.use_cplex) {     // Solve using cplex
         TSP_opt(&inst);
-    } else {
+    } else {                                // Solve using our heuristic methods
         TSP_heuc(&inst);
     }
     
