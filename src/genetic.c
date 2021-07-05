@@ -346,17 +346,27 @@ int HEU_Genetic(instance *inst) {
     for (int i = 0; i < pop_size; i++) {
         population[i].cromosome = CALLOC(inst->num_nodes, int);
 
-        // Using greedy for initialization. Might be a better way
-        /*int start_node = rand_choice(0, inst->num_nodes - 1);
-        greedy(inst, start_node);
-        
-        int node_idx = start_node;
-        int node_iter = 0;
-        while (node_iter < inst->num_nodes) {
-            population[i].cromosome[node_iter++] = inst->solution.edges[node_idx].i;
-            node_idx = inst->solution.edges[node_idx].j;
+        /*double rand_num = URAND();
+        if (rand_num < 0.15) {
+            // Using greedy for initialization. Might be a better way
+            int start_node = rand_choice(0, inst->num_nodes - 1);
+            greedy(inst, start_node);
+            
+            int node_idx = start_node;
+            int node_iter = 0;
+            while (node_iter < inst->num_nodes) {
+                population[i].cromosome[node_iter++] = inst->solution.edges[node_idx].i;
+                node_idx = inst->solution.edges[node_idx].j;
+            }
+        } else {
+             // Using random initialization
+            random_generation(population[i].cromosome, inst->num_nodes);
         }*/
+
         random_generation(population[i].cromosome, inst->num_nodes);
+
+        
+
         fitness(inst, &(population[i]));
 
     }
@@ -455,6 +465,9 @@ int HEU_Genetic(instance *inst) {
     }
     FREE(offsprings);
 
+    if (inst->params.verbose >= 4) {
+        LOG_I("Applying final 2opt refinement");
+    }
     alg_2opt(inst);
     return status; 
 }
