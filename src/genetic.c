@@ -420,7 +420,9 @@ int HEU_Genetic(instance *inst) {
             LOG_I("UPDATED INCUBEMENT");
         }
 
-        LOG_D("Generation %d -> Mean: %0.2f      Best: %0.0f", generation, mean_fitness, best_fitness);
+        if (inst->params.verbose >= 4) {
+            LOG_I("Generation %d -> Mean: %0.2f      Best: %0.0f", generation, mean_fitness, best_fitness);
+        }
 
         // Selection phase. i.e. selecting individuals which can go to the next generation
         select_parents(parents, parent_size, pop_size);

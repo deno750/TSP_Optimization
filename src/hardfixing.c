@@ -177,6 +177,7 @@ int hard_fixing_solver(instance *inst, CPXENVptr env, CPXLPptr lp) {
         //random_fix2(env, lp, prob, &ncols_fixed, indexes, xh);
         advanced_fix(env, lp, inst, prob, &ncols_fixed, indexes, bounds, xh, close_cycle_edges);
         status = CPXmipopt(env, lp);
+        if (status) {LOG_I("CPXmipopt() error");}
         if (inst->params.verbose >= 5) {
             LOG_I("COLS %d", ncols_fixed);
         }
@@ -248,6 +249,7 @@ int hard_fixing_solver2(instance *inst, CPXENVptr env, CPXLPptr lp) {
     double objbest = CPX_INFBOUND;
     int done = 0;
     int number_little_improvements = 0;
+    int number_no_improvements = 0;
     while (!done) {
         done = 1;
         gettimeofday(&end, 0);
@@ -273,14 +275,17 @@ int hard_fixing_solver2(instance *inst, CPXENVptr env, CPXLPptr lp) {
         LOG_D("Improvement %0.4f", obj_improv);
         if (objval < objbest && !status) {
             done = 0;
+            number_no_improvements = 0;
             if (obj_improv < HARD_FIX_MIN_IMPROVEMENT) {
                 LOG_D("NOT IMPROVED TOO MUCH");
                 number_little_improvements++;
                 LOG_D("Prob_index: %d Len Prob: %lu", prob_index, LEN(prob));
                 if (number_little_improvements % HARD_FIX_MAX_LITTLE_IMPROVEMENTS == 0 && prob_index < LEN(prob) - 1) {
                     prob_index++;
-                    LOG_D("CONSECUTIVE LITTLE IMPROVMENETS. UPDATING THE PROB INDEX");
+                    LOG_D("CONSECUTIVE LITTLE IMPROVEMENETS. UPDATING THE PROB INDEX");
                 }
+            } else {
+                number_little_improvements = 0;
             }
             LOG_I("Updated incubement: %f", objval);
             objbest = objval;
@@ -289,9 +294,18 @@ int hard_fixing_solver2(instance *inst, CPXENVptr env, CPXLPptr lp) {
             save_solution_edges(inst, xh);
             plot_solution(inst);
         } else {
-            if (inst->params.verbose >= 4) {
-                LOG_I("NOT IMPROVED AT ALL. FINISHING THE ALGORITHM");
+            number_no_improvements++;
+            LOG_D("NOT IMPROVED AT ALL");
+            done = 0;
+            if (prob_index < LEN(prob) - 1) {
+                LOG_D("NO IMPROVEMENTS. UPDATING THE PROB INDEX");
+                prob_index++;
+                number_little_improvements = 0;
+            } else if (number_no_improvements % 3 == 0) { // Adding a tollerance of 3 no improvements to terminate the algorithm
+                LOG_D("CONSECUTIVE NO IMPROVMENETS. TERMINATING THE ALGORITHM");
+                done = 1;
             }
+            
         }
 
         

@@ -117,7 +117,7 @@ static int violated_cuts_callback(double cutval, int num_nodes, int* members, vo
     int k = 0;
     for (int i = 0; i < num_nodes; i++) {
         for (int j = 0; j < num_nodes; j++) {
-            if (members[i] >= members[j]) { continue; }
+            if (members[i] >= members[j]) { continue; } // undirected graph. If the node in index i is greated than the node in index j, we skip since (i,j) = (j,i)
             edges[k++] = x_udir_pos(members[i], members[j], inst->num_nodes);
             //LOG_D("X(%d,%d)", members[i], members[j]);
         }
