@@ -54,7 +54,7 @@ def error(update, context):
 is_testing = False
 completed = 0
 
-csv_filename="exact.csv"
+csv_filename="exact_methods.csv"
 current_method = ""
 current_instance = ""
 
