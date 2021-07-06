@@ -6,3 +6,7 @@
 /logs/
 /plot/
 /libs/
+/measures/compacttot.csv
+/other_codes/logs.log
+/other_codes/runserver.sh
+logs.log
