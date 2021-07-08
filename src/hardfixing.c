@@ -84,7 +84,7 @@ void random_fix(CPXENVptr env, CPXLPptr lp, double prob, int *ncols, int *indexe
     FREE(lbs);
 }
 
-
+// Function that fix some edges
 void advanced_fix(CPXENVptr env, CPXLPptr lp, instance *inst, double prob, int *ncols, int *indexes, char *bounds, double *xh, edge *close_cycle_edges) {
     double rand_num;
 	double one = 1.0;
@@ -265,6 +265,8 @@ int hard_fixing_solver2(instance *inst, CPXENVptr env, CPXLPptr lp) {
     int number_no_improvements = 0;
     while (!done) {
         done = 1;
+
+        //Set remaining time limit
         gettimeofday(&end, 0);
         double elapsed = get_elapsed_time(start, end);
         if (elapsed >= time_limit) {
@@ -272,8 +274,12 @@ int hard_fixing_solver2(instance *inst, CPXENVptr env, CPXLPptr lp) {
         }
         double time_remain = time_limit - elapsed; // this is the time remained 
         CPXsetdblparam(env, CPXPARAM_TimeLimit, time_remain);
+
+        //FIX some edges
         //random_fix2(env, lp, prob, &ncols_fixed, indexes, xh);
         advanced_fix(env, lp, inst, prob[prob_index], &ncols_fixed, indexes, bounds, xh, close_cycle_edges);
+
+        // Solve the model
         status = CPXmipopt(env, lp);
         LOG_I("COLS %d", ncols_fixed);
         save_lp(env, lp, "AfterFixing");
@@ -281,20 +287,27 @@ int hard_fixing_solver2(instance *inst, CPXENVptr env, CPXLPptr lp) {
             LOG_E("CPXmipopt error code %d", status);
         }
 
+        //Retreive the solution
         status = CPXgetx(env, lp, xh, 0, cols_tot - 1);
         CPXgetobjval(env, lp, &objval);
         if (status) { LOG_D("CPXgetx error code %d", status); }
+
+        // If current solution is better than the best one, update the best one
         double obj_improv = 1 - objval / objbest;
         LOG_D("Improvement %0.4f", obj_improv);
         if (objval < objbest && !status) {
             done = 0;
             number_no_improvements = 0;
+
+            //IF not improved much
             if (obj_improv < HARD_FIX_MIN_IMPROVEMENT) {
                 LOG_D("NOT IMPROVED TOO MUCH");
                 number_little_improvements++;
                 LOG_D("Prob_index: %d Len Prob: %lu", prob_index, LEN(prob));
+
+                //After a certain amount fo little improvements, go use the next fixing-probability.
                 if (number_little_improvements % HARD_FIX_MAX_LITTLE_IMPROVEMENTS == 0 && prob_index < LEN(prob) - 1) {
-                    prob_index++;
+                    prob_index++;   // use next fixing-probability
                     LOG_D("CONSECUTIVE LITTLE IMPROVEMENETS. UPDATING THE PROB INDEX");
                 }
             } else {
@@ -306,10 +319,11 @@ int hard_fixing_solver2(instance *inst, CPXENVptr env, CPXLPptr lp) {
             memcpy(inst->solution.xbest, xh, cols_tot * sizeof(double));
             save_solution_edges(inst, xh);
             plot_solution(inst);
-        } else {
+        } else {    //If current solution not improved:
             number_no_improvements++;
             LOG_D("NOT IMPROVED AT ALL");
             done = 0;
+            // if there is still some probability to use
             if (prob_index < LEN(prob) - 1) {
                 LOG_D("NO IMPROVEMENTS. UPDATING THE PROB INDEX");
                 prob_index++;
