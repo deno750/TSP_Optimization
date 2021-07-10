@@ -28,6 +28,7 @@ int benders_loop(instance *inst, CPXENVptr env, CPXLPptr lp) {
     gettimeofday(&start, 0);
     
     do {
+        //If we exceeded the time limit: stop
         gettimeofday(&end, 0);
         double elapsed = get_elapsed_time(start, end);
         double timelimit = (double) inst->params.time_limit;
@@ -45,6 +46,7 @@ int benders_loop(instance *inst, CPXENVptr env, CPXLPptr lp) {
             CPXgetdblparam(env, CPXPARAM_TimeLimit, &here);
         }
 
+        // Optimize the current problem
         int status = CPXmipopt(env, lp);
         if (status) { 
             FREE(successors);
@@ -66,6 +68,7 @@ int benders_loop(instance *inst, CPXENVptr env, CPXLPptr lp) {
         double *values = MALLOC(ncols, double);
         double *xstar = MALLOC(ncols, double);
 
+        //Count connected components (subtours)
         status = CPXgetx(env, lp, xstar, 0, ncols-1);
         if (status) { LOG_E("Benders CPXgetx() error code %d", status); }
         numcomp = count_components(inst, xstar, successors, comp);
@@ -76,7 +79,7 @@ int benders_loop(instance *inst, CPXENVptr env, CPXLPptr lp) {
         // Condition numComp > 1 is needed in order to avoid to add the SEC constraints when the TSP's hamiltonian cycle is found
         for (int subtour = 1; subtour <= numcomp && numcomp > 1; subtour++) { // Connected components are numerated from 1
             sprintf(names, "SEC(%d)", ++rowscount);
-            // For each subtour we add the constraints in one shot
+            // For each subtour we add the SEC constraints in one shot
             status = add_SEC(inst, env, lp, subtour, comp, indexes, values, names);
             if (status) { LOG_E("An error occurred adding SEC. Error code %d", status); }
             save_lp(env, lp, inst->name);
