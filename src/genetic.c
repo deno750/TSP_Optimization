@@ -5,16 +5,30 @@
 
 #include <float.h>
 
+// This struct represents an individual in the population. 
+// Stores the cromosome and the fitness value. 
 typedef struct individual{
     int* cromosome; // List of visiting nodes. i.e. the order of nodes which are visited in the tsp
     double fitness;
 } individual;
 
-
+/**
+ * Choses a random number in between [from, to]
+ * 
+ * @param from The left bound 
+ * @param to The right bound
+ * @returns The random number between [from, to]
+ */
 int rand_choice(int from, int to) {
     return from + ((int) (URAND() * (to - from)));
 }
 
+/**
+ * Transforms the cromosome representation to edge representation
+ * 
+ * @param inst The problem instance
+ * @param individual The individual which cromosome is stored to edge representation
+ */
 void from_cromosome_to_edges(instance* inst, individual individual) {
     for (int i = 0; i < inst->num_nodes - 1; i++) {
         int index = individual.cromosome[i];
@@ -26,6 +40,13 @@ void from_cromosome_to_edges(instance* inst, individual individual) {
     inst->solution.edges[index].j = individual.cromosome[0];
 }
 
+/**
+ * Calculates the fitness value of an individual. The calculated fitness values is stored in the 
+ * fitness field of the individual struct
+ * 
+ * @param inst The problem instance
+ * @param individual A reference of the individual which the fitness will be calculated
+ */
 void fitness(instance* inst, individual* individual) {
     int prev_node = individual->cromosome[0];
     individual->fitness = 0;
@@ -37,6 +58,14 @@ void fitness(instance* inst, individual* individual) {
     individual->fitness += calc_dist(prev_node, individual->cromosome[0], inst);
 }
 
+
+/**
+ * Picks from the population a random number of individuals which are going to be the parents to produce offsprings
+ * 
+ * @param parents A reference of the parents array
+ * @param parent_size The number of parents (i.e. capacity of parents array)
+ * @param pop_size The current number of individuals in the population
+ */
 void select_parents(int* parents, int parent_size, int pop_size) {
     MEMSET(parents, -1, parent_size, int);
     int count = 0;
@@ -55,6 +84,15 @@ void select_parents(int* parents, int parent_size, int pop_size) {
     }
 }
 
+/**
+ * Applies the crossover phase of the genetic algorithm. From two parents an offspring is generated.
+ * 
+ * @param inst The problem instance
+ * @param population The list of individuals which composes the population
+ * @param parent1 The index of the first parent in the population
+ * @param parent2 The index of the second parent in the population
+ * @param cromosome The offspring's cromosome that is generated from the two parents.
+ */
 void crossover(instance* inst, individual *population, int parent1, int parent2, int* cromosome) {
     individual p1 = population[parent1];
     individual p2 = population[parent2];
@@ -158,6 +196,15 @@ void crossover(instance* inst, individual *population, int parent1, int parent2,
     FREE(visited);
 }
 
+/**
+ * Does the procreation phase where the parents generate new offsprings.
+ * 
+ * @param inst The problem instance
+ * @param population The list of individuals which composes the population
+ * @param parents The list of indexes of the parents in the population
+ * @param parent_size The size of the parents array
+ * @param offsprings The list of offsprings generated
+ */
 void procreate(instance* inst, individual *population, int* parents, int parent_size, individual* offsprings) {
     
     int* cromosome = CALLOC(inst->num_nodes, int);
@@ -186,6 +233,22 @@ void procreate(instance* inst, individual *population, int* parents, int parent_
     FREE(cromosome);
 }
 
+/**
+ * Applies the selection phase. Choses the best performing individuals. Sometimes to mantain diversification,
+ * a random individual is also selected reghardless its fitness function with a probability of 10%. The mutation phase is applied 
+ * with a probability of 5%. With probability of 98% during the mutation phase, is applied a mutation where a random subtour
+ * is chosen and reversed; in the remaining 2% is applied a 2-opt refinement. This 2-opt refinement works for only
+ * 5 seconds. The completion of the 2-opt in this phase is not necessary. The 2-opt ideally is going to work better as the 
+ * algorithm goes forward. In a very later generation, there would be low crossing edges so the 2-opt algorithm can 
+ * complete under 5 seconds and return a better individual. In any case, even when the 2-opt does not complete, a better
+ * individual is found because some crossing edges are removed.
+ * 
+ * @param inst The problem instance
+ * @param population The list of individuals which composes the population
+ * @param pop_size The current number of individuals in the population
+ * @param offsrpings The offsprings list
+ * @param off_size The capacity of offsprings
+ */
 void selection(instance* inst, individual* population, int pop_size, individual* offsprings, int off_size) {
     
     int N = pop_size + off_size;
@@ -248,7 +311,7 @@ void selection(instance* inst, individual* population, int pop_size, individual*
 
             double rand_num = URAND();
             // We can implement an exponential decay to increase the probability to use 2opt as a mutation. We want apply
-            // 2opt when the edges are quite good in order to have a faster convergence
+            // 2opt when the edges are quite good in order to have a faster convergence of the algorithm
             if (rand_num > 0.02) {
                 // Mutation method 2
                 // It takes a subtour and reverses it. e.g. 1-4-3-7-9 becomes 9-7-3-4-1
@@ -304,6 +367,15 @@ void selection(instance* inst, individual* population, int pop_size, individual*
     FREE(total);
 }
 
+/**
+ * Calculates the mean fitness, the best fitness value and the best individual's index in the population
+ * 
+ * @param population The list of individuals which composes the population
+ * @param pop_size The current number of individuals in the population
+ * @param best A reference where the best fitness value in the population will be stored
+ * @param mean A reference where the mean fitness of the population will be stored
+ * @param best_idx A reference where the index of the best individual will be stored 
+ */
 void fitness_metrics(individual* population, int pop_size, double* best, double* mean, int *best_idx) {
     *best = DBL_MAX;
     *mean = 0;
@@ -319,6 +391,12 @@ void fitness_metrics(individual* population, int pop_size, double* best, double*
     *mean /= pop_size;
 }
 
+/**
+ * Generates a random tour. This function is used to initialize randomly the initial population
+ * 
+ * @param cromosome Where the random tour will be stored. It must have the size equal to num_nodes
+ * @param num_nodes The number of nodes in the instance
+ */
 void random_generation(int* cromosome, int num_nodes) {
     for (int i = 0; i < num_nodes; i++) {  
         cromosome[i] = i;

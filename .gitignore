@@ -5,7 +5,7 @@
 /tour/
 /logs/
 /plot/
-/libs/
+/libs/*
 /measures/compacttot.csv
 /other_codes/logs.log
 /other_codes/runserver.sh

@@ -8,6 +8,8 @@ file(GLOB tsp_SRC CONFIGURE_DEPENDS "src/*.c" )
 
 add_executable(${PROJECT_NAME} ${tsp_SRC})
 
+add_definitions(-DVERSION="0.8") #Software's current version
+
 set(CMAKE_C_STANDARD 11)
 
 set(CONCORDE_PATH ${PROJECT_SOURCE_DIR}/libs/concorde)

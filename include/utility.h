@@ -9,9 +9,6 @@
 #include <sys/time.h>
 #include <string.h>
 
-
-#define VERSION "0.8"
-
 #define MALLOC(nnum,type) ( (type *) malloc (nnum * sizeof(type)) )
 #define CALLOC(nnum,type) ( (type *) calloc (nnum, sizeof(type)) )
 #define REALLOC(ptr, nnum, type) ( realloc(ptr, nnum * sizeof(type)) )

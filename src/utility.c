@@ -310,7 +310,7 @@ void parse_comand_line(int argc, const char *argv[], instance *inst) {
     // Print the functions available
     if (need_help) {
         printf("-f <file's path>          To pass the problem's path\n");
-        printf("-t <time>                 The time limit\n");
+        printf("-t <time>                 The time limit in seconds\n");
         printf("-threads <num threads>    The number of threads to use\n");
         printf("-verbose <level>          The verbosity level of the debugging printing\n");
         printf("-method <type>            The method used to solve the problem. Use \"--methods\" to see the list of available methods\n");
