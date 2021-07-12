@@ -260,11 +260,8 @@ int hard_fixing_solver2(instance *inst, CPXENVptr env, CPXLPptr lp) {
     int prob_index = 0;
     double objval;
     double objbest = CPX_INFBOUND;
-    int done = 0;
     int number_little_improvements = 0;
-    int number_no_improvements = 0;
     while (1) {
-        //done = 1;
 
         // if there is no more fixing-probability to use (we are outside the array)
         if (prob_index >= LEN(prob)){break;}    //stop
