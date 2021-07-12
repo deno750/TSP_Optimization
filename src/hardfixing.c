@@ -263,18 +263,22 @@ int hard_fixing_solver2(instance *inst, CPXENVptr env, CPXLPptr lp) {
     int done = 0;
     int number_little_improvements = 0;
     int number_no_improvements = 0;
-    while (!done) {
-        done = 1;
+    while (1) {
+        //done = 1;
 
-        //Set remaining time limit
+        // if there is no more fixing-probability to use (we are outside the array)
+        if (prob_index >= LEN(prob)){break;}    //stop
+
+        //Check if the time_limit is reached
         gettimeofday(&end, 0);
         double elapsed = get_elapsed_time(start, end);
         if (elapsed >= time_limit) {
             break;
         }
+        //Set remaining time
         double time_remain = time_limit - elapsed; // this is the time remained 
         CPXsetdblparam(env, CPXPARAM_TimeLimit, time_remain);
-
+        LOG_I("Time remaining: %0.1f seconds",time_remain)
         //FIX some edges
         //random_fix2(env, lp, prob, &ncols_fixed, indexes, xh);
         advanced_fix(env, lp, inst, prob[prob_index], &ncols_fixed, indexes, bounds, xh, close_cycle_edges);
@@ -292,49 +296,30 @@ int hard_fixing_solver2(instance *inst, CPXENVptr env, CPXLPptr lp) {
         CPXgetobjval(env, lp, &objval);
         if (status) { LOG_D("CPXgetx error code %d", status); }
 
-        // If current solution is better than the best one, update the best one
+        // Calculate how much the new solution is better then the previous
         double obj_improv = 1 - objval / objbest;
         LOG_D("Improvement %0.4f", obj_improv);
-        if (objval < objbest && !status) {
-            done = 0;
-            number_no_improvements = 0;
 
-            //IF not improved much
-            if (obj_improv < HARD_FIX_MIN_IMPROVEMENT) {
-                LOG_D("NOT IMPROVED TOO MUCH");
-                number_little_improvements++;
-                LOG_D("Prob_index: %d Len Prob: %lu", prob_index, LEN(prob));
+        //IF not improved much
+        if (obj_improv < HARD_FIX_MIN_IMPROVEMENT) {
+            LOG_D("NOT IMPROVED TOO MUCH");
+            number_little_improvements++;
+            LOG_D("Prob_index: %d Len Prob: %lu", prob_index, LEN(prob));
 
-                //After a certain amount fo little improvements, go use the next fixing-probability.
-                if (number_little_improvements % HARD_FIX_MAX_LITTLE_IMPROVEMENTS == 0 && prob_index < LEN(prob) - 1) {
-                    prob_index++;   // use next fixing-probability
-                    LOG_D("CONSECUTIVE LITTLE IMPROVEMENETS. UPDATING THE PROB INDEX");
-                }
-            } else {
-                number_little_improvements = 0;
+            //After a certain amount fo little improvements, go use the next fixing-probability.
+            if (number_little_improvements % HARD_FIX_MAX_LITTLE_IMPROVEMENTS == 0 && prob_index < LEN(prob) - 1) {
+                prob_index++;   // use next fixing-probability
+                LOG_D("CONSECUTIVE LITTLE IMPROVEMENETS. UPDATING THE PROB INDEX");
             }
-            LOG_I("Updated incubement: %f", objval);
-            objbest = objval;
-            inst->solution.obj_best = objval;
-            memcpy(inst->solution.xbest, xh, cols_tot * sizeof(double));
-            save_solution_edges(inst, xh);
-            plot_solution(inst);
-        } else {    //If current solution not improved:
-            number_no_improvements++;
-            LOG_D("NOT IMPROVED AT ALL");
-            done = 0;
-            // if there is still some probability to use
-            if (prob_index < LEN(prob) - 1) {
-                LOG_D("NO IMPROVEMENTS. UPDATING THE PROB INDEX");
-                prob_index++;
-                number_little_improvements = 0;
-            } else if (number_no_improvements % 3 == 0) { // Adding a tollerance of 3 no improvements to terminate the algorithm
-                LOG_D("CONSECUTIVE NO IMPROVMENETS. TERMINATING THE ALGORITHM");
-                done = 1;
-            }
-            
+        } else {    // If new solution is quite better than the previous
+            number_little_improvements = 0;
         }
-
+        LOG_I("Updated incubement: %0.2f", objval);
+        objbest = objval;
+        inst->solution.obj_best = objval;
+        memcpy(inst->solution.xbest, xh, cols_tot * sizeof(double));
+        save_solution_edges(inst, xh);
+        plot_solution(inst);
         
         // Unfix the variables
         //set_default_lb2(env, lp, ncols_fixed, indexes);
