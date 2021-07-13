@@ -1,0 +1,29 @@
+
+======== INSTANCE ========
+name: att532
+n° nodes: 532
+weight type: ATT
+
+[INFO]  Time remaining: 62.9 seconds
+[DEBUG] Improvement 1.0000
+[INFO]  Updated incubement: 218819.000000
+[INFO]  Time remaining: 59.4 seconds
+[DEBUG] Improvement 0.2234
+[INFO]  Updated incubement: 169927.000000
+[INFO]  Time remaining: 55.6 seconds
+[DEBUG] Improvement 0.2584
+[INFO]  Updated incubement: 126019.000000
+[INFO]  Time remaining: 26.6 seconds
+[DEBUG] Improvement 0.1464
+[INFO]  Updated incubement: 107569.000000
+[INFO]  Time remaining: 22.9 seconds
+[DEBUG] Improvement 0.2135
+[INFO]  Updated incubement: 84606.000000
+[INFO]  Solution found!
+
+
+
+
+TIME TO SOLVE 120.185965s
+
+
