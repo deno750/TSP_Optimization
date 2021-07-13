@@ -260,7 +260,7 @@ int hard_fixing_solver2(instance *inst, CPXENVptr env, CPXLPptr lp) {
     int prob_index = 0;
     double objval;
     double objbest = CPX_INFBOUND;
-    int number_little_improvements = 0;
+    int number_small_improvements = 0;
     while (1) {
 
         // if there is no more fixing-probability to use (we are outside the array)
@@ -300,16 +300,16 @@ int hard_fixing_solver2(instance *inst, CPXENVptr env, CPXLPptr lp) {
         //IF not improved much
         if (obj_improv < HARD_FIX_MIN_IMPROVEMENT) {
             LOG_D("NOT IMPROVED TOO MUCH");
-            number_little_improvements++;
+            number_small_improvements++;
             LOG_D("Prob_index: %d Len Prob: %lu", prob_index, LEN(prob));
 
             //After a certain amount fo little improvements, go use the next fixing-probability.
-            if (number_little_improvements % HARD_FIX_MAX_LITTLE_IMPROVEMENTS == 0 && prob_index < LEN(prob) - 1) {
+            if (number_small_improvements % HARD_FIX_MAX_LITTLE_IMPROVEMENTS == 0 && prob_index < LEN(prob) - 1) {
                 prob_index++;   // use next fixing-probability
                 LOG_D("CONSECUTIVE LITTLE IMPROVEMENETS. UPDATING THE PROB INDEX");
             }
         } else {    // If new solution is quite better than the previous
-            number_little_improvements = 0;
+            number_small_improvements = 0;
         }
         LOG_I("Updated incubement: %0.2f", objval);
         objbest = objval;

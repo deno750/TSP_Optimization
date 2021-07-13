@@ -17,19 +17,20 @@ int soft_fixing_solver(instance *inst, CPXENVptr env, CPXLPptr lp) {
     struct timeval start, end; 
     gettimeofday(&start, 0);
 
-    // First iteration: seeking the first feasible solution
+    // First iteration: seek the first feasible solution
     int status = opt_best_solver(env, lp, inst);
     if (status) {LOG_E("CPXmipopt in hard fixing error code %d", status);}
     status = CPXgetx(env, lp, xh, 0, cols_tot - 1); // save the first solution found
     CPXsetintparam(env, CPX_PARAM_NODELIM, 100); 
 
     CPXsetintparam(env, CPXPARAM_Emphasis_MIP, CPX_MIPEMPHASIS_OPTIMALITY);
-    double radius[] = {3, 5, 7, 9};
+
+    double radius[] = {3, 5, 7, 9}; //Array of radious
     int rad_index = 0;
     double objval;
     double objbest = CPX_INFBOUND;
     int done = 0;
-    int number_little_improvements = 0;
+    int number_small_improvements = 0;
     char sense = 'G';
     int matbeg = 0;
     int num_iter = 0;
@@ -73,9 +74,9 @@ int soft_fixing_solver(instance *inst, CPXENVptr env, CPXLPptr lp) {
             done = 0;
             if (obj_improv < SOFT_FIX_MIN_IMPROVEMENT) {
                 LOG_D("NOT IMPROVED TOO MUCH");
-                number_little_improvements++;
-                LOG_D("Prob_index: %d Len Prob: %lu Num Little improv: %d", rad_index, LEN(radius), number_little_improvements);
-                if (number_little_improvements % SOFT_FIX_MAX_LITTLE_IMPROVEMENTS == 0 && rad_index < LEN(radius) - 1) {
+                number_small_improvements++;
+                LOG_D("Prob_index: %d Len Prob: %lu Num Little improv: %d", rad_index, LEN(radius), number_small_improvements);
+                if (number_small_improvements % SOFT_FIX_MAX_LITTLE_IMPROVEMENTS == 0 && rad_index < LEN(radius) - 1) {
                     rad_index++;
                     LOG_D("CONSECUTIVE LITTLE IMPROVMENETS. UPDATING THE PROB INDEX");
                 }
