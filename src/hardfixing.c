@@ -94,7 +94,6 @@ void advanced_fix(CPXENVptr env, CPXLPptr lp, instance *inst, double prob, int *
     if(prob < 0 || prob > 1) {LOG_E("probability must be in [0,1]");}
     int num_cols = CPXgetnumcols(env, lp);
 
-    
     double *xfake = CALLOC(num_cols, double); // We create a fake solution where the the nodes selected have the value of 1. This is threated such as a solution with subtours.
     for(int i = 0; i < num_cols; i++){
 		rand_num = URAND();
@@ -136,7 +135,7 @@ void advanced_fix(CPXENVptr env, CPXLPptr lp, instance *inst, double prob, int *
 }
 
 
-//Function that uses the hard fixing solver with fixed probabilities
+//Function that uses the hard fixing solver with a unique fixing-probability
 int hard_fixing_solver(instance *inst, CPXENVptr env, CPXLPptr lp) {
     // For other emphasis params check there: https://www.ibm.com/docs/en/icos/20.1.0?topic=parameters-mip-emphasis-switch
     CPXsetintparam(env, CPXPARAM_Emphasis_MIP, CPX_MIPEMPHASIS_HEURISTIC); // We want that cplex finds an high quality solution earlier
@@ -151,9 +150,9 @@ int hard_fixing_solver(instance *inst, CPXENVptr env, CPXLPptr lp) {
     edge *close_cycle_edges = CALLOC(inst->num_nodes, edge); // inst->num_nodes since we want to store the edges which closes the loops in the fixed edges and the number edges in tsp are at most the number of nodes. The fixed edges can be considered as subtours of tsp
 
     struct timeval start, end; 
-    gettimeofday(&start, 0);
+    gettimeofday(&start, 0);    // start counting elapsed time from now
 
-    // First iteration: seeking the first feasible solution
+    // First iteration: seek the first feasible solution
     int status = opt_best_solver(env, lp, inst);
     if (status) {LOG_E("CPXmipopt in hard fixing error code %d", status);}
     status = CPXgetx(env, lp, xh, 0, cols_tot - 1); // save the first solution found
@@ -163,22 +162,21 @@ int hard_fixing_solver(instance *inst, CPXENVptr env, CPXLPptr lp) {
     //CPXsetintparam(env, CPXPARAM_Emphasis_MIP, CPX_MIPEMPHASIS_BALANCED);
 
     int ncols_fixed;
-    double prob = 0.9;
-    int prob_index = 0;
-    double objval;
-    double objbest = CPX_INFBOUND;
-    int done = 0;
-    while (!done) {
-        done = 1;
-
-        //Set remaining time limit
+    double prob = 0.9;  //fixing-probability
+    double objval;  //current solution cost
+    double objbest = CPX_INFBOUND;  //best solution cost
+    while (1) {
+        //Check if the time_limit is reached
         gettimeofday(&end, 0);
         double elapsed = get_elapsed_time(start, end);
         if (elapsed >= time_limit) {
             break;
         }
+
+        //Set remaining time limit
         double time_remain = time_limit - elapsed; // this is the time remained 
         CPXsetdblparam(env, CPXPARAM_TimeLimit, time_remain);
+        LOG_I("Time remaining: %0.1f seconds",time_remain);
 
         // Fix some edges
         //random_fix2(env, lp, prob, &ncols_fixed, indexes, xh);
@@ -199,23 +197,19 @@ int hard_fixing_solver(instance *inst, CPXENVptr env, CPXLPptr lp) {
         status = CPXgetx(env, lp, xh, 0, cols_tot - 1);
         CPXgetobjval(env, lp, &objval);
         if (status) { LOG_D("CPXgetx error code %d", status); }
+
+        // Calculate how much the new solution is better then the previous
         double obj_improv = 1 - objval / objbest;
         LOG_D("Improvement %0.4f", obj_improv);
 
-        //If the new solution is better then the previous best, update the best solution
-        if (objval < objbest && !status) {
-            done = 0;
-            if (inst->params.verbose >= 3) {
-                LOG_I("Updated incubement: %f", objval);
-            }
-            objbest = objval;
-            inst->solution.obj_best = objval;
-            memcpy(inst->solution.xbest, xh, cols_tot * sizeof(double));
-            save_solution_edges(inst, xh);
-            plot_solution(inst);
-        }
+        //Update solution
+        LOG_I("Updated incubement: %f", objval);
+        objbest = objval;
+        inst->solution.obj_best = objval;
+        memcpy(inst->solution.xbest, xh, cols_tot * sizeof(double));
+        save_solution_edges(inst, xh);
+        plot_solution(inst);
 
-        
         // Unfix the variables
         //set_default_lb2(env, lp, ncols_fixed, indexes);
         set_default_bounds(env, lp, ncols_fixed, indexes, bounds);
@@ -314,6 +308,8 @@ int hard_fixing_solver2(instance *inst, CPXENVptr env, CPXLPptr lp) {
         } else {    // If new solution is quite better than the previous
             number_small_improvements = 0;
         }
+
+        //Update solution
         LOG_I("Updated incubement: %0.2f", objval);
         objbest = objval;
         inst->solution.obj_best = objval;

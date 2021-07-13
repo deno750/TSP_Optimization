@@ -13,7 +13,7 @@ int soft_fixing_solver(instance *inst, CPXENVptr env, CPXLPptr lp) {
     int *indexes = CALLOC(cols_tot, int);
     double *values = CALLOC(cols_tot, double);
     double *xh = CALLOC(cols_tot, double); // The current solution found
-    
+
     struct timeval start, end; 
     gettimeofday(&start, 0);    // start counting elapsed time from now
 
@@ -98,6 +98,8 @@ int soft_fixing_solver(instance *inst, CPXENVptr env, CPXLPptr lp) {
         }else {    // If new solution is quite better than the previous
             number_small_improvements = 0;
         }
+
+        //Update solution
         LOG_I("Updated incubement: %f", objval);
         objbest = objval;
         inst->solution.obj_best = objval;
