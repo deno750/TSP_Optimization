@@ -245,7 +245,7 @@ int hard_fixing_solver2(instance *inst, CPXENVptr env, CPXLPptr lp) {
     edge *close_cycle_edges = CALLOC(inst->num_nodes, edge); // inst->num_nodes since we want to store the edges which closes the loops in the fixed edges and the number edges in tsp are at most the number of nodes. The fixed edges can be considered as subtours of tsp
 
     struct timeval start, end; 
-    gettimeofday(&start, 0);
+    gettimeofday(&start, 0);    // start counting elapsed time from now
 
     // First iteration: seeking the first feasible solution
     int status = opt_best_solver(env, lp, inst);
@@ -256,13 +256,14 @@ int hard_fixing_solver2(instance *inst, CPXENVptr env, CPXLPptr lp) {
     CPXsetintparam(env, CPXPARAM_Emphasis_MIP, CPX_MIPEMPHASIS_OPTIMALITY);
 
     int ncols_fixed;
-    double prob[] = {0.9, 0.8, 0.7};
+    double prob[] = {0.9, 0.8, 0.7};    // probability array
     int prob_index = 0;
     double objval;
     double objbest = CPX_INFBOUND;
     int number_small_improvements = 0;
-    while (1) {
 
+    //While we are within the time limit and the prob array size
+    while (1) {
         // if there is no more fixing-probability to use (we are outside the array)
         if (prob_index >= LEN(prob)){break;}    //stop
 
@@ -272,10 +273,12 @@ int hard_fixing_solver2(instance *inst, CPXENVptr env, CPXLPptr lp) {
         if (elapsed >= time_limit) {
             break;
         }
+
         //Set remaining time
         double time_remain = time_limit - elapsed; // this is the time remained 
         CPXsetdblparam(env, CPXPARAM_TimeLimit, time_remain);
-        LOG_I("Time remaining: %0.1f seconds",time_remain)
+        LOG_I("Time remaining: %0.1f seconds",time_remain);
+
         //FIX some edges
         //random_fix2(env, lp, prob, &ncols_fixed, indexes, xh);
         advanced_fix(env, lp, inst, prob[prob_index], &ncols_fixed, indexes, bounds, xh, close_cycle_edges);
@@ -303,10 +306,10 @@ int hard_fixing_solver2(instance *inst, CPXENVptr env, CPXLPptr lp) {
             number_small_improvements++;
             LOG_D("Prob_index: %d Len Prob: %lu", prob_index, LEN(prob));
 
-            //After a certain amount fo little improvements, go use the next fixing-probability.
+            //After a certain amount fo small improvements, go use the next fixing-probability.
             if (number_small_improvements % HARD_FIX_MAX_LITTLE_IMPROVEMENTS == 0 && prob_index < LEN(prob) - 1) {
                 prob_index++;   // use next fixing-probability
-                LOG_D("CONSECUTIVE LITTLE IMPROVEMENETS. UPDATING THE PROB INDEX");
+                LOG_D("CONSECUTIVE SMALL IMPROVEMENETS. UPDATING THE PROB INDEX");
             }
         } else {    // If new solution is quite better than the previous
             number_small_improvements = 0;
