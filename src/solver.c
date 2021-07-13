@@ -219,7 +219,12 @@ int TSP_opt(instance *inst) {
     plot_solution(inst);
 
     if (inst->params.perf_prof) {
-        printf("%0.6f", elapsed);
+        if (inst->params.method.id == SOLVE_HARD_FIXING || inst->params.method.id == SOLVE_HARD_FIXING2 || inst->params.method.id == SOLVE_SOFT_FIXING) {
+            printf("%0.2f", inst->solution.obj_best);
+        } else {
+            printf("%0.6f", elapsed);
+        }
+        
     } else {
         printf("\n\n\nTIME TO SOLVE %0.6fs\n\n\n", elapsed); // Time should be printed only when no errors occur
     }
@@ -254,7 +259,7 @@ int TSP_heuc(instance *inst) {
     plot_solution(inst);
 
     if (inst->params.perf_prof) {
-        printf("%0.6f", elapsed);
+        printf("%0.2f", inst->solution.obj_best);
     } else {
         printf("\n\n\nTIME TO SOLVE %0.6fs\n\n\n", elapsed); // Time should be printed only when no errors occur
     }

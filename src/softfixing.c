@@ -50,7 +50,7 @@ int soft_fixing_solver(instance *inst, CPXENVptr env, CPXLPptr lp) {
         //Set remaining time
         double time_remain = time_limit - elapsed; // this is the time remained 
         CPXsetdblparam(env, CPXPARAM_TimeLimit, time_remain);
-        LOG_I("Time remaining: %0.1f seconds",time_remain);
+        //LOG_I("Time remaining: %0.1f seconds",time_remain);
 
         // Add new constraints according to the radius: SUM_{x_e=1}{x_e}>=n-radius
         int k = 0;
@@ -82,30 +82,34 @@ int soft_fixing_solver(instance *inst, CPXENVptr env, CPXLPptr lp) {
 
         // Calculate how much the new solution is better then the previous
         double obj_improv = 1 - objval / objbest;
-        LOG_D("Improvement %0.4f", obj_improv);
+        //LOG_D("Improvement %0.4f", obj_improv);
 
         //IF not improved much
         if (obj_improv < SOFT_FIX_MIN_IMPROVEMENT) {
-            LOG_D("NOT IMPROVED TOO MUCH");
+            //LOG_D("NOT IMPROVED TOO MUCH");
             number_small_improvements++;
-            LOG_D("rad_index: %d Len Rad: %lu Num Small improv: %d", rad_index, LEN(radius), number_small_improvements);
+            //LOG_D("rad_index: %d Len Rad: %lu Num Small improv: %d", rad_index, LEN(radius), number_small_improvements);
 
             //After a certain amount fo small improvements, go use the next radious.
             if (number_small_improvements % SOFT_FIX_MAX_LITTLE_IMPROVEMENTS == 0 && rad_index < LEN(radius) - 1) {
                 rad_index++;    //use next radious
-                LOG_D("CONSECUTIVE SMALL IMPROVMENETS. UPDATING THE PROB INDEX");
+                //LOG_D("CONSECUTIVE SMALL IMPROVMENETS. UPDATING THE PROB INDEX");
             }
         }else {    // If new solution is quite better than the previous
             number_small_improvements = 0;
         }
 
         //Update solution
-        LOG_I("Updated incubement: %f", objval);
+        if (inst->params.verbose >= 4) {
+            LOG_I("Updated incubement: %f", objval);
+        }
         objbest = objval;
         inst->solution.obj_best = objval;
         memcpy(inst->solution.xbest, xh, cols_tot * sizeof(double));
-        save_solution_edges(inst, xh);
-        plot_solution(inst);
+        if (!(inst->params.perf_prof)) {
+            save_solution_edges(inst, xh);
+            plot_solution(inst);
+        }
  
         // Remove the added soft-fixing constraints
         int numrows = CPXgetnumrows(env, lp);
@@ -113,7 +117,7 @@ int soft_fixing_solver(instance *inst, CPXENVptr env, CPXLPptr lp) {
         if (status) {
             LOG_E("CPXdelrows error code %d", status);
         }
-        save_lp(env, lp, "AferRestoring");
+        //save_lp(env, lp, "AferRestoring");
 
         num_iter++;
     }
