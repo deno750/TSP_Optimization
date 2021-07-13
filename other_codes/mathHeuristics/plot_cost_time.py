@@ -20,15 +20,8 @@ for file_path in files:
             line=line.split()
             time=float(line[-2])
             timestamps.append(time_limit-time)
-        
     
-    #shift to 0 and convert to second
-    """start=timestamps[0]
-    for i,t in enumerate(timestamps):
-        timestamps[i]-=start
-        timestamps[i]/=1000"""
-    
-    print(len(timestamps),len(costs))
+    #print(len(timestamps),len(costs))
     plt.plot(timestamps, costs, marker = 'o')
 
     f.close()
