@@ -70,7 +70,7 @@ def threaded_test(update, context):
     is_testing = True
     update.message.reply_text('Started testing!')
     paths = []#["../data/berlin52.tsp", "../data/eil51.tsp", "../data/att48.tsp", "../data/st70.tsp", "../data/pr76.tsp"]
-    for name in glob.glob('../data/exact_models/*'):
+    for name in glob.glob('../data/mathheuristics/*'):
         paths.append(name)
         print(name)
     methods = ["HARD_FIX", "HARD_FIX2", "SOFT_FIX"]
