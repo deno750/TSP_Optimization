@@ -1,0 +1,2729 @@
+
+======== INSTANCE ========
+name: pr1002
+n° nodes: 1002
+weight type: EUC_2D
+
+[INFO]  Time remaining: 1007.4 seconds
+[DEBUG] Improvement 1.0000
+[INFO]  Updated incubement: 4591094.00
+[INFO]  Time remaining: 1001.6 seconds
+[DEBUG] Improvement 0.0872
+[INFO]  Updated incubement: 4190840.00
+[INFO]  Time remaining: 998.9 seconds
+[DEBUG] Improvement 0.0843
+[INFO]  Updated incubement: 3837385.00
+[INFO]  Time remaining: 993.4 seconds
+[DEBUG] Improvement 0.0924
+[INFO]  Updated incubement: 3482708.00
+[INFO]  Time remaining: 991.2 seconds
+[DEBUG] Improvement 0.1070
+[INFO]  Updated incubement: 3109936.00
+[INFO]  Time remaining: 983.2 seconds
+[DEBUG] Improvement 0.0710
+[INFO]  Updated incubement: 2889272.00
+[INFO]  Time remaining: 981.1 seconds
+[DEBUG] Improvement 0.0809
+[INFO]  Updated incubement: 2655651.00
+[INFO]  Time remaining: 976.8 seconds
+[DEBUG] Improvement 0.0591
+[INFO]  Updated incubement: 2498613.00
+[INFO]  Time remaining: 968.3 seconds
+[DEBUG] Improvement 0.0890
+[INFO]  Updated incubement: 2276244.00
+[INFO]  Time remaining: 958.3 seconds
+[DEBUG] Improvement 0.0939
+[INFO]  Updated incubement: 2062450.00
+[INFO]  Time remaining: 946.4 seconds
+[DEBUG] Improvement 0.0896
+[INFO]  Updated incubement: 1877574.00
+[INFO]  Time remaining: 943.3 seconds
+[DEBUG] Improvement 0.0933
+[INFO]  Updated incubement: 1702369.00
+[INFO]  Time remaining: 935.8 seconds
+[DEBUG] Improvement 0.0638
+[INFO]  Updated incubement: 1593772.00
+[INFO]  Time remaining: 929.1 seconds
+[DEBUG] Improvement 0.0870
+[INFO]  Updated incubement: 1455045.00
+[INFO]  Time remaining: 926.2 seconds
+[DEBUG] Improvement 0.0607
+[INFO]  Updated incubement: 1366779.00
+[INFO]  Time remaining: 919.6 seconds
+[DEBUG] Improvement 0.0508
+[INFO]  Updated incubement: 1297412.00
+[INFO]  Time remaining: 917.2 seconds
+[DEBUG] Improvement 0.0650
+[INFO]  Updated incubement: 1213065.00
+[INFO]  Time remaining: 910.9 seconds
+[DEBUG] Improvement 0.0732
+[INFO]  Updated incubement: 1124222.00
+[INFO]  Time remaining: 906.4 seconds
+[DEBUG] Improvement 0.0463
+[INFO]  Updated incubement: 1072152.00
+[INFO]  Time remaining: 900.4 seconds
+[DEBUG] Improvement 0.0701
+[INFO]  Updated incubement: 997018.00
+[INFO]  Time remaining: 894.4 seconds
+[DEBUG] Improvement 0.0548
+[INFO]  Updated incubement: 942339.00
+[INFO]  Time remaining: 884.6 seconds
+[DEBUG] Improvement 0.0636
+[INFO]  Updated incubement: 882360.00
+[INFO]  Time remaining: 881.8 seconds
+[DEBUG] Improvement 0.0459
+[INFO]  Updated incubement: 841882.00
+[INFO]  Time remaining: 876.5 seconds
+[DEBUG] Improvement 0.0192
+[INFO]  Updated incubement: 825722.00
+[INFO]  Time remaining: 874.5 seconds
+[DEBUG] Improvement 0.0167
+[INFO]  Updated incubement: 811923.00
+[INFO]  Time remaining: 862.6 seconds
+[DEBUG] Improvement 0.0449
+[INFO]  Updated incubement: 775456.00
+[INFO]  Time remaining: 854.0 seconds
+[DEBUG] Improvement 0.0205
+[INFO]  Updated incubement: 759544.00
+[INFO]  Time remaining: 852.3 seconds
+[DEBUG] Improvement 0.0447
+[INFO]  Updated incubement: 725616.00
+[INFO]  Time remaining: 821.9 seconds
+[DEBUG] Improvement 0.0337
+[INFO]  Updated incubement: 701187.00
+[INFO]  Time remaining: 819.9 seconds
+[DEBUG] Improvement 0.0266
+[INFO]  Updated incubement: 682548.00
+[INFO]  Time remaining: 810.7 seconds
+[DEBUG] Improvement 0.0606
+[INFO]  Updated incubement: 641177.00
+[INFO]  Time remaining: 805.6 seconds
+[DEBUG] Improvement 0.0301
+[INFO]  Updated incubement: 621881.00
+[INFO]  Time remaining: 803.7 seconds
+[DEBUG] Improvement 0.0531
+[INFO]  Updated incubement: 588851.00
+[INFO]  Time remaining: 796.8 seconds
+[DEBUG] Improvement 0.0093
+[INFO]  Updated incubement: 583394.00
+[INFO]  Time remaining: 794.7 seconds
+[DEBUG] Improvement 0.0044
+[INFO]  Updated incubement: 580814.00
+[INFO]  Time remaining: 793.4 seconds
+[DEBUG] Improvement 0.0324
+[INFO]  Updated incubement: 562020.00
+[INFO]  Time remaining: 780.0 seconds
+[DEBUG] Improvement 0.0142
+[INFO]  Updated incubement: 554023.00
+[INFO]  Time remaining: 776.8 seconds
+[DEBUG] Improvement 0.0068
+[INFO]  Updated incubement: 550237.00
+[INFO]  Time remaining: 775.2 seconds
+[DEBUG] Improvement 0.0291
+[INFO]  Updated incubement: 534243.00
+[INFO]  Time remaining: 772.3 seconds
+[DEBUG] Improvement 0.0249
+[INFO]  Updated incubement: 520924.00
+[INFO]  Time remaining: 767.8 seconds
+[DEBUG] Improvement 0.0241
+[INFO]  Updated incubement: 508346.00
+[INFO]  Time remaining: 760.7 seconds
+[DEBUG] Improvement 0.0179
+[INFO]  Updated incubement: 499241.00
+[INFO]  Time remaining: 758.9 seconds
+[DEBUG] Improvement 0.0114
+[INFO]  Updated incubement: 493572.00
+[INFO]  Time remaining: 756.2 seconds
+[DEBUG] Improvement 0.0117
+[INFO]  Updated incubement: 487774.00
+[INFO]  Time remaining: 750.6 seconds
+[DEBUG] Improvement 0.0157
+[INFO]  Updated incubement: 480107.00
+[INFO]  Time remaining: 748.8 seconds
+[DEBUG] Improvement 0.0211
+[INFO]  Updated incubement: 469966.00
+[INFO]  Time remaining: 744.9 seconds
+[DEBUG] Improvement 0.0111
+[INFO]  Updated incubement: 464731.00
+[INFO]  Time remaining: 743.3 seconds
+[DEBUG] Improvement 0.0271
+[INFO]  Updated incubement: 452157.00
+[INFO]  Time remaining: 738.7 seconds
+[DEBUG] Improvement 0.0068
+[INFO]  Updated incubement: 449100.00
+[INFO]  Time remaining: 737.6 seconds
+[DEBUG] Improvement 0.0025
+[INFO]  Updated incubement: 447977.00
+[INFO]  Time remaining: 736.5 seconds
+[DEBUG] Improvement 0.0028
+[INFO]  Updated incubement: 446723.00
+[INFO]  Time remaining: 735.2 seconds
+[DEBUG] Improvement 0.0065
+[INFO]  Updated incubement: 443823.00
+[INFO]  Time remaining: 734.2 seconds
+[DEBUG] Improvement 0.0078
+[INFO]  Updated incubement: 440346.00
+[INFO]  Time remaining: 733.0 seconds
+[DEBUG] Improvement 0.0099
+[INFO]  Updated incubement: 435990.00
+[INFO]  Time remaining: 731.0 seconds
+[DEBUG] Improvement 0.0019
+[INFO]  Updated incubement: 435163.00
+[INFO]  Time remaining: 730.0 seconds
+[DEBUG] Improvement 0.0068
+[INFO]  Updated incubement: 432215.00
+[INFO]  Time remaining: 728.4 seconds
+[DEBUG] Improvement 0.0082
+[INFO]  Updated incubement: 428670.00
+[INFO]  Time remaining: 727.4 seconds
+[DEBUG] Improvement 0.0158
+[INFO]  Updated incubement: 421878.00
+[INFO]  Time remaining: 725.0 seconds
+[DEBUG] Improvement 0.0097
+[INFO]  Updated incubement: 417800.00
+[INFO]  Time remaining: 724.0 seconds
+[DEBUG] Improvement 0.0134
+[INFO]  Updated incubement: 412220.00
+[INFO]  Time remaining: 722.1 seconds
+[DEBUG] Improvement 0.0061
+[INFO]  Updated incubement: 409723.00
+[INFO]  Time remaining: 721.2 seconds
+[DEBUG] Improvement 0.0037
+[INFO]  Updated incubement: 408211.00
+[INFO]  Time remaining: 719.8 seconds
+[DEBUG] Improvement 0.0006
+[INFO]  Updated incubement: 407980.00
+[INFO]  Time remaining: 718.7 seconds
+[DEBUG] Improvement 0.0044
+[INFO]  Updated incubement: 406165.00
+[INFO]  Time remaining: 717.5 seconds
+[DEBUG] Improvement 0.0030
+[INFO]  Updated incubement: 404935.00
+[INFO]  Time remaining: 716.5 seconds
+[DEBUG] Improvement 0.0088
+[INFO]  Updated incubement: 401357.00
+[INFO]  Time remaining: 715.4 seconds
+[DEBUG] Improvement 0.0080
+[INFO]  Updated incubement: 398141.00
+[INFO]  Time remaining: 714.0 seconds
+[DEBUG] Improvement 0.0017
+[INFO]  Updated incubement: 397459.00
+[INFO]  Time remaining: 712.9 seconds
+[DEBUG] Improvement 0.0006
+[INFO]  Updated incubement: 397237.00
+[INFO]  Time remaining: 711.8 seconds
+[DEBUG] Improvement 0.0016
+[INFO]  Updated incubement: 396603.00
+[INFO]  Time remaining: 710.7 seconds
+[DEBUG] Improvement 0.0051
+[INFO]  Updated incubement: 394594.00
+[INFO]  Time remaining: 709.9 seconds
+[DEBUG] Improvement 0.0113
+[INFO]  Updated incubement: 390146.00
+[INFO]  Time remaining: 708.0 seconds
+[DEBUG] Improvement 0.0237
+[INFO]  Updated incubement: 380888.00
+[INFO]  Time remaining: 704.2 seconds
+[DEBUG] Improvement 0.0017
+[INFO]  Updated incubement: 380229.00
+[INFO]  Time remaining: 703.3 seconds
+[DEBUG] Improvement 0.0060
+[INFO]  Updated incubement: 377966.00
+[INFO]  Time remaining: 701.6 seconds
+[DEBUG] Improvement 0.0035
+[INFO]  Updated incubement: 376632.00
+[INFO]  Time remaining: 700.6 seconds
+[DEBUG] Improvement 0.0064
+[INFO]  Updated incubement: 374235.00
+[INFO]  Time remaining: 698.2 seconds
+[DEBUG] Improvement 0.0052
+[INFO]  Updated incubement: 372277.00
+[INFO]  Time remaining: 697.4 seconds
+[DEBUG] Improvement 0.0057
+[INFO]  Updated incubement: 370145.00
+[INFO]  Time remaining: 695.9 seconds
+[DEBUG] Improvement 0.0026
+[INFO]  Updated incubement: 369201.00
+[INFO]  Time remaining: 694.9 seconds
+[DEBUG] Improvement 0.0026
+[INFO]  Updated incubement: 368241.00
+[INFO]  Time remaining: 693.6 seconds
+[DEBUG] Improvement 0.0049
+[INFO]  Updated incubement: 366449.00
+[INFO]  Time remaining: 692.7 seconds
+[DEBUG] Improvement 0.0054
+[INFO]  Updated incubement: 364478.00
+[INFO]  Time remaining: 691.5 seconds
+[DEBUG] Improvement 0.0011
+[INFO]  Updated incubement: 364062.00
+[INFO]  Time remaining: 690.7 seconds
+[DEBUG] Improvement 0.0056
+[INFO]  Updated incubement: 362009.00
+[INFO]  Time remaining: 689.2 seconds
+[DEBUG] Improvement 0.0037
+[INFO]  Updated incubement: 360672.00
+[INFO]  Time remaining: 687.5 seconds
+[DEBUG] Improvement 0.0007
+[INFO]  Updated incubement: 360421.00
+[INFO]  Time remaining: 686.6 seconds
+[DEBUG] Improvement 0.0048
+[INFO]  Updated incubement: 358700.00
+[INFO]  Time remaining: 685.6 seconds
+[DEBUG] Improvement 0.0030
+[INFO]  Updated incubement: 357613.00
+[INFO]  Time remaining: 683.3 seconds
+[DEBUG] Improvement 0.0100
+[INFO]  Updated incubement: 354043.00
+[INFO]  Time remaining: 681.8 seconds
+[DEBUG] Improvement 0.0066
+[INFO]  Updated incubement: 351714.00
+[INFO]  Time remaining: 680.6 seconds
+[DEBUG] Improvement 0.0005
+[INFO]  Updated incubement: 351530.00
+[INFO]  Time remaining: 679.7 seconds
+[DEBUG] Improvement 0.0041
+[INFO]  Updated incubement: 350100.00
+[INFO]  Time remaining: 678.7 seconds
+[DEBUG] Improvement 0.0013
+[INFO]  Updated incubement: 349636.00
+[INFO]  Time remaining: 677.9 seconds
+[DEBUG] Improvement 0.0023
+[INFO]  Updated incubement: 348828.00
+[INFO]  Time remaining: 676.5 seconds
+[DEBUG] Improvement 0.0014
+[INFO]  Updated incubement: 348330.00
+[INFO]  Time remaining: 675.4 seconds
+[DEBUG] Improvement 0.0002
+[INFO]  Updated incubement: 348277.00
+[INFO]  Time remaining: 674.5 seconds
+[DEBUG] Improvement 0.0024
+[INFO]  Updated incubement: 347430.00
+[INFO]  Time remaining: 673.5 seconds
+[DEBUG] Improvement 0.0019
+[INFO]  Updated incubement: 346785.00
+[INFO]  Time remaining: 672.5 seconds
+[DEBUG] Improvement 0.0028
+[INFO]  Updated incubement: 345805.00
+[INFO]  Time remaining: 671.3 seconds
+[DEBUG] Improvement 0.0025
+[INFO]  Updated incubement: 344936.00
+[INFO]  Time remaining: 669.9 seconds
+[DEBUG] Improvement 0.0008
+[INFO]  Updated incubement: 344648.00
+[INFO]  Time remaining: 668.8 seconds
+[DEBUG] Improvement 0.0014
+[INFO]  Updated incubement: 344169.00
+[INFO]  Time remaining: 667.0 seconds
+[DEBUG] Improvement 0.0025
+[INFO]  Updated incubement: 343312.00
+[INFO]  Time remaining: 665.8 seconds
+[DEBUG] Improvement 0.0023
+[INFO]  Updated incubement: 342522.00
+[INFO]  Time remaining: 664.4 seconds
+[DEBUG] Improvement 0.0007
+[INFO]  Updated incubement: 342289.00
+[INFO]  Time remaining: 663.1 seconds
+[DEBUG] Improvement 0.0022
+[INFO]  Updated incubement: 341541.00
+[INFO]  Time remaining: 662.2 seconds
+[DEBUG] Improvement 0.0011
+[INFO]  Updated incubement: 341149.00
+[INFO]  Time remaining: 661.3 seconds
+[DEBUG] Improvement 0.0008
+[INFO]  Updated incubement: 340879.00
+[INFO]  Time remaining: 660.2 seconds
+[DEBUG] Improvement 0.0025
+[INFO]  Updated incubement: 340034.00
+[INFO]  Time remaining: 659.3 seconds
+[DEBUG] Improvement 0.0061
+[INFO]  Updated incubement: 337966.00
+[INFO]  Time remaining: 657.7 seconds
+[DEBUG] Improvement 0.0011
+[INFO]  Updated incubement: 337610.00
+[INFO]  Time remaining: 656.7 seconds
+[DEBUG] Improvement 0.0032
+[INFO]  Updated incubement: 336541.00
+[INFO]  Time remaining: 655.8 seconds
+[DEBUG] Improvement 0.0006
+[INFO]  Updated incubement: 336352.00
+[INFO]  Time remaining: 655.0 seconds
+[DEBUG] Improvement 0.0023
+[INFO]  Updated incubement: 335590.00
+[INFO]  Time remaining: 654.0 seconds
+[DEBUG] Improvement 0.0016
+[INFO]  Updated incubement: 335041.00
+[INFO]  Time remaining: 653.1 seconds
+[DEBUG] Improvement 0.0015
+[INFO]  Updated incubement: 334543.00
+[INFO]  Time remaining: 651.5 seconds
+[DEBUG] Improvement 0.0023
+[INFO]  Updated incubement: 333779.00
+[INFO]  Time remaining: 650.6 seconds
+[DEBUG] Improvement 0.0004
+[INFO]  Updated incubement: 333630.00
+[INFO]  Time remaining: 649.6 seconds
+[DEBUG] Improvement 0.0013
+[INFO]  Updated incubement: 333208.00
+[INFO]  Time remaining: 648.9 seconds
+[DEBUG] Improvement 0.0035
+[INFO]  Updated incubement: 332041.00
+[INFO]  Time remaining: 648.1 seconds
+[DEBUG] Improvement 0.0001
+[INFO]  Updated incubement: 332009.00
+[INFO]  Time remaining: 647.2 seconds
+[DEBUG] Improvement 0.0010
+[INFO]  Updated incubement: 331683.00
+[INFO]  Time remaining: 646.4 seconds
+[DEBUG] Improvement 0.0016
+[INFO]  Updated incubement: 331158.00
+[INFO]  Time remaining: 645.5 seconds
+[DEBUG] Improvement 0.0013
+[INFO]  Updated incubement: 330724.00
+[INFO]  Time remaining: 644.7 seconds
+[DEBUG] Improvement 0.0013
+[INFO]  Updated incubement: 330294.00
+[INFO]  Time remaining: 643.8 seconds
+[DEBUG] Improvement 0.0011
+[INFO]  Updated incubement: 329919.00
+[INFO]  Time remaining: 642.9 seconds
+[DEBUG] Improvement 0.0025
+[INFO]  Updated incubement: 329086.00
+[INFO]  Time remaining: 641.8 seconds
+[DEBUG] Improvement 0.0016
+[INFO]  Updated incubement: 328549.00
+[INFO]  Time remaining: 640.8 seconds
+[DEBUG] Improvement 0.0022
+[INFO]  Updated incubement: 327842.00
+[INFO]  Time remaining: 639.6 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 327842.00
+[INFO]  Time remaining: 638.8 seconds
+[DEBUG] Improvement 0.0018
+[INFO]  Updated incubement: 327258.00
+[INFO]  Time remaining: 637.8 seconds
+[DEBUG] Improvement 0.0016
+[INFO]  Updated incubement: 326747.00
+[INFO]  Time remaining: 636.8 seconds
+[DEBUG] Improvement 0.0010
+[INFO]  Updated incubement: 326436.00
+[INFO]  Time remaining: 635.9 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 326426.00
+[INFO]  Time remaining: 634.9 seconds
+[DEBUG] Improvement 0.0007
+[INFO]  Updated incubement: 326188.00
+[INFO]  Time remaining: 634.0 seconds
+[DEBUG] Improvement 0.0026
+[INFO]  Updated incubement: 325352.00
+[INFO]  Time remaining: 632.2 seconds
+[DEBUG] Improvement 0.0019
+[INFO]  Updated incubement: 324733.00
+[INFO]  Time remaining: 631.2 seconds
+[DEBUG] Improvement 0.0010
+[INFO]  Updated incubement: 324410.00
+[INFO]  Time remaining: 630.0 seconds
+[DEBUG] Improvement 0.0007
+[INFO]  Updated incubement: 324184.00
+[INFO]  Time remaining: 629.2 seconds
+[DEBUG] Improvement 0.0029
+[INFO]  Updated incubement: 323259.00
+[INFO]  Time remaining: 628.1 seconds
+[DEBUG] Improvement 0.0021
+[INFO]  Updated incubement: 322580.00
+[INFO]  Time remaining: 626.0 seconds
+[DEBUG] Improvement 0.0024
+[INFO]  Updated incubement: 321804.00
+[INFO]  Time remaining: 625.0 seconds
+[DEBUG] Improvement 0.0033
+[INFO]  Updated incubement: 320757.00
+[INFO]  Time remaining: 623.9 seconds
+[DEBUG] Improvement 0.0030
+[INFO]  Updated incubement: 319782.00
+[INFO]  Time remaining: 622.9 seconds
+[DEBUG] Improvement 0.0046
+[INFO]  Updated incubement: 318312.00
+[INFO]  Time remaining: 621.9 seconds
+[DEBUG] Improvement 0.0011
+[INFO]  Updated incubement: 317967.00
+[INFO]  Time remaining: 620.9 seconds
+[DEBUG] Improvement 0.0004
+[INFO]  Updated incubement: 317843.00
+[INFO]  Time remaining: 620.1 seconds
+[DEBUG] Improvement 0.0003
+[INFO]  Updated incubement: 317752.00
+[INFO]  Time remaining: 619.1 seconds
+[DEBUG] Improvement 0.0001
+[INFO]  Updated incubement: 317708.00
+[INFO]  Time remaining: 618.2 seconds
+[DEBUG] Improvement 0.0025
+[INFO]  Updated incubement: 316921.00
+[INFO]  Time remaining: 617.1 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 316921.00
+[INFO]  Time remaining: 616.3 seconds
+[DEBUG] Improvement 0.0002
+[INFO]  Updated incubement: 316843.00
+[INFO]  Time remaining: 615.6 seconds
+[DEBUG] Improvement 0.0005
+[INFO]  Updated incubement: 316693.00
+[INFO]  Time remaining: 614.6 seconds
+[DEBUG] Improvement 0.0017
+[INFO]  Updated incubement: 316153.00
+[INFO]  Time remaining: 613.6 seconds
+[DEBUG] Improvement 0.0026
+[INFO]  Updated incubement: 315329.00
+[INFO]  Time remaining: 612.8 seconds
+[DEBUG] Improvement 0.0017
+[INFO]  Updated incubement: 314786.00
+[INFO]  Time remaining: 611.8 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 314786.00
+[INFO]  Time remaining: 611.0 seconds
+[DEBUG] Improvement 0.0001
+[INFO]  Updated incubement: 314744.00
+[INFO]  Time remaining: 610.2 seconds
+[DEBUG] Improvement 0.0013
+[INFO]  Updated incubement: 314330.00
+[INFO]  Time remaining: 609.3 seconds
+[DEBUG] Improvement 0.0004
+[INFO]  Updated incubement: 314196.00
+[INFO]  Time remaining: 608.3 seconds
+[DEBUG] Improvement 0.0008
+[INFO]  Updated incubement: 313942.00
+[INFO]  Time remaining: 607.4 seconds
+[DEBUG] Improvement 0.0057
+[INFO]  Updated incubement: 312165.00
+[INFO]  Time remaining: 605.4 seconds
+[DEBUG] Improvement 0.0015
+[INFO]  Updated incubement: 311689.00
+[INFO]  Time remaining: 604.4 seconds
+[DEBUG] Improvement 0.0009
+[INFO]  Updated incubement: 311400.00
+[INFO]  Time remaining: 603.6 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 311400.00
+[INFO]  Time remaining: 602.7 seconds
+[DEBUG] Improvement 0.0001
+[INFO]  Updated incubement: 311356.00
+[INFO]  Time remaining: 601.9 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 311356.00
+[INFO]  Time remaining: 601.1 seconds
+[DEBUG] Improvement 0.0006
+[INFO]  Updated incubement: 311176.00
+[INFO]  Time remaining: 600.3 seconds
+[DEBUG] Improvement 0.0012
+[INFO]  Updated incubement: 310818.00
+[INFO]  Time remaining: 599.2 seconds
+[DEBUG] Improvement 0.0017
+[INFO]  Updated incubement: 310280.00
+[INFO]  Time remaining: 598.2 seconds
+[DEBUG] Improvement 0.0019
+[INFO]  Updated incubement: 309687.00
+[INFO]  Time remaining: 597.1 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 309687.00
+[INFO]  Time remaining: 596.4 seconds
+[DEBUG] Improvement 0.0008
+[INFO]  Updated incubement: 309428.00
+[INFO]  Time remaining: 595.4 seconds
+[DEBUG] Improvement 0.0003
+[INFO]  Updated incubement: 309347.00
+[INFO]  Time remaining: 594.1 seconds
+[DEBUG] Improvement 0.0003
+[INFO]  Updated incubement: 309261.00
+[INFO]  Time remaining: 593.2 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 309261.00
+[INFO]  Time remaining: 592.5 seconds
+[DEBUG] Improvement 0.0009
+[INFO]  Updated incubement: 308996.00
+[INFO]  Time remaining: 591.7 seconds
+[DEBUG] Improvement 0.0003
+[INFO]  Updated incubement: 308897.00
+[INFO]  Time remaining: 591.0 seconds
+[DEBUG] Improvement 0.0002
+[INFO]  Updated incubement: 308828.00
+[INFO]  Time remaining: 590.2 seconds
+[DEBUG] Improvement 0.0025
+[INFO]  Updated incubement: 308049.00
+[INFO]  Time remaining: 589.2 seconds
+[DEBUG] Improvement 0.0002
+[INFO]  Updated incubement: 307982.00
+[INFO]  Time remaining: 588.4 seconds
+[DEBUG] Improvement 0.0062
+[INFO]  Updated incubement: 306072.00
+[INFO]  Time remaining: 587.4 seconds
+[DEBUG] Improvement 0.0005
+[INFO]  Updated incubement: 305934.00
+[INFO]  Time remaining: 586.4 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 305934.00
+[INFO]  Time remaining: 585.6 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 305934.00
+[INFO]  Time remaining: 584.9 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 305934.00
+[INFO]  Time remaining: 584.1 seconds
+[DEBUG] Improvement 0.0001
+[INFO]  Updated incubement: 305912.00
+[INFO]  Time remaining: 583.3 seconds
+[DEBUG] Improvement 0.0017
+[INFO]  Updated incubement: 305406.00
+[INFO]  Time remaining: 582.2 seconds
+[DEBUG] Improvement 0.0008
+[INFO]  Updated incubement: 305171.00
+[INFO]  Time remaining: 581.3 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 305171.00
+[INFO]  Time remaining: 580.4 seconds
+[DEBUG] Improvement 0.0001
+[INFO]  Updated incubement: 305132.00
+[INFO]  Time remaining: 579.5 seconds
+[DEBUG] Improvement 0.0020
+[INFO]  Updated incubement: 304512.00
+[INFO]  Time remaining: 578.7 seconds
+[DEBUG] Improvement 0.0016
+[INFO]  Updated incubement: 304013.00
+[INFO]  Time remaining: 577.7 seconds
+[DEBUG] Improvement 0.0007
+[INFO]  Updated incubement: 303804.00
+[INFO]  Time remaining: 576.9 seconds
+[DEBUG] Improvement 0.0004
+[INFO]  Updated incubement: 303681.00
+[INFO]  Time remaining: 576.1 seconds
+[DEBUG] Improvement 0.0002
+[INFO]  Updated incubement: 303622.00
+[INFO]  Time remaining: 575.2 seconds
+[DEBUG] Improvement 0.0022
+[INFO]  Updated incubement: 302950.00
+[INFO]  Time remaining: 574.2 seconds
+[DEBUG] Improvement 0.0004
+[INFO]  Updated incubement: 302827.00
+[INFO]  Time remaining: 573.3 seconds
+[DEBUG] Improvement 0.0046
+[INFO]  Updated incubement: 301420.00
+[INFO]  Time remaining: 572.5 seconds
+[DEBUG] Improvement 0.0015
+[INFO]  Updated incubement: 300964.00
+[INFO]  Time remaining: 571.5 seconds
+[DEBUG] Improvement 0.0009
+[INFO]  Updated incubement: 300698.00
+[INFO]  Time remaining: 570.4 seconds
+[DEBUG] Improvement 0.0024
+[INFO]  Updated incubement: 299973.00
+[INFO]  Time remaining: 569.3 seconds
+[DEBUG] Improvement 0.0012
+[INFO]  Updated incubement: 299599.00
+[INFO]  Time remaining: 568.1 seconds
+[DEBUG] Improvement 0.0011
+[INFO]  Updated incubement: 299265.00
+[INFO]  Time remaining: 567.3 seconds
+[DEBUG] Improvement 0.0011
+[INFO]  Updated incubement: 298934.00
+[INFO]  Time remaining: 566.3 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 298934.00
+[INFO]  Time remaining: 565.5 seconds
+[DEBUG] Improvement 0.0021
+[INFO]  Updated incubement: 298294.00
+[INFO]  Time remaining: 564.6 seconds
+[DEBUG] Improvement 0.0021
+[INFO]  Updated incubement: 297655.00
+[INFO]  Time remaining: 563.8 seconds
+[DEBUG] Improvement 0.0025
+[INFO]  Updated incubement: 296900.00
+[INFO]  Time remaining: 563.0 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 296900.00
+[INFO]  Time remaining: 562.1 seconds
+[DEBUG] Improvement 0.0001
+[INFO]  Updated incubement: 296874.00
+[INFO]  Time remaining: 561.4 seconds
+[DEBUG] Improvement 0.0009
+[INFO]  Updated incubement: 296593.00
+[INFO]  Time remaining: 560.2 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 296593.00
+[INFO]  Time remaining: 559.5 seconds
+[DEBUG] Improvement 0.0010
+[INFO]  Updated incubement: 296299.00
+[INFO]  Time remaining: 558.7 seconds
+[DEBUG] Improvement 0.0020
+[INFO]  Updated incubement: 295716.00
+[INFO]  Time remaining: 557.9 seconds
+[DEBUG] Improvement 0.0006
+[INFO]  Updated incubement: 295536.00
+[INFO]  Time remaining: 556.8 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 295536.00
+[INFO]  Time remaining: 556.0 seconds
+[DEBUG] Improvement 0.0010
+[INFO]  Updated incubement: 295251.00
+[INFO]  Time remaining: 555.1 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 295251.00
+[INFO]  Time remaining: 554.3 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 295251.00
+[INFO]  Time remaining: 553.6 seconds
+[DEBUG] Improvement 0.0011
+[INFO]  Updated incubement: 294937.00
+[INFO]  Time remaining: 552.7 seconds
+[DEBUG] Improvement 0.0005
+[INFO]  Updated incubement: 294779.00
+[INFO]  Time remaining: 551.9 seconds
+[DEBUG] Improvement 0.0019
+[INFO]  Updated incubement: 294217.00
+[INFO]  Time remaining: 551.1 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 294217.00
+[INFO]  Time remaining: 550.4 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 294217.00
+[INFO]  Time remaining: 549.6 seconds
+[DEBUG] Improvement 0.0005
+[INFO]  Updated incubement: 294084.00
+[INFO]  Time remaining: 548.7 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 294084.00
+[INFO]  Time remaining: 547.8 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 294084.00
+[INFO]  Time remaining: 547.0 seconds
+[DEBUG] Improvement 0.0003
+[INFO]  Updated incubement: 293994.00
+[INFO]  Time remaining: 546.2 seconds
+[DEBUG] Improvement 0.0007
+[INFO]  Updated incubement: 293799.00
+[INFO]  Time remaining: 545.2 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 293799.00
+[INFO]  Time remaining: 544.5 seconds
+[DEBUG] Improvement 0.0023
+[INFO]  Updated incubement: 293121.00
+[INFO]  Time remaining: 543.5 seconds
+[DEBUG] Improvement 0.0006
+[INFO]  Updated incubement: 292933.00
+[INFO]  Time remaining: 542.5 seconds
+[DEBUG] Improvement 0.0007
+[INFO]  Updated incubement: 292739.00
+[INFO]  Time remaining: 541.5 seconds
+[DEBUG] Improvement 0.0005
+[INFO]  Updated incubement: 292595.00
+[INFO]  Time remaining: 540.7 seconds
+[DEBUG] Improvement 0.0001
+[INFO]  Updated incubement: 292554.00
+[INFO]  Time remaining: 539.7 seconds
+[DEBUG] Improvement 0.0003
+[INFO]  Updated incubement: 292469.00
+[INFO]  Time remaining: 538.8 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 292469.00
+[INFO]  Time remaining: 538.1 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 292469.00
+[INFO]  Time remaining: 537.1 seconds
+[DEBUG] Improvement 0.0003
+[INFO]  Updated incubement: 292378.00
+[INFO]  Time remaining: 535.9 seconds
+[DEBUG] Improvement 0.0006
+[INFO]  Updated incubement: 292210.00
+[INFO]  Time remaining: 535.0 seconds
+[DEBUG] Improvement 0.0018
+[INFO]  Updated incubement: 291690.00
+[INFO]  Time remaining: 534.0 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 291690.00
+[INFO]  Time remaining: 533.2 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 291690.00
+[INFO]  Time remaining: 532.5 seconds
+[DEBUG] Improvement 0.0001
+[INFO]  Updated incubement: 291652.00
+[INFO]  Time remaining: 531.5 seconds
+[DEBUG] Improvement 0.0007
+[INFO]  Updated incubement: 291436.00
+[INFO]  Time remaining: 530.7 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 291436.00
+[INFO]  Time remaining: 530.0 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 291436.00
+[INFO]  Time remaining: 529.0 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 291436.00
+[INFO]  Time remaining: 528.2 seconds
+[DEBUG] Improvement 0.0001
+[INFO]  Updated incubement: 291413.00
+[INFO]  Time remaining: 527.4 seconds
+[DEBUG] Improvement 0.0014
+[INFO]  Updated incubement: 291012.00
+[INFO]  Time remaining: 526.6 seconds
+[DEBUG] Improvement 0.0021
+[INFO]  Updated incubement: 290411.00
+[INFO]  Time remaining: 525.8 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 290411.00
+[INFO]  Time remaining: 524.9 seconds
+[DEBUG] Improvement 0.0010
+[INFO]  Updated incubement: 290118.00
+[INFO]  Time remaining: 524.0 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 290118.00
+[INFO]  Time remaining: 523.3 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 290118.00
+[INFO]  Time remaining: 522.6 seconds
+[DEBUG] Improvement 0.0001
+[INFO]  Updated incubement: 290091.00
+[INFO]  Time remaining: 521.4 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 290091.00
+[INFO]  Time remaining: 520.6 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 290091.00
+[INFO]  Time remaining: 519.9 seconds
+[DEBUG] Improvement 0.0006
+[INFO]  Updated incubement: 289903.00
+[INFO]  Time remaining: 518.9 seconds
+[DEBUG] Improvement 0.0009
+[INFO]  Updated incubement: 289630.00
+[INFO]  Time remaining: 518.0 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 289630.00
+[INFO]  Time remaining: 517.3 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 289630.00
+[INFO]  Time remaining: 516.5 seconds
+[DEBUG] Improvement 0.0010
+[INFO]  Updated incubement: 289334.00
+[INFO]  Time remaining: 515.8 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 289334.00
+[INFO]  Time remaining: 515.0 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 289334.00
+[INFO]  Time remaining: 514.0 seconds
+[DEBUG] Improvement 0.0005
+[INFO]  Updated incubement: 289187.00
+[INFO]  Time remaining: 513.1 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 289187.00
+[INFO]  Time remaining: 512.3 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 289187.00
+[INFO]  Time remaining: 511.5 seconds
+[DEBUG] Improvement 0.0008
+[INFO]  Updated incubement: 288952.00
+[INFO]  Time remaining: 510.6 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 288952.00
+[INFO]  Time remaining: 509.8 seconds
+[DEBUG] Improvement 0.0013
+[INFO]  Updated incubement: 288586.00
+[INFO]  Time remaining: 509.1 seconds
+[DEBUG] Improvement 0.0002
+[INFO]  Updated incubement: 288515.00
+[INFO]  Time remaining: 508.1 seconds
+[DEBUG] Improvement 0.0004
+[INFO]  Updated incubement: 288391.00
+[INFO]  Time remaining: 507.2 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 288391.00
+[INFO]  Time remaining: 506.4 seconds
+[DEBUG] Improvement 0.0006
+[INFO]  Updated incubement: 288225.00
+[INFO]  Time remaining: 505.7 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 288216.00
+[INFO]  Time remaining: 504.9 seconds
+[DEBUG] Improvement 0.0006
+[INFO]  Updated incubement: 288050.00
+[INFO]  Time remaining: 503.4 seconds
+[DEBUG] Improvement 0.0008
+[INFO]  Updated incubement: 287825.00
+[INFO]  Time remaining: 502.7 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 287825.00
+[INFO]  Time remaining: 501.8 seconds
+[DEBUG] Improvement 0.0009
+[INFO]  Updated incubement: 287564.00
+[INFO]  Time remaining: 500.9 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 287564.00
+[INFO]  Time remaining: 500.1 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 287564.00
+[INFO]  Time remaining: 499.3 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 287553.00
+[INFO]  Time remaining: 498.5 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 287553.00
+[INFO]  Time remaining: 497.8 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 287553.00
+[INFO]  Time remaining: 497.0 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 287552.00
+[INFO]  Time remaining: 496.1 seconds
+[DEBUG] Improvement 0.0002
+[INFO]  Updated incubement: 287493.00
+[INFO]  Time remaining: 495.1 seconds
+[DEBUG] Improvement 0.0003
+[INFO]  Updated incubement: 287397.00
+[INFO]  Time remaining: 494.3 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 287397.00
+[INFO]  Time remaining: 493.6 seconds
+[DEBUG] Improvement 0.0001
+[INFO]  Updated incubement: 287382.00
+[INFO]  Time remaining: 492.5 seconds
+[DEBUG] Improvement 0.0001
+[INFO]  Updated incubement: 287343.00
+[INFO]  Time remaining: 491.7 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 287343.00
+[INFO]  Time remaining: 491.0 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 287343.00
+[INFO]  Time remaining: 490.1 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 287343.00
+[INFO]  Time remaining: 489.3 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 287343.00
+[INFO]  Time remaining: 488.5 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 287340.00
+[INFO]  Time remaining: 487.5 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 287340.00
+[INFO]  Time remaining: 486.7 seconds
+[DEBUG] Improvement 0.0006
+[INFO]  Updated incubement: 287160.00
+[INFO]  Time remaining: 485.6 seconds
+[DEBUG] Improvement 0.0011
+[INFO]  Updated incubement: 286838.00
+[INFO]  Time remaining: 484.6 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 286838.00
+[INFO]  Time remaining: 483.8 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 286838.00
+[INFO]  Time remaining: 482.9 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 286838.00
+[INFO]  Time remaining: 482.1 seconds
+[DEBUG] Improvement 0.0010
+[INFO]  Updated incubement: 286562.00
+[INFO]  Time remaining: 481.1 seconds
+[DEBUG] Improvement 0.0006
+[INFO]  Updated incubement: 286402.00
+[INFO]  Time remaining: 480.3 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 286402.00
+[INFO]  Time remaining: 479.5 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 286402.00
+[INFO]  Time remaining: 478.8 seconds
+[DEBUG] Improvement 0.0016
+[INFO]  Updated incubement: 285933.00
+[INFO]  Time remaining: 477.8 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 285933.00
+[INFO]  Time remaining: 477.1 seconds
+[DEBUG] Improvement 0.0001
+[INFO]  Updated incubement: 285905.00
+[INFO]  Time remaining: 476.3 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 285905.00
+[INFO]  Time remaining: 475.4 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 285905.00
+[INFO]  Time remaining: 474.4 seconds
+[DEBUG] Improvement 0.0002
+[INFO]  Updated incubement: 285855.00
+[INFO]  Time remaining: 473.4 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 285855.00
+[INFO]  Time remaining: 472.6 seconds
+[DEBUG] Improvement 0.0011
+[INFO]  Updated incubement: 285552.00
+[INFO]  Time remaining: 471.8 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 285552.00
+[INFO]  Time remaining: 471.0 seconds
+[DEBUG] Improvement 0.0018
+[INFO]  Updated incubement: 285052.00
+[INFO]  Time remaining: 470.1 seconds
+[DEBUG] Improvement 0.0002
+[INFO]  Updated incubement: 285003.00
+[INFO]  Time remaining: 469.2 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 285003.00
+[INFO]  Time remaining: 468.5 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 285003.00
+[INFO]  Time remaining: 467.8 seconds
+[DEBUG] Improvement 0.0003
+[INFO]  Updated incubement: 284915.00
+[INFO]  Time remaining: 467.0 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 284915.00
+[INFO]  Time remaining: 466.2 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 284915.00
+[INFO]  Time remaining: 465.4 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 284915.00
+[INFO]  Time remaining: 464.7 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 284915.00
+[INFO]  Time remaining: 463.7 seconds
+[DEBUG] Improvement 0.0003
+[INFO]  Updated incubement: 284841.00
+[INFO]  Time remaining: 462.9 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 284841.00
+[INFO]  Time remaining: 462.0 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 284841.00
+[INFO]  Time remaining: 461.2 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 284841.00
+[INFO]  Time remaining: 460.5 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 284841.00
+[INFO]  Time remaining: 459.7 seconds
+[DEBUG] Improvement 0.0001
+[INFO]  Updated incubement: 284808.00
+[INFO]  Time remaining: 458.6 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 284808.00
+[INFO]  Time remaining: 457.8 seconds
+[DEBUG] Improvement 0.0007
+[INFO]  Updated incubement: 284607.00
+[INFO]  Time remaining: 456.8 seconds
+[DEBUG] Improvement 0.0015
+[INFO]  Updated incubement: 284177.00
+[INFO]  Time remaining: 455.8 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 284177.00
+[INFO]  Time remaining: 454.9 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 284177.00
+[INFO]  Time remaining: 454.1 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 284177.00
+[INFO]  Time remaining: 453.3 seconds
+[DEBUG] Improvement 0.0005
+[INFO]  Updated incubement: 284044.00
+[INFO]  Time remaining: 452.5 seconds
+[DEBUG] Improvement 0.0014
+[INFO]  Updated incubement: 283652.00
+[INFO]  Time remaining: 451.7 seconds
+[DEBUG] Improvement 0.0008
+[INFO]  Updated incubement: 283417.00
+[INFO]  Time remaining: 450.9 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 283417.00
+[INFO]  Time remaining: 450.1 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 283417.00
+[INFO]  Time remaining: 449.3 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 283417.00
+[INFO]  Time remaining: 448.5 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 283417.00
+[INFO]  Time remaining: 447.7 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 283417.00
+[INFO]  Time remaining: 446.8 seconds
+[DEBUG] Improvement 0.0003
+[INFO]  Updated incubement: 283340.00
+[INFO]  Time remaining: 445.9 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 283340.00
+[INFO]  Time remaining: 444.9 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 283329.00
+[INFO]  Time remaining: 444.0 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 283317.00
+[INFO]  Time remaining: 443.0 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 283317.00
+[INFO]  Time remaining: 442.3 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 283317.00
+[INFO]  Time remaining: 441.3 seconds
+[DEBUG] Improvement 0.0003
+[INFO]  Updated incubement: 283229.00
+[INFO]  Time remaining: 440.5 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 283229.00
+[INFO]  Time remaining: 439.8 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 283229.00
+[INFO]  Time remaining: 439.0 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 283229.00
+[INFO]  Time remaining: 438.3 seconds
+[DEBUG] Improvement 0.0004
+[INFO]  Updated incubement: 283124.00
+[INFO]  Time remaining: 437.2 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 283124.00
+[INFO]  Time remaining: 436.5 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 283124.00
+[INFO]  Time remaining: 435.6 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 283124.00
+[INFO]  Time remaining: 434.9 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 283124.00
+[INFO]  Time remaining: 434.1 seconds
+[DEBUG] Improvement 0.0020
+[INFO]  Updated incubement: 282570.00
+[INFO]  Time remaining: 433.1 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 282570.00
+[INFO]  Time remaining: 432.2 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 282570.00
+[INFO]  Time remaining: 431.4 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 282570.00
+[INFO]  Time remaining: 430.6 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 282570.00
+[INFO]  Time remaining: 429.7 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 282570.00
+[INFO]  Time remaining: 428.9 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 282570.00
+[INFO]  Time remaining: 428.2 seconds
+[DEBUG] Improvement 0.0007
+[INFO]  Updated incubement: 282382.00
+[INFO]  Time remaining: 427.4 seconds
+[DEBUG] Improvement 0.0003
+[INFO]  Updated incubement: 282311.00
+[INFO]  Time remaining: 426.7 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 282311.00
+[INFO]  Time remaining: 425.8 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 282311.00
+[INFO]  Time remaining: 425.0 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 282311.00
+[INFO]  Time remaining: 424.2 seconds
+[DEBUG] Improvement 0.0004
+[INFO]  Updated incubement: 282196.00
+[INFO]  Time remaining: 423.4 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 282196.00
+[INFO]  Time remaining: 422.7 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 282191.00
+[INFO]  Time remaining: 421.9 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 282191.00
+[INFO]  Time remaining: 421.1 seconds
+[DEBUG] Improvement 0.0001
+[INFO]  Updated incubement: 282171.00
+[INFO]  Time remaining: 420.2 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 282171.00
+[INFO]  Time remaining: 419.5 seconds
+[DEBUG] Improvement 0.0002
+[INFO]  Updated incubement: 282107.00
+[INFO]  Time remaining: 418.7 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 282107.00
+[INFO]  Time remaining: 417.5 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 282107.00
+[INFO]  Time remaining: 416.8 seconds
+[DEBUG] Improvement 0.0007
+[INFO]  Updated incubement: 281899.00
+[INFO]  Time remaining: 416.0 seconds
+[DEBUG] Improvement 0.0004
+[INFO]  Updated incubement: 281782.00
+[INFO]  Time remaining: 415.1 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 281782.00
+[INFO]  Time remaining: 414.4 seconds
+[DEBUG] Improvement 0.0002
+[INFO]  Updated incubement: 281721.00
+[INFO]  Time remaining: 413.5 seconds
+[DEBUG] Improvement 0.0001
+[INFO]  Updated incubement: 281691.00
+[INFO]  Time remaining: 412.7 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 281691.00
+[INFO]  Time remaining: 411.9 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 281691.00
+[INFO]  Time remaining: 411.2 seconds
+[DEBUG] Improvement 0.0003
+[INFO]  Updated incubement: 281617.00
+[INFO]  Time remaining: 410.3 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 281617.00
+[INFO]  Time remaining: 409.4 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 281605.00
+[INFO]  Time remaining: 408.6 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 281605.00
+[INFO]  Time remaining: 407.7 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 281605.00
+[INFO]  Time remaining: 406.9 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 281605.00
+[INFO]  Time remaining: 406.1 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 281605.00
+[INFO]  Time remaining: 405.4 seconds
+[DEBUG] Improvement 0.0013
+[INFO]  Updated incubement: 281243.00
+[INFO]  Time remaining: 404.6 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 281243.00
+[INFO]  Time remaining: 403.9 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 281243.00
+[INFO]  Time remaining: 403.1 seconds
+[DEBUG] Improvement 0.0011
+[INFO]  Updated incubement: 280936.00
+[INFO]  Time remaining: 402.1 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 280936.00
+[INFO]  Time remaining: 401.4 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 280936.00
+[INFO]  Time remaining: 400.7 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 280936.00
+[INFO]  Time remaining: 399.9 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 280936.00
+[INFO]  Time remaining: 399.1 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 280936.00
+[INFO]  Time remaining: 398.1 seconds
+[DEBUG] Improvement 0.0008
+[INFO]  Updated incubement: 280698.00
+[INFO]  Time remaining: 397.1 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 280698.00
+[INFO]  Time remaining: 396.2 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 280698.00
+[INFO]  Time remaining: 395.5 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 280698.00
+[INFO]  Time remaining: 394.6 seconds
+[DEBUG] Improvement 0.0006
+[INFO]  Updated incubement: 280534.00
+[INFO]  Time remaining: 393.5 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 280534.00
+[INFO]  Time remaining: 392.6 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 280534.00
+[INFO]  Time remaining: 391.9 seconds
+[DEBUG] Improvement 0.0004
+[INFO]  Updated incubement: 280415.00
+[INFO]  Time remaining: 391.0 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 280415.00
+[INFO]  Time remaining: 390.2 seconds
+[DEBUG] Improvement 0.0004
+[INFO]  Updated incubement: 280299.00
+[INFO]  Time remaining: 389.5 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 280299.00
+[INFO]  Time remaining: 388.6 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 280299.00
+[INFO]  Time remaining: 387.8 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 280299.00
+[INFO]  Time remaining: 386.9 seconds
+[DEBUG] Improvement 0.0001
+[INFO]  Updated incubement: 280269.00
+[INFO]  Time remaining: 386.1 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 280269.00
+[INFO]  Time remaining: 385.3 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 280269.00
+[INFO]  Time remaining: 384.5 seconds
+[DEBUG] Improvement 0.0002
+[INFO]  Updated incubement: 280211.00
+[INFO]  Time remaining: 383.7 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 280211.00
+[INFO]  Time remaining: 382.8 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 280211.00
+[INFO]  Time remaining: 382.0 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 280211.00
+[INFO]  Time remaining: 381.1 seconds
+[DEBUG] Improvement 0.0003
+[INFO]  Updated incubement: 280116.00
+[INFO]  Time remaining: 380.3 seconds
+[DEBUG] Improvement 0.0004
+[INFO]  Updated incubement: 280004.00
+[INFO]  Time remaining: 379.5 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 280004.00
+[INFO]  Time remaining: 378.8 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 280004.00
+[INFO]  Time remaining: 378.0 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 280004.00
+[INFO]  Time remaining: 377.1 seconds
+[DEBUG] Improvement 0.0002
+[INFO]  Updated incubement: 279959.00
+[INFO]  Time remaining: 375.8 seconds
+[DEBUG] Improvement 0.0001
+[INFO]  Updated incubement: 279918.00
+[INFO]  Time remaining: 374.9 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 279918.00
+[INFO]  Time remaining: 374.0 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 279918.00
+[INFO]  Time remaining: 373.0 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 279918.00
+[INFO]  Time remaining: 372.2 seconds
+[DEBUG] Improvement 0.0004
+[INFO]  Updated incubement: 279807.00
+[INFO]  Time remaining: 371.3 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 279807.00
+[INFO]  Time remaining: 370.5 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 279807.00
+[INFO]  Time remaining: 369.7 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 279807.00
+[INFO]  Time remaining: 368.9 seconds
+[DEBUG] Improvement 0.0012
+[INFO]  Updated incubement: 279466.00
+[INFO]  Time remaining: 367.7 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 279466.00
+[INFO]  Time remaining: 366.9 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 279466.00
+[INFO]  Time remaining: 366.1 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 279466.00
+[INFO]  Time remaining: 365.2 seconds
+[DEBUG] Improvement 0.0004
+[INFO]  Updated incubement: 279341.00
+[INFO]  Time remaining: 364.4 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 279341.00
+[INFO]  Time remaining: 363.6 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 279341.00
+[INFO]  Time remaining: 362.7 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 279341.00
+[INFO]  Time remaining: 361.9 seconds
+[DEBUG] Improvement 0.0028
+[INFO]  Updated incubement: 278552.00
+[INFO]  Time remaining: 361.2 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 278552.00
+[INFO]  Time remaining: 360.4 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 278552.00
+[INFO]  Time remaining: 359.6 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 278552.00
+[INFO]  Time remaining: 358.8 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 278552.00
+[INFO]  Time remaining: 358.0 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 278552.00
+[INFO]  Time remaining: 357.3 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 278552.00
+[INFO]  Time remaining: 356.5 seconds
+[DEBUG] Improvement 0.0004
+[INFO]  Updated incubement: 278434.00
+[INFO]  Time remaining: 355.7 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 278434.00
+[INFO]  Time remaining: 354.9 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 278434.00
+[INFO]  Time remaining: 353.9 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 278434.00
+[INFO]  Time remaining: 353.1 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 278434.00
+[INFO]  Time remaining: 352.4 seconds
+[DEBUG] Improvement 0.0013
+[INFO]  Updated incubement: 278076.00
+[INFO]  Time remaining: 351.6 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 278076.00
+[INFO]  Time remaining: 350.9 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 278076.00
+[INFO]  Time remaining: 350.1 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 278076.00
+[INFO]  Time remaining: 349.3 seconds
+[DEBUG] Improvement 0.0016
+[INFO]  Updated incubement: 277637.00
+[INFO]  Time remaining: 348.5 seconds
+[DEBUG] Improvement 0.0002
+[INFO]  Updated incubement: 277595.00
+[INFO]  Time remaining: 347.8 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 277590.00
+[INFO]  Time remaining: 346.9 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 277590.00
+[INFO]  Time remaining: 346.0 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 277590.00
+[INFO]  Time remaining: 345.0 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 277590.00
+[INFO]  Time remaining: 344.3 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 277590.00
+[INFO]  Time remaining: 343.5 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 277590.00
+[INFO]  Time remaining: 342.7 seconds
+[DEBUG] Improvement 0.0013
+[INFO]  Updated incubement: 277219.00
+[INFO]  Time remaining: 341.9 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 277219.00
+[INFO]  Time remaining: 341.2 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 277219.00
+[INFO]  Time remaining: 340.5 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 277219.00
+[INFO]  Time remaining: 339.5 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 277211.00
+[INFO]  Time remaining: 338.7 seconds
+[DEBUG] Improvement 0.0003
+[INFO]  Updated incubement: 277119.00
+[INFO]  Time remaining: 337.9 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 277119.00
+[INFO]  Time remaining: 337.2 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 277119.00
+[INFO]  Time remaining: 336.4 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 277119.00
+[INFO]  Time remaining: 335.6 seconds
+[DEBUG] Improvement 0.0003
+[INFO]  Updated incubement: 277048.00
+[INFO]  Time remaining: 334.8 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 277048.00
+[INFO]  Time remaining: 334.1 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 277048.00
+[INFO]  Time remaining: 333.3 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 277048.00
+[INFO]  Time remaining: 332.4 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 277048.00
+[INFO]  Time remaining: 331.7 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 277048.00
+[INFO]  Time remaining: 330.8 seconds
+[DEBUG] Improvement 0.0007
+[INFO]  Updated incubement: 276842.00
+[INFO]  Time remaining: 330.0 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 276842.00
+[INFO]  Time remaining: 329.2 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 276842.00
+[INFO]  Time remaining: 328.5 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 276842.00
+[INFO]  Time remaining: 327.7 seconds
+[DEBUG] Improvement 0.0003
+[INFO]  Updated incubement: 276772.00
+[INFO]  Time remaining: 326.9 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 276772.00
+[INFO]  Time remaining: 326.1 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 276772.00
+[INFO]  Time remaining: 325.2 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 276772.00
+[INFO]  Time remaining: 324.4 seconds
+[DEBUG] Improvement 0.0006
+[INFO]  Updated incubement: 276608.00
+[INFO]  Time remaining: 323.6 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 276605.00
+[INFO]  Time remaining: 322.8 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 276605.00
+[INFO]  Time remaining: 322.0 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 276605.00
+[INFO]  Time remaining: 321.2 seconds
+[DEBUG] Improvement 0.0004
+[INFO]  Updated incubement: 276490.00
+[INFO]  Time remaining: 320.3 seconds
+[DEBUG] Improvement 0.0004
+[INFO]  Updated incubement: 276372.00
+[INFO]  Time remaining: 319.4 seconds
+[DEBUG] Improvement 0.0001
+[INFO]  Updated incubement: 276351.00
+[INFO]  Time remaining: 318.6 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 276351.00
+[INFO]  Time remaining: 317.6 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 276351.00
+[INFO]  Time remaining: 316.8 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 276351.00
+[INFO]  Time remaining: 316.0 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 276351.00
+[INFO]  Time remaining: 315.2 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 276351.00
+[INFO]  Time remaining: 314.4 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 276351.00
+[INFO]  Time remaining: 313.7 seconds
+[DEBUG] Improvement 0.0002
+[INFO]  Updated incubement: 276305.00
+[INFO]  Time remaining: 312.6 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 276305.00
+[INFO]  Time remaining: 311.7 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 276305.00
+[INFO]  Time remaining: 310.9 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 276305.00
+[INFO]  Time remaining: 310.2 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 276305.00
+[INFO]  Time remaining: 309.4 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 276305.00
+[INFO]  Time remaining: 308.7 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 276305.00
+[INFO]  Time remaining: 307.8 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 276305.00
+[INFO]  Time remaining: 307.1 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 276305.00
+[INFO]  Time remaining: 306.2 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 276305.00
+[INFO]  Time remaining: 305.4 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 276305.00
+[INFO]  Time remaining: 304.7 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 276305.00
+[INFO]  Time remaining: 303.9 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 276305.00
+[INFO]  Time remaining: 303.0 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 276305.00
+[INFO]  Time remaining: 302.3 seconds
+[DEBUG] Improvement 0.0005
+[INFO]  Updated incubement: 276163.00
+[INFO]  Time remaining: 301.6 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 276163.00
+[INFO]  Time remaining: 300.8 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 276163.00
+[INFO]  Time remaining: 300.0 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 276163.00
+[INFO]  Time remaining: 299.2 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 276163.00
+[INFO]  Time remaining: 298.4 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 276163.00
+[INFO]  Time remaining: 297.7 seconds
+[DEBUG] Improvement 0.0005
+[INFO]  Updated incubement: 276032.00
+[INFO]  Time remaining: 297.0 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 276032.00
+[INFO]  Time remaining: 296.3 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 276032.00
+[INFO]  Time remaining: 295.5 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 276032.00
+[INFO]  Time remaining: 294.8 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 276032.00
+[INFO]  Time remaining: 294.1 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 276032.00
+[INFO]  Time remaining: 293.3 seconds
+[DEBUG] Improvement 0.0001
+[INFO]  Updated incubement: 276012.00
+[INFO]  Time remaining: 292.5 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 276012.00
+[INFO]  Time remaining: 291.8 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 276012.00
+[INFO]  Time remaining: 291.0 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 276012.00
+[INFO]  Time remaining: 290.3 seconds
+[DEBUG] Improvement 0.0001
+[INFO]  Updated incubement: 275991.00
+[INFO]  Time remaining: 289.4 seconds
+[DEBUG] Improvement 0.0006
+[INFO]  Updated incubement: 275837.00
+[INFO]  Time remaining: 288.7 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 275837.00
+[INFO]  Time remaining: 287.9 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 275837.00
+[INFO]  Time remaining: 287.2 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 275837.00
+[INFO]  Time remaining: 286.5 seconds
+[DEBUG] Improvement 0.0008
+[INFO]  Updated incubement: 275629.00
+[INFO]  Time remaining: 285.7 seconds
+[DEBUG] Improvement 0.0008
+[INFO]  Updated incubement: 275412.00
+[INFO]  Time remaining: 284.9 seconds
+[DEBUG] Improvement 0.0002
+[INFO]  Updated incubement: 275346.00
+[INFO]  Time remaining: 284.0 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 275346.00
+[INFO]  Time remaining: 283.2 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 275346.00
+[INFO]  Time remaining: 282.5 seconds
+[DEBUG] Improvement 0.0004
+[INFO]  Updated incubement: 275227.00
+[INFO]  Time remaining: 281.7 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 275227.00
+[INFO]  Time remaining: 281.0 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 275227.00
+[INFO]  Time remaining: 280.2 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 275227.00
+[INFO]  Time remaining: 279.4 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 275227.00
+[INFO]  Time remaining: 278.6 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 275227.00
+[INFO]  Time remaining: 277.8 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 275227.00
+[INFO]  Time remaining: 277.1 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 275227.00
+[INFO]  Time remaining: 276.2 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 275227.00
+[INFO]  Time remaining: 275.2 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 275227.00
+[INFO]  Time remaining: 274.4 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 275227.00
+[INFO]  Time remaining: 273.7 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 275227.00
+[INFO]  Time remaining: 272.9 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 275227.00
+[INFO]  Time remaining: 272.2 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 275227.00
+[INFO]  Time remaining: 271.5 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 275227.00
+[INFO]  Time remaining: 270.6 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 275227.00
+[INFO]  Time remaining: 269.7 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 275227.00
+[INFO]  Time remaining: 269.0 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 275227.00
+[INFO]  Time remaining: 268.2 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 275227.00
+[INFO]  Time remaining: 267.4 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 275227.00
+[INFO]  Time remaining: 266.6 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 275227.00
+[INFO]  Time remaining: 265.9 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 275227.00
+[INFO]  Time remaining: 264.9 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 275227.00
+[INFO]  Time remaining: 264.0 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 275227.00
+[INFO]  Time remaining: 263.2 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 275227.00
+[INFO]  Time remaining: 262.5 seconds
+[DEBUG] Improvement 0.0001
+[INFO]  Updated incubement: 275201.00
+[INFO]  Time remaining: 261.7 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 275201.00
+[INFO]  Time remaining: 260.9 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 275201.00
+[INFO]  Time remaining: 260.1 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 275201.00
+[INFO]  Time remaining: 259.4 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 275201.00
+[INFO]  Time remaining: 258.5 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 275201.00
+[INFO]  Time remaining: 257.6 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 275201.00
+[INFO]  Time remaining: 256.8 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 275201.00
+[INFO]  Time remaining: 255.9 seconds
+[DEBUG] Improvement 0.0002
+[INFO]  Updated incubement: 275154.00
+[INFO]  Time remaining: 255.0 seconds
+[DEBUG] Improvement 0.0002
+[INFO]  Updated incubement: 275087.00
+[INFO]  Time remaining: 254.1 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 275087.00
+[INFO]  Time remaining: 253.3 seconds
+[DEBUG] Improvement 0.0006
+[INFO]  Updated incubement: 274925.00
+[INFO]  Time remaining: 252.3 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274925.00
+[INFO]  Time remaining: 251.5 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274925.00
+[INFO]  Time remaining: 250.5 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274925.00
+[INFO]  Time remaining: 249.6 seconds
+[DEBUG] Improvement 0.0001
+[INFO]  Updated incubement: 274904.00
+[INFO]  Time remaining: 248.8 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274904.00
+[INFO]  Time remaining: 248.0 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274904.00
+[INFO]  Time remaining: 247.2 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274904.00
+[INFO]  Time remaining: 246.4 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274904.00
+[INFO]  Time remaining: 245.7 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274904.00
+[INFO]  Time remaining: 244.9 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274904.00
+[INFO]  Time remaining: 244.1 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274904.00
+[INFO]  Time remaining: 243.2 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274904.00
+[INFO]  Time remaining: 242.5 seconds
+[DEBUG] Improvement 0.0011
+[INFO]  Updated incubement: 274608.00
+[INFO]  Time remaining: 241.7 seconds
+[DEBUG] Improvement 0.0001
+[INFO]  Updated incubement: 274587.00
+[INFO]  Time remaining: 240.8 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274587.00
+[INFO]  Time remaining: 240.1 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274587.00
+[INFO]  Time remaining: 239.3 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274587.00
+[INFO]  Time remaining: 238.5 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274587.00
+[INFO]  Time remaining: 237.8 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274587.00
+[INFO]  Time remaining: 237.0 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274587.00
+[INFO]  Time remaining: 235.9 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274587.00
+[INFO]  Time remaining: 235.2 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274587.00
+[INFO]  Time remaining: 234.5 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274587.00
+[INFO]  Time remaining: 233.7 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274587.00
+[INFO]  Time remaining: 232.9 seconds
+[DEBUG] Improvement 0.0002
+[INFO]  Updated incubement: 274530.00
+[INFO]  Time remaining: 232.1 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274530.00
+[INFO]  Time remaining: 231.4 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274530.00
+[INFO]  Time remaining: 230.5 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274530.00
+[INFO]  Time remaining: 229.7 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274530.00
+[INFO]  Time remaining: 228.9 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274530.00
+[INFO]  Time remaining: 228.1 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274530.00
+[INFO]  Time remaining: 227.1 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274530.00
+[INFO]  Time remaining: 226.4 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274530.00
+[INFO]  Time remaining: 225.6 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274530.00
+[INFO]  Time remaining: 224.8 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274530.00
+[INFO]  Time remaining: 224.0 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274530.00
+[INFO]  Time remaining: 223.2 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274530.00
+[INFO]  Time remaining: 222.5 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274530.00
+[INFO]  Time remaining: 221.7 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274530.00
+[INFO]  Time remaining: 221.0 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274530.00
+[INFO]  Time remaining: 220.3 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274530.00
+[INFO]  Time remaining: 219.5 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274530.00
+[INFO]  Time remaining: 218.8 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274530.00
+[INFO]  Time remaining: 218.0 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274530.00
+[INFO]  Time remaining: 217.2 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274530.00
+[INFO]  Time remaining: 216.5 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274530.00
+[INFO]  Time remaining: 215.7 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274530.00
+[INFO]  Time remaining: 214.9 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274530.00
+[INFO]  Time remaining: 214.2 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274530.00
+[INFO]  Time remaining: 213.4 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274530.00
+[INFO]  Time remaining: 212.6 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274530.00
+[INFO]  Time remaining: 211.8 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274530.00
+[INFO]  Time remaining: 211.0 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274530.00
+[INFO]  Time remaining: 210.2 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274530.00
+[INFO]  Time remaining: 209.3 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274530.00
+[INFO]  Time remaining: 208.4 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274530.00
+[INFO]  Time remaining: 207.5 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274530.00
+[INFO]  Time remaining: 206.8 seconds
+[DEBUG] Improvement 0.0004
+[INFO]  Updated incubement: 274408.00
+[INFO]  Time remaining: 205.8 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274408.00
+[INFO]  Time remaining: 205.1 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274408.00
+[INFO]  Time remaining: 204.4 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274408.00
+[INFO]  Time remaining: 203.7 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274408.00
+[INFO]  Time remaining: 203.0 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274408.00
+[INFO]  Time remaining: 202.2 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274408.00
+[INFO]  Time remaining: 201.5 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274408.00
+[INFO]  Time remaining: 200.8 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274408.00
+[INFO]  Time remaining: 200.1 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274408.00
+[INFO]  Time remaining: 199.3 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274408.00
+[INFO]  Time remaining: 198.5 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274408.00
+[INFO]  Time remaining: 197.5 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274408.00
+[INFO]  Time remaining: 196.8 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274408.00
+[INFO]  Time remaining: 196.0 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274408.00
+[INFO]  Time remaining: 195.1 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274408.00
+[INFO]  Time remaining: 194.4 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274408.00
+[INFO]  Time remaining: 193.4 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274408.00
+[INFO]  Time remaining: 192.5 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274408.00
+[INFO]  Time remaining: 191.7 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274408.00
+[INFO]  Time remaining: 190.7 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274401.00
+[INFO]  Time remaining: 189.8 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274401.00
+[INFO]  Time remaining: 189.0 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274401.00
+[INFO]  Time remaining: 188.2 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274401.00
+[INFO]  Time remaining: 187.4 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274401.00
+[INFO]  Time remaining: 186.6 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274401.00
+[INFO]  Time remaining: 185.8 seconds
+[DEBUG] Improvement 0.0001
+[INFO]  Updated incubement: 274374.00
+[INFO]  Time remaining: 185.1 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274374.00
+[INFO]  Time remaining: 184.4 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274374.00
+[INFO]  Time remaining: 183.6 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274374.00
+[INFO]  Time remaining: 182.9 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274374.00
+[INFO]  Time remaining: 182.1 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274374.00
+[INFO]  Time remaining: 181.4 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274374.00
+[INFO]  Time remaining: 180.6 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274361.00
+[INFO]  Time remaining: 179.9 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274361.00
+[INFO]  Time remaining: 179.2 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274361.00
+[INFO]  Time remaining: 178.2 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274361.00
+[INFO]  Time remaining: 177.3 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274361.00
+[INFO]  Time remaining: 176.6 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274361.00
+[INFO]  Time remaining: 175.6 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274361.00
+[INFO]  Time remaining: 174.9 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274361.00
+[INFO]  Time remaining: 174.2 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274361.00
+[INFO]  Time remaining: 173.5 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274361.00
+[INFO]  Time remaining: 172.8 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274361.00
+[INFO]  Time remaining: 172.1 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274361.00
+[INFO]  Time remaining: 171.4 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274361.00
+[INFO]  Time remaining: 170.6 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274361.00
+[INFO]  Time remaining: 169.8 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274361.00
+[INFO]  Time remaining: 169.1 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274361.00
+[INFO]  Time remaining: 168.3 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274361.00
+[INFO]  Time remaining: 167.5 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274361.00
+[INFO]  Time remaining: 166.8 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274361.00
+[INFO]  Time remaining: 166.0 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274361.00
+[INFO]  Time remaining: 165.3 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274361.00
+[INFO]  Time remaining: 164.3 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274361.00
+[INFO]  Time remaining: 163.5 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274361.00
+[INFO]  Time remaining: 162.8 seconds
+[DEBUG] Improvement 0.0001
+[INFO]  Updated incubement: 274340.00
+[INFO]  Time remaining: 162.0 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274340.00
+[INFO]  Time remaining: 161.2 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274340.00
+[INFO]  Time remaining: 160.4 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274340.00
+[INFO]  Time remaining: 159.7 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274340.00
+[INFO]  Time remaining: 158.9 seconds
+[DEBUG] Improvement 0.0002
+[INFO]  Updated incubement: 274276.00
+[INFO]  Time remaining: 158.1 seconds
+[DEBUG] Improvement 0.0003
+[INFO]  Updated incubement: 274184.00
+[INFO]  Time remaining: 157.1 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274184.00
+[INFO]  Time remaining: 156.4 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274184.00
+[INFO]  Time remaining: 155.6 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274184.00
+[INFO]  Time remaining: 154.8 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274184.00
+[INFO]  Time remaining: 154.0 seconds
+[DEBUG] Improvement 0.0005
+[INFO]  Updated incubement: 274035.00
+[INFO]  Time remaining: 153.1 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274035.00
+[INFO]  Time remaining: 152.2 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274035.00
+[INFO]  Time remaining: 151.5 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274035.00
+[INFO]  Time remaining: 150.6 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 274035.00
+[INFO]  Time remaining: 149.8 seconds
+[DEBUG] Improvement 0.0002
+[INFO]  Updated incubement: 273973.00
+[INFO]  Time remaining: 148.8 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273973.00
+[INFO]  Time remaining: 148.0 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273973.00
+[INFO]  Time remaining: 147.2 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273973.00
+[INFO]  Time remaining: 146.5 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273973.00
+[INFO]  Time remaining: 145.7 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273973.00
+[INFO]  Time remaining: 145.0 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273973.00
+[INFO]  Time remaining: 144.2 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273973.00
+[INFO]  Time remaining: 143.4 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273973.00
+[INFO]  Time remaining: 142.7 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273973.00
+[INFO]  Time remaining: 141.9 seconds
+[DEBUG] Improvement 0.0001
+[INFO]  Updated incubement: 273942.00
+[INFO]  Time remaining: 141.2 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273942.00
+[INFO]  Time remaining: 140.5 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273942.00
+[INFO]  Time remaining: 139.7 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273942.00
+[INFO]  Time remaining: 139.0 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273942.00
+[INFO]  Time remaining: 138.2 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273942.00
+[INFO]  Time remaining: 137.4 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273942.00
+[INFO]  Time remaining: 136.7 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273942.00
+[INFO]  Time remaining: 135.7 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273942.00
+[INFO]  Time remaining: 134.9 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273942.00
+[INFO]  Time remaining: 134.1 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273942.00
+[INFO]  Time remaining: 133.4 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273942.00
+[INFO]  Time remaining: 132.7 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273942.00
+[INFO]  Time remaining: 131.8 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273942.00
+[INFO]  Time remaining: 131.1 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273942.00
+[INFO]  Time remaining: 130.3 seconds
+[DEBUG] Improvement 0.0001
+[INFO]  Updated incubement: 273924.00
+[INFO]  Time remaining: 129.5 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273924.00
+[INFO]  Time remaining: 128.6 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273924.00
+[INFO]  Time remaining: 127.8 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273924.00
+[INFO]  Time remaining: 127.0 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273924.00
+[INFO]  Time remaining: 126.3 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273924.00
+[INFO]  Time remaining: 125.6 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273924.00
+[INFO]  Time remaining: 124.9 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273924.00
+[INFO]  Time remaining: 124.1 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273924.00
+[INFO]  Time remaining: 123.3 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273924.00
+[INFO]  Time remaining: 122.5 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273924.00
+[INFO]  Time remaining: 121.8 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273924.00
+[INFO]  Time remaining: 121.0 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273924.00
+[INFO]  Time remaining: 120.3 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273924.00
+[INFO]  Time remaining: 119.6 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273924.00
+[INFO]  Time remaining: 118.8 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273924.00
+[INFO]  Time remaining: 118.1 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273924.00
+[INFO]  Time remaining: 117.3 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273924.00
+[INFO]  Time remaining: 116.6 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273924.00
+[INFO]  Time remaining: 115.9 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273924.00
+[INFO]  Time remaining: 115.1 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273924.00
+[INFO]  Time remaining: 114.2 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273924.00
+[INFO]  Time remaining: 113.5 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273924.00
+[INFO]  Time remaining: 112.8 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273924.00
+[INFO]  Time remaining: 112.0 seconds
+[DEBUG] Improvement 0.0001
+[INFO]  Updated incubement: 273909.00
+[INFO]  Time remaining: 111.2 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273909.00
+[INFO]  Time remaining: 110.5 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273909.00
+[INFO]  Time remaining: 109.6 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273909.00
+[INFO]  Time remaining: 108.9 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273909.00
+[INFO]  Time remaining: 108.1 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273909.00
+[INFO]  Time remaining: 107.3 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273909.00
+[INFO]  Time remaining: 106.5 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273909.00
+[INFO]  Time remaining: 105.7 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273909.00
+[INFO]  Time remaining: 104.9 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273909.00
+[INFO]  Time remaining: 104.0 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273909.00
+[INFO]  Time remaining: 103.3 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273909.00
+[INFO]  Time remaining: 102.6 seconds
+[DEBUG] Improvement 0.0002
+[INFO]  Updated incubement: 273855.00
+[INFO]  Time remaining: 101.8 seconds
+[DEBUG] Improvement 0.0008
+[INFO]  Updated incubement: 273636.00
+[INFO]  Time remaining: 101.0 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273636.00
+[INFO]  Time remaining: 100.3 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273636.00
+[INFO]  Time remaining: 99.5 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273636.00
+[INFO]  Time remaining: 98.8 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273636.00
+[INFO]  Time remaining: 98.1 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273636.00
+[INFO]  Time remaining: 97.3 seconds
+[DEBUG] Improvement 0.0006
+[INFO]  Updated incubement: 273479.00
+[INFO]  Time remaining: 96.5 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273479.00
+[INFO]  Time remaining: 95.8 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273479.00
+[INFO]  Time remaining: 95.1 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273479.00
+[INFO]  Time remaining: 94.4 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273479.00
+[INFO]  Time remaining: 93.6 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273479.00
+[INFO]  Time remaining: 92.7 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273479.00
+[INFO]  Time remaining: 92.0 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273479.00
+[INFO]  Time remaining: 91.3 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273479.00
+[INFO]  Time remaining: 90.4 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273479.00
+[INFO]  Time remaining: 89.6 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273479.00
+[INFO]  Time remaining: 88.8 seconds
+[DEBUG] Improvement 0.0003
+[INFO]  Updated incubement: 273407.00
+[INFO]  Time remaining: 88.0 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273407.00
+[INFO]  Time remaining: 87.3 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273407.00
+[INFO]  Time remaining: 86.5 seconds
+[DEBUG] Improvement 0.0003
+[INFO]  Updated incubement: 273334.00
+[INFO]  Time remaining: 85.5 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273334.00
+[INFO]  Time remaining: 84.8 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273334.00
+[INFO]  Time remaining: 84.0 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273334.00
+[INFO]  Time remaining: 83.3 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273334.00
+[INFO]  Time remaining: 82.4 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273334.00
+[INFO]  Time remaining: 81.6 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273334.00
+[INFO]  Time remaining: 80.9 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273334.00
+[INFO]  Time remaining: 80.1 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273334.00
+[INFO]  Time remaining: 79.4 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273334.00
+[INFO]  Time remaining: 78.6 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273334.00
+[INFO]  Time remaining: 77.8 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273334.00
+[INFO]  Time remaining: 76.8 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273334.00
+[INFO]  Time remaining: 75.7 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273334.00
+[INFO]  Time remaining: 74.8 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273334.00
+[INFO]  Time remaining: 74.0 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273334.00
+[INFO]  Time remaining: 73.2 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273334.00
+[INFO]  Time remaining: 72.3 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273334.00
+[INFO]  Time remaining: 71.5 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273334.00
+[INFO]  Time remaining: 70.8 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273334.00
+[INFO]  Time remaining: 69.9 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273334.00
+[INFO]  Time remaining: 69.2 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273334.00
+[INFO]  Time remaining: 68.5 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273334.00
+[INFO]  Time remaining: 67.6 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273334.00
+[INFO]  Time remaining: 66.8 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273334.00
+[INFO]  Time remaining: 66.0 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273334.00
+[INFO]  Time remaining: 65.2 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273334.00
+[INFO]  Time remaining: 64.4 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273334.00
+[INFO]  Time remaining: 63.4 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273334.00
+[INFO]  Time remaining: 62.7 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273334.00
+[INFO]  Time remaining: 61.8 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273334.00
+[INFO]  Time remaining: 61.1 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273334.00
+[INFO]  Time remaining: 60.3 seconds
+[DEBUG] Improvement 0.0002
+[INFO]  Updated incubement: 273288.00
+[INFO]  Time remaining: 59.6 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273288.00
+[INFO]  Time remaining: 58.8 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273288.00
+[INFO]  Time remaining: 58.1 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273288.00
+[INFO]  Time remaining: 57.3 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273288.00
+[INFO]  Time remaining: 56.5 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273288.00
+[INFO]  Time remaining: 55.7 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273288.00
+[INFO]  Time remaining: 55.0 seconds
+[DEBUG] Improvement 0.0003
+[INFO]  Updated incubement: 273212.00
+[INFO]  Time remaining: 54.2 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273212.00
+[INFO]  Time remaining: 53.5 seconds
+[DEBUG] Improvement 0.0004
+[INFO]  Updated incubement: 273094.00
+[INFO]  Time remaining: 52.6 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273094.00
+[INFO]  Time remaining: 51.7 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273094.00
+[INFO]  Time remaining: 51.1 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273094.00
+[INFO]  Time remaining: 50.3 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273094.00
+[INFO]  Time remaining: 49.6 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273094.00
+[INFO]  Time remaining: 48.8 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273094.00
+[INFO]  Time remaining: 48.0 seconds
+[DEBUG] Improvement 0.0002
+[INFO]  Updated incubement: 273040.00
+[INFO]  Time remaining: 47.3 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273040.00
+[INFO]  Time remaining: 46.5 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273040.00
+[INFO]  Time remaining: 45.8 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273040.00
+[INFO]  Time remaining: 44.9 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273040.00
+[INFO]  Time remaining: 44.1 seconds
+[DEBUG] Improvement 0.0001
+[INFO]  Updated incubement: 273022.00
+[INFO]  Time remaining: 43.4 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273022.00
+[INFO]  Time remaining: 42.6 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273022.00
+[INFO]  Time remaining: 41.8 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273022.00
+[INFO]  Time remaining: 41.0 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273022.00
+[INFO]  Time remaining: 40.4 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273022.00
+[INFO]  Time remaining: 39.6 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273018.00
+[INFO]  Time remaining: 38.8 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273007.00
+[INFO]  Time remaining: 38.0 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273007.00
+[INFO]  Time remaining: 37.3 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273007.00
+[INFO]  Time remaining: 36.6 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273007.00
+[INFO]  Time remaining: 35.8 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273007.00
+[INFO]  Time remaining: 35.1 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273007.00
+[INFO]  Time remaining: 34.4 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273007.00
+[INFO]  Time remaining: 33.6 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273007.00
+[INFO]  Time remaining: 32.9 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273007.00
+[INFO]  Time remaining: 32.2 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273007.00
+[INFO]  Time remaining: 31.5 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273007.00
+[INFO]  Time remaining: 30.7 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273007.00
+[INFO]  Time remaining: 30.0 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273007.00
+[INFO]  Time remaining: 29.2 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273007.00
+[INFO]  Time remaining: 28.4 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273007.00
+[INFO]  Time remaining: 27.6 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273007.00
+[INFO]  Time remaining: 26.8 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273007.00
+[INFO]  Time remaining: 26.1 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273007.00
+[INFO]  Time remaining: 25.1 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273007.00
+[INFO]  Time remaining: 24.3 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273007.00
+[INFO]  Time remaining: 23.6 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273007.00
+[INFO]  Time remaining: 22.9 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 273007.00
+[INFO]  Time remaining: 22.2 seconds
+[DEBUG] Improvement 0.0001
+[INFO]  Updated incubement: 272967.00
+[INFO]  Time remaining: 21.4 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 272967.00
+[INFO]  Time remaining: 20.6 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 272967.00
+[INFO]  Time remaining: 19.9 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 272967.00
+[INFO]  Time remaining: 19.1 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 272967.00
+[INFO]  Time remaining: 18.3 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 272955.00
+[INFO]  Time remaining: 17.4 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 272955.00
+[INFO]  Time remaining: 16.7 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 272955.00
+[INFO]  Time remaining: 15.8 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 272955.00
+[INFO]  Time remaining: 15.1 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 272955.00
+[INFO]  Time remaining: 14.3 seconds
+[DEBUG] Improvement 0.0005
+[INFO]  Updated incubement: 272819.00
+[INFO]  Time remaining: 13.5 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 272819.00
+[INFO]  Time remaining: 12.7 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 272819.00
+[INFO]  Time remaining: 11.9 seconds
+[DEBUG] Improvement 0.0007
+[INFO]  Updated incubement: 272640.00
+[INFO]  Time remaining: 10.9 seconds
+[DEBUG] Improvement 0.0006
+[INFO]  Updated incubement: 272463.00
+[INFO]  Time remaining: 10.0 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 272463.00
+[INFO]  Time remaining: 9.2 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 272463.00
+[INFO]  Time remaining: 8.4 seconds
+[DEBUG] Improvement 0.0002
+[INFO]  Updated incubement: 272409.00
+[INFO]  Time remaining: 7.7 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 272404.00
+[INFO]  Time remaining: 6.8 seconds
+[DEBUG] Improvement 0.0002
+[INFO]  Updated incubement: 272344.00
+[INFO]  Time remaining: 5.9 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 272344.00
+[INFO]  Time remaining: 5.1 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 272344.00
+[INFO]  Time remaining: 4.3 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 272344.00
+[INFO]  Time remaining: 3.5 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 272344.00
+[INFO]  Time remaining: 2.8 seconds
+[DEBUG] Improvement 0.0005
+[INFO]  Updated incubement: 272211.00
+[INFO]  Time remaining: 2.0 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 272211.00
+[INFO]  Time remaining: 1.3 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 272211.00
+[INFO]  Time remaining: 0.6 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Updated incubement: 272211.00
+[INFO]  Solution found!
+
+
+
+
+TIME TO SOLVE 1200.180820s
+
+
