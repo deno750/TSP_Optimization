@@ -50,7 +50,7 @@ int soft_fixing_solver(instance *inst, CPXENVptr env, CPXLPptr lp) {
         //Set remaining time
         double time_remain = time_limit - elapsed; // this is the time remained 
         CPXsetdblparam(env, CPXPARAM_TimeLimit, time_remain);
-        //LOG_I("Time remaining: %0.1f seconds",time_remain);
+        LOG_I("Time remaining: %0.1f seconds",time_remain);
 
         // Add new constraints according to the radius: SUM_{x_e=1}{x_e}>=n-radius
         int k = 0;
@@ -82,7 +82,7 @@ int soft_fixing_solver(instance *inst, CPXENVptr env, CPXLPptr lp) {
 
         // Calculate how much the new solution is better then the previous
         double obj_improv = 1 - objval / objbest;
-        //LOG_D("Improvement %0.4f", obj_improv);
+        LOG_D("Improvement %0.4f", obj_improv);
 
         //IF not improved much
         if (obj_improv < SOFT_FIX_MIN_IMPROVEMENT) {

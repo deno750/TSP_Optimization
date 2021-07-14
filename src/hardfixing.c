@@ -176,6 +176,7 @@ int hard_fixing_solver(instance *inst, CPXENVptr env, CPXLPptr lp) {
         //Set remaining time limit
         double time_remain = time_limit - elapsed; // this is the time remained 
         CPXsetdblparam(env, CPXPARAM_TimeLimit, time_remain);
+        LOG_I("Time remaining: %0.1f seconds",time_remain);
 
         // Fix some edges
         //random_fix2(env, lp, prob, &ncols_fixed, indexes, xh);
@@ -199,7 +200,7 @@ int hard_fixing_solver(instance *inst, CPXENVptr env, CPXLPptr lp) {
 
         // Calculate how much the new solution is better then the previous
         double obj_improv = 1 - objval / objbest;
-        //LOG_D("Improvement %0.4f", obj_improv);
+        LOG_D("Improvement %0.4f", obj_improv);
 
         //Update solution
         if (inst->params.verbose >= 4) {
@@ -275,7 +276,7 @@ int hard_fixing_solver2(instance *inst, CPXENVptr env, CPXLPptr lp) {
         //Set remaining time
         double time_remain = time_limit - elapsed; // this is the time remained 
         CPXsetdblparam(env, CPXPARAM_TimeLimit, time_remain);
-        //LOG_I("Time remaining: %0.1f seconds",time_remain);
+        LOG_I("Time remaining: %0.1f seconds",time_remain);
 
         //FIX some edges
         //random_fix2(env, lp, prob, &ncols_fixed, indexes, xh);
@@ -296,7 +297,7 @@ int hard_fixing_solver2(instance *inst, CPXENVptr env, CPXLPptr lp) {
 
         // Calculate how much the new solution is better then the previous
         double obj_improv = 1 - objval / objbest;
-        //LOG_D("Improvement %0.4f", obj_improv);
+        LOG_D("Improvement %0.4f", obj_improv);
 
         //IF not improved much
         if (obj_improv < HARD_FIX_MIN_IMPROVEMENT) {
