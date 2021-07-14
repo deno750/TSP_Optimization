@@ -1,0 +1,26 @@
+
+======== INSTANCE ========
+name: pr1002
+n° nodes: 1002
+weight type: EUC_2D
+
+[INFO]  Time remaining: 992.1 seconds
+[DEBUG] Improvement 1.0000
+[INFO]  Time remaining: 882.6 seconds
+[DEBUG] Improvement 0.2811
+[INFO]  Time remaining: 794.1 seconds
+[DEBUG] Improvement 0.2811
+[INFO]  Time remaining: 705.5 seconds
+[DEBUG] Improvement 0.2763
+[INFO]  Time remaining: 581.5 seconds
+[DEBUG] Improvement 0.2215
+[INFO]  Time remaining: 471.8 seconds
+[DEBUG] Improvement 0.2130
+[INFO]  Solution found!
+
+
+
+
+TIME TO SOLVE 1200.747652s
+
+
