@@ -1,0 +1,1570 @@
+
+======== INSTANCE ========
+name: pr1002
+n° nodes: 1002
+weight type: EUC_2D
+
+[INFO]  Time remaining: 1021.9 seconds
+[DEBUG] Improvement 1.0000
+[INFO]  Time remaining: 1017.7 seconds
+[DEBUG] Improvement 0.0975
+[INFO]  Time remaining: 1010.4 seconds
+[DEBUG] Improvement 0.0895
+[INFO]  Time remaining: 1008.6 seconds
+[DEBUG] Improvement 0.0881
+[INFO]  Time remaining: 1001.2 seconds
+[DEBUG] Improvement 0.0936
+[INFO]  Time remaining: 992.8 seconds
+[DEBUG] Improvement 0.0824
+[INFO]  Time remaining: 987.1 seconds
+[DEBUG] Improvement 0.0930
+[INFO]  Time remaining: 981.6 seconds
+[DEBUG] Improvement 0.0961
+[INFO]  Time remaining: 972.8 seconds
+[DEBUG] Improvement 0.0828
+[INFO]  Time remaining: 962.1 seconds
+[DEBUG] Improvement 0.0961
+[INFO]  Time remaining: 952.7 seconds
+[DEBUG] Improvement 0.0718
+[INFO]  Time remaining: 949.5 seconds
+[DEBUG] Improvement 0.0923
+[INFO]  Time remaining: 945.4 seconds
+[DEBUG] Improvement 0.0643
+[INFO]  Time remaining: 942.4 seconds
+[DEBUG] Improvement 0.0771
+[INFO]  Time remaining: 941.0 seconds
+[DEBUG] Improvement 0.0744
+[INFO]  Time remaining: 930.9 seconds
+[DEBUG] Improvement 0.0821
+[INFO]  Time remaining: 927.9 seconds
+[DEBUG] Improvement 0.0637
+[INFO]  Time remaining: 923.9 seconds
+[DEBUG] Improvement 0.0670
+[INFO]  Time remaining: 916.5 seconds
+[DEBUG] Improvement 0.0329
+[INFO]  Time remaining: 912.5 seconds
+[DEBUG] Improvement 0.0789
+[INFO]  Time remaining: 909.7 seconds
+[DEBUG] Improvement 0.0514
+[INFO]  Time remaining: 905.2 seconds
+[DEBUG] Improvement 0.0565
+[INFO]  Time remaining: 892.4 seconds
+[DEBUG] Improvement 0.0177
+[INFO]  Time remaining: 884.1 seconds
+[DEBUG] Improvement 0.0226
+[INFO]  Time remaining: 881.7 seconds
+[DEBUG] Improvement 0.0686
+[INFO]  Time remaining: 872.4 seconds
+[DEBUG] Improvement 0.0851
+[INFO]  Time remaining: 863.8 seconds
+[DEBUG] Improvement 0.0674
+[INFO]  Time remaining: 837.3 seconds
+[DEBUG] Improvement 0.0211
+[INFO]  Time remaining: 833.7 seconds
+[DEBUG] Improvement 0.0454
+[INFO]  Time remaining: 824.1 seconds
+[DEBUG] Improvement 0.0064
+[INFO]  Time remaining: 822.5 seconds
+[DEBUG] Improvement 0.0395
+[INFO]  Time remaining: 816.8 seconds
+[DEBUG] Improvement 0.0439
+[INFO]  Time remaining: 808.0 seconds
+[DEBUG] Improvement 0.0283
+[INFO]  Time remaining: 803.8 seconds
+[DEBUG] Improvement 0.0510
+[INFO]  Time remaining: 795.9 seconds
+[DEBUG] Improvement 0.0161
+[INFO]  Time remaining: 793.4 seconds
+[DEBUG] Improvement 0.0363
+[INFO]  Time remaining: 776.3 seconds
+[DEBUG] Improvement 0.0220
+[INFO]  Time remaining: 774.2 seconds
+[DEBUG] Improvement 0.0084
+[INFO]  Time remaining: 772.6 seconds
+[DEBUG] Improvement 0.0042
+[INFO]  Time remaining: 770.4 seconds
+[DEBUG] Improvement 0.0164
+[INFO]  Time remaining: 758.3 seconds
+[DEBUG] Improvement 0.0433
+[INFO]  Time remaining: 754.0 seconds
+[DEBUG] Improvement 0.0142
+[INFO]  Time remaining: 746.7 seconds
+[DEBUG] Improvement 0.0245
+[INFO]  Time remaining: 735.2 seconds
+[DEBUG] Improvement 0.0235
+[INFO]  Time remaining: 722.1 seconds
+[DEBUG] Improvement 0.0193
+[INFO]  Time remaining: 710.3 seconds
+[DEBUG] Improvement 0.0337
+[INFO]  Time remaining: 700.3 seconds
+[DEBUG] Improvement 0.0269
+[INFO]  Time remaining: 691.2 seconds
+[DEBUG] Improvement 0.0053
+[INFO]  Time remaining: 688.7 seconds
+[DEBUG] Improvement 0.0088
+[INFO]  Time remaining: 686.9 seconds
+[DEBUG] Improvement 0.0063
+[INFO]  Time remaining: 685.4 seconds
+[DEBUG] Improvement 0.0102
+[INFO]  Time remaining: 683.3 seconds
+[DEBUG] Improvement 0.0381
+[INFO]  Time remaining: 679.1 seconds
+[DEBUG] Improvement 0.0059
+[INFO]  Time remaining: 677.7 seconds
+[DEBUG] Improvement 0.0141
+[INFO]  Time remaining: 675.2 seconds
+[DEBUG] Improvement 0.0057
+[INFO]  Time remaining: 673.1 seconds
+[DEBUG] Improvement 0.0039
+[INFO]  Time remaining: 671.9 seconds
+[DEBUG] Improvement 0.0156
+[INFO]  Time remaining: 668.7 seconds
+[DEBUG] Improvement 0.0054
+[INFO]  Time remaining: 667.1 seconds
+[DEBUG] Improvement 0.0118
+[INFO]  Time remaining: 665.2 seconds
+[DEBUG] Improvement 0.0152
+[INFO]  Time remaining: 663.9 seconds
+[DEBUG] Improvement 0.0040
+[INFO]  Time remaining: 662.7 seconds
+[DEBUG] Improvement 0.0035
+[INFO]  Time remaining: 660.5 seconds
+[DEBUG] Improvement 0.0046
+[INFO]  Time remaining: 658.4 seconds
+[DEBUG] Improvement 0.0221
+[INFO]  Time remaining: 647.9 seconds
+[DEBUG] Improvement 0.0056
+[INFO]  Time remaining: 646.4 seconds
+[DEBUG] Improvement 0.0027
+[INFO]  Time remaining: 644.2 seconds
+[DEBUG] Improvement 0.0049
+[INFO]  Time remaining: 642.9 seconds
+[DEBUG] Improvement 0.0033
+[INFO]  Time remaining: 642.0 seconds
+[DEBUG] Improvement 0.0038
+[INFO]  Time remaining: 640.8 seconds
+[DEBUG] Improvement 0.0024
+[INFO]  Time remaining: 638.9 seconds
+[DEBUG] Improvement 0.0070
+[INFO]  Time remaining: 637.8 seconds
+[DEBUG] Improvement 0.0095
+[INFO]  Time remaining: 635.5 seconds
+[DEBUG] Improvement 0.0059
+[INFO]  Time remaining: 633.6 seconds
+[DEBUG] Improvement 0.0011
+[INFO]  Time remaining: 632.0 seconds
+[DEBUG] Improvement 0.0065
+[INFO]  Time remaining: 630.9 seconds
+[DEBUG] Improvement 0.0049
+[INFO]  Time remaining: 628.8 seconds
+[DEBUG] Improvement 0.0013
+[INFO]  Time remaining: 627.3 seconds
+[DEBUG] Improvement 0.0061
+[INFO]  Time remaining: 626.2 seconds
+[DEBUG] Improvement 0.0027
+[INFO]  Time remaining: 624.6 seconds
+[DEBUG] Improvement 0.0031
+[INFO]  Time remaining: 623.3 seconds
+[DEBUG] Improvement 0.0076
+[INFO]  Time remaining: 621.8 seconds
+[DEBUG] Improvement 0.0024
+[INFO]  Time remaining: 620.5 seconds
+[DEBUG] Improvement 0.0080
+[INFO]  Time remaining: 619.4 seconds
+[DEBUG] Improvement 0.0066
+[INFO]  Time remaining: 618.1 seconds
+[DEBUG] Improvement 0.0081
+[INFO]  Time remaining: 616.9 seconds
+[DEBUG] Improvement 0.0040
+[INFO]  Time remaining: 616.0 seconds
+[DEBUG] Improvement 0.0019
+[INFO]  Time remaining: 614.9 seconds
+[DEBUG] Improvement 0.0028
+[INFO]  Time remaining: 613.5 seconds
+[DEBUG] Improvement 0.0048
+[INFO]  Time remaining: 612.1 seconds
+[DEBUG] Improvement 0.0016
+[INFO]  Time remaining: 610.0 seconds
+[DEBUG] Improvement 0.0041
+[INFO]  Time remaining: 608.8 seconds
+[DEBUG] Improvement 0.0049
+[INFO]  Time remaining: 607.6 seconds
+[DEBUG] Improvement 0.0017
+[INFO]  Time remaining: 606.0 seconds
+[DEBUG] Improvement 0.0010
+[INFO]  Time remaining: 604.7 seconds
+[DEBUG] Improvement 0.0048
+[INFO]  Time remaining: 603.5 seconds
+[DEBUG] Improvement 0.0009
+[INFO]  Time remaining: 602.4 seconds
+[DEBUG] Improvement 0.0011
+[INFO]  Time remaining: 601.4 seconds
+[DEBUG] Improvement 0.0007
+[INFO]  Time remaining: 600.4 seconds
+[DEBUG] Improvement 0.0017
+[INFO]  Time remaining: 599.5 seconds
+[DEBUG] Improvement 0.0018
+[INFO]  Time remaining: 598.2 seconds
+[DEBUG] Improvement 0.0028
+[INFO]  Time remaining: 597.1 seconds
+[DEBUG] Improvement 0.0028
+[INFO]  Time remaining: 595.8 seconds
+[DEBUG] Improvement 0.0012
+[INFO]  Time remaining: 594.7 seconds
+[DEBUG] Improvement 0.0054
+[INFO]  Time remaining: 593.6 seconds
+[DEBUG] Improvement 0.0016
+[INFO]  Time remaining: 592.8 seconds
+[DEBUG] Improvement 0.0022
+[INFO]  Time remaining: 590.4 seconds
+[DEBUG] Improvement 0.0019
+[INFO]  Time remaining: 589.2 seconds
+[DEBUG] Improvement 0.0007
+[INFO]  Time remaining: 588.4 seconds
+[DEBUG] Improvement 0.0019
+[INFO]  Time remaining: 587.3 seconds
+[DEBUG] Improvement 0.0005
+[INFO]  Time remaining: 586.3 seconds
+[DEBUG] Improvement 0.0033
+[INFO]  Time remaining: 585.2 seconds
+[DEBUG] Improvement 0.0016
+[INFO]  Time remaining: 584.3 seconds
+[DEBUG] Improvement 0.0016
+[INFO]  Time remaining: 583.1 seconds
+[DEBUG] Improvement 0.0006
+[INFO]  Time remaining: 582.2 seconds
+[DEBUG] Improvement 0.0011
+[INFO]  Time remaining: 581.0 seconds
+[DEBUG] Improvement 0.0046
+[INFO]  Time remaining: 580.0 seconds
+[DEBUG] Improvement 0.0022
+[INFO]  Time remaining: 578.9 seconds
+[DEBUG] Improvement 0.0010
+[INFO]  Time remaining: 577.2 seconds
+[DEBUG] Improvement 0.0014
+[INFO]  Time remaining: 576.2 seconds
+[DEBUG] Improvement 0.0023
+[INFO]  Time remaining: 575.2 seconds
+[DEBUG] Improvement 0.0020
+[INFO]  Time remaining: 574.0 seconds
+[DEBUG] Improvement 0.0019
+[INFO]  Time remaining: 572.8 seconds
+[DEBUG] Improvement 0.0034
+[INFO]  Time remaining: 571.8 seconds
+[DEBUG] Improvement 0.0026
+[INFO]  Time remaining: 570.8 seconds
+[DEBUG] Improvement 0.0027
+[INFO]  Time remaining: 569.8 seconds
+[DEBUG] Improvement 0.0010
+[INFO]  Time remaining: 568.8 seconds
+[DEBUG] Improvement 0.0011
+[INFO]  Time remaining: 567.9 seconds
+[DEBUG] Improvement 0.0012
+[INFO]  Time remaining: 567.0 seconds
+[DEBUG] Improvement 0.0003
+[INFO]  Time remaining: 565.7 seconds
+[DEBUG] Improvement 0.0023
+[INFO]  Time remaining: 564.7 seconds
+[DEBUG] Improvement 0.0025
+[INFO]  Time remaining: 563.9 seconds
+[DEBUG] Improvement 0.0011
+[INFO]  Time remaining: 563.1 seconds
+[DEBUG] Improvement 0.0007
+[INFO]  Time remaining: 562.1 seconds
+[DEBUG] Improvement 0.0016
+[INFO]  Time remaining: 561.2 seconds
+[DEBUG] Improvement 0.0061
+[INFO]  Time remaining: 560.3 seconds
+[DEBUG] Improvement 0.0030
+[INFO]  Time remaining: 559.2 seconds
+[DEBUG] Improvement 0.0005
+[INFO]  Time remaining: 558.3 seconds
+[DEBUG] Improvement 0.0020
+[INFO]  Time remaining: 557.3 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 556.6 seconds
+[DEBUG] Improvement 0.0011
+[INFO]  Time remaining: 555.6 seconds
+[DEBUG] Improvement 0.0020
+[INFO]  Time remaining: 554.6 seconds
+[DEBUG] Improvement 0.0026
+[INFO]  Time remaining: 553.6 seconds
+[DEBUG] Improvement 0.0016
+[INFO]  Time remaining: 552.7 seconds
+[DEBUG] Improvement 0.0014
+[INFO]  Time remaining: 551.7 seconds
+[DEBUG] Improvement 0.0007
+[INFO]  Time remaining: 550.6 seconds
+[DEBUG] Improvement 0.0011
+[INFO]  Time remaining: 549.6 seconds
+[DEBUG] Improvement 0.0008
+[INFO]  Time remaining: 548.5 seconds
+[DEBUG] Improvement 0.0025
+[INFO]  Time remaining: 547.3 seconds
+[DEBUG] Improvement 0.0012
+[INFO]  Time remaining: 546.3 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 545.4 seconds
+[DEBUG] Improvement 0.0010
+[INFO]  Time remaining: 544.4 seconds
+[DEBUG] Improvement 0.0006
+[INFO]  Time remaining: 543.4 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 542.5 seconds
+[DEBUG] Improvement 0.0003
+[INFO]  Time remaining: 541.5 seconds
+[DEBUG] Improvement 0.0008
+[INFO]  Time remaining: 540.5 seconds
+[DEBUG] Improvement 0.0015
+[INFO]  Time remaining: 539.5 seconds
+[DEBUG] Improvement 0.0010
+[INFO]  Time remaining: 538.8 seconds
+[DEBUG] Improvement 0.0011
+[INFO]  Time remaining: 537.9 seconds
+[DEBUG] Improvement 0.0049
+[INFO]  Time remaining: 536.9 seconds
+[DEBUG] Improvement 0.0012
+[INFO]  Time remaining: 535.9 seconds
+[DEBUG] Improvement 0.0020
+[INFO]  Time remaining: 535.0 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 534.2 seconds
+[DEBUG] Improvement 0.0019
+[INFO]  Time remaining: 533.2 seconds
+[DEBUG] Improvement 0.0004
+[INFO]  Time remaining: 532.3 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 531.3 seconds
+[DEBUG] Improvement 0.0006
+[INFO]  Time remaining: 530.3 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 529.3 seconds
+[DEBUG] Improvement 0.0008
+[INFO]  Time remaining: 528.3 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 527.5 seconds
+[DEBUG] Improvement 0.0017
+[INFO]  Time remaining: 526.4 seconds
+[DEBUG] Improvement 0.0001
+[INFO]  Time remaining: 525.5 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 524.8 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 524.0 seconds
+[DEBUG] Improvement 0.0004
+[INFO]  Time remaining: 522.9 seconds
+[DEBUG] Improvement 0.0002
+[INFO]  Time remaining: 522.1 seconds
+[DEBUG] Improvement 0.0021
+[INFO]  Time remaining: 521.3 seconds
+[DEBUG] Improvement 0.0008
+[INFO]  Time remaining: 520.0 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 519.3 seconds
+[DEBUG] Improvement 0.0004
+[INFO]  Time remaining: 518.2 seconds
+[DEBUG] Improvement 0.0007
+[INFO]  Time remaining: 517.4 seconds
+[DEBUG] Improvement 0.0014
+[INFO]  Time remaining: 516.5 seconds
+[DEBUG] Improvement 0.0005
+[INFO]  Time remaining: 515.6 seconds
+[DEBUG] Improvement 0.0009
+[INFO]  Time remaining: 514.4 seconds
+[DEBUG] Improvement 0.0034
+[INFO]  Time remaining: 513.4 seconds
+[DEBUG] Improvement 0.0013
+[INFO]  Time remaining: 512.4 seconds
+[DEBUG] Improvement 0.0015
+[INFO]  Time remaining: 511.3 seconds
+[DEBUG] Improvement 0.0015
+[INFO]  Time remaining: 510.2 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 509.5 seconds
+[DEBUG] Improvement 0.0005
+[INFO]  Time remaining: 508.7 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 507.9 seconds
+[DEBUG] Improvement 0.0002
+[INFO]  Time remaining: 506.9 seconds
+[DEBUG] Improvement 0.0008
+[INFO]  Time remaining: 506.0 seconds
+[DEBUG] Improvement 0.0013
+[INFO]  Time remaining: 504.9 seconds
+[DEBUG] Improvement 0.0002
+[INFO]  Time remaining: 503.8 seconds
+[DEBUG] Improvement 0.0007
+[INFO]  Time remaining: 502.9 seconds
+[DEBUG] Improvement 0.0003
+[INFO]  Time remaining: 501.9 seconds
+[DEBUG] Improvement 0.0013
+[INFO]  Time remaining: 501.0 seconds
+[DEBUG] Improvement 0.0007
+[INFO]  Time remaining: 500.0 seconds
+[DEBUG] Improvement 0.0007
+[INFO]  Time remaining: 498.5 seconds
+[DEBUG] Improvement 0.0005
+[INFO]  Time remaining: 497.3 seconds
+[DEBUG] Improvement 0.0010
+[INFO]  Time remaining: 496.4 seconds
+[DEBUG] Improvement 0.0009
+[INFO]  Time remaining: 495.4 seconds
+[DEBUG] Improvement 0.0012
+[INFO]  Time remaining: 494.6 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 493.9 seconds
+[DEBUG] Improvement 0.0015
+[INFO]  Time remaining: 493.0 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 492.1 seconds
+[DEBUG] Improvement 0.0006
+[INFO]  Time remaining: 491.0 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 489.8 seconds
+[DEBUG] Improvement 0.0005
+[INFO]  Time remaining: 488.8 seconds
+[DEBUG] Improvement 0.0005
+[INFO]  Time remaining: 487.8 seconds
+[DEBUG] Improvement 0.0008
+[INFO]  Time remaining: 486.0 seconds
+[DEBUG] Improvement 0.0021
+[INFO]  Time remaining: 484.9 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 484.0 seconds
+[DEBUG] Improvement 0.0020
+[INFO]  Time remaining: 482.9 seconds
+[DEBUG] Improvement 0.0012
+[INFO]  Time remaining: 481.8 seconds
+[DEBUG] Improvement 0.0001
+[INFO]  Time remaining: 480.9 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 480.0 seconds
+[DEBUG] Improvement 0.0021
+[INFO]  Time remaining: 479.0 seconds
+[DEBUG] Improvement 0.0017
+[INFO]  Time remaining: 478.0 seconds
+[DEBUG] Improvement 0.0009
+[INFO]  Time remaining: 477.2 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 476.4 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 475.6 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 474.7 seconds
+[DEBUG] Improvement 0.0009
+[INFO]  Time remaining: 473.7 seconds
+[DEBUG] Improvement 0.0006
+[INFO]  Time remaining: 472.6 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 471.9 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 470.6 seconds
+[DEBUG] Improvement 0.0016
+[INFO]  Time remaining: 469.8 seconds
+[DEBUG] Improvement 0.0007
+[INFO]  Time remaining: 468.8 seconds
+[DEBUG] Improvement 0.0002
+[INFO]  Time remaining: 467.3 seconds
+[DEBUG] Improvement 0.0003
+[INFO]  Time remaining: 466.3 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 465.6 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 464.8 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 464.1 seconds
+[DEBUG] Improvement 0.0003
+[INFO]  Time remaining: 463.3 seconds
+[DEBUG] Improvement 0.0008
+[INFO]  Time remaining: 462.3 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 461.5 seconds
+[DEBUG] Improvement 0.0008
+[INFO]  Time remaining: 460.7 seconds
+[DEBUG] Improvement 0.0004
+[INFO]  Time remaining: 459.7 seconds
+[DEBUG] Improvement 0.0002
+[INFO]  Time remaining: 458.4 seconds
+[DEBUG] Improvement 0.0015
+[INFO]  Time remaining: 457.3 seconds
+[DEBUG] Improvement 0.0002
+[INFO]  Time remaining: 456.4 seconds
+[DEBUG] Improvement 0.0002
+[INFO]  Time remaining: 455.4 seconds
+[DEBUG] Improvement 0.0001
+[INFO]  Time remaining: 454.5 seconds
+[DEBUG] Improvement 0.0022
+[INFO]  Time remaining: 453.5 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 452.6 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 451.9 seconds
+[DEBUG] Improvement 0.0012
+[INFO]  Time remaining: 450.9 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 450.1 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 449.4 seconds
+[DEBUG] Improvement 0.0003
+[INFO]  Time remaining: 448.5 seconds
+[DEBUG] Improvement 0.0005
+[INFO]  Time remaining: 447.7 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 446.9 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 446.0 seconds
+[DEBUG] Improvement 0.0006
+[INFO]  Time remaining: 444.9 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 444.0 seconds
+[DEBUG] Improvement 0.0007
+[INFO]  Time remaining: 443.1 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 442.3 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 441.4 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 440.7 seconds
+[DEBUG] Improvement 0.0015
+[INFO]  Time remaining: 439.6 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 438.8 seconds
+[DEBUG] Improvement 0.0005
+[INFO]  Time remaining: 437.9 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 437.1 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 436.1 seconds
+[DEBUG] Improvement 0.0008
+[INFO]  Time remaining: 435.2 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 434.5 seconds
+[DEBUG] Improvement 0.0015
+[INFO]  Time remaining: 433.8 seconds
+[DEBUG] Improvement 0.0005
+[INFO]  Time remaining: 432.9 seconds
+[DEBUG] Improvement 0.0015
+[INFO]  Time remaining: 432.0 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 431.2 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 430.3 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 429.6 seconds
+[DEBUG] Improvement 0.0002
+[INFO]  Time remaining: 428.7 seconds
+[DEBUG] Improvement 0.0006
+[INFO]  Time remaining: 427.7 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 426.9 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 425.6 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 424.8 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 423.9 seconds
+[DEBUG] Improvement 0.0006
+[INFO]  Time remaining: 422.8 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 422.0 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 421.1 seconds
+[DEBUG] Improvement 0.0012
+[INFO]  Time remaining: 420.2 seconds
+[DEBUG] Improvement 0.0003
+[INFO]  Time remaining: 419.4 seconds
+[DEBUG] Improvement 0.0005
+[INFO]  Time remaining: 418.5 seconds
+[DEBUG] Improvement 0.0009
+[INFO]  Time remaining: 417.3 seconds
+[DEBUG] Improvement 0.0002
+[INFO]  Time remaining: 416.4 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 415.7 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 414.7 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 413.8 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 412.9 seconds
+[DEBUG] Improvement 0.0009
+[INFO]  Time remaining: 411.9 seconds
+[DEBUG] Improvement 0.0005
+[INFO]  Time remaining: 410.9 seconds
+[DEBUG] Improvement 0.0010
+[INFO]  Time remaining: 409.9 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 409.0 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 408.1 seconds
+[DEBUG] Improvement 0.0017
+[INFO]  Time remaining: 407.2 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 406.4 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 405.5 seconds
+[DEBUG] Improvement 0.0010
+[INFO]  Time remaining: 404.8 seconds
+[DEBUG] Improvement 0.0017
+[INFO]  Time remaining: 404.0 seconds
+[DEBUG] Improvement 0.0003
+[INFO]  Time remaining: 403.0 seconds
+[DEBUG] Improvement 0.0008
+[INFO]  Time remaining: 401.9 seconds
+[DEBUG] Improvement 0.0002
+[INFO]  Time remaining: 401.1 seconds
+[DEBUG] Improvement 0.0005
+[INFO]  Time remaining: 400.1 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 399.2 seconds
+[DEBUG] Improvement 0.0004
+[INFO]  Time remaining: 398.4 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 397.5 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 396.7 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 395.9 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 395.0 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 394.2 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 393.4 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 392.6 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 391.8 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 390.9 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 390.2 seconds
+[DEBUG] Improvement 0.0006
+[INFO]  Time remaining: 389.3 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 388.6 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 387.8 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 386.9 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 385.9 seconds
+[DEBUG] Improvement 0.0002
+[INFO]  Time remaining: 385.1 seconds
+[DEBUG] Improvement 0.0004
+[INFO]  Time remaining: 384.2 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 383.3 seconds
+[DEBUG] Improvement 0.0005
+[INFO]  Time remaining: 382.3 seconds
+[DEBUG] Improvement 0.0002
+[INFO]  Time remaining: 381.4 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 380.7 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 379.9 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 378.9 seconds
+[DEBUG] Improvement 0.0008
+[INFO]  Time remaining: 377.5 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 376.7 seconds
+[DEBUG] Improvement 0.0008
+[INFO]  Time remaining: 375.8 seconds
+[DEBUG] Improvement 0.0023
+[INFO]  Time remaining: 374.8 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 374.1 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 373.1 seconds
+[DEBUG] Improvement 0.0003
+[INFO]  Time remaining: 372.3 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 371.3 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 370.2 seconds
+[DEBUG] Improvement 0.0008
+[INFO]  Time remaining: 369.4 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 368.6 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 367.6 seconds
+[DEBUG] Improvement 0.0006
+[INFO]  Time remaining: 366.5 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 365.2 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 364.3 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 363.4 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 362.5 seconds
+[DEBUG] Improvement 0.0005
+[INFO]  Time remaining: 361.5 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 360.5 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 359.6 seconds
+[DEBUG] Improvement 0.0004
+[INFO]  Time remaining: 358.7 seconds
+[DEBUG] Improvement 0.0004
+[INFO]  Time remaining: 357.8 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 356.9 seconds
+[DEBUG] Improvement 0.0006
+[INFO]  Time remaining: 356.1 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 355.3 seconds
+[DEBUG] Improvement 0.0002
+[INFO]  Time remaining: 354.5 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 353.7 seconds
+[DEBUG] Improvement 0.0001
+[INFO]  Time remaining: 353.0 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 352.1 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 351.4 seconds
+[DEBUG] Improvement 0.0001
+[INFO]  Time remaining: 350.6 seconds
+[DEBUG] Improvement 0.0004
+[INFO]  Time remaining: 349.7 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 349.0 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 348.1 seconds
+[DEBUG] Improvement 0.0001
+[INFO]  Time remaining: 347.4 seconds
+[DEBUG] Improvement 0.0009
+[INFO]  Time remaining: 346.4 seconds
+[DEBUG] Improvement 0.0001
+[INFO]  Time remaining: 345.7 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 344.8 seconds
+[DEBUG] Improvement 0.0004
+[INFO]  Time remaining: 344.0 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 343.2 seconds
+[DEBUG] Improvement 0.0008
+[INFO]  Time remaining: 341.1 seconds
+[DEBUG] Improvement 0.0005
+[INFO]  Time remaining: 340.1 seconds
+[DEBUG] Improvement 0.0001
+[INFO]  Time remaining: 339.2 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 338.4 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 337.7 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 336.7 seconds
+[DEBUG] Improvement 0.0004
+[INFO]  Time remaining: 335.9 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 335.0 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 334.1 seconds
+[DEBUG] Improvement 0.0002
+[INFO]  Time remaining: 333.3 seconds
+[DEBUG] Improvement 0.0009
+[INFO]  Time remaining: 332.3 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 331.5 seconds
+[DEBUG] Improvement 0.0001
+[INFO]  Time remaining: 330.6 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 329.9 seconds
+[DEBUG] Improvement 0.0004
+[INFO]  Time remaining: 328.9 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 328.2 seconds
+[DEBUG] Improvement 0.0015
+[INFO]  Time remaining: 327.2 seconds
+[DEBUG] Improvement 0.0001
+[INFO]  Time remaining: 326.3 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 325.5 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 324.6 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 323.8 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 323.0 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 322.1 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 321.3 seconds
+[DEBUG] Improvement 0.0005
+[INFO]  Time remaining: 320.3 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 319.3 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 318.4 seconds
+[DEBUG] Improvement 0.0008
+[INFO]  Time remaining: 317.6 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 316.7 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 315.9 seconds
+[DEBUG] Improvement 0.0003
+[INFO]  Time remaining: 315.1 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 314.3 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 313.5 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 312.6 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 311.8 seconds
+[DEBUG] Improvement 0.0001
+[INFO]  Time remaining: 310.9 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 309.9 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 308.9 seconds
+[DEBUG] Improvement 0.0010
+[INFO]  Time remaining: 308.0 seconds
+[DEBUG] Improvement 0.0007
+[INFO]  Time remaining: 307.2 seconds
+[DEBUG] Improvement 0.0002
+[INFO]  Time remaining: 306.3 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 305.4 seconds
+[DEBUG] Improvement 0.0001
+[INFO]  Time remaining: 304.6 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 303.6 seconds
+[DEBUG] Improvement 0.0011
+[INFO]  Time remaining: 302.6 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 301.8 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 300.8 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 300.0 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 299.3 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 298.5 seconds
+[DEBUG] Improvement 0.0003
+[INFO]  Time remaining: 297.5 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 296.7 seconds
+[DEBUG] Improvement 0.0005
+[INFO]  Time remaining: 295.9 seconds
+[DEBUG] Improvement 0.0004
+[INFO]  Time remaining: 295.1 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 294.3 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 293.5 seconds
+[DEBUG] Improvement 0.0002
+[INFO]  Time remaining: 292.7 seconds
+[DEBUG] Improvement 0.0017
+[INFO]  Time remaining: 291.9 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 291.2 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 290.5 seconds
+[DEBUG] Improvement 0.0007
+[INFO]  Time remaining: 289.6 seconds
+[DEBUG] Improvement 0.0002
+[INFO]  Time remaining: 288.6 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 287.8 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 286.9 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 286.1 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 285.3 seconds
+[DEBUG] Improvement 0.0001
+[INFO]  Time remaining: 284.5 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 283.8 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 283.0 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 282.3 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 281.6 seconds
+[DEBUG] Improvement 0.0001
+[INFO]  Time remaining: 280.6 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 279.9 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 279.1 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 278.4 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 277.6 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 276.7 seconds
+[DEBUG] Improvement 0.0004
+[INFO]  Time remaining: 275.7 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 274.9 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 274.1 seconds
+[DEBUG] Improvement 0.0014
+[INFO]  Time remaining: 273.2 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 272.4 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 271.6 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 270.7 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 269.7 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 268.8 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 268.0 seconds
+[DEBUG] Improvement 0.0001
+[INFO]  Time remaining: 267.2 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 266.1 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 265.2 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 264.4 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 263.6 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 262.7 seconds
+[DEBUG] Improvement 0.0004
+[INFO]  Time remaining: 261.6 seconds
+[DEBUG] Improvement 0.0002
+[INFO]  Time remaining: 260.9 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 260.0 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 259.2 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 258.2 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 257.4 seconds
+[DEBUG] Improvement 0.0007
+[INFO]  Time remaining: 256.6 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 255.7 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 254.9 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 254.1 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 253.4 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 252.4 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 251.4 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 250.6 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 249.5 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 248.7 seconds
+[DEBUG] Improvement 0.0011
+[INFO]  Time remaining: 247.7 seconds
+[DEBUG] Improvement 0.0007
+[INFO]  Time remaining: 246.8 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 246.1 seconds
+[DEBUG] Improvement 0.0006
+[INFO]  Time remaining: 245.2 seconds
+[DEBUG] Improvement 0.0004
+[INFO]  Time remaining: 244.1 seconds
+[DEBUG] Improvement 0.0014
+[INFO]  Time remaining: 243.1 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 242.1 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 241.2 seconds
+[DEBUG] Improvement 0.0001
+[INFO]  Time remaining: 240.4 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 239.6 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 238.8 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 237.9 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 237.2 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 236.4 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 235.7 seconds
+[DEBUG] Improvement 0.0003
+[INFO]  Time remaining: 234.8 seconds
+[DEBUG] Improvement 0.0010
+[INFO]  Time remaining: 234.0 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 233.2 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 232.4 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 231.6 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 230.7 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 230.0 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 229.3 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 228.4 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 227.6 seconds
+[DEBUG] Improvement 0.0007
+[INFO]  Time remaining: 226.7 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 225.9 seconds
+[DEBUG] Improvement 0.0006
+[INFO]  Time remaining: 225.1 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 224.3 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 223.4 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 222.5 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 221.5 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 220.7 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 219.9 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 219.1 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 218.3 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 217.4 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 216.6 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 215.9 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 215.0 seconds
+[DEBUG] Improvement 0.0001
+[INFO]  Time remaining: 214.0 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 213.2 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 212.3 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 211.5 seconds
+[DEBUG] Improvement 0.0002
+[INFO]  Time remaining: 210.7 seconds
+[DEBUG] Improvement 0.0001
+[INFO]  Time remaining: 209.9 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 209.1 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 208.4 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 207.1 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 206.4 seconds
+[DEBUG] Improvement 0.0001
+[INFO]  Time remaining: 205.5 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 204.5 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 203.5 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 202.7 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 202.0 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 201.3 seconds
+[DEBUG] Improvement 0.0004
+[INFO]  Time remaining: 200.5 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 199.7 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 198.9 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 198.0 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 197.2 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 196.5 seconds
+[DEBUG] Improvement 0.0014
+[INFO]  Time remaining: 195.5 seconds
+[DEBUG] Improvement 0.0008
+[INFO]  Time remaining: 194.8 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 194.0 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 193.3 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 192.4 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 191.4 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 190.4 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 189.5 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 188.6 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 187.8 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 187.0 seconds
+[DEBUG] Improvement 0.0001
+[INFO]  Time remaining: 185.9 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 185.0 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 184.2 seconds
+[DEBUG] Improvement 0.0004
+[INFO]  Time remaining: 183.0 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 182.0 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 181.1 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 180.2 seconds
+[DEBUG] Improvement 0.0001
+[INFO]  Time remaining: 179.4 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 178.4 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 177.6 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 176.9 seconds
+[DEBUG] Improvement 0.0006
+[INFO]  Time remaining: 176.0 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 175.2 seconds
+[DEBUG] Improvement 0.0006
+[INFO]  Time remaining: 174.4 seconds
+[DEBUG] Improvement 0.0001
+[INFO]  Time remaining: 173.6 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 172.8 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 172.0 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 171.2 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 170.4 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 169.7 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 168.8 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 168.1 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 167.3 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 166.5 seconds
+[DEBUG] Improvement 0.0003
+[INFO]  Time remaining: 165.7 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 164.9 seconds
+[DEBUG] Improvement 0.0002
+[INFO]  Time remaining: 163.9 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 162.9 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 162.0 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 161.3 seconds
+[DEBUG] Improvement 0.0003
+[INFO]  Time remaining: 160.3 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 159.4 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 158.5 seconds
+[DEBUG] Improvement 0.0002
+[INFO]  Time remaining: 157.7 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 156.8 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 156.0 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 155.2 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 154.4 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 153.7 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 152.8 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 152.0 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 151.2 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 150.5 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 149.7 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 148.9 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 148.1 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 147.2 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 146.5 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 145.7 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 144.9 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 144.1 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 143.3 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 142.5 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 141.8 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 140.9 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 140.1 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 139.4 seconds
+[DEBUG] Improvement 0.0001
+[INFO]  Time remaining: 138.4 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 137.6 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 136.9 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 136.1 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 135.3 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 134.6 seconds
+[DEBUG] Improvement 0.0005
+[INFO]  Time remaining: 133.8 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 133.0 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 132.2 seconds
+[DEBUG] Improvement 0.0003
+[INFO]  Time remaining: 131.4 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 130.4 seconds
+[DEBUG] Improvement 0.0003
+[INFO]  Time remaining: 129.5 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 128.7 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 127.9 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 127.1 seconds
+[DEBUG] Improvement 0.0012
+[INFO]  Time remaining: 126.3 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 125.5 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 124.7 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 123.8 seconds
+[DEBUG] Improvement 0.0002
+[INFO]  Time remaining: 122.9 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 122.1 seconds
+[DEBUG] Improvement 0.0001
+[INFO]  Time remaining: 121.3 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 120.4 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 119.4 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 118.6 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 117.8 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 117.0 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 116.2 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 115.2 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 114.1 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 113.3 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 112.6 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 111.9 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 111.1 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 110.3 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 109.6 seconds
+[DEBUG] Improvement 0.0008
+[INFO]  Time remaining: 108.8 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 108.0 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 107.2 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 106.4 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 105.6 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 104.8 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 104.0 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 103.3 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 102.5 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 101.6 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 100.9 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 100.1 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 99.3 seconds
+[DEBUG] Improvement 0.0014
+[INFO]  Time remaining: 98.5 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 97.8 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 96.9 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 96.0 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 95.2 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 94.4 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 93.6 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 92.7 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 91.9 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 91.1 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 90.2 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 89.5 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 88.6 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 87.4 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 86.7 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 85.8 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 84.9 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 84.1 seconds
+[DEBUG] Improvement 0.0001
+[INFO]  Time remaining: 83.3 seconds
+[DEBUG] Improvement 0.0002
+[INFO]  Time remaining: 82.4 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 81.6 seconds
+[DEBUG] Improvement 0.0005
+[INFO]  Time remaining: 80.7 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 79.8 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 79.0 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 78.1 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 77.1 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 76.1 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 75.3 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 74.5 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 73.7 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 72.9 seconds
+[DEBUG] Improvement 0.0006
+[INFO]  Time remaining: 71.8 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 71.1 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 70.3 seconds
+[DEBUG] Improvement 0.0001
+[INFO]  Time remaining: 69.2 seconds
+[DEBUG] Improvement 0.0001
+[INFO]  Time remaining: 68.5 seconds
+[DEBUG] Improvement 0.0007
+[INFO]  Time remaining: 67.6 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 66.8 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 65.9 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 65.1 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 64.2 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 63.4 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 62.4 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 61.4 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 60.6 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 59.9 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 59.0 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 58.2 seconds
+[DEBUG] Improvement 0.0001
+[INFO]  Time remaining: 57.3 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 56.6 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 55.6 seconds
+[DEBUG] Improvement 0.0007
+[INFO]  Time remaining: 54.7 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 53.9 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 53.1 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 52.2 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 51.5 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 50.7 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 50.0 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 49.2 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 48.2 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 47.4 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 46.7 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 45.9 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 45.1 seconds
+[DEBUG] Improvement 0.0001
+[INFO]  Time remaining: 44.3 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 43.5 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 42.7 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 42.0 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 41.2 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 40.5 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 39.7 seconds
+[DEBUG] Improvement 0.0003
+[INFO]  Time remaining: 38.9 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 38.1 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 37.2 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 36.4 seconds
+[DEBUG] Improvement 0.0003
+[INFO]  Time remaining: 35.3 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 34.5 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 33.7 seconds
+[DEBUG] Improvement 0.0004
+[INFO]  Time remaining: 32.9 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 32.1 seconds
+[DEBUG] Improvement 0.0001
+[INFO]  Time remaining: 31.3 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 30.5 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 29.7 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 28.8 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 28.0 seconds
+[DEBUG] Improvement 0.0006
+[INFO]  Time remaining: 27.1 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 26.4 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 25.4 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 24.5 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 23.7 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 22.9 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 22.1 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 21.2 seconds
+[DEBUG] Improvement 0.0001
+[INFO]  Time remaining: 20.4 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 19.6 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 18.8 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 18.0 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 17.3 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 16.5 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 15.8 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 14.9 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 14.2 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 13.5 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 12.8 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 12.1 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 11.3 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 10.4 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 9.6 seconds
+[DEBUG] Improvement 0.0005
+[INFO]  Time remaining: 8.8 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 8.0 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 7.2 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 6.5 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 5.6 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 4.8 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 4.0 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 3.3 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 2.4 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 1.7 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Time remaining: 0.9 seconds
+[DEBUG] Improvement 0.0000
+[INFO]  Solution found!
+
+
+
+
+TIME TO SOLVE 1200.052417s
+
+
