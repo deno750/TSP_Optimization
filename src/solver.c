@@ -170,10 +170,14 @@ int TSP_opt(instance *inst) {
         inst->thread_seeds[i] = (seed & 0xFFFFFFF0) | (i + 1);
     }
 
-    //Optimize the model (the solution is stored inside the env variable)
+    //Start counting time
     struct timeval start, end;
     gettimeofday(&start, 0);
+
+    //Optimize the model (the solution is stored inside the env variable)
     int status = solve_problem(env, lp, inst);
+
+    //Compute elapsed time
     gettimeofday(&end, 0);
     if (status) {
         /*if (inst->params.verbose >= 5) {
@@ -188,7 +192,7 @@ int TSP_opt(instance *inst) {
     double elapsed = get_elapsed_time(start, end);
     inst->solution.time_to_solve = elapsed;
     
-    // Use the solution
+    // Use the solution (save it)
     //int ncols = CPXgetnumcols(env, lp);
     if (inst->solution.xbest == NULL) {
         double *xstar = CALLOC(ncols, double);
@@ -240,13 +244,19 @@ int TSP_heuc(instance *inst) {
     if (inst->params.seed >= 0) {
         srand(inst->params.seed); // Setting the random seed for rand()
     }
+
     // In heuristic xbest is not used since it's a quadratic data structure. Since heuristics solves very large problems, the amount of memory required by xbest is very huge
     inst->num_columns = (long) inst->num_nodes * (inst->num_nodes - 1) / 2; 
     inst->solution.edges = CALLOC(inst->num_nodes, edge);
-    //Optimize the model (the solution is stored inside the env variable)
+
+    //Start counting time
     struct timeval start, end;
     gettimeofday(&start, 0);
+
+    //Optimize the model (the solution is stored inside the env variable)
     int status = solve_problem_HEUC(inst);
+
+    //Compute elapsed time
     gettimeofday(&end, 0);
     double elapsed = get_elapsed_time(start, end);
     inst->solution.time_to_solve = elapsed;
