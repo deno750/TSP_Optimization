@@ -78,11 +78,11 @@ def threaded_test(update, context):
     total_runs = len(methods) * len(paths)
 
     #if file csv do not exist, create it.
-    if not os.path.exists('../measures/'+csv_filename):
+    if not os.path.exists('../results/'+csv_filename):
         df=pd.DataFrame(index=paths,columns=methods)
-        df.to_csv('../measures/'+csv_filename,index=True)
+        df.to_csv('../results/'+csv_filename,index=True)
     else:
-        df=pd.read_csv('../measures/'+csv_filename,index_col=0)
+        df=pd.read_csv('../results/'+csv_filename,index_col=0)
 
     num_runs = 0
     chat_id = update.message.chat_id
@@ -110,8 +110,8 @@ def threaded_test(update, context):
 
             print("\t"+m+": "+str(output))
             df.loc[tsp,m]=output
-            df.to_csv('../measures/'+csv_filename,index=True,mode='w+' )
-    csv_file = open("../measures/"+csv_filename, "rb")
+            df.to_csv('../results/'+csv_filename,index=True,mode='w+' )
+    csv_file = open("../results/"+csv_filename, "rb")
     context.bot.sendDocument(chat_id=chat_id, document=csv_file)
     is_testing = False
 
@@ -132,7 +132,7 @@ def get_completion(update, context):
 
 def get_scv(update, context):
     chat_id = update.message.chat_id
-    csv_file = open("../measures/" + csv_filename, "rb")
+    csv_file = open("../results/" + csv_filename, "rb")
     context.bot.sendDocument(chat_id=chat_id, document=csv_file)
 
 def get_info(update, context):

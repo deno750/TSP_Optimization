@@ -100,9 +100,7 @@ int soft_fixing_solver(instance *inst, CPXENVptr env, CPXLPptr lp) {
         }
 
         //Update solution
-        if (inst->params.verbose >= 4) {
-            LOG_I("Updated incubement: %f", objval);
-        }
+        LOG_I("Updated incubement: %0.2f", objval);
         objbest = objval;
         inst->solution.obj_best = objval;
         memcpy(inst->solution.xbest, xh, cols_tot * sizeof(double));
