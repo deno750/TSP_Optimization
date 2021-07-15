@@ -7,8 +7,7 @@
 #include <cplex.h>
 #include "utility.h"
 
-#define HARD_FIX_TIME_LIM_DEFAULT 60 * 15 // 15 min
-#define HARD_FIX_MIN_IMPROVEMENT 0.015
+#define HARD_FIX_MIN_IMPROVEMENT 0.015 // 1.5%
 #define HARD_FIX_MAX_LITTLE_IMPROVEMENTS 3
 
 /**

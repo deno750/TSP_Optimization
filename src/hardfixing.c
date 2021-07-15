@@ -140,7 +140,7 @@ int hard_fixing_solver(instance *inst, CPXENVptr env, CPXLPptr lp) {
     // For other emphasis params check there: https://www.ibm.com/docs/en/icos/20.1.0?topic=parameters-mip-emphasis-switch
     CPXsetintparam(env, CPXPARAM_Emphasis_MIP, CPX_MIPEMPHASIS_HEURISTIC); // We want that cplex finds an high quality solution earlier
     CPXsetintparam(env, CPX_PARAM_NODELIM, 0); // We limit the first solution space to the root node
-    double time_limit = inst->params.time_limit > 0 ? inst->params.time_limit : HARD_FIX_TIME_LIM_DEFAULT;
+    double time_limit = inst->params.time_limit > 0 ? inst->params.time_limit : DEFAULT_TIME_LIM;
     CPXsetdblparam(env, CPXPARAM_TimeLimit, time_limit);
     inst->solution.xbest = CALLOC(inst->num_columns, double); // The best solution found till now
     int cols_tot = CPXgetnumcols(env, lp);
@@ -231,7 +231,7 @@ int hard_fixing_solver2(instance *inst, CPXENVptr env, CPXLPptr lp) {
     // For other emphasis params check there: https://www.ibm.com/docs/en/icos/20.1.0?topic=parameters-mip-emphasis-switch
     CPXsetintparam(env, CPXPARAM_Emphasis_MIP, CPX_MIPEMPHASIS_HEURISTIC); // We want that cplex finds an high quality solution earlier
     CPXsetintparam(env, CPX_PARAM_NODELIM, 0); // We limit the first solution space to the root node
-    double time_limit = inst->params.time_limit > 0 ? inst->params.time_limit : HARD_FIX_TIME_LIM_DEFAULT;
+    double time_limit = inst->params.time_limit > 0 ? inst->params.time_limit : DEFAULT_TIME_LIM;
     CPXsetdblparam(env, CPXPARAM_TimeLimit, time_limit);
     inst->solution.xbest = CALLOC(inst->num_columns, double); // The best solution found till now
     int cols_tot = CPXgetnumcols(env, lp);

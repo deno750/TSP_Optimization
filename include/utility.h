@@ -32,7 +32,7 @@
 #define LOG_D(fmt, ...) // An empty macro
 #endif
 #define LOG_I(fmt, ...) {fprintf(stdout, "[INFO]  ");fprintf(stdout, fmt, ## __VA_ARGS__);fprintf(stdout, "\n");}
-#define LOG_E(fmt, ...) {fprintf(stderr, "[ERROR] ");fprintf(stderr, fmt, ## __VA_ARGS__);fprintf(stdout, "\n");fflush(NULL);exit(1);}
+#define LOG_E(fmt, ...) {fprintf(stderr, "[ERROR] ");fprintf(stderr, fmt, ## __VA_ARGS__);fprintf(stderr, "\n");fflush(NULL);exit(1);}
 #define FREE(ptr) free(ptr); ptr=NULL;
 #define LEN(arr) (sizeof(arr) / sizeof(*arr))
 #define URAND() ( ((double) rand()) / RAND_MAX )
@@ -40,7 +40,7 @@
 
 // Constant that is useful for numerical errors
 #define EPS 1e-5
-#define DEFAULT_TIME_LIM 900
+#define DEFAULT_TIME_LIM 900 // 15 minutes
 
 
 // ================ Weight types =====================
