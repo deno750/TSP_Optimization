@@ -21,6 +21,7 @@ for file_path in files:
             time=float(line[-2])
             timestamps.append(time_limit-time)
     print(file_path)
+    timestamps.append(time_limit)
     print("\t",len(timestamps),len(costs))
     plt.plot(timestamps, costs, marker = 'o')
 

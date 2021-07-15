@@ -165,6 +165,8 @@ int hard_fixing_solver(instance *inst, CPXENVptr env, CPXLPptr lp) {
     double prob = 0.7;  //fixing-probability
     double objval;  //current solution cost
     double objbest = CPX_INFBOUND;  //best solution cost
+    LOG_I("Updated incubement: %0.2f", objbest);    // print first solution
+    
     while (1) {
         //Check if the time_limit is reached
         gettimeofday(&end, 0);
@@ -257,6 +259,7 @@ int hard_fixing_solver2(instance *inst, CPXENVptr env, CPXLPptr lp) {
     double objval;
     double objbest = CPX_INFBOUND;
     int number_small_improvements = 0;
+    LOG_I("Updated incubement: %0.2f", objbest);    // print first solution
 
     //While we are within the time limit and the prob array size
     while (1) {

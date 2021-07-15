@@ -34,6 +34,7 @@ int soft_fixing_solver(instance *inst, CPXENVptr env, CPXLPptr lp) {
     int matbeg = 0;
     int num_iter = 0;   // keeps track of the number of iterations
     char *names = CALLOC(100, char);
+    LOG_I("Updated incubement: %0.2f", objbest);    // print first solution
 
     //While we are within the time limit and the radius array size
     while (1) {
