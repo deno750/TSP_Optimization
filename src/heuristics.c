@@ -23,6 +23,7 @@ int greedy(instance *inst, int starting_node) {
     int *visited = CALLOC(inst->num_nodes, int);
     double obj = 0;
 
+    //Mark starting node as visited
     int curr = starting_node;
     visited[starting_node] = 1;
     int status = 0;
@@ -37,7 +38,7 @@ int greedy(instance *inst, int starting_node) {
             break;
         }
 
-        //For each node not visited, check which is the nearest to the current
+        //For each not visited node, check which is the nearest to the current
         int minidx = -1;
         double mindist = DBL_MAX;
         for (int i = 0; i < inst->num_nodes; i++) {
@@ -57,7 +58,7 @@ int greedy(instance *inst, int starting_node) {
             break;
         }
         
-        //Set the edges between the 2 nodes
+        //Set the edge between the 2 nodes
         inst->solution.edges[curr].i = curr;
         inst->solution.edges[curr].j = minidx;
 
@@ -71,26 +72,34 @@ int greedy(instance *inst, int starting_node) {
     return status;
 }
 
+//Nearest Neighboor algorithm O(n^2) in which we choose whith some probability between the nearest and the 2° nearest node
 static int grasp(instance *inst, int starting_node) {
-    if (starting_node >= inst->num_nodes) {
-        return WRONG_STARTING_NODE;
-    }
+    //Check if the starting node is valid
+    if (starting_node >= inst->num_nodes) {return WRONG_STARTING_NODE;}
 
+    //Start countint time elapsed from now
     struct timeval start, end;
     gettimeofday(&start, 0);
+
+    //Initialize array of visited nodes to 0
     int *visited = CALLOC(inst->num_nodes, int);
     double obj = 0;
 
+    //Mark starting node as visited
     int curr = starting_node;
     visited[starting_node] = 1;
     int status = 0;
+
     while (1) {
+        //Compute elapsed time and check if we are within the time limit
         gettimeofday(&end, 0);
         double elapsed = get_elapsed_time(start, end);
         if (inst->params.time_limit > 0 && elapsed > inst->params.time_limit) {
             status = TIME_LIMIT_EXCEEDED;
             break;
         }
+
+        //For each non visited node: pick the one that is the nearest, rembering also the second nearest
         int minidx = -1;
         double mindist = DBL_MAX;
         int prev_minidx = minidx;
@@ -98,7 +107,7 @@ static int grasp(instance *inst, int starting_node) {
         for (int i = 0; i < inst->num_nodes; i++) {
             if (curr == i || visited[i]) { continue; }
             double currdist = calc_dist(curr, i, inst);
-            if (currdist < mindist) {
+            if (currdist < mindist) {       // update nearest and 2° nearest nodes
                 prev_mindist = mindist;
                 prev_minidx = minidx;
                 mindist = currdist;
@@ -106,6 +115,8 @@ static int grasp(instance *inst, int starting_node) {
             }
         }
         
+        //Now we have the 2 nearest nodes to the current
+        //We select with probability GRASP_RAND the nearest node
         double random = URAND();
         int idxsel = random < GRASP_RAND || minidx == -1 || prev_minidx == -1 ? minidx : prev_minidx;
         double distsel = random < GRASP_RAND || minidx == -1 || prev_minidx == -1 ? mindist : prev_mindist;
@@ -117,22 +128,24 @@ static int grasp(instance *inst, int starting_node) {
             break;
         }
         
+        //Set the edge between the 2 nodes
         inst->solution.edges[curr].i = curr;
         inst->solution.edges[curr].j = idxsel;
-        visited[idxsel] = 1;
-        obj += distsel;
-        curr = idxsel;
 
-        
+        visited[idxsel] = 1;        //mark the selected node as visited
+        obj += distsel;             //update tour cost
+        curr = idxsel;              //new current node is the selected one
     }
-    inst->solution.obj_best = obj;
+
+    inst->solution.obj_best = obj;  //save tour cost
     FREE(visited);
     return status;
 }
 
+//Wrapper function that calls the Nearest Neighboor algorithm
 int HEU_greedy(instance *inst) {
     int status;
-    status = greedy(inst, 0);
+    status = greedy(inst, 0);   //Start from node 0
     return status;
 }
 

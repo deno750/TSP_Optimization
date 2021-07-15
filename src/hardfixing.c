@@ -162,7 +162,7 @@ int hard_fixing_solver(instance *inst, CPXENVptr env, CPXLPptr lp) {
     //CPXsetintparam(env, CPXPARAM_Emphasis_MIP, CPX_MIPEMPHASIS_BALANCED);
 
     int ncols_fixed;
-    double prob = 0.9;  //fixing-probability
+    double prob = 0.7;  //fixing-probability
     double objval;  //current solution cost
     double objbest;  //best solution cost
     CPXgetobjval(env, lp, &objbest);    //assign to best solution the initial computed by CPLEX
