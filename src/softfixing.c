@@ -29,6 +29,7 @@ int soft_fixing_solver(instance *inst, CPXENVptr env, CPXLPptr lp) {
     int rad_index = 0;
     double objval;
     double objbest = CPX_INFBOUND;
+    CPXgetobjval(env, lp, &objbest);    //assign to best solution the initial computed by CPLEX
     int number_small_improvements = 0;
     char sense = 'G';   // >=
     int matbeg = 0;

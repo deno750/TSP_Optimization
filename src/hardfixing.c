@@ -164,7 +164,8 @@ int hard_fixing_solver(instance *inst, CPXENVptr env, CPXLPptr lp) {
     int ncols_fixed;
     double prob = 0.9;  //fixing-probability
     double objval;  //current solution cost
-    double objbest = CPX_INFBOUND;  //best solution cost
+    double objbest;  //best solution cost
+    CPXgetobjval(env, lp, &objbest);    //assign to best solution the initial computed by CPLEX
     LOG_I("Updated incubement: %0.2f", objbest);    // print first solution
     
     while (1) {
@@ -257,7 +258,8 @@ int hard_fixing_solver2(instance *inst, CPXENVptr env, CPXLPptr lp) {
     double prob[] = {0.9, 0.8, 0.7};    // probability array
     int prob_index = 0;
     double objval;
-    double objbest = CPX_INFBOUND;
+    double objbest;
+    CPXgetobjval(env, lp, &objbest);    //assign to best solution the initial computed by CPLEX
     int number_small_improvements = 0;
     LOG_I("Updated incubement: %0.2f", objbest);    // print first solution
 
