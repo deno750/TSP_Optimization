@@ -72,6 +72,7 @@ int greedy(instance *inst, int starting_node) {
     return status;
 }
 
+
 //Nearest Neighboor algorithm O(n^2) in which we choose whith some probability between the nearest and the 2° nearest node
 static int grasp(instance *inst, int starting_node) {
     //Check if the starting node is valid
@@ -90,6 +91,7 @@ static int grasp(instance *inst, int starting_node) {
     visited[starting_node] = 1;
     int status = 0;
 
+    //While there is some node to visit and we are within the time limit
     while (1) {
         //Compute elapsed time and check if we are within the time limit
         gettimeofday(&end, 0);
@@ -142,6 +144,7 @@ static int grasp(instance *inst, int starting_node) {
     return status;
 }
 
+
 //Wrapper function that calls the Nearest Neighboor algorithm
 int HEU_greedy(instance *inst) {
     int status;
@@ -149,38 +152,50 @@ int HEU_greedy(instance *inst) {
     return status;
 }
 
+
+//Multistart algorithm: start a nearest neighboor for each node O(n^3)
 int HEU_Greedy_iter(instance *inst) {
     int maxiter = inst->num_nodes;
     int status = 0;
     double bestobj = DBL_MAX;
-    edge *bestedges = CALLOC(inst->num_nodes, edge);
+    edge *bestedges = CALLOC(inst->num_nodes, edge);    //Initialize array of edges to 0
+
+    //Start counting time elapsed from now
     struct timeval start, end;
     gettimeofday(&start, 0);
+
+    //For each node
     for (int node = 0; node < maxiter; node++) {
+        //Compute elapsed time and check if we are within the time limit
         gettimeofday(&end, 0);
         double elapsed = get_elapsed_time(start, end);
         if (inst->params.time_limit >= 0 && elapsed >= inst->params.time_limit) {
             status = TIME_LIMIT_EXCEEDED;
             break;
         }
-        if (inst->params.verbose >= 5) {
-            LOG_I("GREEDY starting node: %d", node);
-        }
+        if (inst->params.verbose >= 5) {LOG_I("GREEDY starting node: %d", node);}
+
+        //Start Nearest Neighboor algorithm
         status = greedy(inst, node);
         if (status) { break; }
+
+        //If current solution is better than the best, update the best solution
         if (inst->solution.obj_best < bestobj) {
             if(inst->params.verbose >= 4) {
                 LOG_I("New Best: %f", inst->solution.obj_best);
             }
-            bestobj = inst->solution.obj_best;
+            bestobj = inst->solution.obj_best;  //update best solution
             memcpy(bestedges, inst->solution.edges, inst->num_nodes * sizeof(edge));
         }
     }
-    inst->solution.obj_best = bestobj;
-    memcpy(inst->solution.edges, bestedges, inst->num_nodes * sizeof(edge));
+
+    inst->solution.obj_best = bestobj;  //save tour cost
+    memcpy(inst->solution.edges, bestedges, inst->num_nodes * sizeof(edge)); //save best edges
     FREE(bestedges);
     return status;
 }
+
+
 
 int HEU_extramileage(instance *inst) {
     int hsize;
