@@ -196,7 +196,7 @@ int HEU_Greedy_iter(instance *inst) {
 }
 
 
-
+//Extramileage algorithm
 int HEU_extramileage(instance *inst) {
     int hsize;
     point *hull = convexHull(inst->nodes, inst->num_nodes, &hsize);
@@ -364,6 +364,7 @@ int alg_2opt(instance *inst) {
     return status;
 }
 
+//Wrapper function that executes Multistart and then 2-opt
 int HEU_2opt(instance *inst) {
     int grasp_time_lim = inst->params.time_limit / 5;
     int status = HEU_Greedy_iter(inst);
@@ -461,10 +462,12 @@ int shake(edge *edges, int k, int num_nodes) {
 
 }
 
+//Wrapper function that execute GRASP algorithm
 int HEU_Grasp(instance *inst) {
-    return grasp(inst, 0);
+    return grasp(inst, 0);  //Execute GRASP starting from node 0
 }
 
+//MULTISTART algorithm for GRASP: start a GRASP for each node
 int HEU_Grasp_iter(instance *inst, int time_lim) {
     int status = 0;
     double bestobj = DBL_MAX;

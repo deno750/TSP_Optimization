@@ -4,15 +4,30 @@ name: dsj1000
 n° nodes: 1000
 weight type: CEIL_2D
 
-[INFO]  Updated incubement: 100000000000000000000.00
-[INFO]  Time remaining: 931.8 seconds
-[DEBUG] Improvement 1.0000
-[INFO]  Updated incubement: 366112909.00
+[INFO]  Updated incubement: 530416628.00
+[INFO]  Time remaining: 945.1 seconds
+[DEBUG] Improvement 0.2827
+[INFO]  Updated incubement: 380450407.00
+[INFO]  Time remaining: 752.3 seconds
+[DEBUG] Improvement 0.2837
+[INFO]  Updated incubement: 272528936.00
+[INFO]  Time remaining: 555.1 seconds
+[DEBUG] Improvement 0.2995
+[INFO]  Updated incubement: 190894741.00
+[INFO]  Time remaining: 399.3 seconds
+[DEBUG] Improvement 0.2606
+[INFO]  Updated incubement: 141154471.00
+[INFO]  Time remaining: 380.7 seconds
+[DEBUG] Improvement 0.2576
+[INFO]  Updated incubement: 104796824.00
+[INFO]  Time remaining: 131.8 seconds
+[DEBUG] Improvement 0.1594
+[INFO]  Updated incubement: 88094067.00
 [INFO]  Solution found!
 
 
 
 
-TIME TO SOLVE 1201.562755s
+TIME TO SOLVE 1200.499038s
 
 

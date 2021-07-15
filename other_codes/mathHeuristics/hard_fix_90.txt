@@ -4,18 +4,63 @@ name: dsj1000
 n° nodes: 1000
 weight type: CEIL_2D
 
-[INFO]  Updated incubement: 100000000000000000000.00
-[INFO]  Time remaining: 844.7 seconds
-[DEBUG] Improvement 1.0000
-[INFO]  Updated incubement: 368752772.00
-[INFO]  Time remaining: 646.8 seconds
-[DEBUG] Improvement 0.2970
-[INFO]  Updated incubement: 259241877.00
+[INFO]  Updated incubement: 524899577.00
+[INFO]  Time remaining: 860.0 seconds
+[DEBUG] Improvement 0.0919
+[INFO]  Updated incubement: 476652023.00
+[INFO]  Time remaining: 839.9 seconds
+[DEBUG] Improvement 0.0847
+[INFO]  Updated incubement: 436283716.00
+[INFO]  Time remaining: 816.2 seconds
+[DEBUG] Improvement 0.0930
+[INFO]  Updated incubement: 395710060.00
+[INFO]  Time remaining: 794.2 seconds
+[DEBUG] Improvement 0.0972
+[INFO]  Updated incubement: 357258154.00
+[INFO]  Time remaining: 786.2 seconds
+[DEBUG] Improvement 0.0937
+[INFO]  Updated incubement: 323775171.00
+[INFO]  Time remaining: 767.0 seconds
+[DEBUG] Improvement 0.1006
+[INFO]  Updated incubement: 291195961.00
+[INFO]  Time remaining: 426.8 seconds
+[DEBUG] Improvement 0.0838
+[INFO]  Updated incubement: 266801249.00
+[INFO]  Time remaining: 422.3 seconds
+[DEBUG] Improvement 0.0888
+[INFO]  Updated incubement: 243119240.00
+[INFO]  Time remaining: 409.9 seconds
+[DEBUG] Improvement 0.0856
+[INFO]  Updated incubement: 222308879.00
+[INFO]  Time remaining: 386.4 seconds
+[DEBUG] Improvement 0.0605
+[INFO]  Updated incubement: 208858684.00
+[INFO]  Time remaining: 373.4 seconds
+[DEBUG] Improvement 0.0737
+[INFO]  Updated incubement: 193466905.00
+[INFO]  Time remaining: 364.9 seconds
+[DEBUG] Improvement 0.0548
+[INFO]  Updated incubement: 182865523.00
+[INFO]  Time remaining: 347.7 seconds
+[DEBUG] Improvement 0.0651
+[INFO]  Updated incubement: 170968298.00
+[INFO]  Time remaining: 334.4 seconds
+[DEBUG] Improvement 0.0906
+[INFO]  Updated incubement: 155480995.00
+[INFO]  Time remaining: 325.0 seconds
+[DEBUG] Improvement 0.0817
+[INFO]  Updated incubement: 142785701.00
+[INFO]  Time remaining: 320.9 seconds
+[DEBUG] Improvement 0.0755
+[INFO]  Updated incubement: 132008894.00
+[INFO]  Time remaining: 317.9 seconds
+[DEBUG] Improvement 0.0708
+[INFO]  Updated incubement: 122658733.00
 [INFO]  Solution found!
 
 
 
 
-TIME TO SOLVE 1200.808225s
+TIME TO SOLVE 1200.535855s
 
 
