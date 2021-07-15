@@ -10,30 +10,38 @@
 #define GRASP_RAND 0.9
 #define GRASP_TIME_LIM_DEF 10//120 // 2 minutes
 
+//Nearest Neighboor algorithm O(n^2)
 int greedy(instance *inst, int starting_node) {
-    if (starting_node >= inst->num_nodes) {
-        return WRONG_STARTING_NODE;
-    }
+    //Check if the starting node is valid
+    if (starting_node >= inst->num_nodes) {return WRONG_STARTING_NODE;}
 
+    //Start countint time elapsed from now
     struct timeval start, end;
     gettimeofday(&start, 0);
+
+    //Initialize array of visited nodes to 0
     int *visited = CALLOC(inst->num_nodes, int);
     double obj = 0;
 
     int curr = starting_node;
     visited[starting_node] = 1;
     int status = 0;
+
+    //While there is some node to visit and we are within the time limit
     while (1) {
+        //Compute elapsed time and check if we are within the time limit
         gettimeofday(&end, 0);
         double elapsed = get_elapsed_time(start, end);
         if (inst->params.time_limit > 0 && elapsed > inst->params.time_limit) {
             status = TIME_LIMIT_EXCEEDED;
             break;
         }
+
+        //For each node not visited, check which is the nearest to the current
         int minidx = -1;
         double mindist = DBL_MAX;
         for (int i = 0; i < inst->num_nodes; i++) {
-            if (curr == i || visited[i]) { continue; }
+            if (curr == i || visited[i]) { continue; }  // skip this node if visited
             double currdist = calc_dist(curr, i, inst);
             if (currdist < mindist) {
                 mindist = currdist;
@@ -41,6 +49,7 @@ int greedy(instance *inst, int starting_node) {
             }
         }
 
+        // if we visited all nodes
         if (minidx == -1) {
             // Closing the tsp cycle 
             inst->solution.edges[curr].i = curr;
@@ -48,15 +57,16 @@ int greedy(instance *inst, int starting_node) {
             break;
         }
         
+        //Set the edges between the 2 nodes
         inst->solution.edges[curr].i = curr;
         inst->solution.edges[curr].j = minidx;
-        visited[minidx] = 1;
-        obj += mindist;
-        curr = minidx;
 
-        
+        visited[minidx] = 1;    //mark the selected node as visited
+        obj += mindist;         //update tour cost
+        curr = minidx;          //new current node is the selected one
     }
-    inst->solution.obj_best = obj;
+
+    inst->solution.obj_best = obj;  //save tour cost
     FREE(visited);
     return status;
 }
