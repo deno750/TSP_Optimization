@@ -198,49 +198,43 @@ int HEU_Greedy_iter(instance *inst) {
 
 //Extramileage algorithm
 int HEU_extramileage(instance *inst) {
-    int hsize;
-    point *hull = convexHull(inst->nodes, inst->num_nodes, &hsize);
-    int *hindex = CALLOC(hsize, int);
     int *nodes_visited = CALLOC(inst->num_nodes, int); // Stores nodes visited in tour
-    int num_visited = hsize;
-    
-    int k = 0;
-    for (int i = 0; i < hsize; i++) {
-        point p1 = hull[i];
-        for (int j = 0; j < inst->num_nodes; j++) {
-            point p2 = inst->nodes[j];
-            if (p1.x == p2.x && p1.y == p2.y) {
-                hindex[k] = j;
-                nodes_visited[j] = 1;
-                k++;
-                break;
+    edge *edges_visited = CALLOC(inst->num_nodes, edge); // Stores the visited edges. Extra mileage alg will add a new edge every iteration until all the nodes are visited
+    double obj = 0;
+
+    // Chooses node A and node B as the two farthest nodes
+    int nodeA = 0;
+    int nodeB = 1;
+
+    // Seeking the farhest distance between nodes and save the indexes
+    double max_dist = 0;
+    for (int i = 0; i < inst->num_nodes; i++) {
+        for (int j = i + 1; j < inst->num_nodes; j++) {
+            double dist = calc_dist(i, j, inst);
+            if (dist > max_dist) {
+                nodeA = i;
+                nodeB = j;
+                max_dist = dist;
             }
         }
     }
-    // initialized convex hull edges
-    edge *edges = CALLOC(inst->num_nodes, edge);
-    double obj = 0;
-    for (int i = 0; i < hsize - 1; i++) {
-        edge e;
-        e.i = hindex[i];
-        e.j = hindex[i+1];
-        inst->solution.edges[hindex[i]] = e;
-        edges[i] = e;
-        obj += calc_dist(e.i, e.j, inst);
-        
-        /*
-        plot_solution(inst);
-        sleep(1);*/
-    }
-    // Closing the hamyltonian cycle 
-    edge last_edge;
-    last_edge.i = hindex[hsize - 1];
-    last_edge.j = hindex[0];
-    inst->solution.edges[last_edge.i] = last_edge;
-    obj += calc_dist(last_edge.i, last_edge.j, inst);
+
+    int num_visited = 0;
+    edge e1 = {.i = nodeA, .j = nodeB};
+    edge e2 = {.i = nodeB, .j = nodeA};
+
+    edges_visited[num_visited++] = e1; // Those incrementation could be substituted by 0 and 1 directly. But it would be not clear
+    edges_visited[num_visited++] = e2;
+
+    inst->solution.edges[nodeA] = e1;
+    inst->solution.edges[nodeB] = e2;
+
+    nodes_visited[nodeA] = 1;
+    nodes_visited[nodeB] = 1;
+    obj += 2*calc_dist(nodeA, nodeB, inst); // 2*dist between A B because we add two edges which have the same distance
     
-    
-    plot_solution(inst);
+    //plot_solution(inst);
+    //sleep(1);
     while (num_visited < inst->num_nodes) {
         for (int i = 0; i < inst->num_nodes; i++) {
             if (nodes_visited[i]) { continue; }
@@ -249,7 +243,7 @@ int HEU_extramileage(instance *inst) {
             edge best_edge;
             int best_edge_idx = -1;
             for (int j = 0; j < num_visited; j++) {
-                edge e = edges[j];
+                edge e = edges_visited[j];
                 int a = e.i;
                 int b = e.j;
                 int c = i;
@@ -275,21 +269,19 @@ int HEU_extramileage(instance *inst) {
             e2.j = best_edge.j;
             inst->solution.edges[e1.i] = e1;
             inst->solution.edges[e2.i] = e2;
-            edges[best_edge_idx] = e1;
-            edges[num_visited++] = e2;
+            edges_visited[best_edge_idx] = e1;
+            edges_visited[num_visited++] = e2;
             nodes_visited[i] = 1;
             obj += min_mileage; 
 
-            /*
-            plot_solution(inst);
-            sleep(1);*/
+            
+            //plot_solution(inst);
+            //sleep(1);
         }
     }
     inst->solution.obj_best = obj;
-    FREE(hindex);
     FREE(nodes_visited);
-    FREE(hull);
-    FREE(edges);
+    FREE(edges_visited);
     return 0;
 }
 
