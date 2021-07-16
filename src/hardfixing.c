@@ -166,9 +166,7 @@ int hard_fixing_solver(instance *inst, CPXENVptr env, CPXLPptr lp) {
     double objval;  //current solution cost
     double objbest;  //best solution cost
     CPXgetobjval(env, lp, &objbest);    //assign to best solution the initial computed by CPLEX
-    if (inst->params.verbose >= 3) {
-        LOG_I("Updated incubement: %0.2f", objbest);    // print first solution
-    }
+    if (inst->params.verbose >= 3) {LOG_I("Updated incubement: %0.2f", objbest);}    // print first solution
     
     
     while (1) {
@@ -182,11 +180,8 @@ int hard_fixing_solver(instance *inst, CPXENVptr env, CPXLPptr lp) {
         //Set remaining time limit
         double time_remain = time_limit - elapsed; // this is the time remained 
         CPXsetdblparam(env, CPXPARAM_TimeLimit, time_remain);
-        if (inst->params.verbose >= 5) {
-            LOG_I("Time remaining: %0.1f seconds",time_remain);
-        }
+        if (inst->params.verbose >= 5) {LOG_I("Time remaining: %0.1f seconds",time_remain);}
         
-
         // Fix some edges
         //random_fix2(env, lp, prob, &ncols_fixed, indexes, xh);
         advanced_fix(env, lp, inst, prob, &ncols_fixed, indexes, bounds, xh, close_cycle_edges);
@@ -194,13 +189,9 @@ int hard_fixing_solver(instance *inst, CPXENVptr env, CPXLPptr lp) {
         // Solve the model
         status = CPXmipopt(env, lp);
         if (status) {LOG_I("CPXmipopt() error");}
-        if (inst->params.verbose >= 5) {
-            LOG_I("COLS %d", ncols_fixed);
-        }
+        if (inst->params.verbose >= 5) {LOG_I("COLS %d", ncols_fixed);}
         //save_lp(env, lp, "AfterFixing");
-        if (status) {
-            LOG_E("CPXmipopt error code %d", status);
-        }
+        if (status) {LOG_E("CPXmipopt error code %d", status);}
 
         //Retreive the current solution
         status = CPXgetx(env, lp, xh, 0, cols_tot - 1);
@@ -217,9 +208,7 @@ int hard_fixing_solver(instance *inst, CPXENVptr env, CPXLPptr lp) {
             inst->solution.obj_best = objval;
             memcpy(inst->solution.xbest, xh, cols_tot * sizeof(double));
 
-            if (inst->params.verbose >= 3) {
-                LOG_I("Updated incubement: %0.2f", objval);
-            }
+            if (inst->params.verbose >= 3) {LOG_I("Updated incubement: %0.2f", objval);}
 
             if(!(inst->params.perf_prof)) {
                 save_solution_edges(inst, xh);
@@ -273,9 +262,7 @@ int hard_fixing_solver2(instance *inst, CPXENVptr env, CPXLPptr lp) {
     double objbest;
     CPXgetobjval(env, lp, &objbest);    //assign to best solution the initial computed by CPLEX
     int number_small_improvements = 0;
-    if (inst->params.verbose >= 3) {
-        LOG_I("Updated incubement: %0.2f", objbest);    // print first solution
-    }
+    if (inst->params.verbose >= 3) {LOG_I("Updated incubement: %0.2f", objbest);}    // print first solution
     
 
     //While we are within the time limit and the prob array size
@@ -293,11 +280,8 @@ int hard_fixing_solver2(instance *inst, CPXENVptr env, CPXLPptr lp) {
         //Set remaining time
         double time_remain = time_limit - elapsed; // this is the time remained 
         CPXsetdblparam(env, CPXPARAM_TimeLimit, time_remain);
-        if (inst->params.verbose >= 4) {
-            LOG_I("Time remaining: %0.1f seconds",time_remain);
-        }
+        if (inst->params.verbose >= 4) {LOG_I("Time remaining: %0.1f seconds",time_remain);}
         
-
         //FIX some edges
         //random_fix2(env, lp, prob, &ncols_fixed, indexes, xh);
         advanced_fix(env, lp, inst, prob[prob_index], &ncols_fixed, indexes, bounds, xh, close_cycle_edges);
@@ -306,9 +290,7 @@ int hard_fixing_solver2(instance *inst, CPXENVptr env, CPXLPptr lp) {
         status = CPXmipopt(env, lp);
         //LOG_I("COLS %d", ncols_fixed);
         //save_lp(env, lp, "AfterFixing");
-        if (status) {
-            LOG_E("CPXmipopt error code %d", status);
-        }
+        if (status) {LOG_E("CPXmipopt error code %d", status);}
 
         //Retreive the solution
         status = CPXgetx(env, lp, xh, 0, cols_tot - 1);
@@ -322,7 +304,7 @@ int hard_fixing_solver2(instance *inst, CPXENVptr env, CPXLPptr lp) {
         if (objval < objbest) {
             //IF not improved much
             if (obj_improv < HARD_FIX_MIN_IMPROVEMENT) {
-                //LOG_D("NOT IMPROVED TOO MUCH");
+                //LOG_D("NOT IMPROVED MUCH");
                 number_small_improvements++;
                 //LOG_D("Prob_index: %d Len Prob: %lu", prob_index, LEN(prob));
 
@@ -338,10 +320,7 @@ int hard_fixing_solver2(instance *inst, CPXENVptr env, CPXLPptr lp) {
             }
 
             //Update solution
-            if (inst->params.verbose >= 3) {
-                LOG_I("Updated incubement: %0.2f", objval);
-            }
-
+            if (inst->params.verbose >= 3) {LOG_I("Updated incubement: %0.2f", objval);}
             objbest = objval;
             inst->solution.obj_best = objval;
             memcpy(inst->solution.xbest, xh, cols_tot * sizeof(double));

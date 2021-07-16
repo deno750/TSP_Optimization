@@ -10,6 +10,10 @@
 #define GRASP_RAND 0.9
 #define GRASP_TIME_LIM_DEF 10//120 // 2 minutes
 
+/////////////////////////////////////////////////////////////////////////
+///////////////// CONSTRUCTIVE HEURISTICS ///////////////////////////////
+/////////////////////////////////////////////////////////////////////////
+
 //Nearest Neighboor algorithm O(n^2)
 int greedy(instance *inst, int starting_node) {
     //Check if the starting node is valid
@@ -181,9 +185,7 @@ int HEU_Greedy_iter(instance *inst) {
 
         //If current solution is better than the best, update the best solution
         if (inst->solution.obj_best < bestobj) {
-            if(inst->params.verbose >= 4) {
-                LOG_I("New Best: %f", inst->solution.obj_best);
-            }
+            if(inst->params.verbose >= 4) {LOG_I("New Best: %f", inst->solution.obj_best);}
             bestobj = inst->solution.obj_best;  //update best solution
             memcpy(bestedges, inst->solution.edges, inst->num_nodes * sizeof(edge));
         }
@@ -195,8 +197,12 @@ int HEU_Greedy_iter(instance *inst) {
     return status;
 }
 
+//Extramileage algorithm NORMAL
+int HEU_extramileage2(instance *inst) {
+    return 0;
+}
 
-//Extramileage algorithm
+//Extramileage algorithm with convex HULL
 int HEU_extramileage(instance *inst) {
     int *nodes_visited = CALLOC(inst->num_nodes, int); // Stores nodes visited in tour
     edge *edges_visited = CALLOC(inst->num_nodes, edge); // Stores the visited edges. Extra mileage alg will add a new edge every iteration until all the nodes are visited
@@ -235,13 +241,18 @@ int HEU_extramileage(instance *inst) {
     
     //plot_solution(inst);
     //sleep(1);
+
+    //While there is some node not visited
     while (num_visited < inst->num_nodes) {
+        //For each not visited node i
         for (int i = 0; i < inst->num_nodes; i++) {
             if (nodes_visited[i]) { continue; }
             
             double min_mileage = DBL_MAX;
             edge best_edge;
             int best_edge_idx = -1;
+
+            //Selection Step: find the edge (i,j) nearest to the tour
             for (int j = 0; j < num_visited; j++) {
                 edge e = edges_visited[j];
                 int a = e.i;
@@ -250,7 +261,7 @@ int HEU_extramileage(instance *inst) {
                 double cost1 = calc_dist(a, c, inst);
                 double cost2 = calc_dist(c, b, inst);
                 double cost3 = calc_dist(a, b, inst);
-                double deltacost = cost1 + cost2 - cost3;
+                double deltacost = cost1 + cost2 - cost3;   //Delta (a,b,c)= C_ac + C_cb - C_ab
                 if (deltacost < min_mileage) {
                     min_mileage = deltacost;
                     best_edge = e;
@@ -260,7 +271,8 @@ int HEU_extramileage(instance *inst) {
             if (best_edge_idx == -1) {
                 break;
             }
-        
+
+            //Insertion Step: replace edge (i,j) with edges (i,k) and (k,j)
             edge e1;
             e1.i = best_edge.i;
             e1.j = i;
@@ -271,7 +283,10 @@ int HEU_extramileage(instance *inst) {
             inst->solution.edges[e2.i] = e2;
             edges_visited[best_edge_idx] = e1;
             edges_visited[num_visited++] = e2;
+
+            //Mark the new node as visited
             nodes_visited[i] = 1;
+            //Update tour cost
             obj += min_mileage; 
 
             
@@ -279,11 +294,18 @@ int HEU_extramileage(instance *inst) {
             //sleep(1);
         }
     }
+
+    //Save solution
     inst->solution.obj_best = obj;
     FREE(nodes_visited);
     FREE(edges_visited);
     return 0;
 }
+
+
+/////////////////////////////////////////////////////////////////////////
+///////////////// REFINEMENT HEURISTICS /////////////////////////////////
+/////////////////////////////////////////////////////////////////////////
 
 int alg_2opt(instance *inst) {
     struct timeval start, end;
@@ -356,7 +378,7 @@ int alg_2opt(instance *inst) {
     return status;
 }
 
-//Wrapper function that executes Multistart and then 2-opt
+//Wrapper function that executes Multistart Nearest Neighboor and then 2-opt
 int HEU_2opt(instance *inst) {
     int grasp_time_lim = inst->params.time_limit / 5;
     int status = HEU_Greedy_iter(inst);
