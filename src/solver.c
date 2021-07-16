@@ -152,7 +152,7 @@ int TSP_opt(instance *inst) {
     long ncols = CPXgetnumcols(env, lp);
     inst->num_columns = ncols; // The callbacks need the number of cols
 
-    // Setting up indices array
+    // Setting up indices array. Setting up it here avoids on setting it up everytime the 2-opt callback need it. One time initialization and that's all.
     inst->ind = MALLOC(inst->num_columns, int);
     int k = 0;
     for (int i = 0; i < inst->num_nodes; i++) {

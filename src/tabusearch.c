@@ -202,7 +202,6 @@ static int tabu(instance *inst, void (*policy_ptr)(tenure_policy*, int)) {
             memcpy(best_sol, inst->solution.edges, inst->num_nodes * sizeof(edge));
             if (inst->params.verbose >= 3) {
                 LOG_I("Updated incubement: %0.0f", best_obj);
-                LOG_D("Current tenure %d", tenure_policy.current_tenure);
             }
             
             plot_solution(inst);

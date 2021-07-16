@@ -495,7 +495,10 @@ int HEU_Genetic(instance *inst) {
             from_cromosome_to_edges(inst, best_individual);
             //alg_2opt(inst);
             plot_solution(inst);
-            LOG_I("UPDATED INCUBEMENT");
+            if (inst->params.verbose >= 3) {
+                LOG_I("UPDATED INCUBEMENT");
+            }
+            
         }
 
         if (inst->params.verbose >= 4) {

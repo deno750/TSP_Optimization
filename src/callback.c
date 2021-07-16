@@ -66,7 +66,7 @@ static int CPXPUBLIC SEC_cuts_callback_candidate(CPXCALLBACKCONTEXTptr context, 
         copy_instance(&tempinst, inst);
         save_solution_edges(&tempinst, xstar);
         alg_2opt(&tempinst);
-        if (inst->params.verbose >= 4) {
+        if (inst->params.verbose >= 5) {
             LOG_I("Applied 2-opt refinement");
         }
         LOG_D("Incubement: %0.0f", tempinst.solution.obj_best);
@@ -79,7 +79,7 @@ static int CPXPUBLIC SEC_cuts_callback_candidate(CPXCALLBACKCONTEXTptr context, 
             xstar[x_udir_pos(e.i, e.j, tempinst.num_nodes)] = 1.0;
         }
 
-        // Saving the heuristic solution found with 2opt to cplex in order to improve the convergence speed
+        // Saving the heuristic solution found with 2opt to cplex in order to improve the convergence speed. The 2-opt solution found is complete so no need to check it
         // Check here for other strategies: https://www.ibm.com/docs/en/icos/20.1.0?topic=manual-cpxcallbacksolutionstrategy
         int status = CPXcallbackpostheursoln(context, ncols, inst->ind, xstar, tempinst.solution.obj_best, CPXCALLBACKSOLUTION_NOCHECK);
         if (status) {
@@ -160,7 +160,7 @@ static int CPXPUBLIC SEC_cuts_callback_relaxation(CPXCALLBACKCONTEXTptr context,
 
     if (rand_num > 0.1) return 0; // Hyperparameter tuning
     //if (depth > 5) return 0; // Hyperparameter tuning
-    if (inst->params.verbose >= 4) {
+    if (inst->params.verbose >= 5) {
         LOG_I("Relaxation cut");
     }
     long ncols = inst->num_columns;
@@ -191,7 +191,7 @@ static int CPXPUBLIC SEC_cuts_callback_relaxation(CPXCALLBACKCONTEXTptr context,
     }
 
     if (numcomps == 1) { 
-        if (inst->params.verbose >= 4) {
+        if (inst->params.verbose >= 5) {
             LOG_I("Single component");
         }
         relaxation_callback_params params = {.context = context, .inst = inst};
@@ -207,7 +207,7 @@ static int CPXPUBLIC SEC_cuts_callback_relaxation(CPXCALLBACKCONTEXTptr context,
             LOG_E("CCcut_violated_cuts() error code %d", status);
         }
     } else if (numcomps > 1) {
-        if (inst->params.verbose >= 4) {
+        if (inst->params.verbose >= 5) {
             LOG_I("Num components fractional: %d", numcomps);
         }
         int startindex = 0;
