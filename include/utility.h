@@ -63,24 +63,26 @@ typedef enum {
     SOLVE_MTZ_IND,
     SOLVE_GG,
     SOLVE_LOOP,
-    SOLVE_CALLBACK,     // Uses the callback before the updating of the incubement
-    SOLVE_UCUT,         // Uses user cuts callback
-    SOLVE_HARD_FIXING,  // Uses the hard fixing heuristic with fixed probability
-    SOLVE_HARD_FIXING2, // Uses the hard fixing heuristic with decremental probability
-    SOLVE_SOFT_FIXING,  // Uses the soft fixing heuristic
-    SOLVE_GREEDY,       // Uses the greedy heuristic
-    SOLVE_GREEDY_ITER,  // Uses the greedy heuristic with iterated starting node
-    SOLVE_EXTR_MIL,     // Uses the extra mileage heuristic
-    SOLVE_2OPT,         // Uses the 2 opt algorithm
-    SOLVE_3OPT,         // Uses the 3 opt algorithm
-    SOLVE_GRASP,        // Uses the GRASP algorithm
-    SOLVE_GRASP_ITER,   // Uses the iterative GRASP algorithm
-    SOLVE_GRASP_REF,    // Uses the GRASP and 2opt algorithm
-    SOLVE_VNS,          // Uses the VNS local search algorithm
-    SOLVE_TABU_STEP,    // Uses the Tabu search algorithm with step policy
-    SOLVE_TABU_LIN,     // Uses the Tabu search algorithm with linear policy
-    SOLVE_TABU_RAND,    // Uses the Tabu search algorithm with random policy
-    SOLVE_GENETIC       // Uses the Genetic algorithm
+    SOLVE_CALLBACK,             // Uses the callback before the updating of the incubement
+    SOLVE_UCUT,                 // Uses user cuts callback
+    SOLVE_HARD_FIXING,          // Uses the hard fixing heuristic with fixed probability
+    SOLVE_HARD_FIXING2,         // Uses the hard fixing heuristic with decremental probability
+    SOLVE_SOFT_FIXING,          // Uses the soft fixing heuristic
+    SOLVE_GREEDY,               // Uses the greedy heuristic
+    SOLVE_GREEDY_ITER,          // Uses the greedy heuristic with iterated starting node
+    SOLVE_EXTR_MIL,             // Uses the extra mileage heuristic
+    SOLVE_GRASP,                // Uses the GRASP algorithm
+    SOLVE_GRASP_ITER,           // Uses the iterative GRASP algorithm
+    SOLVE_2OPT_GRASP,           // Uses 2opt algorithm with grasp initialization
+    SOLVE_2OPT_GRASP_ITER,      // Uses 2opt algorithm with iterative grasp initialization
+    SOLVE_2OPT_GREEDY,          // Uses 2opt algorithm with greedy initialization
+    SOLVE_2OPT_GREEDY_ITER,     // Uses 2opt algorithm with iterative greedy initialization
+    SOLVE_2OPT_EXTR_MIL,        // Uses 2opt algorithm with extra mileage initialization
+    SOLVE_VNS,                  // Uses the VNS local search algorithm
+    SOLVE_TABU_STEP,            // Uses the Tabu search algorithm with step policy
+    SOLVE_TABU_LIN,             // Uses the Tabu search algorithm with linear policy
+    SOLVE_TABU_RAND,            // Uses the Tabu search algorithm with random policy
+    SOLVE_GENETIC               // Uses the Genetic algorithm
 } solver_type;
 
 

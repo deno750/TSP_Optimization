@@ -104,16 +104,20 @@ static int solve_problem_HEUC(instance *inst) {
         status = HEU_Greedy_iter(inst);
     } else if (inst->params.method.id == SOLVE_EXTR_MIL) {
         status = HEU_extramileage(inst);
-    } else if (inst->params.method.id == SOLVE_2OPT) {
-        status = HEU_2opt(inst);
-    } else if (inst->params.method.id == SOLVE_3OPT) {
-        status = HEU_3opt(inst);
     } else if (inst->params.method.id == SOLVE_GRASP) {
         status = HEU_Grasp(inst);
     } else if (inst->params.method.id == SOLVE_GRASP_ITER) {
         status = HEU_Grasp_iter(inst, inst->params.time_limit);
-    } else if (inst->params.method.id == SOLVE_GRASP_REF) {
-        status = HEU_Grasp2opt(inst);
+    } else if (inst->params.method.id == SOLVE_2OPT_GRASP) {
+        status = HEU_2opt_grasp(inst);
+    } else if (inst->params.method.id == SOLVE_2OPT_GRASP_ITER) {
+        status = HEU_2opt_grasp_iter(inst);
+    } else if (inst->params.method.id == SOLVE_2OPT_GREEDY) {
+        status = HEU_2opt_greedy(inst);
+    } else if (inst->params.method.id == SOLVE_2OPT_GREEDY_ITER) {
+        status = HEU_2opt_greedy_iter(inst);
+    } else if (inst->params.method.id == SOLVE_2OPT_EXTR_MIL) {
+        status = HEU_2opt_extramileage(inst);
     } else if (inst->params.method.id == SOLVE_VNS) {
         status = HEU_VNS(inst);
     } else if (inst->params.method.id == SOLVE_TABU_STEP) {

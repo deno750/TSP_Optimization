@@ -201,18 +201,6 @@ void parse_comand_line(int argc, const char *argv[], instance *inst) {
                 inst->params.method.name = "EXTRA MILEAGE HEURISTIC";
                 inst->params.method.use_cplex = 0;
             }
-            if (strncmp(method, "2OPT", 4) == 0) {
-                inst->params.method.id = SOLVE_2OPT;
-                inst->params.method.edge_type = UDIR_EDGE;
-                inst->params.method.name = "2-OPT HEURISTIC";
-                inst->params.method.use_cplex = 0;
-            }
-            if (strncmp(method, "3OPT", 4) == 0) {
-                inst->params.method.id = SOLVE_3OPT;
-                inst->params.method.edge_type = UDIR_EDGE;
-                inst->params.method.name = "3-OPT HEURISTIC";
-                inst->params.method.use_cplex = 0;
-            }
             if (strncmp(method, "GRASP", 5) == 0) {
                 inst->params.method.id = SOLVE_GRASP;
                 inst->params.method.edge_type = UDIR_EDGE;
@@ -225,10 +213,34 @@ void parse_comand_line(int argc, const char *argv[], instance *inst) {
                 inst->params.method.name = "GRASP ITERATIVE HEURISTIC";
                 inst->params.method.use_cplex = 0;
             }
-            if (strncmp(method, "GRASP_REF", 9) == 0) {
-                inst->params.method.id = SOLVE_GRASP_REF;
+            if (strncmp(method, "2OPT_GRASP", 9) == 0) {
+                inst->params.method.id = SOLVE_2OPT_GRASP;
                 inst->params.method.edge_type = UDIR_EDGE;
-                inst->params.method.name = "GRASP WITH 2-OPT HEURISTIC";
+                inst->params.method.name = "2-OPT HEURISTIC WITH GRASP INITIALIZATION";
+                inst->params.method.use_cplex = 0;
+            }
+            if (strncmp(method, "2OPT_GRASP_ITER", 15) == 0) {
+                inst->params.method.id = SOLVE_2OPT_GRASP_ITER;
+                inst->params.method.edge_type = UDIR_EDGE;
+                inst->params.method.name = "2-OPT HEURISTIC WITH ITERATIVE GRASP INITIALIZATION";
+                inst->params.method.use_cplex = 0;
+            }
+            if (strncmp(method, "2OPT_GREEDY", 11) == 0) {
+                inst->params.method.id = SOLVE_2OPT_GREEDY;
+                inst->params.method.edge_type = UDIR_EDGE;
+                inst->params.method.name = "2-OPT HEURISTIC WITH GREEDY INITIALIZATION";
+                inst->params.method.use_cplex = 0;
+            }
+            if (strncmp(method, "2OPT_GREEDY_ITER", 16) == 0) {
+                inst->params.method.id = SOLVE_2OPT_GREEDY_ITER;
+                inst->params.method.edge_type = UDIR_EDGE;
+                inst->params.method.name = "2-OPT HEURISTIC WITH ITERATIVE GREEDY INITIALIZATION";
+                inst->params.method.use_cplex = 0;
+            }
+            if (strncmp(method, "2OPT_EXTR_MIL", 13) == 0) {
+                inst->params.method.id = SOLVE_2OPT_EXTR_MIL;
+                inst->params.method.edge_type = UDIR_EDGE;
+                inst->params.method.name = "2-OPT HEURISTIC WITH EXTRA MILEAGE INITIALIZATION";
                 inst->params.method.use_cplex = 0;
             }
             if (strncmp(method, "VNS", 3) == 0) {
@@ -294,11 +306,13 @@ void parse_comand_line(int argc, const char *argv[], instance *inst) {
         printf("GREEDY             Greedy algorithm method\n");
         printf("GREEDY_ITER        Iterative Greedy algorithm method\n");
         printf("EXTR_MILE          Extra mileage method\n");
-        printf("2OPT               2-OPT method\n");
-        printf("3OPT               3-OPT method\n");
         printf("GRASP              GRASP method\n");
         printf("GRASP_ITER         Iterative GRASP method\n");
-        printf("GRASP_REF          GRASP with 2-OPT refinement method\n");
+        printf("2OPT_GRASP         2-OPT with GRASP initialization\n");
+        printf("2OPT_GRASP_ITER    2-OPT with iterative GRASP initialization\n");
+        printf("2OPT_GREEDY        2-OPT with Greedy initialization\n");
+        printf("2OPT_GREEDY_ITER   2-OPT with iterative Greedy initialization\n");
+        printf("2OPT_EXTR_MIL      2-OPT with extra mileage initialization\n");
         printf("VNS                VNS method\n");
         printf("TABU_STEP          TABU Search method with step policy\n");
         printf("TABU_LIN           TABU Search method with linear policy\n");
