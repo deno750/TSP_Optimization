@@ -77,20 +77,48 @@ int HEU_Grasp_iter(instance *inst, int time_lim);
  * an initialization algorithm. Use HEU_2opt to apply the 2-opt algoritm with an integrated initialization
  * 
  * @param inst The instance pointer of the problem
- * @param skip_node A list of nodes which the algorithm must not touch
- * @param stored_prev A list of previous nodes that 2-opt calculates
  * @return The error code
  */
 int alg_2opt(instance *inst);
 
+/**
+ * Applies the 2-opt algorithm using grasp initialization
+ * 
+ * @param inst The instance pointer of the problem
+ * @return The error code
+ */
 int HEU_2opt_grasp(instance *inst);
 
+/**
+ * Applies the 2-opt algorithm using iterative grasp initialization
+ * 
+ * @param inst The instance pointer of the problem
+ * @return The error code
+ */
 int HEU_2opt_grasp_iter(instance *inst);
 
+/**
+ * Applies the 2-opt algorithm using greedy initialization
+ * 
+ * @param inst The instance pointer of the problem
+ * @return The error code
+ */
 int HEU_2opt_greedy(instance *inst);
 
+/**
+ * Applies the 2-opt algorithm using iterative greedy initialization
+ * 
+ * @param inst The instance pointer of the problem
+ * @return The error code
+ */
 int HEU_2opt_greedy_iter(instance *inst);
 
+/**
+ * Applies the 2-opt algorithm using extra mileage initialization
+ * 
+ * @param inst The instance pointer of the problem
+ * @return The error code
+ */
 int HEU_2opt_extramileage(instance *inst);
 
 int HEU_VNS(instance *inst);
