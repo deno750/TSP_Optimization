@@ -120,19 +120,22 @@ static int grasp(instance *inst, int starting_node) {
             }
         }
         
-        //Now we have the 2 nearest nodes to the current
+        //Now we have the 2 nearest nodes to the current one
         //We select with probability GRASP_RAND the nearest node
         double random = URAND();
         int idxsel = random < GRASP_RAND || first_minidx == -1 || second_minidx == -1 ? first_minidx : second_minidx;
-        double distsel = random < GRASP_RAND || first_minidx == -1 || second_minidx == -1 ? first_mindist : second_mindist;
 
-        if (idxsel == -1) {
+        // No new nearest node is found so the algorithm shuts down and closes the hamiltonian cycle
+        if (idxsel == -1) { 
             // Closing the tsp cycle 
             inst->solution.edges[curr].i = curr;
             inst->solution.edges[curr].j = starting_node;
-            obj += calc_dist(curr, starting_node, inst); // Distance between the last edge and the starting node which closes the hamiltonian cycle
+            obj += calc_dist(curr, starting_node, inst); // Calculates the distance of the closing edge
             break;
         }
+
+        // The distance of the selected node. If the nearest node was selected, the nearest distance is returned and viceversa
+        double distsel = random < GRASP_RAND ? first_mindist : second_mindist;
         
         //Set the edge between the 2 nodes
         inst->solution.edges[curr].i = curr;
