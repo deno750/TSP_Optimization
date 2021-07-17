@@ -240,13 +240,14 @@ int HEU_extramileage(instance *inst) {
     //While there is some node not visited
     while (num_visited < inst->num_nodes) {
         //For each not visited node i
+        double min_mileage = DBL_MAX;
+        edge best_edge;
+        int best_new_node_idx = -1;
+        int best_edge_idx = -1;
+
         for (int i = 0; i < inst->num_nodes; i++) {
             if (nodes_visited[i]) { continue; }
             
-            double min_mileage = DBL_MAX;
-            edge best_edge;
-            int best_edge_idx = -1;
-
             //Selection Step: find the edge (i,j) nearest to the tour
             for (int j = 0; j < num_visited; j++) {
                 edge e = edges_visited[j];
@@ -261,33 +262,32 @@ int HEU_extramileage(instance *inst) {
                     min_mileage = deltacost;
                     best_edge = e;
                     best_edge_idx = j;
+                    best_new_node_idx = i;
                 }
             }
-            if (best_edge_idx == -1) {
-                break;
-            }
-
-            //Insertion Step: replace edge (i,j) with edges (i,k) and (k,j)
-            edge e1;
-            e1.i = best_edge.i;
-            e1.j = i;
-            edge e2;
-            e2.i = i;
-            e2.j = best_edge.j;
-            inst->solution.edges[e1.i] = e1;
-            inst->solution.edges[e2.i] = e2;
-            edges_visited[best_edge_idx] = e1;
-            edges_visited[num_visited++] = e2;
-
-            //Mark the new node as visited
-            nodes_visited[i] = 1;
-            //Update tour cost
-            obj += min_mileage; 
-
-            
-            //plot_solution(inst);
-            //sleep(1);
         }
+
+        if (best_edge_idx == -1) {
+            break;
+        }
+        //Insertion Step: replace edge (i,j) with edges (i,k) and (k,j)
+        edge e1;
+        e1.i = best_edge.i;
+        e1.j = best_new_node_idx;
+        edge e2;
+        e2.i = best_new_node_idx;
+        e2.j = best_edge.j;
+        inst->solution.edges[e1.i] = e1;
+        inst->solution.edges[e2.i] = e2;
+        edges_visited[best_edge_idx] = e1;
+        edges_visited[num_visited++] = e2;
+        //Mark the new node as visited
+        nodes_visited[best_new_node_idx] = 1;
+        //Update tour cost
+        obj += min_mileage; 
+
+        //plot_solution(inst);
+        //sleep(1);
     }
 
     //Save solution
