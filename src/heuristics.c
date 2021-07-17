@@ -203,11 +203,11 @@ int HEU_extramileage(instance *inst) {
     edge *edges_visited = CALLOC(inst->num_nodes, edge); // Stores the visited edges. Extra mileage alg will add a new edge every iteration until all the nodes are visited
     double obj = 0;
 
-    // Chooses node A and node B as the two farthest nodes
+    //Chose node A and node B as the two farthest nodes
     int nodeA = 0;
     int nodeB = 1;
 
-    // Seeking the farhest distance between nodes and save the indexes
+    //Search the farthest distance between nodes and save the indexes
     double max_dist = 0;
     for (int i = 0; i < inst->num_nodes; i++) {
         for (int j = i + 1; j < inst->num_nodes; j++) {
@@ -270,6 +270,7 @@ int HEU_extramileage(instance *inst) {
         if (best_edge_idx == -1) {
             break;
         }
+
         //Insertion Step: replace edge (i,j) with edges (i,k) and (k,j)
         edge e1;
         e1.i = best_edge.i;
