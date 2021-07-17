@@ -8,7 +8,6 @@
 #include <unistd.h>
 
 #define GRASP_RAND 0.9
-#define GRASP_TIME_LIM_DEF 10//120 // 2 minutes
 
 /////////////////////////////////////////////////////////////////////////
 ///////////////// CONSTRUCTIVE HEURISTICS ///////////////////////////////
@@ -106,26 +105,26 @@ static int grasp(instance *inst, int starting_node) {
         }
 
         //For each non visited node: pick the one that is the nearest, rembering also the second nearest
-        int minidx = -1;
-        double mindist = DBL_MAX;
-        int prev_minidx = minidx;
-        double prev_mindist = mindist;
+        int first_minidx = -1; // The index of the nearest node 
+        double first_mindist = DBL_MAX; 
+        int second_minidx = first_minidx; // The index of the 2nd nearest node
+        double second_mindist = first_mindist;
         for (int i = 0; i < inst->num_nodes; i++) {
             if (curr == i || visited[i]) { continue; }
             double currdist = calc_dist(curr, i, inst);
-            if (currdist < mindist) {       // update nearest and 2° nearest nodes
-                prev_mindist = mindist;
-                prev_minidx = minidx;
-                mindist = currdist;
-                minidx = i;
+            if (currdist < first_mindist) {       // update nearest and 2° nearest nodes
+                second_mindist = first_mindist;
+                second_minidx = first_minidx;
+                first_mindist = currdist;
+                first_minidx = i;
             }
         }
         
         //Now we have the 2 nearest nodes to the current
         //We select with probability GRASP_RAND the nearest node
         double random = URAND();
-        int idxsel = random < GRASP_RAND || minidx == -1 || prev_minidx == -1 ? minidx : prev_minidx;
-        double distsel = random < GRASP_RAND || minidx == -1 || prev_minidx == -1 ? mindist : prev_mindist;
+        int idxsel = random < GRASP_RAND || first_minidx == -1 || second_minidx == -1 ? first_minidx : second_minidx;
+        double distsel = random < GRASP_RAND || first_minidx == -1 || second_minidx == -1 ? first_mindist : second_mindist;
 
         if (idxsel == -1) {
             // Closing the tsp cycle 
@@ -142,7 +141,7 @@ static int grasp(instance *inst, int starting_node) {
         obj += distsel;             //update tour cost
         curr = idxsel;              //new current node is the selected one
     }
-
+    obj += calc_dist(curr, starting_node, inst); // Distance between the last edge and the starting node which closes the hamiltonian cycle
     inst->solution.obj_best = obj;  //save tour cost
     FREE(visited);
     return status;
@@ -607,7 +606,7 @@ int HEU_Grasp_iter(instance *inst, int time_lim) {
     double bestobj = DBL_MAX;
     edge *bestedges = CALLOC(inst->num_nodes, edge);
     struct timeval start, end;
-    int grasp_time_lim = time_lim > 0 ? time_lim : GRASP_TIME_LIM_DEF;
+    int grasp_time_lim = time_lim > 0 ? time_lim : DEFAULT_TIME_LIM;
     gettimeofday(&start, 0);
     
     while (1) {
@@ -626,6 +625,7 @@ int HEU_Grasp_iter(instance *inst, int time_lim) {
         if (inst->solution.obj_best < bestobj) {
             if(inst->params.verbose >= 4) {
                 LOG_I("New Best: %f", inst->solution.obj_best);
+                plot_solution(inst);
             }
             bestobj = inst->solution.obj_best;
             memcpy(bestedges, inst->solution.edges, inst->num_nodes * sizeof(edge));
