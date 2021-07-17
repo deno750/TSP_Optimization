@@ -130,6 +130,7 @@ static int grasp(instance *inst, int starting_node) {
             // Closing the tsp cycle 
             inst->solution.edges[curr].i = curr;
             inst->solution.edges[curr].j = starting_node;
+            obj += calc_dist(curr, starting_node, inst); // Distance between the last edge and the starting node which closes the hamiltonian cycle
             break;
         }
         
@@ -141,7 +142,7 @@ static int grasp(instance *inst, int starting_node) {
         obj += distsel;             //update tour cost
         curr = idxsel;              //new current node is the selected one
     }
-    obj += calc_dist(curr, starting_node, inst); // Distance between the last edge and the starting node which closes the hamiltonian cycle
+    
     inst->solution.obj_best = obj;  //save tour cost
     FREE(visited);
     return status;
