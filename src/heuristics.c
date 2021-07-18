@@ -431,9 +431,12 @@ int HEU_extramileage2(instance *inst) {
 ///////////////// REFINEMENT HEURISTICS /////////////////////////////////
 /////////////////////////////////////////////////////////////////////////
 
+
 int alg_2opt(instance *inst) {
+    //Start counting time elapsed from now
     struct timeval start, end;
     gettimeofday(&start, 0);
+
     double minchange;
     int status = 0;
     int *prev = MALLOC(inst->num_nodes, int);
