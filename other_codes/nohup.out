@@ -1,0 +1,270 @@
+Testing on GREEDY on instance ../data/heuristics/ali535.tsp
+0
+	GREEDY: 247028.00_0.03
+Testing on GREEDY_ITER on instance ../data/heuristics/ali535.tsp
+0
+	GREEDY_ITER: 235450.00_16.52
+Testing on EXTR_MILE on instance ../data/heuristics/ali535.tsp
+0
+	EXTR_MILE: 243778.00_15.06
+Testing on GRASP on instance ../data/heuristics/ali535.tsp
+0
+	GRASP: 279509.00_0.03
+Testing on GRASP_ITER on instance ../data/heuristics/ali535.tsp
+0
+	GRASP_ITER: 253303.00_300.02
+Testing on GREEDY on instance ../data/heuristics/p654.tsp
+0
+	GREEDY: 39937.00_0.01
+Testing on GREEDY_ITER on instance ../data/heuristics/p654.tsp
+0
+	GREEDY_ITER: 39937.00_5.19
+Testing on EXTR_MILE on instance ../data/heuristics/p654.tsp
+0
+	EXTR_MILE: 40123.00_4.25
+Testing on GRASP on instance ../data/heuristics/p654.tsp
+0
+	GRASP: inf_0.01
+Testing on GRASP_ITER on instance ../data/heuristics/p654.tsp
+0
+	GRASP_ITER: 52846.00_300.00
+Testing on GREEDY on instance ../data/heuristics/rat783.tsp
+0
+	GREEDY: 10920.00_0.01
+Testing on GREEDY_ITER on instance ../data/heuristics/rat783.tsp
+0
+	GREEDY_ITER: 10371.00_10.01
+Testing on EXTR_MILE on instance ../data/heuristics/rat783.tsp
+0
+	EXTR_MILE: 10399.00_7.40
+Testing on GRASP on instance ../data/heuristics/rat783.tsp
+0
+	GRASP: 13016.00_0.01
+Testing on GRASP_ITER on instance ../data/heuristics/rat783.tsp
+0
+	GRASP_ITER: 11292.00_300.01
+Testing on GREEDY on instance ../data/heuristics/gr666.tsp
+0
+	GREEDY: 354578.00_0.05
+Testing on GREEDY_ITER on instance ../data/heuristics/gr666.tsp
+0
+	GREEDY_ITER: 341056.00_31.75
+Testing on EXTR_MILE on instance ../data/heuristics/gr666.tsp
+0
+	EXTR_MILE: 341997.00_29.26
+Testing on GRASP on instance ../data/heuristics/gr666.tsp
+0
+	GRASP: 179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368.00_0.05
+Testing on GRASP_ITER on instance ../data/heuristics/gr666.tsp
+0
+	GRASP_ITER: 368362.00_300.01
+Testing on GREEDY on instance ../data/heuristics/d657.tsp
+0
+	GREEDY: 57469.00_0.01
+Testing on GREEDY_ITER on instance ../data/heuristics/d657.tsp
+0
+	GREEDY_ITER: 57469.00_5.59
+Testing on EXTR_MILE on instance ../data/heuristics/d657.tsp
+0
+	EXTR_MILE: 57879.00_4.32
+Testing on GRASP on instance ../data/heuristics/d657.tsp
+0
+	GRASP: inf_0.01
+Testing on GRASP_ITER on instance ../data/heuristics/d657.tsp
+0
+	GRASP_ITER: 62393.00_300.00
+Testing on GREEDY on instance ../data/heuristics/pr439.tsp
+0
+	GREEDY: 124297.00_0.00
+Testing on GREEDY_ITER on instance ../data/heuristics/pr439.tsp
+0
+	GREEDY_ITER: 122554.00_1.66
+Testing on EXTR_MILE on instance ../data/heuristics/pr439.tsp
+0
+	EXTR_MILE: 127715.00_1.31
+Testing on GRASP on instance ../data/heuristics/pr439.tsp
+0
+	GRASP: 174405.00_0.00
+Testing on GRASP_ITER on instance ../data/heuristics/pr439.tsp
+0
+	GRASP_ITER: 135082.00_300.00
+Testing on GREEDY on instance ../data/heuristics/rat575.tsp
+0
+	GREEDY: 8236.00_0.01
+Testing on GREEDY_ITER on instance ../data/heuristics/rat575.tsp
+0
+	GREEDY_ITER: 7878.00_3.67
+Testing on EXTR_MILE on instance ../data/heuristics/rat575.tsp
+0
+	EXTR_MILE: 8079.00_2.92
+Testing on GRASP on instance ../data/heuristics/rat575.tsp
+0
+	GRASP: 10161.00_0.01
+Testing on GRASP_ITER on instance ../data/heuristics/rat575.tsp
+0
+	GRASP_ITER: 8494.00_300.00
+Testing on GREEDY on instance ../data/heuristics/u724.tsp
+0
+	GREEDY: 50896.00_0.01
+Testing on GREEDY_ITER on instance ../data/heuristics/u724.tsp
+0
+	GREEDY_ITER: 49762.00_7.50
+Testing on EXTR_MILE on instance ../data/heuristics/u724.tsp
+0
+	EXTR_MILE: 49944.00_5.91
+Testing on GRASP on instance ../data/heuristics/u724.tsp
+0
+	GRASP: 179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368.00_0.01
+Testing on GRASP_ITER on instance ../data/heuristics/u724.tsp
+0
+	GRASP_ITER: 53848.00_300.00
+Testing on GREEDY on instance ../data/heuristics/rd400.tsp
+0
+	GREEDY: 18473.00_0.00
+Testing on GREEDY_ITER on instance ../data/heuristics/rd400.tsp
+0
+	GREEDY_ITER: 17808.00_1.26
+Testing on EXTR_MILE on instance ../data/heuristics/rd400.tsp
+0
+	EXTR_MILE: 18187.00_0.96
+Testing on GRASP on instance ../data/heuristics/rd400.tsp
+0
+	GRASP: 21753.00_0.00
+Testing on GRASP_ITER on instance ../data/heuristics/rd400.tsp
+0
+	GRASP_ITER: 19018.00_300.00
+Testing on GREEDY on instance ../data/heuristics/u574.tsp
+0
+	GREEDY: 48199.00_0.01
+Testing on GREEDY_ITER on instance ../data/heuristics/u574.tsp
+0
+	GREEDY_ITER: 43838.00_3.60
+Testing on EXTR_MILE on instance ../data/heuristics/u574.tsp
+0
+	EXTR_MILE: 43261.00_2.90
+Testing on GRASP on instance ../data/heuristics/u574.tsp
+0
+	GRASP: 179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368.00_0.01
+Testing on GRASP_ITER on instance ../data/heuristics/u574.tsp
+0
+	GRASP_ITER: 47081.00_300.00
+Testing on GREEDY on instance ../data/heuristics/vm1084.tsp
+0
+	GREEDY: 294134.00_0.02
+Testing on GREEDY_ITER on instance ../data/heuristics/vm1084.tsp
+0
+	GREEDY_ITER: 284437.00_25.64
+Testing on EXTR_MILE on instance ../data/heuristics/vm1084.tsp
+0
+	EXTR_MILE: 274081.00_19.44
+Testing on GRASP on instance ../data/heuristics/vm1084.tsp
+0
+	GRASP: 179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368.00_0.02
+Testing on GRASP_ITER on instance ../data/heuristics/vm1084.tsp
+0
+	GRASP_ITER: 321598.00_300.02
+Testing on GREEDY on instance ../data/heuristics/att532.tsp
+0
+	GREEDY: 33470.00_0.01
+Testing on GREEDY_ITER on instance ../data/heuristics/att532.tsp
+0
+	GREEDY_ITER: 32507.00_5.48
+Testing on EXTR_MILE on instance ../data/heuristics/att532.tsp
+0
+	EXTR_MILE: 33250.00_4.45
+Testing on GRASP on instance ../data/heuristics/att532.tsp
+0
+	GRASP: 179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368.00_0.01
+Testing on GRASP_ITER on instance ../data/heuristics/att532.tsp
+0
+	GRASP_ITER: 34481.00_300.00
+Testing on GREEDY on instance ../data/heuristics/d493.tsp
+0
+	GREEDY: 38626.00_0.01
+Testing on GREEDY_ITER on instance ../data/heuristics/d493.tsp
+0
+	GREEDY_ITER: 38053.00_2.36
+Testing on EXTR_MILE on instance ../data/heuristics/d493.tsp
+0
+	EXTR_MILE: 40330.00_1.81
+Testing on GRASP on instance ../data/heuristics/d493.tsp
+0
+	GRASP: inf_0.00
+Testing on GRASP_ITER on instance ../data/heuristics/d493.tsp
+0
+	GRASP_ITER: 41742.00_300.00
+Testing on GREEDY on instance ../data/heuristics/lin318.tsp
+0
+	GREEDY: 49153.00_0.00
+Testing on GREEDY_ITER on instance ../data/heuristics/lin318.tsp
+0
+	GREEDY_ITER: 47640.00_0.62
+Testing on EXTR_MILE on instance ../data/heuristics/lin318.tsp
+0
+	EXTR_MILE: 49497.00_0.50
+Testing on GRASP on instance ../data/heuristics/lin318.tsp
+0
+	GRASP: 179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368.00_0.00
+Testing on GRASP_ITER on instance ../data/heuristics/lin318.tsp
+0
+	GRASP_ITER: 50447.00_300.00
+Testing on GREEDY on instance ../data/heuristics/pr1002.tsp
+0
+	GREEDY: 324911.00_0.02
+Testing on GREEDY_ITER on instance ../data/heuristics/pr1002.tsp
+0
+	GREEDY_ITER: 304268.00_19.44
+Testing on EXTR_MILE on instance ../data/heuristics/pr1002.tsp
+0
+	EXTR_MILE: 302240.00_15.38
+Testing on GRASP on instance ../data/heuristics/pr1002.tsp
+0
+	GRASP: inf_0.02
+Testing on GRASP_ITER on instance ../data/heuristics/pr1002.tsp
+0
+	GRASP_ITER: 344876.00_300.01
+Testing on GREEDY on instance ../data/heuristics/gr431.tsp
+0
+	GREEDY: 200185.00_0.02
+Testing on GREEDY_ITER on instance ../data/heuristics/gr431.tsp
+0
+	GREEDY_ITER: 200185.00_8.36
+Testing on EXTR_MILE on instance ../data/heuristics/gr431.tsp
+0
+	EXTR_MILE: 197761.00_8.04
+Testing on GRASP on instance ../data/heuristics/gr431.tsp
+0
+	GRASP: inf_0.02
+Testing on GRASP_ITER on instance ../data/heuristics/gr431.tsp
+0
+	GRASP_ITER: 205716.00_300.01
+Testing on GREEDY on instance ../data/heuristics/pcb442.tsp
+0
+	GREEDY: 61532.00_0.00
+Testing on GREEDY_ITER on instance ../data/heuristics/pcb442.tsp
+0
+	GREEDY_ITER: 57581.00_1.71
+Testing on EXTR_MILE on instance ../data/heuristics/pcb442.tsp
+0
+	EXTR_MILE: 61170.00_1.34
+Testing on GRASP on instance ../data/heuristics/pcb442.tsp
+0
+	GRASP: inf_0.00
+Testing on GRASP_ITER on instance ../data/heuristics/pcb442.tsp
+0
+	GRASP_ITER: 64871.00_300.00
+Testing on GREEDY on instance ../data/heuristics/dsj1000.tsp
+0
+	GREEDY: 23441799.00_0.02
+Testing on GREEDY_ITER on instance ../data/heuristics/dsj1000.tsp
+0
+	GREEDY_ITER: 21990918.00_21.49
+Testing on EXTR_MILE on instance ../data/heuristics/dsj1000.tsp
+0
+	EXTR_MILE: 21991699.00_17.09
+Testing on GRASP on instance ../data/heuristics/dsj1000.tsp
+0
+	GRASP: 179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368.00_0.02
+Testing on GRASP_ITER on instance ../data/heuristics/dsj1000.tsp
+0
+	GRASP_ITER: 25003217.00_300.02
