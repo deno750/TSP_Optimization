@@ -447,11 +447,14 @@ int alg_2opt(instance *inst) {
     //plot_solution(inst);
     int mina = 0;
     int minb = 0;
+
     while(1) {
         minchange = 0;
+        //For each pair of nodes
         for (int i = 0; i < inst->num_nodes - 1; i++) {
             if (status == TIME_LIMIT_EXCEEDED) {break;}
             for (int j = i+1; j < inst->num_nodes; j++) {
+                //Check if we reach the time limit
                 gettimeofday(&end, 0);
                 double elapsed = get_elapsed_time(start, end);
                 if (inst->params.time_limit > 0 && elapsed > inst->params.time_limit) {
@@ -459,12 +462,17 @@ int alg_2opt(instance *inst) {
                     LOG_I("2-opt heuristics time exceeded");
                     break;
                 }
+
                 int a = i;
                 int b = j;
-                int a1 = inst->solution.edges[a].j;
-                int b1 = inst->solution.edges[b].j;
+                int a1 = inst->solution.edges[a].j; //successor of a
+                int b1 = inst->solution.edges[b].j; //successor of b
+
+                // Skip non valid configurations
                 // a1 == b1 never occurs because the edges are repsresented as directed. a->a1 then a1->b so it cannot be a->a1 b->a1
                 if (a1 == b1 || a == b1 || b == a1) {continue;}
+
+                // Compute the delta. If < 0 it means there is a crossing
                 double change = calc_dist(a, b, inst) + calc_dist(a1, b1, inst) - calc_dist(a, a1, inst) - calc_dist(b, b1, inst);
                 if (change < minchange) {
                     minchange = change;
@@ -473,13 +481,16 @@ int alg_2opt(instance *inst) {
                 }
             }
         }
-        if (minchange >= 0) {
-            break;
-        }
+
+        // If couldn't find a crossing, stop the algorithm
+        if (minchange >= 0) {break;}
+
         /*for (int k = 0; k < inst->num_nodes; k++) {
             LOG_D("%d -> %d",  inst->solution.edges[k].i,  inst->solution.edges[k].j);
         }
         LOG_D("\n=======\n");*/
+
+        //Swap the 2 edges
         int a1 = inst->solution.edges[mina].j;
         int b1 = inst->solution.edges[minb].j; 
         inst->solution.edges[mina].j = minb;
@@ -496,6 +507,8 @@ int alg_2opt(instance *inst) {
         
     }
     //plot_solution(inst);
+
+    //Compute tour cost
     inst->solution.obj_best = 0.0;
     for (int i = 0; i < inst->num_nodes; i++) {
         edge e = inst->solution.edges[i];
