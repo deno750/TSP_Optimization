@@ -10,10 +10,12 @@ if __name__ == '__main__':
     paths = []#["../data/burma14.tsp", "../data/berlin52.tsp", "../data/eil51.tsp", "../data/att48.tsp", "../data/st70.tsp", "../data/pr76.tsp"]
     for name in glob.glob('../data/heuristics/*'):
         paths.append(name)
-    methods = ["GREEDY", "GREEDY_ITER", "EXTR_MILE", "GRASP", "GRASP_ITER"]
-    time_limit = "300"
+    #methods = ["GREEDY", "GREEDY_ITER", "EXTR_MILE", "GRASP", "GRASP_ITER"]
+    methods = ["2OPT_GREEDY", "2OPT_GREEDY_ITER", "2OPT_EXTR_MIL","2OPT_GRASP", "2OPT_GRASP_ITER"]
 
-    csv_filename="constructive_heuristics.csv"
+    time_limit = "600"
+
+    csv_filename="constructive_heuristics_2opt.csv"
     
     #if file csv do not exist, create it.
     if not os.path.exists('../results/'+csv_filename):
