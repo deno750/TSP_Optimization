@@ -136,8 +136,9 @@ static int grasp(instance *inst, int starting_node) {
         }
 
         // The distance of the selected node. If the nearest node was selected, the nearest distance is returned and viceversa
-        double distsel = random < GRASP_RAND ? first_mindist : second_mindist;
-        
+        //double distsel = random < GRASP_RAND ? first_mindist : second_mindist;    //This LINE causes infinite cost
+        double distsel = idxsel==first_minidx ? first_mindist : second_mindist;
+
         //Set the edge between the 2 nodes
         inst->solution.edges[curr].i = curr;
         inst->solution.edges[curr].j = idxsel;
