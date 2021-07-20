@@ -638,6 +638,7 @@ int HEU_Grasp_iter(instance *inst, int time_lim) {
     return status;
 }
 
+//Grasp initialization + 2opt refinement
 int HEU_2opt_grasp(instance *inst) {
     int status = HEU_Grasp(inst);
     if(inst->params.verbose >= 5) {
@@ -649,6 +650,7 @@ int HEU_2opt_grasp(instance *inst) {
     return status;
 }
 
+//Multistart-Grasp initialization + 2opt refinement
 int HEU_2opt_grasp_iter(instance *inst) {
     int grasp_time_lim = inst->params.time_limit / 5; // Dividing it is safe even when time limit is -1
     int status = HEU_Grasp_iter(inst, grasp_time_lim);
@@ -661,6 +663,7 @@ int HEU_2opt_grasp_iter(instance *inst) {
     return status;
 }
 
+//Greedy initialization + 2opt refinement
 int HEU_2opt_greedy(instance *inst) {
     int status = HEU_greedy(inst);
     if(inst->params.verbose >= 5) {
@@ -672,6 +675,7 @@ int HEU_2opt_greedy(instance *inst) {
     return status;
 }
 
+//Multistart-Greedy initialization + 2opt refinement
 int HEU_2opt_greedy_iter(instance *inst) {
     int status = HEU_Greedy_iter(inst);
     if(inst->params.verbose >= 5) {
@@ -683,6 +687,7 @@ int HEU_2opt_greedy_iter(instance *inst) {
     return status;
 }
 
+//Extramil initialization + 2opt refinement
 int HEU_2opt_extramileage(instance *inst) {
     int status = HEU_extramileage(inst);
     if(inst->params.verbose >= 5) {
