@@ -500,6 +500,7 @@ int alg_2opt(instance *inst) {
         //plot_solution(inst);
         //sleep(1);
         
+        //Reverse the path from minb to a1
         reverse_path(inst, minb, a1, prev);
         
         //plot_solution(inst);

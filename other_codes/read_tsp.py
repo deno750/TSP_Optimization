@@ -1,7 +1,7 @@
 import argparse   # reading command line
 import matplotlib.pyplot as plt
-from numpy.core.numeric import False_
-
+import math
+import time
 
 #TSP instance
 class instance:
@@ -74,6 +74,17 @@ def parse_cmd_line():
   return args
 
 
+def calc_lat_lon(p):
+  PI=3.14159265358979323846264
+  deg = p[0]
+  min = p[0] - deg
+  lat = PI * (deg + 5.0 * min / 3.0) / 180.0
+  deg = p[1]
+  min = p[1] - deg
+  lon = PI * (deg + 5.0 * min / 3.0 ) / 180.0
+  return (lat,lon)
+
+
 def calc_dist(a:int,b:int,inst:instance):
   a=inst.nodes[a]
   b=inst.nodes[b]
@@ -89,8 +100,15 @@ def calc_dist(a:int,b:int,inst:instance):
     #print(dist)
     return dist
   if inst.edge_type=="GEO":
-    #TODO
-    pass
+    EARTH_RAD=6378.388
+    lat1, lon1=calc_lat_lon(a)
+    lat2, lon2=calc_lat_lon(b)
+
+    q1 = math.cos( lon1 - lon2 )
+    q2 = math.cos( lat1 - lat2 )
+    q3 = math.cos( lat1 + lat2 )
+    dist = EARTH_RAD * math.acos( 0.5 * ((1.0+q1)*q2 - (1.0-q1)*q3) ) + 1.0
+    return dist
   return 0
 
 #Nearest neighbour
@@ -134,17 +152,83 @@ def greedy(inst: instance,start_node=0):
 
   return inst
 
+#swap (a,b) with (a,c) and (c,d) with (b,d)
+def swap(a,b,c,d,inst,prev):
+  N=len(inst.nodes)
+  inst.edges[a][1] = c
+  inst.edges[b][1] = d
+
+  #Reverse the path from B to C
+  start_node=c
+  end_node=b
+  curr_node=start_node
+  while True:
+    node=prev[curr_node]
+    inst.edges[curr_node][1]=node
+    curr_node=node
+    if node==end_node:break
+  for k in range(N):
+    prev[inst.edges[k][1]]=k
+
 #2 optimization
-def extra_mil(inst):
-  if not inst or not inst.nodes or not inst.tour: return False
-  #TODO....
+def alg_2opt(inst:instance):
+  if not inst or not inst.nodes or not inst.edges: return False
+  N=len(inst.nodes)
+  
+  best_cost=inst.cost
+  prev=[-1]*N
+  for i in range(N):prev[inst.edges[i][1]]=i
+
+  mina=0
+  minc=0
+
+  while True:
+    minchange = 0
+    #for each pair of subsequent nodes
+    for a in range(N-1):
+      for c in range(a+1,N):
+        b=inst.edges[a][1]  #successor of a
+        d=inst.edges[c][1]  #successor of b
+
+        if b==d or a==d or c==b:continue
+
+        delta=(calc_dist(a,c,inst)+calc_dist(b,d,inst))-(calc_dist(a,b,inst)+calc_dist(d,c,inst))
+        if delta<minchange:
+          minchange = delta
+          mina=a
+          minc=c
+          #swap (a,b) with (a,c) and (c,d) with (b,d)
+          #swap(a,b,c,d,inst,prev)
+          #inst.cost+=delta  #update tour cost
+    
+    #if best_cost<=inst.cost: break
+    if minchange>=0:break
+    b=inst.edges[mina][1]  #successor of a
+    d=inst.edges[minc][1]  #successor of b
+    swap(mina,b,minc,d,inst,prev)
+    inst.cost+=minchange
+    best_cost=inst.cost
+    
   return inst
 
 def main():
+  start=time.time()
+
   file_name=parse_cmd_line().file_name
   inst=read_tsp(file_name)
+  elapsed=time.time()-start
+  print("Time to read input (s):",elapsed)
+
   greedy(inst)
-  #print(inst.edges)
+  elapsed=time.time()-start
+  print("Time to greedy (s):",elapsed)
+  print("Cost after greedy:",inst.cost)
+
+  alg_2opt(inst)
+  elapsed=time.time()-start
+  print("Time to opt (s):",elapsed)
+  print("Cost after 2opt:",inst.cost)
+
   plot_tsp(inst)
 
 main()
