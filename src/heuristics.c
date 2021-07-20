@@ -431,7 +431,76 @@ int HEU_extramileage2(instance *inst) {
 ///////////////// REFINEMENT HEURISTICS /////////////////////////////////
 /////////////////////////////////////////////////////////////////////////
 
+//2opt internal swap
+int alg_2opt(instance *inst) {
+    //Start counting time elapsed from now
+    struct timeval start, end;
+    gettimeofday(&start, 0);
 
+    double best_cost=inst->solution.obj_best;
+    int status = 0;
+    int *prev = MALLOC(inst->num_nodes, int);
+    MEMSET(prev, -1, inst->num_nodes, int);
+    for (int i = 0; i < inst->num_nodes; i++) {
+        prev[inst->solution.edges[i].j] = i;
+    }
+
+    while(1) {
+        //For each pair of nodes
+        for (int i = 0; i < inst->num_nodes - 1; i++) {
+            if (status == TIME_LIMIT_EXCEEDED) {break;}
+            for (int j = i+1; j < inst->num_nodes; j++) {
+                //Check if we reach the time limit
+                gettimeofday(&end, 0);
+                double elapsed = get_elapsed_time(start, end);
+                if (inst->params.time_limit > 0 && elapsed > inst->params.time_limit) {
+                    status = TIME_LIMIT_EXCEEDED;
+                    LOG_I("2-opt heuristics time exceeded");
+                    break;
+                }
+
+                int a = i;
+                int b = j;
+                int a1 = inst->solution.edges[a].j; //successor of a
+                int b1 = inst->solution.edges[b].j; //successor of b
+
+                // Skip non valid configurations
+                // a1 == b1 never occurs because the edges are repsresented as directed. a->a1 then a1->b so it cannot be a->a1 b->a1
+                if (a1 == b1 || a == b1 || b == a1) {continue;}
+
+                // Compute the delta. If < 0 it means there is a crossing
+                double delta = calc_dist(a, b, inst) + calc_dist(a1, b1, inst) - calc_dist(a, a1, inst) - calc_dist(b, b1, inst);
+                if (delta < 0) {
+                    //Swap the 2 edges
+                    int a1 = inst->solution.edges[a].j;
+                    int b1 = inst->solution.edges[b].j; 
+                    inst->solution.edges[a].j = b;
+                    inst->solution.edges[a1].j = b1;
+                    
+                    //Reverse the path from minb to a1
+                    reverse_path(inst, b, a1, prev);
+                    
+                    //update tour cost
+                    inst->solution.obj_best+=delta;
+                }
+            }
+        }
+
+        // If couldn't find a crossing, stop the algorithm
+        if (inst->solution.obj_best >=best_cost) {break;}
+
+        //Update best cost seen till now
+        best_cost=inst->solution.obj_best;
+        
+    }
+
+    
+    FREE(prev);
+    return status;
+}
+
+/*
+//2OPT with extarnal swap
 int alg_2opt(instance *inst) {
     //Start counting time elapsed from now
     struct timeval start, end;
@@ -485,11 +554,6 @@ int alg_2opt(instance *inst) {
         // If couldn't find a crossing, stop the algorithm
         if (minchange >= 0) {break;}
 
-        /*for (int k = 0; k < inst->num_nodes; k++) {
-            LOG_D("%d -> %d",  inst->solution.edges[k].i,  inst->solution.edges[k].j);
-        }
-        LOG_D("\n=======\n");*/
-
         //Swap the 2 edges
         int a1 = inst->solution.edges[mina].j;
         int b1 = inst->solution.edges[minb].j; 
@@ -517,7 +581,7 @@ int alg_2opt(instance *inst) {
     }
     FREE(prev);
     return status;
-}
+}*/
 
 //Wrapper function that executes Multistart Nearest Neighboor and then 2-opt
 int HEU_2opt(instance *inst) {
