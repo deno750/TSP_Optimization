@@ -538,3 +538,273 @@ Testing on GRASP on instance ../data/heuristics/dsj1000.tsp
 Testing on GRASP_ITER on instance ../data/heuristics/dsj1000.tsp
 0
 	GRASP_ITER: 24483212.00_300.02
+Testing on 2OPT_GREEDY on instance ../data/heuristics/ali535.tsp
+0
+	2OPT_GREEDY: 226579.00_15.77
+Testing on 2OPT_GREEDY_ITER on instance ../data/heuristics/ali535.tsp
+0
+	2OPT_GREEDY_ITER: 226579.00_33.66
+Testing on 2OPT_EXTR_MIL on instance ../data/heuristics/ali535.tsp
+0
+	2OPT_EXTR_MIL: 226579.00_31.02
+Testing on 2OPT_GRASP on instance ../data/heuristics/ali535.tsp
+0
+	2OPT_GRASP: 226579.00_15.67
+Testing on 2OPT_GRASP_ITER on instance ../data/heuristics/ali535.tsp
+0
+	2OPT_GRASP_ITER: 226579.00_135.87
+Testing on 2OPT_GREEDY on instance ../data/heuristics/p654.tsp
+0
+	2OPT_GREEDY: 38203.00_4.46
+Testing on 2OPT_GREEDY_ITER on instance ../data/heuristics/p654.tsp
+0
+	2OPT_GREEDY_ITER: 38203.00_9.74
+Testing on 2OPT_EXTR_MIL on instance ../data/heuristics/p654.tsp
+0
+	2OPT_EXTR_MIL: 38203.00_8.67
+Testing on 2OPT_GRASP on instance ../data/heuristics/p654.tsp
+0
+	2OPT_GRASP: 38203.00_4.44
+Testing on 2OPT_GRASP_ITER on instance ../data/heuristics/p654.tsp
+0
+	2OPT_GRASP_ITER: 38203.00_124.49
+Testing on 2OPT_GREEDY on instance ../data/heuristics/rat783.tsp
+0
+	2OPT_GREEDY: 9841.00_7.71
+Testing on 2OPT_GREEDY_ITER on instance ../data/heuristics/rat783.tsp
+0
+	2OPT_GREEDY_ITER: 9841.00_17.74
+Testing on 2OPT_EXTR_MIL on instance ../data/heuristics/rat783.tsp
+0
+	2OPT_EXTR_MIL: 9841.00_15.01
+Testing on 2OPT_GRASP on instance ../data/heuristics/rat783.tsp
+0
+	2OPT_GRASP: 9841.00_7.55
+Testing on 2OPT_GRASP_ITER on instance ../data/heuristics/rat783.tsp
+0
+	2OPT_GRASP_ITER: 9841.00_127.52
+Testing on 2OPT_GREEDY on instance ../data/heuristics/gr666.tsp
+0
+	2OPT_GREEDY: 328849.00_30.18
+Testing on 2OPT_GREEDY_ITER on instance ../data/heuristics/gr666.tsp
+0
+	2OPT_GREEDY_ITER: 328849.00_60.73
+Testing on 2OPT_EXTR_MIL on instance ../data/heuristics/gr666.tsp
+0
+	2OPT_EXTR_MIL: 328849.00_59.58
+Testing on 2OPT_GRASP on instance ../data/heuristics/gr666.tsp
+0
+	2OPT_GRASP: 328849.00_30.19
+Testing on 2OPT_GRASP_ITER on instance ../data/heuristics/gr666.tsp
+0
+	2OPT_GRASP_ITER: 328849.00_150.24
+Testing on 2OPT_GREEDY on instance ../data/heuristics/d657.tsp
+0
+	2OPT_GREEDY: 55216.00_4.53
+Testing on 2OPT_GREEDY_ITER on instance ../data/heuristics/d657.tsp
+0
+	2OPT_GREEDY_ITER: 55216.00_10.16
+Testing on 2OPT_EXTR_MIL on instance ../data/heuristics/d657.tsp
+0
+	2OPT_EXTR_MIL: 55216.00_8.83
+Testing on 2OPT_GRASP on instance ../data/heuristics/d657.tsp
+0
+	2OPT_GRASP: 55216.00_4.50
+Testing on 2OPT_GRASP_ITER on instance ../data/heuristics/d657.tsp
+0
+	2OPT_GRASP_ITER: 55216.00_124.50
+Testing on 2OPT_GREEDY on instance ../data/heuristics/pr439.tsp
+0
+	2OPT_GREEDY: 118724.00_1.38
+Testing on 2OPT_GREEDY_ITER on instance ../data/heuristics/pr439.tsp
+0
+	2OPT_GREEDY_ITER: 118724.00_3.01
+Testing on 2OPT_EXTR_MIL on instance ../data/heuristics/pr439.tsp
+0
+	2OPT_EXTR_MIL: 118724.00_2.87
+Testing on 2OPT_GRASP on instance ../data/heuristics/pr439.tsp
+0
+	2OPT_GRASP: 118724.00_1.39
+Testing on 2OPT_GRASP_ITER on instance ../data/heuristics/pr439.tsp
+0
+	2OPT_GRASP_ITER: 118724.00_121.41
+Testing on 2OPT_GREEDY on instance ../data/heuristics/rat575.tsp
+0
+	2OPT_GREEDY: 7543.00_3.05
+Testing on 2OPT_GREEDY_ITER on instance ../data/heuristics/rat575.tsp
+0
+	2OPT_GREEDY_ITER: 7543.00_6.76
+Testing on 2OPT_EXTR_MIL on instance ../data/heuristics/rat575.tsp
+0
+	2OPT_EXTR_MIL: 7543.00_5.95
+Testing on 2OPT_GRASP on instance ../data/heuristics/rat575.tsp
+0
+	2OPT_GRASP: 7543.00_2.99
+Testing on 2OPT_GRASP_ITER on instance ../data/heuristics/rat575.tsp
+0
+	2OPT_GRASP_ITER: 7543.00_123.09
+Testing on 2OPT_GREEDY on instance ../data/heuristics/u724.tsp
+0
+	2OPT_GREEDY: 47423.00_6.04
+Testing on 2OPT_GREEDY_ITER on instance ../data/heuristics/u724.tsp
+0
+	2OPT_GREEDY_ITER: 47423.00_13.38
+Testing on 2OPT_EXTR_MIL on instance ../data/heuristics/u724.tsp
+0
+	2OPT_EXTR_MIL: 47423.00_11.85
+Testing on 2OPT_GRASP on instance ../data/heuristics/u724.tsp
+0
+	2OPT_GRASP: 47423.00_6.24
+Testing on 2OPT_GRASP_ITER on instance ../data/heuristics/u724.tsp
+0
+	2OPT_GRASP_ITER: 47423.00_125.98
+Testing on 2OPT_GREEDY on instance ../data/heuristics/rd400.tsp
+0
+	2OPT_GREEDY: 16891.00_1.03
+Testing on 2OPT_GREEDY_ITER on instance ../data/heuristics/rd400.tsp
+0
+	2OPT_GREEDY_ITER: 16891.00_2.38
+Testing on 2OPT_EXTR_MIL on instance ../data/heuristics/rd400.tsp
+0
+	2OPT_EXTR_MIL: 16891.00_2.05
+Testing on 2OPT_GRASP on instance ../data/heuristics/rd400.tsp
+0
+	2OPT_GRASP: 16891.00_1.05
+Testing on 2OPT_GRASP_ITER on instance ../data/heuristics/rd400.tsp
+0
+	2OPT_GRASP_ITER: 16891.00_121.05
+Testing on 2OPT_GREEDY on instance ../data/heuristics/u574.tsp
+0
+	2OPT_GREEDY: 41171.00_3.03
+Testing on 2OPT_GREEDY_ITER on instance ../data/heuristics/u574.tsp
+0
+	2OPT_GREEDY_ITER: 41171.00_6.61
+Testing on 2OPT_EXTR_MIL on instance ../data/heuristics/u574.tsp
+0
+	2OPT_EXTR_MIL: 41171.00_5.92
+Testing on 2OPT_GRASP on instance ../data/heuristics/u574.tsp
+0
+	2OPT_GRASP: 41171.00_3.02
+Testing on 2OPT_GRASP_ITER on instance ../data/heuristics/u574.tsp
+0
+	2OPT_GRASP_ITER: 41171.00_123.03
+Testing on 2OPT_GREEDY on instance ../data/heuristics/vm1084.tsp
+0
+	2OPT_GREEDY: 262928.00_20.41
+Testing on 2OPT_GREEDY_ITER on instance ../data/heuristics/vm1084.tsp
+0
+	2OPT_GREEDY_ITER: 262928.00_46.00
+Testing on 2OPT_EXTR_MIL on instance ../data/heuristics/vm1084.tsp
+0
+	2OPT_EXTR_MIL: 262928.00_40.09
+Testing on 2OPT_GRASP on instance ../data/heuristics/vm1084.tsp
+0
+	2OPT_GRASP: 262928.00_20.04
+Testing on 2OPT_GRASP_ITER on instance ../data/heuristics/vm1084.tsp
+0
+	2OPT_GRASP_ITER: 262928.00_140.23
+Testing on 2OPT_GREEDY on instance ../data/heuristics/att532.tsp
+0
+	2OPT_GREEDY: 31368.00_4.76
+Testing on 2OPT_GREEDY_ITER on instance ../data/heuristics/att532.tsp
+0
+	2OPT_GREEDY_ITER: 31368.00_10.18
+Testing on 2OPT_EXTR_MIL on instance ../data/heuristics/att532.tsp
+0
+	2OPT_EXTR_MIL: 31368.00_9.24
+Testing on 2OPT_GRASP on instance ../data/heuristics/att532.tsp
+0
+	2OPT_GRASP: 31368.00_4.78
+Testing on 2OPT_GRASP_ITER on instance ../data/heuristics/att532.tsp
+0
+	2OPT_GRASP_ITER: 31368.00_124.69
+Testing on 2OPT_GREEDY on instance ../data/heuristics/d493.tsp
+0
+	2OPT_GREEDY: 38695.00_1.95
+Testing on 2OPT_GREEDY_ITER on instance ../data/heuristics/d493.tsp
+0
+	2OPT_GREEDY_ITER: 38695.00_4.34
+Testing on 2OPT_EXTR_MIL on instance ../data/heuristics/d493.tsp
+0
+	2OPT_EXTR_MIL: 38695.00_3.74
+Testing on 2OPT_GRASP on instance ../data/heuristics/d493.tsp
+0
+	2OPT_GRASP: 38695.00_1.91
+Testing on 2OPT_GRASP_ITER on instance ../data/heuristics/d493.tsp
+0
+	2OPT_GRASP_ITER: 38695.00_121.92
+Testing on 2OPT_GREEDY on instance ../data/heuristics/lin318.tsp
+0
+	2OPT_GREEDY: 45940.00_0.52
+Testing on 2OPT_GREEDY_ITER on instance ../data/heuristics/lin318.tsp
+0
+	2OPT_GREEDY_ITER: 45940.00_1.14
+Testing on 2OPT_EXTR_MIL on instance ../data/heuristics/lin318.tsp
+0
+	2OPT_EXTR_MIL: 45940.00_1.02
+Testing on 2OPT_GRASP on instance ../data/heuristics/lin318.tsp
+0
+	2OPT_GRASP: 45940.00_0.52
+Testing on 2OPT_GRASP_ITER on instance ../data/heuristics/lin318.tsp
+0
+	2OPT_GRASP_ITER: 45940.00_120.52
+Testing on 2OPT_GREEDY on instance ../data/heuristics/pr1002.tsp
+0
+	2OPT_GREEDY: 285094.00_16.08
+Testing on 2OPT_GREEDY_ITER on instance ../data/heuristics/pr1002.tsp
+0
+	2OPT_GREEDY_ITER: 285094.00_34.92
+Testing on 2OPT_EXTR_MIL on instance ../data/heuristics/pr1002.tsp
+0
+	2OPT_EXTR_MIL: 285094.00_31.31
+Testing on 2OPT_GRASP on instance ../data/heuristics/pr1002.tsp
+0
+	2OPT_GRASP: 285094.00_15.82
+Testing on 2OPT_GRASP_ITER on instance ../data/heuristics/pr1002.tsp
+0
+	2OPT_GRASP_ITER: 285094.00_135.82
+Testing on 2OPT_GREEDY on instance ../data/heuristics/gr431.tsp
+0
+	2OPT_GREEDY: 184026.00_8.28
+Testing on 2OPT_GREEDY_ITER on instance ../data/heuristics/gr431.tsp
+0
+	2OPT_GREEDY_ITER: 184026.00_16.74
+Testing on 2OPT_EXTR_MIL on instance ../data/heuristics/gr431.tsp
+0
+	2OPT_EXTR_MIL: 184026.00_16.11
+Testing on 2OPT_GRASP on instance ../data/heuristics/gr431.tsp
+0
+	2OPT_GRASP: 184026.00_8.21
+Testing on 2OPT_GRASP_ITER on instance ../data/heuristics/gr431.tsp
+0
+	2OPT_GRASP_ITER: 184026.00_128.27
+Testing on 2OPT_GREEDY on instance ../data/heuristics/pcb442.tsp
+0
+	2OPT_GREEDY: 56141.00_1.45
+Testing on 2OPT_GREEDY_ITER on instance ../data/heuristics/pcb442.tsp
+0
+	2OPT_GREEDY_ITER: 56141.00_3.13
+Testing on 2OPT_EXTR_MIL on instance ../data/heuristics/pcb442.tsp
+0
+	2OPT_EXTR_MIL: 56141.00_2.72
+Testing on 2OPT_GRASP on instance ../data/heuristics/pcb442.tsp
+0
+	2OPT_GRASP: 56141.00_1.42
+Testing on 2OPT_GRASP_ITER on instance ../data/heuristics/pcb442.tsp
+0
+	2OPT_GRASP_ITER: 56141.00_121.45
+Testing on 2OPT_GREEDY on instance ../data/heuristics/dsj1000.tsp
+0
+	2OPT_GREEDY: 20760775.00_16.93
+Testing on 2OPT_GREEDY_ITER on instance ../data/heuristics/dsj1000.tsp
+0
+	2OPT_GREEDY_ITER: 20760775.00_37.83
+Testing on 2OPT_EXTR_MIL on instance ../data/heuristics/dsj1000.tsp
+0
+	2OPT_EXTR_MIL: 20760775.00_32.99
+Testing on 2OPT_GRASP on instance ../data/heuristics/dsj1000.tsp
+0
+	2OPT_GRASP: 20760775.00_16.72
+Testing on 2OPT_GRASP_ITER on instance ../data/heuristics/dsj1000.tsp
+0
+	2OPT_GRASP_ITER: 20760775.00_136.84
