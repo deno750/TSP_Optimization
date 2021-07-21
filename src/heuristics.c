@@ -584,16 +584,6 @@ int alg_2opt(instance *inst) {
     return status;
 }*/
 
-//Wrapper function that executes Multistart Nearest Neighboor and then 2-opt
-int HEU_2opt(instance *inst) {
-    int grasp_time_lim = inst->params.time_limit / 5;
-    int status = HEU_extramileage(inst);
-    if (status == TIME_LIMIT_EXCEEDED) {
-        LOG_I("Constructive heuristics time exceeded");
-        return TIME_LIMIT_EXCEEDED;
-    }
-    return alg_2opt(inst);
-}
 
 
 //Wrapper function that execute GRASP algorithm
@@ -646,7 +636,7 @@ int HEU_2opt_grasp(instance *inst) {
         LOG_I("STARTED 2-OPT REFINEMENT");
     }
     plot_solution(inst);
-    status = HEU_2opt(inst);
+    status = alg_2opt(inst);
     return status;
 }
 
@@ -659,7 +649,7 @@ int HEU_2opt_grasp_iter(instance *inst) {
         LOG_I("STARTED 2-OPT REFINEMENT");
     }
     plot_solution(inst);
-    status = HEU_2opt(inst);
+    status = alg_2opt(inst);
     return status;
 }
 
@@ -671,7 +661,7 @@ int HEU_2opt_greedy(instance *inst) {
         LOG_I("STARTED 2-OPT REFINEMENT");
     }
     plot_solution(inst);
-    status = HEU_2opt(inst);
+    status = alg_2opt(inst);
     return status;
 }
 
@@ -683,7 +673,7 @@ int HEU_2opt_greedy_iter(instance *inst) {
         LOG_I("STARTED 2-OPT REFINEMENT");
     }
     plot_solution(inst);
-    status = HEU_2opt(inst);
+    status = alg_2opt(inst);
     return status;
 }
 
@@ -695,7 +685,7 @@ int HEU_2opt_extramileage(instance *inst) {
         LOG_I("STARTED 2-OPT REFINEMENT");
     }
     plot_solution(inst);
-    status = HEU_2opt(inst);
+    status = alg_2opt(inst);
     return status;
 }
 
