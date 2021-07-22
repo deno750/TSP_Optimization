@@ -69,8 +69,8 @@ static int CPXPUBLIC SEC_cuts_callback_candidate(CPXCALLBACKCONTEXTptr context, 
         alg_2opt(&tempinst);
         if (inst->params.verbose >= 5) {
             LOG_I("Applied 2-opt refinement");
+            LOG_D("Incubement: %0.0f", tempinst.solution.obj_best);
         }
-        LOG_D("Incubement: %0.0f", tempinst.solution.obj_best);
         // Reinit xstar to 0. We want to reuse it in order to avoid another memory allocation
         MEMSET(xstar, 0.0, inst->num_columns, double);
        
