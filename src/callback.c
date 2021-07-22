@@ -65,6 +65,7 @@ static int CPXPUBLIC SEC_cuts_callback_candidate(CPXCALLBACKCONTEXTptr context, 
         instance tempinst;
         copy_instance(&tempinst, inst);
         save_solution_edges(&tempinst, xstar);
+        tempinst.solution.obj_best = objval; // 2opt needs the current objective value
         alg_2opt(&tempinst);
         if (inst->params.verbose >= 5) {
             LOG_I("Applied 2-opt refinement");

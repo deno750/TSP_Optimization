@@ -437,7 +437,6 @@ int alg_2opt(instance *inst) {
     //Start counting time elapsed from now
     struct timeval start, end;
     gettimeofday(&start, 0);
-
     double best_cost=inst->solution.obj_best;
     int status = 0;
     int *prev = MALLOC(inst->num_nodes, int);
@@ -482,7 +481,7 @@ int alg_2opt(instance *inst) {
                     reverse_path(inst, b, a1, prev);
                     
                     //update tour cost
-                    inst->solution.obj_best+=delta;
+                    inst->solution.obj_best += delta;
                 }
             }
         }
@@ -500,9 +499,9 @@ int alg_2opt(instance *inst) {
     return status;
 }
 
-/*
+
 //2OPT with extarnal swap
-int alg_2opt(instance *inst) {
+/*int alg_2opt(instance *inst) {
     //Start counting time elapsed from now
     struct timeval start, end;
     gettimeofday(&start, 0);
