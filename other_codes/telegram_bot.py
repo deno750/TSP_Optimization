@@ -54,7 +54,7 @@ def error(update, context):
 is_testing = False
 completed = 0
 
-csv_filename="matheuristics.csv"
+csv_filename="exact_methods_new.csv"
 current_method = ""
 current_instance = ""
 
@@ -70,11 +70,11 @@ def threaded_test(update, context):
     is_testing = True
     update.message.reply_text('Started testing!')
     paths = []#["../data/berlin52.tsp", "../data/eil51.tsp", "../data/att48.tsp", "../data/st70.tsp", "../data/pr76.tsp"]
-    for name in glob.glob('../data/mathheuristics/*'):
+    for name in glob.glob('../data/exact_models/*'):
         paths.append(name)
         print(name)
-    methods = ["HARD_FIX", "HARD_FIX2", "SOFT_FIX"]
-    time_limit = "1200"
+    methods = ["USER_CUT", "USER_CUT_2OPT", "CALLBACK", "CALLBACK_2OPT", "LOOP"]
+    time_limit = "3600"
     total_runs = len(methods) * len(paths)
 
     #if file csv do not exist, create it.
