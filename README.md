@@ -38,7 +38,7 @@
 
 
 ## Overview
-This is a project for the cours Ricerca Operativa 2 taken by prof. Matteo Fischetti in the a.y 2020/2021
+This is a project for the cours Ricerca Operativa 2 taken by prof. Matteo Fischetti in the a.y. 2020/2021
 
 This project focuses on solving TSPs with different algorithms
 
@@ -62,7 +62,7 @@ Here we describe how this project is organized:
 
 
 ## Installation
-To compile this repository, Cplex and Concorde are required. To install Cplex you can follow [IBM](https://www.ibm.com/docs/en/icos/12.7.1.0?topic=v1271-installing-cplex-optimization-studio)'s guide.
+To compile this repository, Cplex and Concorde are required. To install Cplex you can follow IBM's [guide](https://www.ibm.com/docs/en/icos/12.7.1.0?topic=v1271-installing-cplex-optimization-studio).
 
 To install Concorde, follow the following steps:
 - Download Concorde's zipped tar file from [here](https://www.math.uwaterloo.ca/tsp/concorde/downloads/downloads.htm)
