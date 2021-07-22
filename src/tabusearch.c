@@ -5,6 +5,7 @@
 #include <unistd.h>
 #include <float.h>
 
+//Struct used to keep track of the policy
 typedef struct tenure_policy {
     int min_tenure;
     int max_tenure;
@@ -28,12 +29,18 @@ static int random_choice(int a, int b, int a1, int b1) {
     return node_fixed;
 }
 
+////////////////////////////////////////////////////////
+///////////////// POLICIES /////////////////////////////
+////////////////////////////////////////////////////////
+
+//Step policy
 static void step_policy(tenure_policy *policy, int curr_iter) {
     if (curr_iter % 100 == 0) { // The number of steps is an hyper parameter
         policy->current_tenure = policy->current_tenure == policy->min_tenure ? policy->max_tenure : policy->min_tenure;
     }
 }
 
+//Linear policy
 static void linear_policy(tenure_policy *policy, int curr_iter) {
     if (policy->current_tenure > policy->max_tenure) {
         policy->current_tenure = policy->max_tenure;
@@ -48,6 +55,7 @@ static void linear_policy(tenure_policy *policy, int curr_iter) {
     if (policy->incr_tenure) { policy->current_tenure++; } else { policy->current_tenure--; }
 }
 
+//Random Policy: tenure change randomly
 static void random_policy(tenure_policy *policy, int curr_iter) {
     if (curr_iter == 1 || curr_iter % 100 == 0) { // The number of steps is an hyper parameter
         policy->current_tenure = policy->min_tenure + (int) (URAND() * (policy->max_tenure - policy->min_tenure));
@@ -64,7 +72,9 @@ int check_tenure(int* node_val, int iter, int tenure) {
     return 1;
 }
 
+//Pick 2 edges that are not crossing and it cross them (the reverse of 2-opt)
 int worsening_move(instance *inst, int *skip_node, int iter, int *tabu_size, int tenure) {
+    //Start counting time from now
     struct timeval start, end;
     gettimeofday(&start, 0);
     
@@ -135,6 +145,8 @@ int worsening_move(instance *inst, int *skip_node, int iter, int *tabu_size, int
 // The policy parameter 
 static int tabu(instance *inst, void (*policy_ptr)(tenure_policy*, int)) {
     int status = 0;
+
+    //Start counting time from now
     struct timeval start, end;
     gettimeofday(&start, 0);
 
@@ -142,20 +154,19 @@ static int tabu(instance *inst, void (*policy_ptr)(tenure_policy*, int)) {
     int *prev = CALLOC(inst->num_nodes, int);
     int tabu_size = 0;
 
+    //Get initial solution
     int grasp_time_lim = inst->params.time_limit / 5;
     HEU_Greedy_iter(inst);//HEU_Grasp_iter(inst, grasp_time_lim);
     alg_2opt(inst);
-    if (inst->params.verbose >= 5) {
-        LOG_I("Completed initialization");
-    }
-
+    if (inst->params.verbose >= 5) {LOG_I("Completed initialization");}
     plot_solution(inst);
 
     //double best_obj = DBL_MAX;
-    if (inst->params.time_limit <= 0 && inst->params.verbose >= 3) {
-        LOG_I("Default time lim %d setted.", DEFAULT_TIME_LIM);
-    }
+
+    //Set time limit
+    if (inst->params.time_limit <= 0 && inst->params.verbose >= 3) {LOG_I("Default time lim %d setted.", DEFAULT_TIME_LIM);}
     int time_limit = inst->params.time_limit > 0 ? inst->params.time_limit : DEFAULT_TIME_LIM;
+
     double best_obj = inst->solution.obj_best;
     edge *best_sol = CALLOC(inst->num_nodes, edge);
     memcpy(best_sol, inst->solution.edges, inst->num_nodes * sizeof(edge));
@@ -177,6 +188,8 @@ static int tabu(instance *inst, void (*policy_ptr)(tenure_policy*, int)) {
 
     int iter = 1; // Starting from 1 in order to have 0 on nodes which are not in tabu list
     while (1) {
+
+        //Compute elapsed time and stop if exceeded
         gettimeofday(&end, 0);
         double elapsed = get_elapsed_time(start, end);
         if (elapsed > time_limit) {
@@ -184,6 +197,7 @@ static int tabu(instance *inst, void (*policy_ptr)(tenure_policy*, int)) {
             LOG_I("Tabu Search time exceeded");
             break;
         }
+
         // This cycle can be avoided. In the 2opt move when is checking if the node is in tabu list can check whether the iteration is greater than current tenure and update it
         status = worsening_move(inst, tabu_node, iter, &tabu_size, tenure_policy.current_tenure);
         
@@ -216,22 +230,28 @@ static int tabu(instance *inst, void (*policy_ptr)(tenure_policy*, int)) {
         iter++;
     }
 
+    //Update tour cost
     inst->solution.obj_best = best_obj;
     memcpy(inst->solution.edges, best_sol, inst->num_nodes * sizeof(edge));
+
     status = alg_2opt(inst); // A very fast 2-opt which removes the remaining crossing edges (generally few crossing edges)
+
     FREE(tabu_node);
     FREE(prev);
     return status;
 }
 
+//Wrapper for tabu step
 int HEU_Tabu_step(instance *inst) {
     return tabu(inst, step_policy);
 }
 
+//Wrapper for tabu lin
 int HEU_Tabu_lin(instance *inst) {
     return tabu(inst, linear_policy);
 }
 
+//Wrapper for tabu rand
 int HEU_Tabu_rand(instance *inst) {
     return tabu(inst, random_policy);
 }
