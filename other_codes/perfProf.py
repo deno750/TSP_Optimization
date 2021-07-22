@@ -113,6 +113,7 @@ def main():
 		else:
 			plt.plot(ratio[:, j], y, **options)
 	plt.axis([1, opt.maxratio, 0, 1])
+	#plt.xlim([1,1.4])	#Comment when not using Cost
 	plt.legend(loc='lower right')
 	if opt.plottitle is not None:
 		plt.title(opt.plottitle)
