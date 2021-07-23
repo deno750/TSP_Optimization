@@ -527,7 +527,7 @@ int HEU_Genetic(instance *inst) {
         procreate(inst, population, parents, parent_size, offsprings);
         
         
-        //Replace the individuals of the current populations with the children that has better fitness
+        //Mutation + Replace the individuals of the current populations with the children that has better fitness
         selection(inst, population, pop_size, offsprings, offspring_size);
 
         //#ifdef DEBUG
