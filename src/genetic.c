@@ -8,7 +8,7 @@
 // This struct represents an individual in the population. 
 // Stores the cromosome and the fitness value. 
 typedef struct individual{
-    int* cromosome; // List of visiting nodes. i.e. the order of nodes which are visited in the tsp
+    int* cromosome; // List of nodes in the order of which are visited in the tsp
     double fitness;
 } individual;
 
@@ -41,7 +41,7 @@ void from_cromosome_to_edges(instance* inst, individual individual) {
 }
 
 /**
- * Calculates the fitness value of an individual. The calculated fitness values is stored in the 
+ * Calculates the fitness value of an individual. This value is stored in the 
  * fitness field of the individual struct
  * 
  * @param inst The problem instance
@@ -398,10 +398,12 @@ void fitness_metrics(individual* population, int pop_size, double* best, double*
  * @param num_nodes The number of nodes in the instance
  */
 void random_generation(int* cromosome, int num_nodes) {
+    //Initialize the list of noded with the numbers 1 to N
     for (int i = 0; i < num_nodes; i++) {  
         cromosome[i] = i;
     }
 
+    //Choose randomly 2 nodes in the tour and swap them
     for (int i = 0; i < num_nodes; i++) {  
         int idx1 = rand_choice(0, num_nodes);
         int idx2 = rand_choice(0, num_nodes);
@@ -414,13 +416,15 @@ void random_generation(int* cromosome, int num_nodes) {
 
 int HEU_Genetic(instance *inst) {
     int status = 0;
+
+    //Start counting time from now
     struct timeval start, end;
     gettimeofday(&start, 0);
+
     int pop_size = 1000; // Population size
+    individual *population = CALLOC(pop_size, individual);//Allocate pupulation
 
-    individual *population = CALLOC(pop_size, individual);
-
-    // Starting population initialization
+    // Generate Initial population
     for (int i = 0; i < pop_size; i++) {
         population[i].cromosome = CALLOC(inst->num_nodes, int);
 
@@ -441,15 +445,13 @@ int HEU_Genetic(instance *inst) {
             random_generation(population[i].cromosome, inst->num_nodes);
         }*/
 
+        //generate a single individual
         random_generation(population[i].cromosome, inst->num_nodes);
 
-        
-
+        //Evaluate the fitness of this individual
         fitness(inst, &(population[i]));
 
     }
-
-    // End of population initialization
 
     // A debug print to be sure that the initialization was ok
     //#ifdef DEBUG
@@ -462,10 +464,13 @@ int HEU_Genetic(instance *inst) {
     //}
     //#endif
 
+    //Set time limit
     if (inst->params.time_limit <= 0 && inst->params.verbose >= 3) {
         LOG_I("Default time lim %d setted.", DEFAULT_TIME_LIM);
     }
     int time_limit = inst->params.time_limit > 0 ? inst->params.time_limit : DEFAULT_TIME_LIM;
+    
+    //Allocate memory for parents and offspring
     int generation = 1;
     int parent_size = 400;
     int* parents = CALLOC(parent_size, int); // Parents indexes
@@ -478,7 +483,10 @@ int HEU_Genetic(instance *inst) {
     double mean_fitness = 0;
     int best_idx = 0;
     double incubement = best_fitness;
+
+    //Repeat until time limit is reached
     while (1) {
+        //Check elapsed time
         gettimeofday(&end, 0);
         double elapsed = get_elapsed_time(start, end);
         if (elapsed > time_limit) {
@@ -486,26 +494,24 @@ int HEU_Genetic(instance *inst) {
             break;
         }
 
+        //Compute the mean fitness, the best fitness value and the best individual's index in the population
         fitness_metrics(population, pop_size, &best_fitness, &mean_fitness, &best_idx);
+        //If there is a tour in the current population that is better than the one seen so far, save it
         if (best_fitness < incubement) {
-            
             incubement = best_fitness;
             individual best_individual = population[best_idx];
             inst->solution.obj_best = best_fitness;
-            from_cromosome_to_edges(inst, best_individual);
+            from_cromosome_to_edges(inst, best_individual); //Update best solution
             //alg_2opt(inst);
             plot_solution(inst);
-            if (inst->params.verbose >= 3) {
-                LOG_I("UPDATED INCUBEMENT");
-            }
-            
+            if (inst->params.verbose >= 3) {LOG_I("UPDATED INCUBEMENT");}
         }
 
         if (inst->params.verbose >= 4) {
             LOG_I("Generation %d -> Mean: %0.2f      Best: %0.0f", generation, mean_fitness, best_fitness);
         }
 
-        // Selection phase. i.e. selecting individuals which can go to the next generation
+        //SELECTION: select individuals which can go to the next generation
         select_parents(parents, parent_size, pop_size);
         
         //#ifdef DEBUG
@@ -514,15 +520,14 @@ int HEU_Genetic(instance *inst) {
         //}
         //printf("\n");
         //#endif
-
         // A debug print to be sure that the initialization was ok
         
 
-
-        // Generate new individuals by combining two parents
+        //CROSSOVER: Generate new individuals by combining two parents
         procreate(inst, population, parents, parent_size, offsprings);
-        // Select the most effective individuals which have the best fitness
         
+        
+        //Replace the individuals of the current populations with the children that has better fitness
         selection(inst, population, pop_size, offsprings, offspring_size);
 
         //#ifdef DEBUG
