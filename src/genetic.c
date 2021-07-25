@@ -483,6 +483,8 @@ int HEU_Genetic(instance *inst) {
     double mean_fitness = 0;
     int best_idx = 0;
     double incubement = best_fitness;
+    
+
 
     //Repeat until time limit is reached
     while (1) {
@@ -494,6 +496,9 @@ int HEU_Genetic(instance *inst) {
             break;
         }
 
+        if (inst->params.verbose >= 3) {LOG_I("incubement: %0.2f", incubement);}
+
+
         //Compute the mean fitness, the best fitness value and the best individual's index in the population
         fitness_metrics(population, pop_size, &best_fitness, &mean_fitness, &best_idx);
         //If there is a tour in the current population that is better than the one seen so far, save it
@@ -503,8 +508,9 @@ int HEU_Genetic(instance *inst) {
             inst->solution.obj_best = best_fitness;
             from_cromosome_to_edges(inst, best_individual); //Update best solution
             //alg_2opt(inst);
-            plot_solution(inst);
-            if (inst->params.verbose >= 3) {LOG_I("UPDATED INCUBEMENT");}
+            //plot_solution(inst);
+            //if (inst->params.verbose >= 3) {LOG_I("Updated incubement: %0.2f", best_fitness);}
+
         }
 
         if (inst->params.verbose >= 4) {

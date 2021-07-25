@@ -1,0 +1,55 @@
+
+======== PARAMS =========
+Edge type: Undirected
+Solver method: GENETIC ALGORITHM META-HEURISTIC
+Time Limit: 40
+Seed: 1627229271
+Cost: Integer
+Verbose: 3
+File path: ../data/att532.tsp
+
+
+======== INSTANCE ========
+name: att532
+n° nodes: 532
+weight type: ATT
+
+[INFO]  incubement: 179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368.00
+[DEBUG] Applying 2opt mutation
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 470490.00
+[DEBUG] Applying 2opt mutation
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 463395.00
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 447690.00
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 435923.00
+[DEBUG] Applying 2opt mutation
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 413519.00
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 400507.00
+[INFO]  incubement: 31284.00
+[INFO]  incubement: 31284.00
+[INFO]  incubement: 30317.00
+[INFO]  incubement: 30317.00
+[DEBUG] Applying 2opt mutation
+[DEBUG] Applying 2opt mutation
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 30317.00
+[DEBUG] Applying 2opt mutation
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 30317.00
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 30244.00
+[INFO]  incubement: 30244.00
+[INFO]  Solution found!
+[INFO]  The best bjective value is 30115.000000
+
+
+
+
+TIME TO SOLVE 42.055161s
+
+
