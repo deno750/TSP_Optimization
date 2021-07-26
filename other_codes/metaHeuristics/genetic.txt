@@ -2,54 +2,467 @@
 ======== PARAMS =========
 Edge type: Undirected
 Solver method: GENETIC ALGORITHM META-HEURISTIC
-Time Limit: 40
-Seed: 1627229271
+Time Limit: 1200
+Seed: 1627229719
 Cost: Integer
 Verbose: 3
-File path: ../data/att532.tsp
+File path: ../data/all/dsj1000.tsp
 
 
 ======== INSTANCE ========
-name: att532
-n° nodes: 532
-weight type: ATT
+name: dsj1000
+n° nodes: 1000
+weight type: CEIL_2D
 
 [INFO]  incubement: 179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368.00
+[INFO]  incubement: 523714228.00
 [DEBUG] Applying 2opt mutation
+[INFO]  incubement: 517306422.00
 [DEBUG] Applying 2opt mutation
-[INFO]  incubement: 470490.00
+[INFO]  incubement: 509627367.00
 [DEBUG] Applying 2opt mutation
-[DEBUG] Applying 2opt mutation
-[INFO]  incubement: 463395.00
-[DEBUG] Applying 2opt mutation
-[INFO]  incubement: 447690.00
-[DEBUG] Applying 2opt mutation
-[INFO]  incubement: 435923.00
-[DEBUG] Applying 2opt mutation
-[DEBUG] Applying 2opt mutation
-[INFO]  incubement: 413519.00
-[DEBUG] Applying 2opt mutation
-[INFO]  incubement: 400507.00
-[INFO]  incubement: 31284.00
-[INFO]  incubement: 31284.00
-[INFO]  incubement: 30317.00
-[INFO]  incubement: 30317.00
+[INFO]  incubement: 500438281.00
+[INFO]  incubement: 493370199.00
+[INFO]  incubement: 27472309.00
 [DEBUG] Applying 2opt mutation
 [DEBUG] Applying 2opt mutation
 [DEBUG] Applying 2opt mutation
-[INFO]  incubement: 30317.00
+[INFO]  incubement: 26025977.00
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 22952963.00
 [DEBUG] Applying 2opt mutation
 [DEBUG] Applying 2opt mutation
-[INFO]  incubement: 30317.00
+[INFO]  incubement: 21026269.00
 [DEBUG] Applying 2opt mutation
-[INFO]  incubement: 30244.00
-[INFO]  incubement: 30244.00
+[INFO]  incubement: 21026269.00
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 21007570.00
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 21007570.00
+[INFO]  incubement: 21007570.00
+[INFO]  incubement: 20972739.00
+[INFO]  incubement: 20915890.00
+[INFO]  incubement: 20897191.00
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20897191.00
+[DEBUG] Applying 2opt mutation
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20897191.00
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20897191.00
+[INFO]  incubement: 20684442.00
+[INFO]  incubement: 20684442.00
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20684442.00
+[INFO]  incubement: 20670639.00
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20668692.00
+[DEBUG] Applying 2opt mutation
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20634375.00
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20620342.00
+[INFO]  incubement: 20609234.00
+[DEBUG] Applying 2opt mutation
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20592977.00
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20592977.00
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20592977.00
+[DEBUG] Applying 2opt mutation
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20447164.00
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20447164.00
+[DEBUG] Applying 2opt mutation
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20433963.00
+[DEBUG] Applying 2opt mutation
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20433963.00
+[INFO]  incubement: 20433963.00
+[INFO]  incubement: 20433963.00
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20433963.00
+[INFO]  incubement: 20433963.00
+[DEBUG] Applying 2opt mutation
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20433963.00
+[INFO]  incubement: 20433963.00
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20433963.00
+[INFO]  incubement: 20433963.00
+[INFO]  incubement: 20433963.00
+[INFO]  incubement: 20433963.00
+[DEBUG] Applying 2opt mutation
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20433963.00
+[INFO]  incubement: 20433963.00
+[INFO]  incubement: 20433963.00
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20433963.00
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20433963.00
+[INFO]  incubement: 20433963.00
+[DEBUG] Applying 2opt mutation
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20433963.00
+[DEBUG] Applying 2opt mutation
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20433963.00
+[DEBUG] Applying 2opt mutation
+[DEBUG] Applying 2opt mutation
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20433963.00
+[DEBUG] Applying 2opt mutation
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20433963.00
+[DEBUG] Applying 2opt mutation
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20232452.00
+[INFO]  incubement: 20232452.00
+[INFO]  incubement: 20232452.00
+[DEBUG] Applying 2opt mutation
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20232452.00
+[DEBUG] Applying 2opt mutation
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20232452.00
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20228046.00
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20228046.00
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20228046.00
+[INFO]  incubement: 20228046.00
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20165910.00
+[DEBUG] Applying 2opt mutation
+[DEBUG] Applying 2opt mutation
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20165910.00
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20165910.00
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20147989.00
+[INFO]  incubement: 20147989.00
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20147989.00
+[DEBUG] Applying 2opt mutation
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20147989.00
+[INFO]  incubement: 20147989.00
+[INFO]  incubement: 20147989.00
+[INFO]  incubement: 20147989.00
+[DEBUG] Applying 2opt mutation
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20147989.00
+[DEBUG] Applying 2opt mutation
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20147989.00
+[DEBUG] Applying 2opt mutation
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20142796.00
+[INFO]  incubement: 20142796.00
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20142796.00
+[DEBUG] Applying 2opt mutation
+[DEBUG] Applying 2opt mutation
+[DEBUG] Applying 2opt mutation
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20142796.00
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20142796.00
+[DEBUG] Applying 2opt mutation
+[DEBUG] Applying 2opt mutation
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20142796.00
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20142796.00
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20142796.00
+[DEBUG] Applying 2opt mutation
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20142796.00
+[DEBUG] Applying 2opt mutation
+[DEBUG] Applying 2opt mutation
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20142796.00
+[INFO]  incubement: 20142796.00
+[DEBUG] Applying 2opt mutation
+[DEBUG] Applying 2opt mutation
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20142796.00
+[DEBUG] Applying 2opt mutation
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20142796.00
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20142796.00
+[INFO]  incubement: 20142796.00
+[DEBUG] Applying 2opt mutation
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20142796.00
+[INFO]  incubement: 20142796.00
+[DEBUG] Applying 2opt mutation
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20142796.00
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20142796.00
+[DEBUG] Applying 2opt mutation
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20142796.00
+[DEBUG] Applying 2opt mutation
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20142796.00
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20142796.00
+[INFO]  incubement: 20142796.00
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20142796.00
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20142796.00
+[DEBUG] Applying 2opt mutation
+[DEBUG] Applying 2opt mutation
+[DEBUG] Applying 2opt mutation
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20142796.00
+[DEBUG] Applying 2opt mutation
+[DEBUG] Applying 2opt mutation
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20142796.00
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20142796.00
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20142796.00
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20142796.00
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20142796.00
+[DEBUG] Applying 2opt mutation
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20142796.00
+[DEBUG] Applying 2opt mutation
+[DEBUG] Applying 2opt mutation
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20142796.00
+[INFO]  incubement: 20142796.00
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20142796.00
+[INFO]  incubement: 20142796.00
+[DEBUG] Applying 2opt mutation
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20142796.00
+[DEBUG] Applying 2opt mutation
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20142796.00
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20142796.00
+[INFO]  incubement: 20142796.00
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20142796.00
+[DEBUG] Applying 2opt mutation
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20142796.00
+[INFO]  incubement: 20142796.00
+[INFO]  incubement: 20142796.00
+[DEBUG] Applying 2opt mutation
+[DEBUG] Applying 2opt mutation
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20142796.00
+[INFO]  incubement: 20142796.00
+[INFO]  incubement: 20142796.00
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20142796.00
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20142796.00
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20142796.00
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20142796.00
+[DEBUG] Applying 2opt mutation
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20142796.00
+[DEBUG] Applying 2opt mutation
+[DEBUG] Applying 2opt mutation
+[DEBUG] Applying 2opt mutation
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20142796.00
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20142796.00
+[DEBUG] Applying 2opt mutation
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20142796.00
+[DEBUG] Applying 2opt mutation
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20142796.00
+[INFO]  incubement: 20142796.00
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20142796.00
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20142796.00
+[INFO]  incubement: 20142796.00
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20142796.00
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20142796.00
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20142796.00
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20142796.00
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20142796.00
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20142796.00
+[DEBUG] Applying 2opt mutation
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20142796.00
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20142796.00
+[INFO]  incubement: 20142796.00
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20142796.00
+[INFO]  incubement: 20142796.00
+[DEBUG] Applying 2opt mutation
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20142796.00
+[DEBUG] Applying 2opt mutation
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20142796.00
+[INFO]  incubement: 20142796.00
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20142796.00
+[DEBUG] Applying 2opt mutation
+[DEBUG] Applying 2opt mutation
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20142796.00
+[DEBUG] Applying 2opt mutation
+[DEBUG] Applying 2opt mutation
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20142796.00
+[DEBUG] Applying 2opt mutation
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20142796.00
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20142796.00
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20142796.00
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20142796.00
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20142796.00
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20142796.00
+[DEBUG] Applying 2opt mutation
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20142796.00
+[DEBUG] Applying 2opt mutation
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20142796.00
+[INFO]  incubement: 20142796.00
+[DEBUG] Applying 2opt mutation
+[DEBUG] Applying 2opt mutation
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20142796.00
+[INFO]  incubement: 20142796.00
+[INFO]  incubement: 20142796.00
+[INFO]  incubement: 20142796.00
+[INFO]  incubement: 20142796.00
+[INFO]  incubement: 20142796.00
+[DEBUG] Applying 2opt mutation
+[DEBUG] Applying 2opt mutation
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20142796.00
+[INFO]  incubement: 20142796.00
+[INFO]  incubement: 20142796.00
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20142796.00
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20142796.00
+[INFO]  incubement: 20142796.00
+[INFO]  incubement: 20142796.00
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20142796.00
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20142796.00
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20142796.00
+[DEBUG] Applying 2opt mutation
+[DEBUG] Applying 2opt mutation
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20142796.00
+[DEBUG] Applying 2opt mutation
+[DEBUG] Applying 2opt mutation
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20142796.00
+[INFO]  incubement: 20142796.00
+[INFO]  incubement: 20142796.00
+[INFO]  incubement: 20142796.00
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20142796.00
+[INFO]  incubement: 20142796.00
+[INFO]  incubement: 20142796.00
+[DEBUG] Applying 2opt mutation
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20142796.00
+[DEBUG] Applying 2opt mutation
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20142796.00
+[INFO]  incubement: 20142796.00
+[INFO]  incubement: 20142796.00
+[INFO]  incubement: 20142796.00
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20142796.00
+[INFO]  incubement: 20142796.00
+[INFO]  incubement: 20142796.00
+[INFO]  incubement: 20142796.00
+[INFO]  incubement: 20142796.00
+[DEBUG] Applying 2opt mutation
+[DEBUG] Applying 2opt mutation
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20142796.00
+[INFO]  incubement: 20142796.00
+[INFO]  incubement: 20142796.00
+[INFO]  incubement: 20142796.00
+[INFO]  incubement: 20142796.00
+[DEBUG] Applying 2opt mutation
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20142796.00
+[DEBUG] Applying 2opt mutation
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20142796.00
+[INFO]  incubement: 20142796.00
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20142796.00
+[INFO]  incubement: 20142796.00
+[INFO]  incubement: 20142796.00
+[INFO]  incubement: 20142796.00
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20142796.00
+[DEBUG] Applying 2opt mutation
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20142796.00
+[INFO]  incubement: 20142796.00
+[INFO]  incubement: 20142796.00
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20142796.00
+[INFO]  incubement: 20142796.00
+[DEBUG] Applying 2opt mutation
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20142796.00
+[INFO]  incubement: 20142796.00
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20142796.00
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20142796.00
+[DEBUG] Applying 2opt mutation
+[INFO]  incubement: 20142796.00
 [INFO]  Solution found!
-[INFO]  The best bjective value is 30115.000000
+[INFO]  The best bjective value is 20142796.000000
 
 
 
 
-TIME TO SOLVE 42.055161s
+TIME TO SOLVE 1200.342509s
 
 
