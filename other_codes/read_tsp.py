@@ -1,7 +1,9 @@
-import argparse   # reading command line
+import argparse
 import matplotlib.pyplot as plt
 import math
 import time
+import random
+from heapq import *
 
 #TSP instance
 class instance:
@@ -66,10 +68,19 @@ def plot_tsp(inst:instance=None,save=False):
   plt.show()
 
 
+
+#################################################
+#############      UTILS        #################
+#################################################
+
 def parse_cmd_line():
   parser = argparse.ArgumentParser(description='Parse TSP')
   parser.add_argument('-f',action='store', type=str, dest="file_name", required=True,
                   help='file name')
+  parser.add_argument('-m',action='store',type=str, dest="method",required=True,
+                  help="GREEDY, GREEDY_2OPT, GENETIC")
+  parser.add_argument('-t',action='store',type=str, dest="time_limit",required=False,
+                  help="time limit in seconds")
   args = parser.parse_args()
   return args
 
@@ -109,7 +120,19 @@ def calc_dist(a:int,b:int,inst:instance):
     q3 = math.cos( lat1 + lat2 )
     dist = EARTH_RAD * math.acos( 0.5 * ((1.0+q1)*q2 - (1.0-q1)*q3) ) + 1.0
     return dist
+  if inst.edge_type=="CEIL_2D":
+    x=a[0]-b[0]
+    y=a[1]-b[1]
+    dist=(x**2+y**2)**0.5
+    return math.ceil(dist)
   return 0
+
+
+
+
+#############################################################
+###################    HEURISTICS     #######################
+#############################################################
 
 #Nearest neighbour
 def greedy(inst: instance,start_node=0):
@@ -171,7 +194,10 @@ def swap(a,b,c,d,inst,prev):
     prev[inst.edges[k][1]]=k
 
 #2 optimization
-def alg_2opt(inst:instance):
+def alg_2opt(inst:instance, time_limit=300):
+  #start counting time from now
+  start=time.time()
+
   if not inst or not inst.nodes or not inst.edges: return False
   N=len(inst.nodes)
   
@@ -182,7 +208,7 @@ def alg_2opt(inst:instance):
   mina=0
   minc=0
 
-  while True:
+  while time.time()-start<time_limit:
     minchange = 0
     #for each pair of subsequent nodes
     for a in range(N-1):
@@ -211,24 +237,198 @@ def alg_2opt(inst:instance):
     
   return inst
 
+
+
+######################################################################
+################     GENETIC     ################################
+######################################################################
+class individual():
+  def __init__(self,inst:instance):
+    self.tour=[]
+    self.cost=0
+    self.inst=inst  #used to read the nodes
+
+  def toInstance(self):
+    self.inst.cost=self.cost
+    self.inst.edges=[[0,0] for _ in range(len(self.tour))]
+    for i in range(len(self.tour)-1):
+      index=self.tour[i]
+      self.inst.edges[index][0]=self.tour[i]
+      self.inst.edges[index][1]=self.tour[i+1]
+    index=self.tour[-1]
+    self.inst.edges[index][0]=self.tour[-1]
+    self.inst.edges[index][1]=self.tour[0]
+    return self.inst
+
+  def toTour(self,inst:instance=None):
+    if inst:self.inst=inst
+    self.tour=[]
+    self.cost=0 
+
+    curr=0
+    visited=[False]*len(self.inst.nodes)
+    while not visited[curr]:
+      p,n=inst.edges[curr]
+      visited[curr]=True
+      self.tour.append(curr)
+      curr=n
+    self.compute_tour_cost()
+    return self.tour
+  
+  def __lt__(self, other):
+    return self.cost<other.cost
+
+  def compute_tour_cost(self):
+    self.cost=0
+    for i in range(1,len(self.tour)):
+      self.cost+=calc_dist(self.tour[i-1],self.tour[i],self.inst)
+    self.cost+=calc_dist(self.tour[0],self.tour[-1],self.inst)
+    return self.cost
+
+#Generate a random tour for the given instance
+def random_tour(inst:instance):
+  num_nodes=len(inst.nodes)
+  tour=[i for i in range(num_nodes)]
+  #Choose randomly 2 nodes in the tour and swap them
+  for _ in range(num_nodes):
+    idx1=random.randint(0,num_nodes-1)
+    idx2=random.randint(0,num_nodes-1)
+    tour[idx1],tour[idx2]=tour[idx2],tour[idx1]
+  ind=individual(inst)
+  ind.tour=tour
+  ind.compute_tour_cost()
+  return ind
+
+#SELECTION PHASE: select 2 parents randomly
+def selection(population):
+  idx_par1=idx_par2=random.randint(0,len(population)-1)
+  while idx_par2==idx_par1:idx_par2=random.randint(0,len(population)-1)
+  par1=population[idx_par1]
+  par2=population[idx_par2]
+  return par1,par2
+
+def crossover(par1:instance,par2:instance):
+  tour=[-1]*len(par1.tour)
+  #pick random subtour from the first parent
+  idx1,idx2=random.randint(0,len(par1.tour)-1),random.randint(0,len(par1.tour)-1)
+  idx1,idx2=min(idx1,idx2),max(idx1,idx2)
+  visited=set()
+  for i in range(idx1,idx2+1):
+    tour[i]=par1.tour[i]
+    visited.add(par1.tour[i])
+  
+  #fill the remaining with the second parent
+  i=0
+  for e in par2.tour:
+    if e in visited:continue
+    while tour[i]!=-1:i+=1
+    tour[i]=e
+  child=individual(par1.inst)
+  child.tour=tour
+  child.cost=child.compute_tour_cost()
+  return child
+
+def mutation(ind:individual):
+  apply_mutation=random.random()
+  if apply_mutation>0.05:return ind
+  apply_2opt=random.random()
+  if apply_2opt<0.02:
+    #print("Mutation: 2-opt")
+    inst=ind.toInstance()
+    inst=alg_2opt(inst,10)#time limit 5 sec
+    ind.toTour(inst)
+    ind.compute_tour_cost()
+  else:#reverse a portion of tour
+    #print("Mutation: reversing")
+    idx1,idx2=random.randint(0,len(ind.tour)-1),random.randint(0,len(ind.tour)-1)
+    idx1,idx2=min(idx1,idx2),max(idx1,idx2)
+    ind.tour[idx1:idx2+1]=ind.tour[idx1:idx2+1][::-1]
+  return ind
+
+def genetic(inst:instance,pop_size=1000,off_size=400,num_generations=20):
+
+  population=[random_tour(inst) for _ in range(pop_size)]
+  best_solution=population[0]
+
+  costs=[]  # remember the best costs for each generation
+  means=[]  # remember the mean of population costs for each generation
+
+  #For each generation
+  for g in range(num_generations):
+    offspring=[]
+    #Generate off_size children
+    for k in range(off_size):
+      par1,par2=selection(population) #selection
+      child=crossover(par1,par2)      #crossover
+      mutation(child)                 #mutation
+      offspring.append((-child.cost,child))
+    
+    #Keep pop_size best tours
+    for e in population:
+      heappush(offspring,(-e.cost,e))
+      if len(offspring)>pop_size: heappop(offspring)
+    population=[e for cost,e in offspring]
+
+    #Update best solution and compute population mean
+    best_solution=population[0]
+    mean=0
+    for e in population:
+      mean+=e.cost
+      if e.cost<best_solution.cost:
+        best_solution=e
+    mean/=pop_size
+    print(best_solution.cost,mean)
+    costs.append(best_solution.cost)
+    means.append(mean)
+  
+  timestamps=[i for i in range(len(costs))]
+  plt.plot(timestamps, costs, marker = 'o')
+  plt.plot(timestamps, means, marker = 'o')
+  plt.show()
+
+
+  #Return best solution
+  return best_solution.toInstance()
+
+
+
 def main():
   start=time.time()
 
-  file_name=parse_cmd_line().file_name
+  command_line=parse_cmd_line()
+  file_name=command_line.file_name
+  method=command_line.method
+
   inst=read_tsp(file_name)
   elapsed=time.time()-start
   print("Time to read input (s):",elapsed)
 
-  greedy(inst)
-  elapsed=time.time()-start
-  print("Time to greedy (s):",elapsed)
-  print("Cost after greedy:",inst.cost)
+  if method=="GREEDY":
+    greedy(inst)
+    elapsed=time.time()-start
+    print("Time to greedy (s):",elapsed)
+    print("Cost after greedy:",inst.cost)
+  elif method=="GREEDY_2OPT":
+    greedy(inst)
+    elapsed=time.time()-start
+    print("Time to greedy (s):",elapsed)
+    print("Cost after greedy:",inst.cost)
 
-  alg_2opt(inst)
-  elapsed=time.time()-start
-  print("Time to opt (s):",elapsed)
-  print("Cost after 2opt:",inst.cost)
+    alg_2opt(inst)
+    elapsed=time.time()-start
+    print("Time to 2opt (s):",elapsed)
+    print("Cost after 2opt:",inst.cost)
+  elif method=="GENETIC":
+    genetic(inst,100)
+    elapsed=time.time()-start
+    print("Time to genetic (s):",elapsed)
+    print("Cost after genetic:",inst.cost)
+
+    
 
   plot_tsp(inst)
 
+
+
+random.seed(123)
 main()

@@ -15,7 +15,7 @@ for file_path in files:
         if line.startswith("[INFO]  incubement: "):
             line=line.split()
             cost=float(line[-1])
-            if cost >500000: cost=500000    #565468780 for dsj1000
+            if cost >565468780: cost=565468780    #565468780 for dsj1000
             costs.append(cost)
         """elif line.startswith("[INFO]  Time remaining: "):
             line=line.split()
