@@ -66,7 +66,7 @@ void fitness(instance* inst, individual* individual) {
  * @param parent_size The number of parents (i.e. capacity of parents array)
  * @param pop_size The current number of individuals in the population
  */
-void select_parents(int* parents, int parent_size, int pop_size) {
+void select_parents(individual* population, int* parents, int parent_size, int pop_size) {
     MEMSET(parents, -1, parent_size, int);
     int count = 0;
     // Some papers say that random pick of parents is a good thing
@@ -82,6 +82,30 @@ void select_parents(int* parents, int parent_size, int pop_size) {
         if (is_added) { continue; }
         parents[count++] = rand_sel;
     }
+    /*int* visited = CALLOC(pop_size, int);
+    while (count < parent_size) {
+        int selection = -1;
+        int is_added = 0;
+        double best_fitness = DBL_MAX;
+        for (int i = 0; i < pop_size; i++) {
+            double urand = URAND();
+            if (urand < 0.01) {
+                selection = i;
+                break;
+            }
+            if (!visited[i] && population[i].fitness < best_fitness) {
+                selection = i;
+                best_fitness = population[i].fitness;
+            }
+        }
+        if (selection == -1) {
+            break;
+        }
+        visited[selection] = 1;
+        parents[count++] = selection;
+    }
+    FREE(visited);*/
+    
 }
 
 /**
@@ -209,7 +233,8 @@ void procreate(instance* inst, individual *population, int* parents, int parent_
     
     int* cromosome = CALLOC(inst->num_nodes, int);
     int counter = 0;
-    for (int i = 0; i < parent_size - 1; i++) {
+
+    /*for (int i = 0; i < parent_size - 1; i++) {
         for (int j = i + 1; j < parent_size; j++) {
             int parent1 = parents[i];
             int parent2 = parents[j];
@@ -227,21 +252,25 @@ void procreate(instance* inst, individual *population, int* parents, int parent_
             //printf("\n");
             //#endif
             counter++;
-        }
-        
+        }   
+    }*/
+
+    for (int i = 0; i < parent_size; i++) {
+        int j = (i + 1) % parent_size;
+        int parent1 = parents[i];
+        int parent2 = parents[j];
+        crossover(inst, population, parent1, parent2, cromosome);
+        memcpy(offsprings[counter].cromosome, cromosome, sizeof(int) * inst->num_nodes);
+        fitness(inst, &(offsprings[counter]));
+
+        counter++;
     }
     FREE(cromosome);
 }
 
 /**
- * Applies the selection phase. Choses the best performing individuals. Sometimes to mantain diversification,
- * a random individual is also selected reghardless its fitness function with a probability of 10%. The mutation phase is applied 
- * with a probability of 5%. With probability of 98% during the mutation phase, is applied a mutation where a random subtour
- * is chosen and reversed; in the remaining 2% is applied a 2-opt refinement. This 2-opt refinement works for only
- * 5 seconds. The completion of the 2-opt in this phase is not necessary. The 2-opt ideally is going to work better as the 
- * algorithm goes forward. In a very later generation, there would be low crossing edges so the 2-opt algorithm can 
- * complete under 5 seconds and return a better individual. In any case, even when the 2-opt does not complete, a better
- * individual is found because some crossing edges are removed.
+ * Choses the best performing individuals. Sometimes to mantain diversification,
+ * a random individual is also selected reghardless its fitness function with a probability of 10%. 
  * 
  * @param inst The problem instance
  * @param population The list of individuals which composes the population
@@ -249,7 +278,7 @@ void procreate(instance* inst, individual *population, int* parents, int parent_
  * @param offsrpings The offsprings list
  * @param off_size The capacity of offsprings
  */
-void selection(instance* inst, individual* population, int pop_size, individual* offsprings, int off_size) {
+void keep_best_individuals(instance* inst, individual* population, int pop_size, individual* offsprings, int off_size) {
     
     int N = pop_size + off_size;
     individual* total = CALLOC(N, individual);
@@ -285,82 +314,7 @@ void selection(instance* inst, individual* population, int pop_size, individual*
         }
         visited[min_idx] = 1;
         memcpy(population[count].cromosome, total[min_idx].cromosome, sizeof(int) * inst->num_nodes);
-        population[count].fitness = total[min_idx].fitness;
-        double rand_mut = URAND();
-
-        // Mutation phase
-        if (rand_mut < 0.05) {
-
-            // Mutation method 1
-            // It takes two nodes and swaps them
-            /*int rand_index1 = rand_choice(0, inst->num_nodes - 1);
-            int rand_index2 = rand_choice(0, inst->num_nodes - 1);
-            if (rand_index1 == rand_index2) {
-                // Dont' assign manually. Just for test
-                if (rand_index1 < inst->num_nodes - 1) {
-                    rand_index2 = rand_index1 + 1;
-                } else {
-                    rand_index2 = rand_index1 - 1;
-                }
-                
-            }
-            int temp = population[count].cromosome[rand_index1];
-            population[count].cromosome[rand_index1] = population[count].cromosome[rand_index2];
-            population[count].cromosome[rand_index2] = temp;
-            fitness(inst, &(population[count]));*/
-
-            double rand_num = URAND();
-            // We can implement an exponential decay to increase the probability to use 2opt as a mutation. We want apply
-            // 2opt when the edges are quite good in order to have a faster convergence of the algorithm
-            if (rand_num > 0.02) {
-                // Mutation method 2
-                // It takes a subtour and reverses it. e.g. 1-4-3-7-9 becomes 9-7-3-4-1
-                int rand_index1 = rand_choice(0, inst->num_nodes - 1);
-                int rand_index2 = rand_choice(0, inst->num_nodes - 1);
-                if (rand_index1 > rand_index2) {
-                    int tmp = rand_index1;
-                    rand_index1 = rand_index2;
-                    rand_index2 = tmp;
-                }
-                if (rand_index1 == rand_index2) {
-                    if (rand_index1 > 0) {
-                        rand_index1 -= 1;
-                    } else {
-                        rand_index2 += 1;
-                    }
-                }
-
-                int tot_iter = rand_index2 - rand_index1;
-                int incr_idx = rand_index1;
-                int decr_idx = rand_index2;
-                for (int i = 0; i < tot_iter / 2; i++) {
-                    int tmp = population[count].cromosome[incr_idx];
-                    population[count].cromosome[incr_idx] = population[count].cromosome[decr_idx];
-                    population[count].cromosome[decr_idx] = tmp;
-                    incr_idx++;
-                    decr_idx--;
-                }
-            } else {
-                // Mutation method3
-                // Applies 2opt algoritm.
-                LOG_D("Applying 2opt mutation");
-                instance tmp_inst;
-                copy_instance(&tmp_inst, inst);
-                from_cromosome_to_edges(&tmp_inst, population[count]);
-                // We set 2opt's time limit so it finishes faster and finds a little better solution 
-                tmp_inst.params.time_limit = 5;
-                alg_2opt(&tmp_inst);
-                int node_idx = 0;
-                int node_iter = 0;
-                while (node_iter < tmp_inst.num_nodes) {
-                    population[count].cromosome[node_iter++] = tmp_inst.solution.edges[node_idx].i;
-                    node_idx = tmp_inst.solution.edges[node_idx].j;
-                }
-                free_instance(&tmp_inst);
-            }
-        }
-
-        
+        population[count].fitness = total[min_idx].fitness;        
         count++;
     }
     FREE(visited);
@@ -398,7 +352,7 @@ void fitness_metrics(individual* population, int pop_size, double* best, double*
  * @param num_nodes The number of nodes in the instance
  */
 void random_generation(int* cromosome, int num_nodes) {
-    //Initialize the list of noded with the numbers 1 to N
+    //Initialize the list of nodes with the numbers 1 to N
     for (int i = 0; i < num_nodes; i++) {  
         cromosome[i] = i;
     }
@@ -411,6 +365,92 @@ void random_generation(int* cromosome, int num_nodes) {
         int tmp = cromosome[idx1];
         cromosome[idx1] = cromosome[idx2];
         cromosome[idx2] = tmp;
+    }
+}
+
+/**
+ * The mutation phase is applied 
+ * with a probability of 5%. With probability of 98% during the mutation phase, is applied a mutation where a random subtour
+ * is chosen and reversed; in the remaining 2% is applied a 2-opt refinement. This 2-opt refinement works for only
+ * 5 seconds. The completion of the 2-opt in this phase is not necessary. The 2-opt ideally is going to work better as the 
+ * algorithm goes forward. In a very later generation, there would be low crossing edges so the 2-opt algorithm can 
+ * complete under 5 seconds and return a better individual. In any case, even when the 2-opt does not complete, a better
+ * individual is found because some crossing edges are removed.
+ */
+void mutation(instance* inst, individual* offsprings, int off_size) {
+    for (int off = 0; off < off_size; off++) {
+
+        double rand_mut = URAND() / off_size;
+        // Mutation phase
+        if (rand_mut < 0.05) {
+            // Mutation method 1
+            // It takes two nodes and swaps them
+            /*int rand_index1 = rand_choice(0, inst->num_nodes - 1);
+            int rand_index2 = rand_choice(0, inst->num_nodes - 1);
+            if (rand_index1 == rand_index2) {
+                // Dont' assign manually. Just for test
+                if (rand_index1 < inst->num_nodes - 1) {
+                    rand_index2 = rand_index1 + 1;
+                } else {
+                    rand_index2 = rand_index1 - 1;
+                }
+                
+            }
+            int temp = population[count].cromosome[rand_index1];
+            population[count].cromosome[rand_index1] = population[count].cromosome[rand_index2];
+            population[count].cromosome[rand_index2] = temp;
+            fitness(inst, &(population[count]));*/
+
+            double rand_num = URAND();
+            // We can implement an exponential decay to increase the probability to use 2opt as a mutation. We want apply
+            // 2opt when the edges are quite good in order to have a faster convergence of the algorithm
+            if (rand_num > 0.00) {
+                // Mutation method 2
+                // It takes a subtour and reverses it. e.g. 1-4-3-7-9 becomes 9-7-3-4-1
+                int rand_index1 = rand_choice(0, inst->num_nodes - 1);
+                int rand_index2 = rand_choice(0, inst->num_nodes - 1);
+                if (rand_index1 > rand_index2) {
+                    int tmp = rand_index1;
+                    rand_index1 = rand_index2;
+                    rand_index2 = tmp;
+                }
+                if (rand_index1 == rand_index2) {
+                    if (rand_index1 > 0) {
+                        rand_index1 -= 1;
+                    } else {
+                        rand_index2 += 1;
+                    }
+                }
+
+                int tot_iter = rand_index2 - rand_index1;
+                int incr_idx = rand_index1;
+                int decr_idx = rand_index2;
+                for (int i = 0; i < tot_iter / 2; i++) {
+                    int tmp = offsprings[off].cromosome[incr_idx];
+                    offsprings[off].cromosome[incr_idx] = offsprings[off].cromosome[decr_idx];
+                    offsprings[off].cromosome[decr_idx] = tmp;
+                    incr_idx++;
+                    decr_idx--;
+                }
+            } else {
+                // Mutation method3
+                // Applies 2opt algoritm.
+                LOG_D("Applying 2opt mutation");
+                instance tmp_inst;
+                copy_instance(&tmp_inst, inst);
+                from_cromosome_to_edges(&tmp_inst, offsprings[off]);
+                // We set 2opt's time limit so it finishes faster and finds a little better solution 
+                tmp_inst.params.time_limit = 5;
+                alg_2opt(&tmp_inst);
+                int node_idx = 0;
+                int node_iter = 0;
+                while (node_iter < tmp_inst.num_nodes) {
+                    offsprings[off].cromosome[node_iter++] = tmp_inst.solution.edges[node_idx].i;
+                    node_idx = tmp_inst.solution.edges[node_idx].j;
+                }
+                free_instance(&tmp_inst);
+            }
+        }
     }
 }
 
@@ -427,23 +467,6 @@ int HEU_Genetic(instance *inst) {
     // Generate Initial population
     for (int i = 0; i < pop_size; i++) {
         population[i].cromosome = CALLOC(inst->num_nodes, int);
-
-        /*double rand_num = URAND();
-        if (rand_num < 0.15) {
-            // Using greedy for initialization. Might be a better way
-            int start_node = rand_choice(0, inst->num_nodes - 1);
-            greedy(inst, start_node);
-            
-            int node_idx = start_node;
-            int node_iter = 0;
-            while (node_iter < inst->num_nodes) {
-                population[i].cromosome[node_iter++] = inst->solution.edges[node_idx].i;
-                node_idx = inst->solution.edges[node_idx].j;
-            }
-        } else {
-             // Using random initialization
-            random_generation(population[i].cromosome, inst->num_nodes);
-        }*/
 
         //generate a single individual
         random_generation(population[i].cromosome, inst->num_nodes);
@@ -474,7 +497,7 @@ int HEU_Genetic(instance *inst) {
     int generation = 1;
     int parent_size = 400;
     int* parents = CALLOC(parent_size, int); // Parents indexes
-    int offspring_size = (parent_size - 1) * parent_size / 2;
+    int offspring_size = parent_size; //(parent_size - 1) * parent_size / 2;
     individual* offsprings = CALLOC(offspring_size, individual);
     for (int i = 0; i < offspring_size; i++) {
         offsprings[i].cromosome = CALLOC(inst->num_nodes, int);
@@ -496,9 +519,6 @@ int HEU_Genetic(instance *inst) {
             break;
         }
 
-        if (inst->params.verbose >= 3) {LOG_I("incubement: %0.2f", incubement);}
-
-
         //Compute the mean fitness, the best fitness value and the best individual's index in the population
         fitness_metrics(population, pop_size, &best_fitness, &mean_fitness, &best_idx);
         //If there is a tour in the current population that is better than the one seen so far, save it
@@ -508,8 +528,8 @@ int HEU_Genetic(instance *inst) {
             inst->solution.obj_best = best_fitness;
             from_cromosome_to_edges(inst, best_individual); //Update best solution
             //alg_2opt(inst);
-            //plot_solution(inst);
-            //if (inst->params.verbose >= 3) {LOG_I("Updated incubement: %0.2f", best_fitness);}
+            plot_solution(inst);
+            if (inst->params.verbose >= 3) {LOG_I("UPDATED INCUBEMENT: %0.2f", best_fitness);}
 
         }
 
@@ -518,7 +538,7 @@ int HEU_Genetic(instance *inst) {
         }
 
         //SELECTION: select individuals which can go to the next generation
-        select_parents(parents, parent_size, pop_size);
+        select_parents(population, parents, parent_size, pop_size);
         
         //#ifdef DEBUG
         //for (int i = 0; i < parent_size; i++) {
@@ -531,10 +551,13 @@ int HEU_Genetic(instance *inst) {
 
         //CROSSOVER: Generate new individuals by combining two parents
         procreate(inst, population, parents, parent_size, offsprings);
+
+        // Mutation phase
+        mutation(inst, offsprings, offspring_size);
         
         
-        //Mutation + Replace the individuals of the current populations with the children that has better fitness
-        selection(inst, population, pop_size, offsprings, offspring_size);
+        //Replace the individuals of the current populations with the children that has better fitness
+        keep_best_individuals(inst, population, pop_size, offsprings, offspring_size);
 
         //#ifdef DEBUG
         //for (int i = 0; i < pop_size; i++) {
