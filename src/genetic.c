@@ -58,23 +58,11 @@ void fitness(instance* inst, individual* individual) {
     individual->fitness += calc_dist(prev_node, individual->cromosome[0], inst);
 }
 
-void softmax(double* input, int input_size) {
-    double sum_e = 0;
-    for (int i = 0; i < input_size; i++) {
-        sum_e += exp(input[i]);
-    }
-
-    for (int i = 0; i < input_size; i++) {
-        double prob = exp(input[i]) / sum_e;
-        input[i] = prob;
-    }
-}                                                  \
-
 static int compare_individuals(const void *lhs, const void *rhs) {
     const individual* lp = lhs;
     const individual* rp = rhs;
 
-    return lp->fitness < rp->fitness ? 1 : -1;
+    return rp->fitness - lp->fitness;
     
 }
 
@@ -89,21 +77,6 @@ static int compare_individuals(const void *lhs, const void *rhs) {
 void select_parents(individual* population, int* parents, int parent_size, int pop_size) {
     MEMSET(parents, -1, parent_size, int);
     int count = 0;
-
-    /*double worst_fitness = 0;
-    for (int i = 0; i < pop_size; i++) {
-        if (population[i].fitness > worst_fitness) {
-            worst_fitness = population[i].fitness;
-        }
-    }
-
-    double* parent_probs = CALLOC(pop_size, double);
-    for (int i = 0; i < pop_size; i++) {
-        double prob = population[i].fitness / worst_fitness * 5;
-        parent_probs[i] = prob;
-    }
-
-    softmax(parent_probs, pop_size);*/
 
     int* visited = CALLOC(pop_size, int);
 
@@ -122,14 +95,25 @@ void select_parents(individual* population, int* parents, int parent_size, int p
 
     while (count < parent_size) {
         double random_num = rand_choice(0, rank_sum);
-        for (int i = 0; i < pop_size; i++) {
+
+        // New way
+        int index = (-1 + sqrt(1 + 8*random_num)) / 2.0;
+        double val = cum_sum[index];
+        if (random_num < val && !visited[index]) {
+            parents[count++] = index;
+            visited[index] = 1;
+            //break;
+        }
+
+        //Old way
+        /*for (int i = 0; i < pop_size; i++) {
             double cumulative_sum = cum_sum[i];
             if (random_num < cum_sum[i] && !visited[i]) {
                 parents[count++] = i;
                 visited[i] = 1;
                 break;
             }
-        }
+        }*/
     }
 
     // Best fitness parents
@@ -324,15 +308,16 @@ void choose_survivors(instance* inst, individual* population, int pop_size, indi
     individual* total = CALLOC(N, individual);
     int *visited = CALLOC(N, int);
     int count = 0;
-    for (int i = 0; i < pop_size; i++) {
-        total[count++] = population[i];
-    }
+    
     for (int i = 0; i < off_size; i++) {
         total[count++] = offsprings[i];
     }
+    for (int i = 0; i < pop_size; i++) {
+        total[count++] = population[i];
+    }
     
     count = 0;
-    while (count < pop_size) {
+    /*while (count < pop_size) {
         
         double min_fitness = DBL_MAX;
         int min_idx = -1;
@@ -356,11 +341,10 @@ void choose_survivors(instance* inst, individual* population, int pop_size, indi
         memcpy(population[count].cromosome, total[min_idx].cromosome, sizeof(int) * inst->num_nodes);
         population[count].fitness = total[min_idx].fitness;        
         count++;
-    }
+    }*/
 
-    /*qsort(total, N, sizeof(individual), compare_individuals);
+    qsort(total, N, sizeof(individual), compare_individuals);
 
-    // Check answer 3 from this: https://stackoverflow.com/questions/20290831/how-to-perform-rank-based-selection-in-a-genetic-algorithm
     double rank_sum = N * (N + 1) / 2;
     double* cum_sum = CALLOC(N, double);
     cum_sum[0] = 1;
@@ -371,15 +355,26 @@ void choose_survivors(instance* inst, individual* population, int pop_size, indi
 
     while (count < pop_size) {
         double random_num = rand_choice(0, rank_sum);
-        for (int i = 0; i < pop_size; i++) {
+        int index = (-1 + sqrt(1 + 8*random_num)) / 2.0;
+        double val = cum_sum[index];
+        if (random_num < val && !visited[index]) {
+            memcpy(population[count].cromosome, total[index].cromosome, sizeof(int) * inst->num_nodes);
+            population[count].fitness = total[index].fitness;
+            count++;
+            visited[index] = 1;
+        }
+        /*for (int i = 0; i < pop_size; i++) {
             double cumulative_sum = cum_sum[i];
             if (random_num < cum_sum[i] && !visited[i]) {
-                population[count++] = total[i];
+                //memcpy(population[count].cromosome, total[i].cromosome, sizeof(int) * inst->num_nodes);
+                population[count].fitness = total[i].fitness;
+                count++;
                 visited[i] = 1;
                 break;
             }
-        }
-    }*/
+        }*/
+    }
+    FREE(cum_sum);
     FREE(visited);
     FREE(total);
 }
@@ -524,7 +519,7 @@ int HEU_Genetic(instance *inst) {
     struct timeval start, end;
     gettimeofday(&start, 0);
 
-    int pop_size = 2 * inst->num_nodes; // Population size
+    int pop_size = 1000; // Population size
     individual *population = CALLOC(pop_size, individual);//Allocate pupulation
 
     // Generate Initial population
