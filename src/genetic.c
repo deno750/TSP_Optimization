@@ -58,6 +58,26 @@ void fitness(instance* inst, individual* individual) {
     individual->fitness += calc_dist(prev_node, individual->cromosome[0], inst);
 }
 
+void softmax(double* input, int input_size) {
+    double sum_e = 0;
+    for (int i = 0; i < input_size; i++) {
+        sum_e += exp(input[i]);
+    }
+
+    for (int i = 0; i < input_size; i++) {
+        double prob = exp(input[i]) / sum_e;
+        input[i] = prob;
+    }
+}                                                  \
+
+static int compare_individuals(const void *lhs, const void *rhs) {
+    const individual* lp = lhs;
+    const individual* rp = rhs;
+
+    return lp->fitness < rp->fitness ? 1 : -1;
+    
+}
+
 
 /**
  * Picks from the population a random number of individuals which are going to be the parents to produce offsprings
@@ -69,28 +89,60 @@ void fitness(instance* inst, individual* individual) {
 void select_parents(individual* population, int* parents, int parent_size, int pop_size) {
     MEMSET(parents, -1, parent_size, int);
     int count = 0;
-    // Random pick of parents
-    /*while (count < parent_size) {
-        int rand_sel = rand_choice(0, pop_size - 1);
-        int is_added = 0;
-        for (int i = 0; i < count; i++) {
-            if (rand_sel == parents[i]) {
-                is_added = 1;
+
+    /*double worst_fitness = 0;
+    for (int i = 0; i < pop_size; i++) {
+        if (population[i].fitness > worst_fitness) {
+            worst_fitness = population[i].fitness;
+        }
+    }
+
+    double* parent_probs = CALLOC(pop_size, double);
+    for (int i = 0; i < pop_size; i++) {
+        double prob = population[i].fitness / worst_fitness * 5;
+        parent_probs[i] = prob;
+    }
+
+    softmax(parent_probs, pop_size);*/
+
+    int* visited = CALLOC(pop_size, int);
+
+    //individual *pop_copy = CALLOC(pop_size, individual);
+    //memcpy(pop_copy, population, pop_size * sizeof(individual));
+    qsort(population, pop_size, sizeof(individual), compare_individuals);
+
+    // Check answer 3 from this: https://stackoverflow.com/questions/20290831/how-to-perform-rank-based-selection-in-a-genetic-algorithm
+    double rank_sum = pop_size * (pop_size + 1) / 2;
+    double* cum_sum = CALLOC(pop_size, double);
+    cum_sum[0] = 1;
+    for (int i = 1; i < pop_size; i++) {
+        double sum = cum_sum[i - 1] + i + 1;
+        cum_sum[i] = sum;
+    }
+
+    while (count < parent_size) {
+        double random_num = rand_choice(0, rank_sum);
+        for (int i = 0; i < pop_size; i++) {
+            double cumulative_sum = cum_sum[i];
+            if (random_num < cum_sum[i] && !visited[i]) {
+                parents[count++] = i;
+                visited[i] = 1;
                 break;
             }
         }
-        if (is_added) { continue; }
-        parents[count++] = rand_sel;
-    }*/
+    }
 
     // Best fitness parents
-    int* visited = CALLOC(pop_size, int);
-    while (count < parent_size) {
+    /*while (count < parent_size) {
         int selection = -1;
         int is_added = 0;
         double best_fitness = DBL_MAX;
-        
         for (int i = 0; i < pop_size; i++) {
+            double rand_num = URAND();
+            if (!visited[i] && rand_num < 0.02) { // Diversification. 
+                selection = i;
+                break;
+            }
             if (!visited[i] && population[i].fitness < best_fitness) {
                 selection = i;
                 best_fitness = population[i].fitness;
@@ -101,7 +153,7 @@ void select_parents(individual* population, int* parents, int parent_size, int p
         }
         visited[selection] = 1;
         parents[count++] = selection;
-    }
+    }*/
     FREE(visited);
     
 }
@@ -228,7 +280,7 @@ void procreate(instance* inst, individual *population, int* parents, int parent_
         }   
     }*/
 
-    /*for (int i = 0; i < parent_size; i++) {
+    for (int i = 0; i < parent_size; i++) {
         int j = (i + 1) % parent_size;
         int parent1 = parents[i];
         int parent2 = parents[j];
@@ -237,9 +289,9 @@ void procreate(instance* inst, individual *population, int* parents, int parent_
         fitness(inst, &(offsprings[counter]));
 
         counter++;
-    }*/
+    }
 
-    for (int i = 0; i < parent_size; i++) {
+    /*for (int i = 0; i < parent_size; i++) {
         int parent1 = rand_choice(0, inst->num_nodes);
         int parent2 = rand_choice(0, inst->num_nodes);
         while (parent1 == parent2) {
@@ -252,7 +304,7 @@ void procreate(instance* inst, individual *population, int* parents, int parent_
 
         counter++;
         
-    }
+    }*/
     FREE(cromosome);
 }
 
@@ -293,7 +345,7 @@ void choose_survivors(instance* inst, individual* population, int pop_size, indi
         }
         // Diversification phase
         double rand_diversification = URAND();
-        if (rand_diversification < 0.03) {
+        if (rand_diversification < 0.01) {
             int rand_index = rand_choice(0, N - 1);
             while (visited[rand_index] || rand_index == min_idx) {
                 rand_index = rand_choice(0, N - 1);
@@ -305,6 +357,29 @@ void choose_survivors(instance* inst, individual* population, int pop_size, indi
         population[count].fitness = total[min_idx].fitness;        
         count++;
     }
+
+    /*qsort(total, N, sizeof(individual), compare_individuals);
+
+    // Check answer 3 from this: https://stackoverflow.com/questions/20290831/how-to-perform-rank-based-selection-in-a-genetic-algorithm
+    double rank_sum = N * (N + 1) / 2;
+    double* cum_sum = CALLOC(N, double);
+    cum_sum[0] = 1;
+    for (int i = 1; i < N; i++) {
+        double sum = cum_sum[i - 1] + i + 1;
+        cum_sum[i] = sum;
+    }
+
+    while (count < pop_size) {
+        double random_num = rand_choice(0, rank_sum);
+        for (int i = 0; i < pop_size; i++) {
+            double cumulative_sum = cum_sum[i];
+            if (random_num < cum_sum[i] && !visited[i]) {
+                population[count++] = total[i];
+                visited[i] = 1;
+                break;
+            }
+        }
+    }*/
     FREE(visited);
     FREE(total);
 }
@@ -370,7 +445,7 @@ void mutation(instance* inst, individual* offsprings, int off_size) {
 
         double rand_mut = URAND() ;
         // Mutation phase
-        if (rand_mut < 0.0005) {
+        if (rand_mut < 0.05) {
             // Mutation method 1
             // It takes two nodes and swaps them
             /*int rand_index1 = rand_choice(0, inst->num_nodes - 1);
@@ -392,7 +467,7 @@ void mutation(instance* inst, individual* offsprings, int off_size) {
             double rand_num = URAND();
             // We can implement an exponential decay to increase the probability to use 2opt as a mutation. We want apply
             // 2opt when the edges are quite good in order to have a faster convergence of the algorithm
-            if (rand_num > 0.02) {
+            if (rand_num > 0.00) {
                 // Mutation method 2
                 // It takes a subtour and reverses it. e.g. 1-4-3-7-9 becomes 9-7-3-4-1
                 int rand_index1 = rand_choice(0, inst->num_nodes - 1);
@@ -456,17 +531,23 @@ int HEU_Genetic(instance *inst) {
     for (int i = 0; i < pop_size; i++) {
         population[i].cromosome = CALLOC(inst->num_nodes, int);
 
-        /*int start_node = rand_choice(0, inst->num_nodes - 1);
-        greedy(inst, start_node);
-            
-        int node_idx = start_node;
-        int node_iter = 0;
-        while (node_iter < inst->num_nodes) {
-            population[i].cromosome[node_iter++] = inst->solution.edges[node_idx].i;
-            node_idx = inst->solution.edges[node_idx].j;
-        }*/
-        //generate a single individual
-        random_generation(population[i].cromosome, inst->num_nodes);
+        double rand_num = URAND();
+        if (rand_num < 0.00) {
+            int start_node = rand_choice(0, inst->num_nodes - 1);
+            grasp(inst, start_node);
+                
+            int node_idx = start_node;
+            int node_iter = 0;
+            while (node_iter < inst->num_nodes) {
+                population[i].cromosome[node_iter++] = inst->solution.edges[node_idx].i;
+                node_idx = inst->solution.edges[node_idx].j;
+            }
+        } else {
+            //generate a single individual
+            random_generation(population[i].cromosome, inst->num_nodes);
+        }
+        
+        
 
         //Evaluate the fitness of this individual
         fitness(inst, &(population[i]));
@@ -529,7 +610,7 @@ int HEU_Genetic(instance *inst) {
             //if (inst->params.verbose >= 3) {LOG_I("UPDATED INCUBEMENT: %0.2f", best_fitness);}
 
         }
-        if (generation % 1000 == 0) {
+        if (generation % 100 == 0) {
             plot_solution(inst);
         }
         

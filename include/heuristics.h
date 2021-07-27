@@ -121,5 +121,7 @@ int HEU_2opt_greedy_iter(instance *inst);
  */
 int HEU_2opt_extramileage(instance *inst);
 
+int grasp(instance *inst, int starting_node);
+
 int HEU_VNS(instance *inst);
 #endif
