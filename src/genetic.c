@@ -13,15 +13,15 @@ typedef struct individual{
 } individual;
 
 /**
- * Choses a random number in between [from, to]
+ * Choses a random number in between [from, to)
  * 
  * @param from The left bound 
  * @param to The right bound
- * @returns The random number between [from, to]
+ * @returns Random integer between [from, to)
  */
-int rand_choice(int from, int to) {
+/*int rand_choice(int from, int to) {
     return from + ((int) (URAND() * (to - from)));
-}
+}*/
 
 /**
  * Transforms the cromosome representation to edge representation

@@ -739,3 +739,14 @@ void copy_instance(instance *dst, instance *src) {
     }
     dst->thread_seeds = NULL;
 }
+
+/**
+ * Choses a random number in between [from, to)
+ * 
+ * @param from The left bound 
+ * @param to The right bound
+ * @returns Random integer between [from, to)
+ */
+int rand_choice(int from, int to) {
+    return from + ((int) (URAND() * (to - from)));
+}

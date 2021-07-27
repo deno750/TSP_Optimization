@@ -3,6 +3,10 @@
 
 #include "utility.h"
 
+//......
+int kick(instance *inst);
+
+//.....
 int HEU_VNS(instance *inst);
 
 #endif
