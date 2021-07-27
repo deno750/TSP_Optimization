@@ -496,8 +496,6 @@ int HEU_Genetic(instance *inst) {
             break;
         }
 
-        if (inst->params.verbose >= 3) {LOG_I("incubement: %0.2f", incubement);}
-
 
         //Compute the mean fitness, the best fitness value and the best individual's index in the population
         fitness_metrics(population, pop_size, &best_fitness, &mean_fitness, &best_idx);
@@ -508,8 +506,8 @@ int HEU_Genetic(instance *inst) {
             inst->solution.obj_best = best_fitness;
             from_cromosome_to_edges(inst, best_individual); //Update best solution
             //alg_2opt(inst);
-            //plot_solution(inst);
-            //if (inst->params.verbose >= 3) {LOG_I("Updated incubement: %0.2f", best_fitness);}
+            plot_solution(inst);
+            if (inst->params.verbose >= 3) {LOG_I("UPDATED INCUBEMENT: %0.2f", best_fitness);}
 
         }
 
