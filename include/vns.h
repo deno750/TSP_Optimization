@@ -3,6 +3,6 @@
 
 #include "utility.h"
 
-int HEU_Vns(instance *inst);
+int HEU_VNS(instance *inst);
 
 #endif

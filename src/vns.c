@@ -7,7 +7,7 @@
 
 
 
-int HEU_Vns(instance *inst){
+int HEU_VNS(instance *inst){
     int status = 0;
 
     return status;
