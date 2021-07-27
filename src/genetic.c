@@ -69,8 +69,8 @@ void fitness(instance* inst, individual* individual) {
 void select_parents(individual* population, int* parents, int parent_size, int pop_size) {
     MEMSET(parents, -1, parent_size, int);
     int count = 0;
-    // Some papers say that random pick of parents is a good thing
-    while (count < parent_size) {
+    // Random pick of parents
+    /*while (count < parent_size) {
         int rand_sel = rand_choice(0, pop_size - 1);
         int is_added = 0;
         for (int i = 0; i < count; i++) {
@@ -81,18 +81,16 @@ void select_parents(individual* population, int* parents, int parent_size, int p
         }
         if (is_added) { continue; }
         parents[count++] = rand_sel;
-    }
-    /*int* visited = CALLOC(pop_size, int);
+    }*/
+
+    // Best fitness parents
+    int* visited = CALLOC(pop_size, int);
     while (count < parent_size) {
         int selection = -1;
         int is_added = 0;
         double best_fitness = DBL_MAX;
+        
         for (int i = 0; i < pop_size; i++) {
-            double urand = URAND();
-            if (urand < 0.01) {
-                selection = i;
-                break;
-            }
             if (!visited[i] && population[i].fitness < best_fitness) {
                 selection = i;
                 best_fitness = population[i].fitness;
@@ -104,7 +102,7 @@ void select_parents(individual* population, int* parents, int parent_size, int p
         visited[selection] = 1;
         parents[count++] = selection;
     }
-    FREE(visited);*/
+    FREE(visited);
     
 }
 
@@ -120,103 +118,86 @@ void select_parents(individual* population, int* parents, int parent_size, int p
 void crossover(instance* inst, individual *population, int parent1, int parent2, int* cromosome) {
     individual p1 = population[parent1];
     individual p2 = population[parent2];
-    int *visited = CALLOC(inst->num_nodes, int);
 
-    // Crossover method 1
-    // This method takes a random index which splits the cromosome. 
-    /*int rand_index = rand_choice(0, inst->num_nodes);
-    int idx = 0;
-    for (int i = 0; i < inst->num_nodes; i++) {
-        
-        if (i <= rand_index) {
+    int *visited = CALLOC(inst->num_nodes, int);
+    double rand_num = URAND();
+    if (rand_num < 0.5) {
+        // Crossover method 1
+        // This method takes a random index which splits the cromosome. 
+        int rand_index = rand_choice(0, inst->num_nodes);
+        int idx = 0;
+        for (int i = 0; i < inst->num_nodes; i++) {
+            
+            if (i <= rand_index) {
+                int node = p1.cromosome[i];
+                visited[node] = 1;
+                cromosome[idx] = node;
+            } else {
+                int node = p2.cromosome[i];
+                if (visited[node]) { continue; }
+                cromosome[idx] = node;
+            }
+            idx++;
+        }
+
+        if (idx < inst->num_nodes) {
+            for (int i = 0; i <= rand_index; i++) {
+                int node = p2.cromosome[i];
+                if (visited[node]) { continue; }
+                cromosome[idx++] = node;
+            }
+        }
+    } else {
+        // Crossover method 2
+        // Using this method instead to split the cromosome's array in 2 parts, we want to obtain a random substring of the parent1's cromosome. 
+        // This substring is going to be added in the same position of offspring's cromosome. The remaining offspring's cromosome positions are
+        // going to be filled by the remaining nodes in parent's 2 cromosome in order of appearing from rand_index2. 
+        // Here's an image which describes this procedure: https://miro.medium.com/max/1458/1*YhmzBBCyAG3rtEBbI0gz4w.jpeg
+        int rand_index1 = rand_choice(0, inst->num_nodes);
+        int rand_index2 = rand_choice(0, inst->num_nodes);
+        if (rand_index1 > rand_index2) {
+            int tmp = rand_index1;
+            rand_index1 = rand_index2;
+            rand_index2 = tmp;
+        }
+        if (rand_index1 == rand_index2) {
+            if (rand_index1 > 0) {
+                rand_index1 -= 1;
+            } else {
+                rand_index2 += 1;
+            }
+        }
+
+        int nodes_added = 0;
+        for (int i = rand_index1; i <= rand_index2; i++) {
             int node = p1.cromosome[i];
             visited[node] = 1;
-            cromosome[idx] = node;
-        } else {
-            int node = p2.cromosome[i];
-            if (visited[node]) { continue; }
-            cromosome[idx] = node;
-        }
-        idx++;
-    }
-
-    if (idx < inst->num_nodes) {
-        for (int i = 0; i <= rand_index; i++) {
-            int node = p2.cromosome[i];
-            if (visited[node]) { continue; }
-            cromosome[idx++] = node;
-        }
-    }*/
-
-    
-    // Crossover method 2
-    // Using this method instead to split the cromosome's array in 2 parts, we want to obtain a random substring of the parent1's cromosome. 
-    // This substring is going to be added in the same position of offspring's cromosome. The remaining offspring's cromosome positions are
-    // going to be filled by the remaining nodes in parent's 2 cromosome in order of appearing from rand_index2. 
-    // Here's an image which describes this procedure: https://miro.medium.com/max/1458/1*YhmzBBCyAG3rtEBbI0gz4w.jpeg
-    int rand_index1 = rand_choice(0, inst->num_nodes);
-    int rand_index2 = rand_choice(0, inst->num_nodes);
-    if (rand_index1 > rand_index2) {
-        int tmp = rand_index1;
-        rand_index1 = rand_index2;
-        rand_index2 = tmp;
-    }
-    if (rand_index1 == rand_index2) {
-        if (rand_index1 > 0) {
-            rand_index1 -= 1;
-        } else {
-            rand_index2 += 1;
-        }
-    }
-
-    int nodes_added = 0;
-    for (int i = rand_index1; i <= rand_index2; i++) {
-        int node = p1.cromosome[i];
-        visited[node] = 1;
-        cromosome[i] = node;
-        nodes_added++;
-    }
-
-    // A little bit confusing code. 
-    // parent2_counter starts from rand_index2 + 1 because we want to start from the following node in parent2 array. It is an increasing number for every iteration
-    // the while loop below does.
-    // offspring_crom_counter increases only when a new entry is added to the offspring's cromosome. 
-    // Both of these counters overflows the cromosome's size. So a modulo operation with number of nodes should be done in order to retrieve the correct index
-    // of the partent 2 index and offspring's index
-    int parent2_counter = rand_index2 + 1; 
-    int offspring_crom_counter = parent2_counter;
-    while (nodes_added < inst->num_nodes) {
-        int p2_index = parent2_counter % inst->num_nodes; // Getting the current looking gene on parent2's cromosome.
-        int node = p2.cromosome[p2_index];
-        if (!visited[node]) {
-            int offspring_index = offspring_crom_counter % inst->num_nodes; // Gettings the current index of offspring's cromosome where the new entry will be added
-            cromosome[offspring_index] = node;
+            cromosome[i] = node;
             nodes_added++;
-            offspring_crom_counter++;
         }
 
-        parent2_counter++;
+        // A little bit confusing code. 
+        // parent2_counter starts from rand_index2 + 1 because we want to start from the following node in parent2 array. It is an increasing number for every iteration
+        // the while loop below does.
+        // offspring_crom_counter increases only when a new entry is added to the offspring's cromosome. 
+        // Both of these counters overflows the cromosome's size. So a modulo operation with number of nodes should be done in order to retrieve the correct index
+        // of the partent 2 index and offspring's index
+        int parent2_counter = rand_index2 + 1; 
+        int offspring_crom_counter = parent2_counter;
+        while (nodes_added < inst->num_nodes) {
+            int p2_index = parent2_counter % inst->num_nodes; // Getting the current looking gene on parent2's cromosome.
+            int node = p2.cromosome[p2_index];
+            if (!visited[node]) {
+                int offspring_index = offspring_crom_counter % inst->num_nodes; // Gettings the current index of offspring's cromosome where the new entry will be added
+                cromosome[offspring_index] = node;
+                nodes_added++;
+                offspring_crom_counter++;
+            }
+
+            parent2_counter++;
+        }
     }
 
-    // Decomment here to see the printing of the parents' cromosomes and offsprings cromosome 
-    /*printf("Parent 1\n");
-    for (int i = 0; i < inst->num_nodes; i++) {
-        printf("%d ", p1.cromosome[i]);
-    }
-    printf("\n\nParent 2\n");
-    for (int i = 0; i < inst->num_nodes; i++) {
-        printf("%d ", p2.cromosome[i]);
-    }
-    printf("\n\nOffspring\n");
-    for (int i = 0; i < inst->num_nodes; i++) {
-        printf("%d ", cromosome[i]);
-    }
-    printf("\n\n");
-    sleep(5);
-    */
-    
-    
-    
     FREE(visited);
 }
 
@@ -243,19 +224,11 @@ void procreate(instance* inst, individual *population, int* parents, int parent_
             memcpy(offsprings[counter].cromosome, cromosome, sizeof(int) * inst->num_nodes);
             fitness(inst, &(offsprings[counter]));
             
-            //#ifdef DEBUG
-            //printf("OFFSPRING: ");
-            //for (int i = 0; i < inst->num_nodes; i++) {
-            //    printf("%d ", offspring.cromosome[i]);
-            //}
-            //printf("      %0.0f", offspring.fitness);
-            //printf("\n");
-            //#endif
             counter++;
         }   
     }*/
 
-    for (int i = 0; i < parent_size; i++) {
+    /*for (int i = 0; i < parent_size; i++) {
         int j = (i + 1) % parent_size;
         int parent1 = parents[i];
         int parent2 = parents[j];
@@ -264,6 +237,21 @@ void procreate(instance* inst, individual *population, int* parents, int parent_
         fitness(inst, &(offsprings[counter]));
 
         counter++;
+    }*/
+
+    for (int i = 0; i < parent_size; i++) {
+        int parent1 = rand_choice(0, inst->num_nodes);
+        int parent2 = rand_choice(0, inst->num_nodes);
+        while (parent1 == parent2) {
+            parent2 = rand_choice(0, inst->num_nodes);
+        }
+
+        crossover(inst, population, parent1, parent2, cromosome);
+        memcpy(offsprings[counter].cromosome, cromosome, sizeof(int) * inst->num_nodes);
+        fitness(inst, &(offsprings[counter]));
+
+        counter++;
+        
     }
     FREE(cromosome);
 }
@@ -278,7 +266,7 @@ void procreate(instance* inst, individual *population, int* parents, int parent_
  * @param offsrpings The offsprings list
  * @param off_size The capacity of offsprings
  */
-void keep_best_individuals(instance* inst, individual* population, int pop_size, individual* offsprings, int off_size) {
+void choose_survivors(instance* inst, individual* population, int pop_size, individual* offsprings, int off_size) {
     
     int N = pop_size + off_size;
     individual* total = CALLOC(N, individual);
@@ -305,7 +293,7 @@ void keep_best_individuals(instance* inst, individual* population, int pop_size,
         }
         // Diversification phase
         double rand_diversification = URAND();
-        if (rand_diversification < 0.1) {
+        if (rand_diversification < 0.03) {
             int rand_index = rand_choice(0, N - 1);
             while (visited[rand_index] || rand_index == min_idx) {
                 rand_index = rand_choice(0, N - 1);
@@ -380,9 +368,9 @@ void random_generation(int* cromosome, int num_nodes) {
 void mutation(instance* inst, individual* offsprings, int off_size) {
     for (int off = 0; off < off_size; off++) {
 
-        double rand_mut = URAND() / off_size;
+        double rand_mut = URAND() ;
         // Mutation phase
-        if (rand_mut < 0.05) {
+        if (rand_mut < 0.0005) {
             // Mutation method 1
             // It takes two nodes and swaps them
             /*int rand_index1 = rand_choice(0, inst->num_nodes - 1);
@@ -404,7 +392,7 @@ void mutation(instance* inst, individual* offsprings, int off_size) {
             double rand_num = URAND();
             // We can implement an exponential decay to increase the probability to use 2opt as a mutation. We want apply
             // 2opt when the edges are quite good in order to have a faster convergence of the algorithm
-            if (rand_num > 0.00) {
+            if (rand_num > 0.02) {
                 // Mutation method 2
                 // It takes a subtour and reverses it. e.g. 1-4-3-7-9 becomes 9-7-3-4-1
                 int rand_index1 = rand_choice(0, inst->num_nodes - 1);
@@ -461,13 +449,22 @@ int HEU_Genetic(instance *inst) {
     struct timeval start, end;
     gettimeofday(&start, 0);
 
-    int pop_size = 1000; // Population size
+    int pop_size = 2 * inst->num_nodes; // Population size
     individual *population = CALLOC(pop_size, individual);//Allocate pupulation
 
     // Generate Initial population
     for (int i = 0; i < pop_size; i++) {
         population[i].cromosome = CALLOC(inst->num_nodes, int);
 
+        /*int start_node = rand_choice(0, inst->num_nodes - 1);
+        greedy(inst, start_node);
+            
+        int node_idx = start_node;
+        int node_iter = 0;
+        while (node_iter < inst->num_nodes) {
+            population[i].cromosome[node_iter++] = inst->solution.edges[node_idx].i;
+            node_idx = inst->solution.edges[node_idx].j;
+        }*/
         //generate a single individual
         random_generation(population[i].cromosome, inst->num_nodes);
 
@@ -495,9 +492,9 @@ int HEU_Genetic(instance *inst) {
     
     //Allocate memory for parents and offspring
     int generation = 1;
-    int parent_size = 400;
+    int parent_size = (int) (pop_size * 0.6);
     int* parents = CALLOC(parent_size, int); // Parents indexes
-    int offspring_size = parent_size; //(parent_size - 1) * parent_size / 2;
+    int offspring_size = parent_size;//(parent_size - 1) * parent_size / 2;
     individual* offsprings = CALLOC(offspring_size, individual);
     for (int i = 0; i < offspring_size; i++) {
         offsprings[i].cromosome = CALLOC(inst->num_nodes, int);
@@ -527,27 +524,21 @@ int HEU_Genetic(instance *inst) {
             individual best_individual = population[best_idx];
             inst->solution.obj_best = best_fitness;
             from_cromosome_to_edges(inst, best_individual); //Update best solution
-            //alg_2opt(inst);
-            plot_solution(inst);
-            if (inst->params.verbose >= 3) {LOG_I("UPDATED INCUBEMENT: %0.2f", best_fitness);}
+            
+            //plot_solution(inst);
+            //if (inst->params.verbose >= 3) {LOG_I("UPDATED INCUBEMENT: %0.2f", best_fitness);}
 
         }
-
+        if (generation % 1000 == 0) {
+            plot_solution(inst);
+        }
+        
         if (inst->params.verbose >= 4) {
             LOG_I("Generation %d -> Mean: %0.2f      Best: %0.0f", generation, mean_fitness, best_fitness);
         }
 
         //SELECTION: select individuals which can go to the next generation
         select_parents(population, parents, parent_size, pop_size);
-        
-        //#ifdef DEBUG
-        //for (int i = 0; i < parent_size; i++) {
-        //    printf("%d ", parents[i]);
-        //}
-        //printf("\n");
-        //#endif
-        // A debug print to be sure that the initialization was ok
-        
 
         //CROSSOVER: Generate new individuals by combining two parents
         procreate(inst, population, parents, parent_size, offsprings);
@@ -555,20 +546,8 @@ int HEU_Genetic(instance *inst) {
         // Mutation phase
         mutation(inst, offsprings, offspring_size);
         
-        
         //Replace the individuals of the current populations with the children that has better fitness
-        keep_best_individuals(inst, population, pop_size, offsprings, offspring_size);
-
-        //#ifdef DEBUG
-        //for (int i = 0; i < pop_size; i++) {
-        //    for (int j = 0; j < inst->num_nodes; j++) {
-        //        printf("%d ", population[i].cromosome[j]);
-        //    }
-        //    printf("      %0.0f", population[i].fitness);
-        //    printf("\n");
-        //}
-        //printf("\n\n\n");
-        //#endif
+        choose_survivors(inst, population, pop_size, offsprings, offspring_size);
 
         generation++;
     }
