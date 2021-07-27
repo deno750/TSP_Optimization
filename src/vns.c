@@ -115,6 +115,6 @@ int HEU_VNS(instance *inst){
     //restore best solution
     inst->solution.obj_best = best_obj;
     memcpy(inst->solution.edges, best_sol, inst->num_nodes * sizeof(edge));
-    
+
     return status;
 }
