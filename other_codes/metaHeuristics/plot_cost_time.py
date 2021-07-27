@@ -14,7 +14,6 @@ for file_path in files:
     for line in f:
         #if line.startswith("[INFO]  incubement: "):
         if line.startswith("[INFO]  Current") or line.startswith("[INFO]  Initial"):
-            print(line)
             line=line.split()
             cost=float(line[-1])
             if cost >565468780: cost=565468780    #565468780 for dsj1000
