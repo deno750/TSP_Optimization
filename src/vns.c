@@ -8,8 +8,9 @@
 
 
 //Function that change randomly some edges in the current solution
-int kick(instance *inst){
+int kick(instance *inst, int k){
     int status = 0;
+    k=k<1? 1:k; // if k <1 set k=1
 
     //From list of successor to Tour
     int* tour = CALLOC(inst->num_nodes, int);
@@ -94,7 +95,7 @@ int kick(instance *inst){
         idx2=idx3;
         idx3=tmp;
     }
-    LOG_I("%d %d %d",idx1,idx2,idx3);
+    //LOG_I("%d %d %d",idx1,idx2,idx3);
     int a=tour[idx1];
     int b=tour[idx1+1];
     int c=tour[idx2];
@@ -165,6 +166,8 @@ int HEU_VNS(instance *inst){
 
     if (inst->params.verbose >= 3) {LOG_I("Initial solution: %0.0f", best_obj);}
 
+    int k=1;
+
     ///while there is time left
     while(1){
         //Check elapsed time
@@ -177,7 +180,7 @@ int HEU_VNS(instance *inst){
 
         //The current solution is the best seen so far
         //Modify current solution to a random point in the neighboorhood
-        kick(inst);
+        kick(inst,k);
         //plot_solution(inst);
 
         //Optimize with 2OPT
@@ -190,8 +193,12 @@ int HEU_VNS(instance *inst){
         if (inst->solution.obj_best < best_obj) {
             best_obj = inst->solution.obj_best;
             memcpy(best_sol, inst->solution.edges, inst->num_nodes * sizeof(edge));
+            k=1;
             if (inst->params.verbose >= 3) {LOG_I("Updated incumbent: %0.0f", best_obj);}
             plot_solution(inst);
+        }else{
+            k+=1;
+            k%=inst->num_nodes; //keep k less than the number of nodes
         }
 
         //restore best solution
