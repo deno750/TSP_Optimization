@@ -80,29 +80,42 @@ void select_parents(individual* population, int* parents, int parent_size, int p
 
     int* visited = CALLOC(pop_size, int);
 
-    //individual *pop_copy = CALLOC(pop_size, individual);
-    //memcpy(pop_copy, population, pop_size * sizeof(individual));
+    // Rank based roulette wheel selection. Check this paper here: http://www.iaeng.org/publication/WCE2011/WCE2011_pp1134-1139.pdf
+
+    // Ranking the fitnessess using qsort. Best fitness will be displaced at the end so it will have the highest rank
     qsort(population, pop_size, sizeof(individual), compare_individuals);
 
-    // Check answer 3 from this: https://stackoverflow.com/questions/20290831/how-to-perform-rank-based-selection-in-a-genetic-algorithm
+    // Calculating the cumulative sum. This is part of wheel selection.   
     double rank_sum = pop_size * (pop_size + 1) / 2;
     double* cum_sum = CALLOC(pop_size, double);
+
     cum_sum[0] = 1;
     for (int i = 1; i < pop_size; i++) {
         double sum = cum_sum[i - 1] + i + 1;
         cum_sum[i] = sum;
     }
 
+
     while (count < parent_size) {
-        double random_num = rand_choice(0, rank_sum);
+
+        // Choosing the individual based on it's cumulative sum (i.e. such as probability). Part of wheel selection
+        double random_num = rand_choice(1, rank_sum);
 
         // New way
-        int index = (-1 + sqrt(1 + 8*random_num)) / 2.0;
+        // This formula is Gauss' sum reversed formula n*(n+1) / 2 = m. When we set m as the random_num,
+        // we can obtain n using this equation n^2 + n - 2*m = 0. The result of the equation returns the
+        // index where it is contained the nearest greatest number near the rand_num.
+
+        // Example: Let be [1,3,6,10,15,21,28,36,45] an array of cumulative sums. Let's take a random number x
+        // between [1, 45]. Let x be 18. The index of 18 would be (-1 + sqrt(1 + 8*18)) / 2 = 5.52.
+        // This is the index where the number 18 would be displaced in the array considering indexes starting
+        // from 1. If we get the floor we obtain index = 5. Now in our example array which uses indexes that
+        // starts from 0, in the position 5 we have the number 21 which is the nearest greater number from 18. 
+        int index = (-1 + sqrt(1 + 8*random_num)) / 2.0; // Do not use round. Floor operation works better.
         double val = cum_sum[index];
         if (random_num < val && !visited[index]) {
             parents[count++] = index;
             visited[index] = 1;
-            //break;
         }
 
         //Old way
@@ -115,29 +128,7 @@ void select_parents(individual* population, int* parents, int parent_size, int p
             }
         }*/
     }
-
-    // Best fitness parents
-    /*while (count < parent_size) {
-        int selection = -1;
-        int is_added = 0;
-        double best_fitness = DBL_MAX;
-        for (int i = 0; i < pop_size; i++) {
-            double rand_num = URAND();
-            if (!visited[i] && rand_num < 0.02) { // Diversification. 
-                selection = i;
-                break;
-            }
-            if (!visited[i] && population[i].fitness < best_fitness) {
-                selection = i;
-                best_fitness = population[i].fitness;
-            }
-        }
-        if (selection == -1) {
-            break;
-        }
-        visited[selection] = 1;
-        parents[count++] = selection;
-    }*/
+    FREE(cum_sum);
     FREE(visited);
     
 }
@@ -315,34 +306,10 @@ void choose_survivors(instance* inst, individual* population, int pop_size, indi
     for (int i = 0; i < pop_size; i++) {
         total[count++] = population[i];
     }
-    
+
     count = 0;
-    /*while (count < pop_size) {
-        
-        double min_fitness = DBL_MAX;
-        int min_idx = -1;
 
-        for (int i = 0; i < N; i++) {
-            if (!visited[i] && total[i].fitness < min_fitness) {
-                min_fitness = total[i].fitness;
-                min_idx = i;
-            }
-        }
-        // Diversification phase
-        double rand_diversification = URAND();
-        if (rand_diversification < 0.01) {
-            int rand_index = rand_choice(0, N - 1);
-            while (visited[rand_index] || rand_index == min_idx) {
-                rand_index = rand_choice(0, N - 1);
-            }
-            min_idx = rand_index;
-        }
-        visited[min_idx] = 1;
-        memcpy(population[count].cromosome, total[min_idx].cromosome, sizeof(int) * inst->num_nodes);
-        population[count].fitness = total[min_idx].fitness;        
-        count++;
-    }*/
-
+    // Rank based roulette wheel selection
     qsort(total, N, sizeof(individual), compare_individuals);
 
     double rank_sum = N * (N + 1) / 2;
@@ -354,7 +321,11 @@ void choose_survivors(instance* inst, individual* population, int pop_size, indi
     }
 
     while (count < pop_size) {
-        double random_num = rand_choice(0, rank_sum);
+        double random_num = rand_choice(1, rank_sum);
+
+        // New way
+
+        // To understand this, go read the same piece of code in select_parents function
         int index = (-1 + sqrt(1 + 8*random_num)) / 2.0;
         double val = cum_sum[index];
         if (random_num < val && !visited[index]) {
@@ -363,6 +334,8 @@ void choose_survivors(instance* inst, individual* population, int pop_size, indi
             count++;
             visited[index] = 1;
         }
+
+        // Old way
         /*for (int i = 0; i < pop_size; i++) {
             double cumulative_sum = cum_sum[i];
             if (random_num < cum_sum[i] && !visited[i]) {
@@ -374,9 +347,9 @@ void choose_survivors(instance* inst, individual* population, int pop_size, indi
             }
         }*/
     }
-    FREE(cum_sum);
-    FREE(visited);
     FREE(total);
+    FREE(visited);
+    FREE(cum_sum);
 }
 
 /**
