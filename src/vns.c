@@ -94,7 +94,7 @@ int kick(instance *inst){
         idx2=idx3;
         idx3=tmp;
     }
-    LOG_I("%d %d %d",idx1,idx2,idx3);
+    LOG_D("%d %d %d",idx1,idx2,idx3);
     int a=tour[idx1];
     int b=tour[idx1+1];
     int c=tour[idx2];
@@ -183,7 +183,7 @@ int HEU_VNS(instance *inst){
         //Optimize with 2OPT
         //inst.params.time_limit = 5;
         status=alg_2opt(inst);
-        if (inst->params.verbose >= 3) {LOG_I("Current: %0.0f", inst->solution.obj_best);}
+        if (inst->params.verbose >= 4) {LOG_I("Current: %0.0f", inst->solution.obj_best);}
 
 
         //If new solution is better than the best, update the best solution
