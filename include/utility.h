@@ -346,4 +346,14 @@ void reverse_path(instance *inst, int start_node, int end_node, int *prev);
  */
 void copy_instance(instance *dst, instance *src);
 
+
+/**
+ * Choses a random number in between [from, to)
+ * 
+ * @param from The left bound 
+ * @param to The right bound
+ * @returns Random integer between [from, to)
+ */
+int rand_choice(int from, int to);
+
 #endif
