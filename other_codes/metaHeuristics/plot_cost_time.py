@@ -32,13 +32,12 @@ for file_path in files:
     for i in range(len(timestamps)):
         timestamps[i]-=start_time"""
     print("\t",len(timestamps),len(costs))
-    plt.plot(timestamps, costs, marker = 'o')
+    plt.plot(timestamps, costs)#, marker = 'o')
 
     f.close()
 
 
-
-plt.legend(files)
+plt.legend([f.rstrip(".txt") for f in files])
 plt.xlabel("Iterations")
 plt.ylabel("Solution Cost")
 plt.savefig('plot.png', dpi=600, format='png')

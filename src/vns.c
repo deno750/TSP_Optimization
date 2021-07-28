@@ -7,7 +7,6 @@
 
 
 
-
 //Function that change randomly some edges in the current solution
 int kick(instance *inst){
     int status = 0;
@@ -22,8 +21,8 @@ int kick(instance *inst){
         node=inst->solution.edges[node].j;
     }
 
-    //For 3 times choose 2 random nodes in the tour and swap them
-    for(int i=0; i<3; i++){
+    //For 5 times choose 2 random nodes in the tour and swap them
+    /*for(int i=0; i<5; i++){
         int idx1=rand_choice(0,inst->num_nodes);
         int idx2=idx1;
         while(idx2==idx1){
@@ -34,7 +33,75 @@ int kick(instance *inst){
         int tmp = tour[idx1];
         tour[idx1] = tour[idx2];
         tour[idx2] = tmp;
+    }*/
+
+    //Pick 3 random nodes and swap them randomly
+    /*int idx1=rand_choice(0,inst->num_nodes);
+    int idx2=idx1;
+    int idx3=idx1;
+    while(idx2==idx1){
+        idx2=rand_choice(0,inst->num_nodes);
     }
+    while(idx3==idx1 || idx3==idx2){
+        idx3=rand_choice(0,inst->num_nodes);
+    }
+    //Swap
+    int first = tour[idx1];
+    tour[idx1] = rand_choice(0,2)==0 ? tour[idx2]:tour[idx3];
+    int second= tour[idx1]==tour[idx2] ? tour[idx3]:tour[idx2];
+    tour[idx2] = rand_choice(0,2)==0 ? first:second;
+    tour[idx3] = tour[idx2]==first ? second:first;*/
+
+    //Remove 3 random edges and reconnect them
+    int idx1=rand_choice(0,inst->num_nodes);
+    int idx2=idx1;
+    int idx3=idx1;
+    while(idx2==idx1 || abs(idx1-idx2)<=1){    // no same node and not successor or predecessor idx1
+        idx2=rand_choice(0,inst->num_nodes);
+    }
+    while(idx3==idx1 || idx3==idx2 || abs(idx1-idx3)<=1 || abs(idx2-idx3)<=1){
+        idx3=rand_choice(0,inst->num_nodes);
+    }
+    //put them in order
+    if(idx1>idx2){
+        int tmp=idx1;
+        idx1=idx2;
+        idx2=tmp;
+    }
+    if(idx1>idx3){
+        int tmp=idx1;
+        idx1=idx3;
+        idx3=tmp;
+    }   //now the smallest element is in idx1
+    if(idx2>idx3){
+        int tmp=idx2;
+        idx2=idx3;
+        idx3=tmp;
+    }
+    LOG_I("%d %d %d",idx1,idx2,idx3);
+    int a=tour[idx1];
+    int b=tour[idx1+1];
+    int c=tour[idx2];
+    int d=tour[idx2+1];
+    int e=tour[idx3];
+    int f=tour[idx3+1];
+    inst->solution.edges[a].j =d;   //new successor of a is d
+    inst->solution.edges[e].j =b;   //new successor of e is b
+    inst->solution.edges[c].j =f;   //new successor of c is f
+
+    //From list of successor to Tour (AGAIN TO COMPUTE THE COST)
+    node=0;
+    idx=0;
+    while(idx<inst->num_nodes){
+        tour[idx]=node;
+        idx+=1;
+        node=inst->solution.edges[node].j;
+    }
+
+    //Remove 4 random eges and reconnect them
+    //TODO...
+
+    
 
     //Compute new tour cost
     int prev_node = tour[0];
@@ -57,6 +124,7 @@ int kick(instance *inst){
     inst->solution.edges[index].i = tour[inst->num_nodes - 1];
     inst->solution.edges[index].j = tour[0];
     
+    FREE(tour);
     return status;
 }
 
@@ -109,6 +177,10 @@ int HEU_VNS(instance *inst){
             if (inst->params.verbose >= 3) {LOG_I("Updated incubement: %0.0f", best_obj);}
             plot_solution(inst);
         }
+
+        //restore best solution
+        //inst->solution.obj_best = best_obj;
+        //memcpy(inst->solution.edges, best_sol, inst->num_nodes * sizeof(edge));
 
     }
 
