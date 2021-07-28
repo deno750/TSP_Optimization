@@ -14,6 +14,7 @@
 #include "heuristics.h"
 #include "tabusearch.h"
 #include "genetic.h"
+#include "vns.h"
 
 // BEST SOLVER: USER CUT SOLVER
 int opt_best_solver(CPXENVptr env, CPXLPptr lp, instance *inst) {

@@ -602,9 +602,3 @@ int HEU_2opt_extramileage(instance *inst) {
     return status;
 }
 
-int HEU_VNS(instance *inst) {
-
-
-
-    return 0;
-}

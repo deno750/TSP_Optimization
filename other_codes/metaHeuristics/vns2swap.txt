@@ -1,0 +1,149 @@
+
+======== PARAMS =========
+Edge type: Undirected
+Solver method: VNS META-HEURISTIC
+Time Limit: 100
+Seed: 1627402751
+Cost: Integer
+Verbose: 3
+File path: ../data/all/dsj1000.tsp
+
+
+======== INSTANCE ========
+name: dsj1000
+n° nodes: 1000
+weight type: CEIL_2D
+
+[INFO]  Initial solution: 19669181
+[INFO]  Current: 20799629
+[INFO]  Current: 21085677
+[INFO]  Current: 20905374
+[INFO]  Current: 20829192
+[INFO]  Current: 21001061
+[INFO]  Current: 21227993
+[INFO]  Current: 21051385
+[INFO]  Current: 21209477
+[INFO]  Current: 20946025
+[INFO]  Current: 20747480
+[INFO]  Current: 20719752
+[INFO]  Current: 20587836
+[INFO]  Current: 21268197
+[INFO]  Current: 21059227
+[INFO]  Current: 20946805
+[INFO]  Current: 20829714
+[INFO]  Current: 21211426
+[INFO]  Current: 21268724
+[INFO]  Current: 21289897
+[INFO]  Current: 21446550
+[INFO]  Current: 21327797
+[INFO]  Current: 21220208
+[INFO]  Current: 20930765
+[INFO]  Current: 20770106
+[INFO]  Current: 20869377
+[INFO]  Current: 20872071
+[INFO]  Current: 20909806
+[INFO]  Current: 21026342
+[INFO]  Current: 21477362
+[INFO]  Current: 20914098
+[INFO]  Current: 20907266
+[INFO]  Current: 20834614
+[INFO]  Current: 20967656
+[INFO]  Current: 20923868
+[INFO]  Current: 20942645
+[INFO]  Current: 20982371
+[INFO]  Current: 20812391
+[INFO]  Current: 20691490
+[INFO]  Current: 20564420
+[INFO]  Current: 20504035
+[INFO]  Current: 20796659
+[INFO]  Current: 20679736
+[INFO]  Current: 20925088
+[INFO]  Current: 20444465
+[INFO]  Current: 20410416
+[INFO]  Current: 20506140
+[INFO]  Current: 20504113
+[INFO]  Current: 20616428
+[INFO]  Current: 20772395
+[INFO]  Current: 20740769
+[INFO]  Current: 20692404
+[INFO]  Current: 20683850
+[INFO]  Current: 20752479
+[INFO]  Current: 20755443
+[INFO]  Current: 20896933
+[INFO]  Current: 20829623
+[INFO]  Current: 21390581
+[INFO]  Current: 21438667
+[INFO]  Current: 21652125
+[INFO]  Current: 21708090
+[INFO]  Current: 21109162
+[INFO]  Current: 20910712
+[INFO]  Current: 20940784
+[INFO]  Current: 20747097
+[INFO]  Current: 20927704
+[INFO]  Current: 21098479
+[INFO]  Current: 20925011
+[INFO]  Current: 20902960
+[INFO]  Current: 21340814
+[INFO]  Current: 20900664
+[INFO]  Current: 20776609
+[INFO]  Current: 21297397
+[INFO]  Current: 21030233
+[INFO]  Current: 21034735
+[INFO]  Current: 21065648
+[INFO]  Current: 20932279
+[INFO]  Current: 20996908
+[INFO]  Current: 20955027
+[INFO]  Current: 21218569
+[INFO]  Current: 21042814
+[INFO]  Current: 20558324
+[INFO]  Current: 20689636
+[INFO]  Current: 20629180
+[INFO]  Current: 20637229
+[INFO]  Current: 20761274
+[INFO]  Current: 20542315
+[INFO]  Current: 20543059
+[INFO]  Current: 20771869
+[INFO]  Current: 20563523
+[INFO]  Current: 20571559
+[INFO]  Current: 20648691
+[INFO]  Current: 20717172
+[INFO]  Current: 20563717
+[INFO]  Current: 20597664
+[INFO]  Current: 20465362
+[INFO]  Current: 20796141
+[INFO]  Current: 20812185
+[INFO]  Current: 20839409
+[INFO]  Current: 21194729
+[INFO]  Current: 20966775
+[INFO]  Current: 20958834
+[INFO]  Current: 20906382
+[INFO]  Current: 20391284
+[INFO]  Current: 20436790
+[INFO]  Current: 20415522
+[INFO]  Current: 20461570
+[INFO]  Current: 20686598
+[INFO]  Current: 20744511
+[INFO]  Current: 20704006
+[INFO]  Current: 20737778
+[INFO]  Current: 20663494
+[INFO]  Current: 20623273
+[INFO]  Current: 20601698
+[INFO]  Current: 20646329
+[INFO]  Current: 20698456
+[INFO]  Current: 20638365
+[INFO]  Current: 20750387
+[INFO]  Current: 20860684
+[INFO]  Current: 20831260
+[INFO]  Current: 20731074
+[INFO]  Current: 20748160
+[INFO]  Current: 20819092
+[INFO]  Current: 21046899
+[INFO]  Solution found!
+[INFO]  The best bjective value is 19669181.000000
+
+
+
+
+TIME TO SOLVE 100.505473s
+
+
