@@ -11,7 +11,7 @@
 #define PARENT_RATE 0.6 // The percentage of parents with respect the population. 
 //E.g. if the population size is 1000 a rate of 0.6 will result in number of parents of 600
 #define HEURISTIC_INIT_RATE 0.0 // Probability of initializing an individual with a heuristic method
-#define CROSSOVER_METHOD_RATE 0.5 // The probability of using method 1 for crossover and 1- prob for method 2
+#define CROSSOVER_METHOD_RATE 0.0 // The probability of using method 1 for crossover and 1- prob for method 2
 
 // This struct represents an individual in the population. 
 // Stores the cromosome and the fitness value. 
