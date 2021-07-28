@@ -160,8 +160,9 @@ int HEU_VNS(instance *inst){
     gettimeofday(&start, 0);
 
     //Compute initial solution
-    status=greedy(inst, 0);
-
+    //status=greedy(inst, 0);
+    status=HEU_2opt_greedy(inst);
+    
     double best_obj=inst->solution.obj_best;  //best solution cost
     edge *best_sol = CALLOC(inst->num_nodes, edge);
     memcpy(best_sol, inst->solution.edges, inst->num_nodes * sizeof(edge));
@@ -188,7 +189,7 @@ int HEU_VNS(instance *inst){
         //Optimize with 2OPT
         //inst.params.time_limit = 5;
         status=alg_2opt(inst);
-        if (inst->params.verbose >= 4) {LOG_I("Current: %0.0f", inst->solution.obj_best);}
+        if (inst->params.verbose >= 3) {LOG_I("Current: %0.0f", inst->solution.obj_best);}
 
 
         //If new solution is better than the best, update the best solution
