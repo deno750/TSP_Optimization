@@ -23,7 +23,7 @@ int kick(instance *inst){
     }
 
     //For 3 times choose 2 random nodes in the tour and swap them
-    for(int i=0; i<3; i++){
+    /*for(int i=0; i<3; i++){
         int idx1=rand_choice(0,inst->num_nodes);
         int idx2=idx1;
         while(idx2==idx1){
@@ -34,6 +34,19 @@ int kick(instance *inst){
         int tmp = tour[idx1];
         tour[idx1] = tour[idx2];
         tour[idx2] = tmp;
+    }*/
+
+    int k = 3;
+    int idxs[k]; 
+    for (int i = 0; i < k; i++) {
+        idxs[i] = rand_choice(0, inst->num_nodes);
+    }
+
+    for (int i = 0; i < k; i++) {
+        int j = rand_choice(0, k);
+        int tmp = tour[idxs[i]];
+        tour[idxs[i]] = tour[idxs[j]];
+        tour[idxs[j]] = tmp;
     }
 
     //Compute new tour cost
@@ -75,7 +88,7 @@ int HEU_VNS(instance *inst){
     gettimeofday(&start, 0);
 
     //Compute initial solution
-    status=HEU_2opt_greedy(inst);
+    status=greedy(inst, 0);
 
     double best_obj=inst->solution.obj_best;  //best solution cost
     edge *best_sol = CALLOC(inst->num_nodes, edge);
@@ -96,12 +109,12 @@ int HEU_VNS(instance *inst){
         //The current solution is the best seen so far
         //Modify current solution to a random point in the neighboorhood
         kick(inst);
-        plot_solution(inst);
+        //plot_solution(inst);
 
         //Optimize with 2OPT
         //inst.params.time_limit = 5;
         status=alg_2opt(inst);
-        if (inst->params.verbose >= 3) {LOG_I("Current: %0.0f", inst->solution.obj_best);}
+        if (inst->params.verbose >= 3) {LOG_I("Current: %0.0f  Incumbent: %0.0f", inst->solution.obj_best, best_obj);}
 
 
         //If new solution is better than the best, update the best solution
