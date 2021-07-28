@@ -12,6 +12,7 @@
 //E.g. if the population size is 1000 a rate of 0.6 will result in number of parents of 600
 #define HEURISTIC_INIT_RATE 0.0 // Probability of initializing an individual with a heuristic method
 #define CROSSOVER_METHOD_RATE 0.0 // The probability of using method 1 for crossover and 1- prob for method 2
+#define TWO_OPT_MUTATION_PROB 0.002 // The probability that the mutation is a 2opt
 
 // This struct represents an individual in the population. 
 // Stores the cromosome and the fitness value. 
@@ -111,9 +112,9 @@ void select_parents(individual* population, int* parents, const int parent_size,
         int index = (-1 + sqrt(1 + 8*random_num)) / 2.0; // Do not use round. Floor operation works better.
         double val = cum_sum[index];
         // We are certain that random_num < val
-        if (random_num > val) {
-            LOG_E("Wrong assumption");
-        }
+        //if (random_num > val) {
+        //    LOG_E("Wrong assumption");
+        //}
         if (!visited[index]) {
             parents[count++] = index;
             visited[index] = 1;
@@ -301,7 +302,11 @@ void choose_survivors(instance* inst, individual* population, const int pop_size
         // To understand this, go read the same piece of code in select_parents function
         int index = (-1 + sqrt(1 + 8*random_num)) / 2.0;
         double val = cum_sum[index];
-        if (random_num < val && !visited[index]) {
+        // We are certain that random_num < val
+        //if (random_num > val) {
+        //    LOG_E("Wrong assumption");
+        //}
+        if (!visited[index]) {
             memcpy(population[count].cromosome, total[index].cromosome, sizeof(int) * inst->num_nodes);
             population[count].fitness = total[index].fitness;
             count++;
@@ -312,7 +317,7 @@ void choose_survivors(instance* inst, individual* population, const int pop_size
         /*for (int i = 0; i < pop_size; i++) {
             double cumulative_sum = cum_sum[i];
             if (random_num < cum_sum[i] && !visited[i]) {
-                //memcpy(population[count].cromosome, total[i].cromosome, sizeof(int) * inst->num_nodes);
+                memcpy(population[count].cromosome, total[i].cromosome, sizeof(int) * inst->num_nodes);
                 population[count].fitness = total[i].fitness;
                 count++;
                 visited[i] = 1;
@@ -404,32 +409,51 @@ void mutation(instance* inst, individual* offsprings, const int off_size) {
             population[count].cromosome[rand_index1] = population[count].cromosome[rand_index2];
             population[count].cromosome[rand_index2] = temp;
             fitness(inst, &(population[count]));*/
-
-            // Mutation method 2
-            // It takes a subtour and reverses it. e.g. 1-4-3-7-9 becomes 9-7-3-4-1
-            int rand_index1 = rand_choice(0, inst->num_nodes - 1);
-            int rand_index2 = rand_choice(0, inst->num_nodes - 1);
-            if (rand_index1 > rand_index2) {
-                int tmp = rand_index1;
-                rand_index1 = rand_index2;
-                rand_index2 = tmp;
-            }
-            if (rand_index1 == rand_index2) {
-                if (rand_index1 > 0) {
-                    rand_index1 -= 1;
-                } else {
-                    rand_index2 += 1;
+            double rand_method = URAND();
+            if (rand_method > TWO_OPT_MUTATION_PROB) {
+                // Mutation method 2
+                // It takes a subtour and reverses it. e.g. 1-4-3-7-9 becomes 9-7-3-4-1
+                int rand_index1 = rand_choice(0, inst->num_nodes - 1);
+                int rand_index2 = rand_choice(0, inst->num_nodes - 1);
+                if (rand_index1 > rand_index2) {
+                    int tmp = rand_index1;
+                    rand_index1 = rand_index2;
+                    rand_index2 = tmp;
                 }
-            }
-            int tot_iter = rand_index2 - rand_index1;
-            int incr_idx = rand_index1;
-            int decr_idx = rand_index2;
-            for (int i = 0; i < tot_iter / 2; i++) {
-                int tmp = offsprings[off].cromosome[incr_idx];
-                offsprings[off].cromosome[incr_idx] = offsprings[off].cromosome[decr_idx];
-                offsprings[off].cromosome[decr_idx] = tmp;
-                incr_idx++;
-                decr_idx--;
+                if (rand_index1 == rand_index2) {
+                    if (rand_index1 > 0) {
+                        rand_index1 -= 1;
+                    } else {
+                        rand_index2 += 1;
+                    }
+                }
+                int tot_iter = rand_index2 - rand_index1;
+                int incr_idx = rand_index1;
+                int decr_idx = rand_index2;
+                for (int i = 0; i < tot_iter / 2; i++) {
+                    int tmp = offsprings[off].cromosome[incr_idx];
+                    offsprings[off].cromosome[incr_idx] = offsprings[off].cromosome[decr_idx];
+                    offsprings[off].cromosome[decr_idx] = tmp;
+                    incr_idx++;
+                    decr_idx--;
+                }
+            } else {
+                // Mutation method3
+                // Applies 2opt algoritm.
+                //LOG_D("Applying 2opt mutation");
+                instance tmp_inst;
+                copy_instance(&tmp_inst, inst);
+                from_cromosome_to_edges(&tmp_inst, offsprings[off]);
+                // We set 2opt's time limit so it finishes faster and finds a little better solution 
+                tmp_inst.params.time_limit = 2;
+                alg_2opt(&tmp_inst);
+                int node_idx = 0;
+                int node_iter = 0;
+                while (node_iter < tmp_inst.num_nodes) {
+                    offsprings[off].cromosome[node_iter++] = tmp_inst.solution.edges[node_idx].i;
+                    node_idx = tmp_inst.solution.edges[node_idx].j;
+                }
+                free_instance(&tmp_inst);
             }
         }
     }
