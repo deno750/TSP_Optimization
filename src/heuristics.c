@@ -78,7 +78,7 @@ int greedy(instance *inst, int starting_node) {
 
 
 //Nearest Neighboor algorithm O(n^2) in which we choose whith some probability between the nearest and the 2° nearest node
-static int grasp(instance *inst, int starting_node) {
+int grasp(instance *inst, int starting_node) {
     //Check if the starting node is valid
     if (starting_node >= inst->num_nodes) {return WRONG_STARTING_NODE;}
 

@@ -82,6 +82,15 @@ int HEU_Grasp_iter(instance *inst, int time_lim);
 int alg_2opt(instance *inst);
 
 /**
+ * Applies the GRASP algorithm from a starting node
+ * 
+ * @param inst The instance pointer of the problem
+ * @param starting_node The index of the node where the algorithm starts
+ * @return The error code
+ */
+int grasp(instance *inst, int starting_node);
+
+/**
  * Applies the 2-opt algorithm using grasp initialization
  * 
  * @param inst The instance pointer of the problem
