@@ -5,10 +5,13 @@
 
 #include <float.h>
 
+// Hyperparameters to tune
 #define POPULATION_SIZE 1000
 #define MUTATION_RATE 0.1 // The probability of the mutation
 #define PARENT_RATE 0.6 // The percentage of parents with respect the population. 
 //E.g. if the population size is 1000 a rate of 0.6 will result in number of parents of 600
+#define HEURISTIC_INIT_RATE 0.0 // Probability of initializing an individual with a heuristic method
+#define CROSSOVER_METHOD_RATE 0.5 // The probability of using method 1 for crossover and 1- prob for method 2
 
 // This struct represents an individual in the population. 
 // Stores the cromosome and the fitness value. 
@@ -146,7 +149,7 @@ void crossover(instance* inst, const individual *population, const int parent1, 
 
     int *visited = CALLOC(inst->num_nodes, int);
     double rand_num = URAND();
-    if (rand_num < 0.5) {
+    if (rand_num < CROSSOVER_METHOD_RATE) {
         // Crossover method 1
         // This method takes a random index which splits the cromosome. 
         int rand_index = rand_choice(0, inst->num_nodes);
@@ -447,7 +450,7 @@ int HEU_Genetic(instance *inst) {
         population[i].cromosome = CALLOC(inst->num_nodes, int);
 
         double rand_num = URAND();
-        if (rand_num < 0.0) {
+        if (rand_num < HEURISTIC_INIT_RATE) {
             int start_node = rand_choice(0, inst->num_nodes);
             grasp(inst, start_node);
                 
