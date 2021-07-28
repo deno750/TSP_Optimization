@@ -5,6 +5,11 @@
 
 #include <float.h>
 
+#define POPULATION_SIZE 1000
+#define MUTATION_RATE 0.1 // The probability of the mutation
+#define PARENT_RATE 0.6 // The percentage of parents with respect the population. 
+//E.g. if the population size is 1000 a rate of 0.6 will result in number of parents of 600
+
 // This struct represents an individual in the population. 
 // Stores the cromosome and the fitness value. 
 typedef struct individual{
@@ -63,7 +68,7 @@ static int compare_individuals(const void *lhs, const void *rhs) {
  * @param parent_size The number of parents (i.e. capacity of parents array)
  * @param pop_size The current number of individuals in the population
  */
-void select_parents(individual* population, int* parents, int parent_size, int pop_size) {
+void select_parents(individual* population, int* parents, const int parent_size, const int pop_size) {
     MEMSET(parents, -1, parent_size, int);
     int count = 0;
 
@@ -135,7 +140,7 @@ void select_parents(individual* population, int* parents, int parent_size, int p
  * @param parent2 The index of the second parent in the population
  * @param cromosome The offspring's cromosome that is generated from the two parents.
  */
-void crossover(instance* inst, individual *population, int parent1, int parent2, int* cromosome) {
+void crossover(instance* inst, const individual *population, const int parent1, const int parent2, int* cromosome) {
     individual p1 = population[parent1];
     individual p2 = population[parent2];
 
@@ -230,7 +235,7 @@ void crossover(instance* inst, individual *population, int parent1, int parent2,
  * @param parent_size The size of the parents array
  * @param offsprings The list of offsprings generated
  */
-void procreate(instance* inst, individual *population, int* parents, int parent_size, individual* offsprings) {
+void procreate(instance* inst, const individual *population, const int* parents, const int parent_size, individual* offsprings) {
     
     int* cromosome = CALLOC(inst->num_nodes, int);
     int counter = 0;
@@ -258,7 +263,7 @@ void procreate(instance* inst, individual *population, int* parents, int parent_
  * @param offsrpings The offsprings list
  * @param off_size The capacity of offsprings
  */
-void choose_survivors(instance* inst, individual* population, int pop_size, individual* offsprings, int off_size) {
+void choose_survivors(instance* inst, individual* population, const int pop_size, const individual* offsprings, const int off_size) {
     
     int N = pop_size + off_size;
     individual* total = CALLOC(N, individual);
@@ -326,7 +331,7 @@ void choose_survivors(instance* inst, individual* population, int pop_size, indi
  * @param mean A reference where the mean fitness of the population will be stored
  * @param best_idx A reference where the index of the best individual will be stored 
  */
-void fitness_metrics(individual* population, int pop_size, double* best, double* mean, int *best_idx) {
+void fitness_metrics(const individual* population, const int pop_size, double* best, double* mean, int *best_idx) {
     *best = DBL_MAX;
     *mean = 0;
     for (int i = 0; i < pop_size; i++) {
@@ -347,7 +352,7 @@ void fitness_metrics(individual* population, int pop_size, double* best, double*
  * @param cromosome Where the random tour will be stored. It must have the size equal to num_nodes
  * @param num_nodes The number of nodes in the instance
  */
-void random_generation(int* cromosome, int num_nodes) {
+void random_generation(int* cromosome, const int num_nodes) {
     //Initialize the list of nodes with the numbers 1 to N
     for (int i = 0; i < num_nodes; i++) {  
         cromosome[i] = i;
@@ -373,12 +378,12 @@ void random_generation(int* cromosome, int num_nodes) {
  * complete under 5 seconds and return a better individual. In any case, even when the 2-opt does not complete, a better
  * individual is found because some crossing edges are removed.
  */
-void mutation(instance* inst, individual* offsprings, int off_size) {
+void mutation(instance* inst, individual* offsprings, const int off_size) {
     for (int off = 0; off < off_size; off++) {
 
         double rand_mut = URAND() ;
         // Mutation phase
-        if (rand_mut < 0.1) {
+        if (rand_mut < MUTATION_RATE) {
             // Mutation method 1
             // It takes two nodes and swaps them
             /*int rand_index1 = rand_choice(0, inst->num_nodes - 1);
@@ -434,7 +439,7 @@ int HEU_Genetic(instance *inst) {
     struct timeval start, end;
     gettimeofday(&start, 0);
 
-    int pop_size = 1000; // Population size
+    const int pop_size = POPULATION_SIZE; // Population size
     individual *population = CALLOC(pop_size, individual);//Allocate pupulation
 
     // Generate Initial population
@@ -464,17 +469,6 @@ int HEU_Genetic(instance *inst) {
 
     }
 
-    // A debug print to be sure that the initialization was ok
-    //#ifdef DEBUG
-    //for (int i = 0; i < pop_size; i++) {
-    //    for (int j = 0; j < inst->num_nodes; j++) {
-    //        printf("%d ", population[i].cromosome[j]);
-    //    }
-    //    printf("      %0.0f", population[i].fitness);
-    //    printf("\n");
-    //}
-    //#endif
-
     //Set time limit
     if (inst->params.time_limit <= 0 && inst->params.verbose >= 3) {
         LOG_I("Default time lim %d setted.", DEFAULT_TIME_LIM);
@@ -483,9 +477,9 @@ int HEU_Genetic(instance *inst) {
     
     //Allocate memory for parents and offspring
     int generation = 1;
-    int parent_size = (int) (pop_size * 0.6);
+    const int parent_size = (int) (pop_size * PARENT_RATE);
     int* parents = CALLOC(parent_size, int); // Parents indexes
-    int offspring_size = parent_size;//(parent_size - 1) * parent_size / 2;
+    const int offspring_size = parent_size;
     individual* offsprings = CALLOC(offspring_size, individual);
     for (int i = 0; i < offspring_size; i++) {
         offsprings[i].cromosome = CALLOC(inst->num_nodes, int);
@@ -493,7 +487,7 @@ int HEU_Genetic(instance *inst) {
     double best_fitness = DBL_MAX;
     double mean_fitness = 0;
     int best_idx = 0;
-    double incubement = best_fitness;
+    double incumbent = best_fitness;
     
 
 
@@ -510,8 +504,8 @@ int HEU_Genetic(instance *inst) {
         //Compute the mean fitness, the best fitness value and the best individual's index in the population
         fitness_metrics(population, pop_size, &best_fitness, &mean_fitness, &best_idx);
         //If there is a tour in the current population that is better than the one seen so far, save it
-        if (best_fitness < incubement) {
-            incubement = best_fitness;
+        if (best_fitness < incumbent) {
+            incumbent = best_fitness;
             individual best_individual = population[best_idx];
             inst->solution.obj_best = best_fitness;
             from_cromosome_to_edges(inst, best_individual); //Update best solution
@@ -520,12 +514,12 @@ int HEU_Genetic(instance *inst) {
             //if (inst->params.verbose >= 3) {LOG_I("UPDATED INCUBEMENT: %0.2f", best_fitness);}
 
         }
-        if (generation % 100 == 0) {
-            plot_solution(inst);
-        }
+        //if (generation % 100 == 0) {
+        //    plot_solution(inst);
+        //}
         
         if (inst->params.verbose >= 4) {
-            LOG_I("Generation %d -> Mean: %0.2f      Best: %0.0f     Incumbent: %0.0f", generation, mean_fitness, best_fitness, incubement);
+            LOG_I("Generation %d -> Mean: %0.2f      Best: %0.0f     Incumbent: %0.0f", generation, mean_fitness, best_fitness, incumbent);
         }
 
         //SELECTION: select individuals which can go to the next generation
