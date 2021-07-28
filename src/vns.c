@@ -123,6 +123,8 @@ int kick(instance *inst){
     int index = tour[inst->num_nodes - 1];
     inst->solution.edges[index].i = tour[inst->num_nodes - 1];
     inst->solution.edges[index].j = tour[0];
+
+    FREE(tour);
     
     FREE(tour);
     return status;
@@ -174,7 +176,7 @@ int HEU_VNS(instance *inst){
         if (inst->solution.obj_best < best_obj) {
             best_obj = inst->solution.obj_best;
             memcpy(best_sol, inst->solution.edges, inst->num_nodes * sizeof(edge));
-            if (inst->params.verbose >= 3) {LOG_I("Updated incubement: %0.0f", best_obj);}
+            if (inst->params.verbose >= 3) {LOG_I("Updated incumbent: %0.0f", best_obj);}
             plot_solution(inst);
         }
 
@@ -187,6 +189,8 @@ int HEU_VNS(instance *inst){
     //restore best solution
     inst->solution.obj_best = best_obj;
     memcpy(inst->solution.edges, best_sol, inst->num_nodes * sizeof(edge));
+
+    FREE(best_sol);
 
     return status;
 }
