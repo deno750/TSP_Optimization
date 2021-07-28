@@ -125,8 +125,6 @@ int kick(instance *inst){
     inst->solution.edges[index].j = tour[0];
 
     FREE(tour);
-    
-    FREE(tour);
     return status;
 }
 
