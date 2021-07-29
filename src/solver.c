@@ -275,7 +275,7 @@ int TSP_heuc(instance *inst) {
 
     if (inst->params.perf_prof) {
         printf("%0.2f", inst->solution.obj_best);
-        printf("\n%0.2f", elapsed);
+        //printf("\n%0.2f", elapsed);
     } else {
         printf("\n\n\nTIME TO SOLVE %0.6fs\n\n\n", elapsed); // Time should be printed only when no errors occur
     }

@@ -198,7 +198,7 @@ int HEU_VNS(instance *inst){
             memcpy(best_sol, inst->solution.edges, inst->num_nodes * sizeof(edge));
             k=1;
             if (inst->params.verbose >= 3) {LOG_I("Updated incumbent: %0.0f", best_obj);}
-            plot_solution(inst);
+            //plot_solution(inst);
         }else{
             k+=1;
             k%=inst->num_nodes; //keep k less than the number of nodes
