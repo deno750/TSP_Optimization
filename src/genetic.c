@@ -4,6 +4,7 @@
 #include "distutil.h"
 
 #include <float.h>
+#include <assert.h>
 
 // Hyperparameters to tune
 #define POPULATION_SIZE 1000
@@ -12,7 +13,7 @@
 //E.g. if the population size is 1000 a rate of 0.6 will result in number of parents of 600
 #define HEURISTIC_INIT_RATE 0.0 // Probability of initializing an individual with a heuristic method
 #define CROSSOVER_METHOD_RATE 0.0 // The probability of using method 1 for crossover and 1- prob for method 2
-#define TWO_OPT_MUTATION_PROB 0.002 // The probability that the mutation is a 2opt
+#define TWO_OPT_MUTATION_PROB 0.000 // The probability that the mutation is a 2opt
 
 // This struct represents an individual in the population. 
 // Stores the cromosome and the fitness value. 
@@ -99,7 +100,6 @@ void select_parents(individual* population, int* parents, const int parent_size,
         // Choosing the individual based on it's cumulative sum (i.e. such as probability). Part of wheel selection
         double random_num = rand_choice(1, rank_sum);
 
-        // New way
         // This formula is Gauss' sum reversed formula n*(n+1) / 2 = m. When we set m as the random_num,
         // we can obtain n using this equation n^2 + n - 2*m = 0. The result of the equation returns the
         // index where it is contained the nearest greatest number near the rand_num.
@@ -107,28 +107,22 @@ void select_parents(individual* population, int* parents, const int parent_size,
         // Example: Let be [1,3,6,10,15,21,28,36,45] an array of cumulative sums. Let's take a random number x
         // between [1, 45]. Let x be 18. The index of 18 would be (-1 + sqrt(1 + 8*18)) / 2 = 5.52.
         // This is the index where the number 18 would be displaced in the array considering indexes starting
-        // from 1. If we get the floor we obtain index = 5. Now in our example array which uses indexes that
+        // from 1. If we get the ceil we obtain index = 5. Now in our example array which uses indexes that
         // starts from 0, in the position 5 we have the number 21 which is the nearest greater number from 18. 
-        int index = (-1 + sqrt(1 + 8*random_num)) / 2.0; // Do not use round. Floor operation works better.
-        double val = cum_sum[index];
-        // We are certain that random_num < val
-        //if (random_num > val) {
-        //    LOG_E("Wrong assumption");
-        //}
+        int index = (-1 + sqrt(1 + 8*random_num)) / 2.0; // Returns the index of the first higher number of random num. It must be a ceil operation
+
+        // Example [1,3,6,10,15,21,28,36,45]. If rand_num is 18, the first_bigger_value is 21 and the 
+        // last_smaller_value is 15
+        double first_bigger_value = cum_sum[index]; // The first biggest number from rand_num
+        double last_smaller_value = cum_sum[index - 1]; // The last smaller number from rand_num
+        //assert(random_num < first_bigger_value);
+        //assert(random_num >= last_smaller_value);
+        // Looking for the next not visited individual
+        while (index < pop_size - 1 && visited[index]) { index++; }
         if (!visited[index]) {
             parents[count++] = index;
             visited[index] = 1;
         }
-
-        //Old way
-        /*for (int i = 0; i < pop_size; i++) {
-            double cumulative_sum = cum_sum[i];
-            if (random_num < cum_sum[i] && !visited[i]) {
-                parents[count++] = i;
-                visited[i] = 1;
-                break;
-            }
-        }*/
     }
     FREE(cum_sum);
     FREE(visited);
@@ -287,6 +281,9 @@ void choose_survivors(instance* inst, individual* population, const int pop_size
     qsort(total, N, sizeof(individual), compare_individuals);
 
     double rank_sum = N * (N + 1) / 2;
+
+    // Cum sum can be completely removed. It's values are used only for checking whether the index chosen
+    // is correct. The correctness anyway is proved so optionally the cum sum array can be deleted
     double* cum_sum = CALLOC(N, double);
     cum_sum[0] = 1;
     for (int i = 1; i < N; i++) {
@@ -297,33 +294,20 @@ void choose_survivors(instance* inst, individual* population, const int pop_size
     while (count < pop_size) {
         double random_num = rand_choice(1, rank_sum);
 
-        // New way
-
         // To understand this, go read the same piece of code in select_parents function
-        int index = (-1 + sqrt(1 + 8*random_num)) / 2.0;
-        double val = cum_sum[index];
-        // We are certain that random_num < val
-        //if (random_num > val) {
-        //    LOG_E("Wrong assumption");
-        //}
+        int index = (-1 + sqrt(1 + 8 * random_num)) / 2.0;
+        double first_bigger_value = cum_sum[index]; // The first biggest number from rand_num
+        double last_smaller_value = cum_sum[index - 1]; // The last smaller number from rand_num
+        //assert(random_num < first_bigger_value);
+        //assert(random_num >= last_smaller_value);
+        // Looking for the next not visited individual
+        while (index < N - 1 && visited[index]) { index++; }
         if (!visited[index]) {
             memcpy(population[count].cromosome, total[index].cromosome, sizeof(int) * inst->num_nodes);
             population[count].fitness = total[index].fitness;
             count++;
             visited[index] = 1;
         }
-
-        // Old way
-        /*for (int i = 0; i < pop_size; i++) {
-            double cumulative_sum = cum_sum[i];
-            if (random_num < cum_sum[i] && !visited[i]) {
-                memcpy(population[count].cromosome, total[i].cromosome, sizeof(int) * inst->num_nodes);
-                population[count].fitness = total[i].fitness;
-                count++;
-                visited[i] = 1;
-                break;
-            }
-        }*/
     }
     FREE(total);
     FREE(visited);
@@ -503,7 +487,7 @@ int HEU_Genetic(instance *inst) {
     int time_limit = inst->params.time_limit > 0 ? inst->params.time_limit : DEFAULT_TIME_LIM;
     
     //Allocate memory for parents and offspring
-    int generation = 1;
+    unsigned int generation = 1;
     const int parent_size = (int) (pop_size * PARENT_RATE);
     int* parents = CALLOC(parent_size, int); // Parents indexes
     const int offspring_size = parent_size;
@@ -577,9 +561,9 @@ int HEU_Genetic(instance *inst) {
     }
     FREE(offsprings);
 
-    if (inst->params.verbose >= 4) {
+    /*if (inst->params.verbose >= 4) {
         LOG_I("Applying final 2opt refinement");
     }
-    alg_2opt(inst);
+    alg_2opt(inst);*/
     return status; 
 }
