@@ -1348,3 +1348,111 @@ Testing on 2OPT_GRASP on instance ../data/heuristics/dsj1000.tsp
 Testing on 2OPT_GRASP_ITER on instance ../data/heuristics/dsj1000.tsp
 0
 	2OPT_GRASP_ITER: 20413842.00_120.68
+Testing on VNS on instance ../data/heuristics/ali535.tsp
+0
+	VNS: 208397.00
+Testing on GENETIC on instance ../data/heuristics/ali535.tsp
+0
+	GENETIC: 222593.00
+Testing on VNS on instance ../data/heuristics/p654.tsp
+0
+	VNS: 33245.00
+Testing on GENETIC on instance ../data/heuristics/p654.tsp
+0
+	GENETIC: 38391.00
+Testing on VNS on instance ../data/heuristics/rat783.tsp
+0
+	VNS: 9336.00
+Testing on GENETIC on instance ../data/heuristics/rat783.tsp
+0
+	GENETIC: 9327.00
+Testing on VNS on instance ../data/heuristics/gr666.tsp
+0
+	VNS: 313551.00
+Testing on GENETIC on instance ../data/heuristics/gr666.tsp
+0
+	GENETIC: 333324.00
+Testing on VNS on instance ../data/heuristics/d657.tsp
+0
+	VNS: 48940.00
+Testing on GENETIC on instance ../data/heuristics/d657.tsp
+139
+	GENETIC: 1200
+Testing on VNS on instance ../data/heuristics/pr439.tsp
+0
+	VNS: 108764.00
+Testing on GENETIC on instance ../data/heuristics/pr439.tsp
+0
+	GENETIC: 105959.00
+Testing on VNS on instance ../data/heuristics/rat575.tsp
+0
+	VNS: 6955.00
+Testing on GENETIC on instance ../data/heuristics/rat575.tsp
+139
+	GENETIC: 1200
+Testing on VNS on instance ../data/heuristics/u724.tsp
+0
+	VNS: 43362.00
+Testing on GENETIC on instance ../data/heuristics/u724.tsp
+0
+	GENETIC: 46279.00
+Testing on VNS on instance ../data/heuristics/rd400.tsp
+0
+	VNS: 15937.00
+Testing on GENETIC on instance ../data/heuristics/rd400.tsp
+0
+	GENETIC: 16218.00
+Testing on VNS on instance ../data/heuristics/u574.tsp
+0
+	VNS: 38022.00
+Testing on GENETIC on instance ../data/heuristics/u574.tsp
+139
+	GENETIC: 1200
+Testing on VNS on instance ../data/heuristics/vm1084.tsp
+0
+	VNS: 250519.00
+Testing on GENETIC on instance ../data/heuristics/vm1084.tsp
+0
+	GENETIC: 248589.00
+Testing on VNS on instance ../data/heuristics/att532.tsp
+0
+	VNS: 28548.00
+Testing on GENETIC on instance ../data/heuristics/att532.tsp
+0
+	GENETIC: 29950.00
+Testing on VNS on instance ../data/heuristics/d493.tsp
+0
+	VNS: 33936.00
+Testing on GENETIC on instance ../data/heuristics/d493.tsp
+0
+	GENETIC: 37321.00
+Testing on VNS on instance ../data/heuristics/lin318.tsp
+0
+	VNS: 40143.00
+Testing on GENETIC on instance ../data/heuristics/lin318.tsp
+0
+	GENETIC: 44280.00
+Testing on VNS on instance ../data/heuristics/pr1002.tsp
+0
+	VNS: 277775.00
+Testing on GENETIC on instance ../data/heuristics/pr1002.tsp
+0
+	GENETIC: 287827.00
+Testing on VNS on instance ../data/heuristics/gr431.tsp
+0
+	VNS: 175328.00
+Testing on GENETIC on instance ../data/heuristics/gr431.tsp
+0
+	GENETIC: 192583.00
+Testing on VNS on instance ../data/heuristics/pcb442.tsp
+0
+	VNS: 51119.00
+Testing on GENETIC on instance ../data/heuristics/pcb442.tsp
+0
+	GENETIC: 50485.00
+Testing on VNS on instance ../data/heuristics/dsj1000.tsp
+0
+	VNS: 19669181.00
+Testing on GENETIC on instance ../data/heuristics/dsj1000.tsp
+0
+	GENETIC: 20472388.00
