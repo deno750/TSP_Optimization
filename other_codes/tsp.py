@@ -1,3 +1,16 @@
+"""
+Execute: python tsp.py -f filename.tsp -m METHOD
+Where METHOD:
+  - GREEDY
+  - GREEDY_2OPT
+  - GENETIC
+Other options:
+  -s seed
+  -t time limit
+  -v verbose
+"""
+
+
 import argparse
 import matplotlib.pyplot as plt
 import math
@@ -40,7 +53,7 @@ def read_tsp(file_path=None):
   return inst
 
 #Plot TSP
-def plot_tsp(inst:instance=None,save=False):
+def plot_tsp(inst:instance=None,save=False, path="plot.png"):
   if not inst or not inst.nodes:
     print("Empty instance")
     return
@@ -64,7 +77,7 @@ def plot_tsp(inst:instance=None,save=False):
     Y.append(y)
     plt.plot(X,Y)
 
-  if save: plt.savefig("plot.png",dpi=600)
+  if save: plt.savefig(path,dpi=600)
   plt.show()
 
 
@@ -79,8 +92,12 @@ def parse_cmd_line():
                   help='file name')
   parser.add_argument('-m',action='store',type=str, dest="method",required=True,
                   help="GREEDY, GREEDY_2OPT, GENETIC")
-  parser.add_argument('-t',action='store',type=str, dest="time_limit",required=False,
+  parser.add_argument('-t',action='store',type=int, dest="time_limit",required=False,
                   help="time limit in seconds")
+  parser.add_argument('-s',action='store',type=int, dest="seed",required=False,
+                  help="random seed")
+  parser.add_argument('-v',action='store',type=int, dest="verbose",required=False,
+                  help="output verbosity, the higher the more output will be printed")
   args = parser.parse_args()
   return args
 
@@ -240,7 +257,7 @@ def alg_2opt(inst:instance, time_limit=300):
 
 
 ######################################################################
-################     GENETIC     ################################
+################     GENETIC     #####################################
 ######################################################################
 class individual():
   def __init__(self,inst:instance):
@@ -391,13 +408,21 @@ def genetic(inst:instance,pop_size=1000,off_size=400,num_generations=20):
   return best_solution.toInstance()
 
 
+##############################################################
+################     MAIN     ################################
+##############################################################
 
 def main():
-  start=time.time()
-
+  #Read comman line
   command_line=parse_cmd_line()
   file_name=command_line.file_name
   method=command_line.method
+  verbose=int(command_line.verbose) if command_line.verbose else 3
+  time_limit=int(command_line.time_limit) if command_line.time_limit else 100
+  seed=int(command_line.seed) if command_line.seed else 123
+  random.seed(seed)
+
+  start=time.time() #start counting time from now
 
   inst=read_tsp(file_name)
   elapsed=time.time()-start
@@ -424,11 +449,7 @@ def main():
     print("Time to genetic (s):",elapsed)
     print("Cost after genetic:",inst.cost)
 
-    
-
   plot_tsp(inst)
 
 
-
-random.seed(123)
 main()
