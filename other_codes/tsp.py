@@ -363,7 +363,6 @@ def mutation(ind:individual):
   return ind
 
 def genetic(inst:instance,pop_size=1000,off_size=400,num_generations=20):
-
   population=[random_tour(inst) for _ in range(pop_size)]
   best_solution=population[0]
 
@@ -409,6 +408,50 @@ def genetic(inst:instance,pop_size=1000,off_size=400,num_generations=20):
 
 
 ##############################################################
+################     TABU     ################################
+##############################################################
+
+#Policies
+#TODO....
+
+
+def tabu(inst:instance,policy={"min":10,"max":20,"curr":10,"incr":0},time_limit=100,start_time=0):
+
+
+  greedy(inst)
+
+  tabu_node=[0]*len(inst.nodes)
+  prev=[0]*len(inst.nodes)
+  best_obj=inst.cost
+  best_sol=inst.edges[:]
+
+  policy["min"]=len(inst.nodes)//50 #min tenure
+  policy["max"]=len(inst.nodes)//10 #max tenure
+  if policy["max"]<=policy["min"]:
+    policy["min"],policy["max"]=policy["max"],policy["min"]
+    policy["max"]+=2
+  policy["curr"]=policy["min"]
+  policy["incr"]=0
+
+  
+  
+  #While we are within time limit
+  while (time.time()-start_time)<time_limit:
+    
+    #TODO...
+
+    if inst.cost<best_obj:
+      best_obj=inst.cost
+      best_sol=inst.edges[:]
+
+    #We're in local minimum now. We have to swap two edges and add a node in the tabu list
+    #TODO....
+
+
+
+
+
+##############################################################
 ################     MAIN     ################################
 ##############################################################
 
@@ -448,6 +491,18 @@ def main():
     elapsed=time.time()-start
     print("Time to genetic (s):",elapsed)
     print("Cost after genetic:",inst.cost)
+  elif method=="TABU_STEP":
+    #TODO.... time_limit-elapsed
+    pass
+  elif method=="TABU_LIN":
+    #TODO....
+    pass
+  elif method=="TABU_RAND":
+    #TODO....
+    pass
+  else:
+    print("Wrong Method choosed")
+    return 1
 
   plot_tsp(inst)
 
