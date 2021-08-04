@@ -80,17 +80,13 @@ static int solve_problem(CPXENVptr env, CPXLPptr lp, instance *inst) {
         status = hard_fixing_solver2(inst, env, lp);
     } else if (inst->params.method.id == SOLVE_SOFT_FIXING) {
         status = soft_fixing_solver(inst, env, lp);
-    } else {
-        if (inst->params.method.id == SOLVE_CALLBACK || inst->params.method.id == SOLVE_UCUT) {
-            CPXLONG contextid;
-            if (inst->params.method.id == SOLVE_UCUT) {
-                contextid = CPX_CALLBACKCONTEXT_CANDIDATE | CPX_CALLBACKCONTEXT_RELAXATION;
-            } else {
-                contextid = CPX_CALLBACKCONTEXT_CANDIDATE;
-            }
-            status = CPXcallbacksetfunc(env, lp, contextid, SEC_cuts_callback, inst);
-            if (status) LOG_E("CPXcallbacksetfunc() error returned status %d", status);
+    } else if (inst->params.method.id == SOLVE_CALLBACK || inst->params.method.id == SOLVE_UCUT) {
+        CPXLONG contextid = CPX_CALLBACKCONTEXT_CANDIDATE;
+        if (inst->params.method.id == SOLVE_UCUT) {
+            contextid = CPX_CALLBACKCONTEXT_CANDIDATE | CPX_CALLBACKCONTEXT_RELAXATION;
         }
+        status = CPXcallbacksetfunc(env, lp, contextid, SEC_cuts_callback, inst);
+        if (status) LOG_E("CPXcallbacksetfunc() error returned status %d", status);
 
         status = CPXmipopt(env, lp);
     }
@@ -152,7 +148,7 @@ int TSP_opt(instance *inst) {
 
     
     if (inst->params.seed >= 0) {
-        srand(inst->params.seed); // Setting the random seed for rand()
+        srandom(inst->params.seed); // Setting the random seed for rand()
     }
     long ncols = CPXgetnumcols(env, lp);
     inst->num_columns = ncols; // The callbacks need the number of cols
@@ -172,7 +168,7 @@ int TSP_opt(instance *inst) {
     inst->thread_seeds = CALLOC(max_threads, unsigned int);
     for (int i = 0; i < max_threads; i++) {
         unsigned int seed = (unsigned int) time(NULL);
-        inst->thread_seeds[i] = (seed & 0xFFFFFFF0) | (i + 1);
+        inst->thread_seeds[i] = seed ^ (i+1);//(seed & 0xFFFFFFF0) | (i + 1);
     }
 
     //Start counting time
@@ -247,7 +243,7 @@ int TSP_opt(instance *inst) {
 int TSP_heuc(instance *inst) {
 
     if (inst->params.seed >= 0) {
-        srand(inst->params.seed); // Setting the random seed for rand()
+        srandom(inst->params.seed); // Setting the random seed for rand()
     }
 
     // In heuristic xbest is not used since it's a quadratic data structure. Since heuristics solves very large problems, the amount of memory required by xbest is very huge

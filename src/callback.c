@@ -143,23 +143,24 @@ static int CPXPUBLIC SEC_cuts_callback_relaxation(CPXCALLBACKCONTEXTptr context,
     //LOG_D("Depth is %d", depth);
     //LOG_D("Current node %d", node);
     //LOG_D("Thread id: %d\n", threadid);
-    
-    // Uses nano time as seed parameter for randomness
-    //struct timeval time_now;
-    //gettimeofday(&time_now, 0);
-    //unsigned int seed =  ((unsigned int) time_now.tv_usec) ^ threadid;
- 
+
+    #if __LINUX__ 
+
     // Uses the thread_seeds array in the instance to obtain a seed for randomness
     unsigned int seed = inst->thread_seeds[threadid];
     // Modifying an array on the fly in a threaded code is not a great idea. 
     // However, each thread accesses only in it's specific index on the array. 
     // So it cannot occur that two different threads access at the same location
     // in the array causing race condition
-    inst->thread_seeds[threadid] += 1; 
-    
-    double rand_num = ((double) (rand_r(&seed))) / RAND_MAX;
-
+    inst->thread_seeds[threadid] = seed + 1; 
+    double rand_num = ((double) rand_r(&seed)) / RAND_MAX; // For macos rand_r is broken. It doesn't generate real random numbers
     if (rand_num > 0.1) return 0; // Hyperparameter tuning
+
+    #else
+
+    if (node % 10 != 0) return 0;
+
+    #endif
     //if (depth > 5) return 0; // Hyperparameter tuning
     if (inst->params.verbose >= 5) {
         LOG_I("Relaxation cut");

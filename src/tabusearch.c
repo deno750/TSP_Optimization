@@ -15,13 +15,13 @@ typedef struct tenure_policy {
 
 // Chooses between one of the four paramethers randomly
 static int random_choice(int a, int b, int a1, int b1) {
-    double random = URAND();
+    double rand_num = URAND();
     int node_fixed;
-    if (random < 0.25) {
+    if (rand_num < 0.25) {
         node_fixed = a;
-    } else if (random >= 0.25 && random < 0.5) {
+    } else if (rand_num >= 0.25 && rand_num < 0.5) {
         node_fixed = b;
-    } else if (random >= 0.5 && random < 0.75) {
+    } else if (rand_num >= 0.5 && rand_num < 0.75) {
         node_fixed = a1;
     } else {
         node_fixed = b1;

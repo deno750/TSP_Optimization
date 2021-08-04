@@ -35,7 +35,7 @@
 #define LOG_E(fmt, ...) {fprintf(stderr, "[ERROR] ");fprintf(stderr, fmt, ## __VA_ARGS__);fprintf(stderr, "\n");fflush(NULL);exit(1);}
 #define FREE(ptr) free(ptr); ptr=NULL;
 #define LEN(arr) (sizeof(arr) / sizeof(*arr))
-#define URAND() ( ((double) rand()) / RAND_MAX )
+#define URAND() ( ((double) random()) / RAND_MAX )
 
 
 // Constant that is useful for numerical errors

@@ -123,8 +123,8 @@ int grasp(instance *inst, int starting_node) {
         
         //Now we have the 2 nearest nodes to the current one
         //We select with probability GRASP_RAND the nearest node
-        double random = URAND();
-        int idxsel = random < GRASP_RAND || first_minidx == -1 || second_minidx == -1 ? first_minidx : second_minidx;
+        double rand_num = URAND();
+        int idxsel = rand_num < GRASP_RAND || first_minidx == -1 || second_minidx == -1 ? first_minidx : second_minidx;
 
         // No new nearest node is found so the algorithm shuts down and closes the hamiltonian cycle
         if (idxsel == -1) { 
