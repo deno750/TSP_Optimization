@@ -6,7 +6,9 @@
 #include <float.h>
 #include <assert.h>
 
-// Hyperparameters to tune
+////////////////////////////////////////////////////////
+///////////////// HYPERPARAMETERS //////////////////////
+////////////////////////////////////////////////////////
 #define POPULATION_SIZE 1000
 #define MUTATION_RATE 0.1 // The probability of the mutation
 #define PARENT_RATE 0.6 // The percentage of parents with respect the population. 
@@ -482,7 +484,7 @@ int HEU_Genetic(instance *inst) {
 
     //Set time limit
     if (inst->params.time_limit <= 0 && inst->params.verbose >= 3) {
-        LOG_I("Default time lim %d setted.", DEFAULT_TIME_LIM);
+        LOG_I("Default time lim %d set.", DEFAULT_TIME_LIM);
     }
     int time_limit = inst->params.time_limit > 0 ? inst->params.time_limit : DEFAULT_TIME_LIM;
     
@@ -520,7 +522,6 @@ int HEU_Genetic(instance *inst) {
             individual best_individual = population[best_idx];
             inst->solution.obj_best = best_fitness;
             from_cromosome_to_edges(inst, best_individual); //Update best solution
-            
             //plot_solution(inst);
             //if (inst->params.verbose >= 3) {LOG_I("UPDATED INCUBEMENT: %0.2f", best_fitness);}
 
@@ -561,9 +562,5 @@ int HEU_Genetic(instance *inst) {
     }
     FREE(offsprings);
 
-    /*if (inst->params.verbose >= 4) {
-        LOG_I("Applying final 2opt refinement");
-    }
-    alg_2opt(inst);*/
     return status; 
 }

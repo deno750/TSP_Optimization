@@ -129,6 +129,4 @@ int HEU_2opt_greedy_iter(instance *inst);
  * @return The error code
  */
 int HEU_2opt_extramileage(instance *inst);
-
-int HEU_VNS(instance *inst);
 #endif
