@@ -163,6 +163,9 @@ int alg_2optv2(instance *inst, int *skip_node, int *stored_prev, const int iter,
             break;
         }
         minchange = 0;
+        for (int i = 0; i < inst->num_nodes; i++) {
+            LOG_D("%d -> %d", i, inst->solution.edges[i].j);
+        }
         for (int i = 0; i < inst->num_nodes - 1; i++) {
             if (skip_node && skip_node[i] && check_tenure(&(skip_node[i]), iter, tenure)) { continue; } // Checking here for i can remove an useless cycle
             for (int j = i+1; j < inst->num_nodes; j++) {
@@ -188,11 +191,84 @@ int alg_2optv2(instance *inst, int *skip_node, int *stored_prev, const int iter,
         if (minchange >= 0) {
             break;
         }
-        int a1 = inst->solution.edges[mina].j;
-        int b1 = inst->solution.edges[minb].j; 
+        int mina1 = inst->solution.edges[mina].j;
+        int minb1 = inst->solution.edges[minb].j; 
         inst->solution.edges[mina].j = minb;
-        inst->solution.edges[a1].j = b1;
-        reverse_path(inst, minb, a1, prev);
+        inst->solution.edges[mina1].j = minb1;
+        reverse_path(inst, minb, mina1, prev);
+        
+    }
+    inst->solution.obj_best = 0.0;
+    for (int i = 0; i < inst->num_nodes; i++) {
+        edge e = inst->solution.edges[i];
+        inst->solution.obj_best += calc_dist(e.i, e.j, inst);
+    }
+    if(stored_prev) {
+        memcpy(stored_prev, prev, sizeof(int) * inst->num_nodes);
+    }
+    FREE(prev);
+    return status;
+}
+
+int alg_2optv3(instance *inst, int *skip_node, int *stored_prev, const int iter, const int tenure) {
+    struct timeval start, end;
+    gettimeofday(&start, 0);
+    double minchange;
+    int status = 0;
+    int *prev = MALLOC(inst->num_nodes, int);
+    MEMSET(prev, -1, inst->num_nodes, int);
+    for (int i = 0; i < inst->num_nodes; i++) {
+        prev[inst->solution.edges[i].j] = i;
+    }
+    int mina = 0;
+    int minb = 0;
+    while(1) {
+        gettimeofday(&end, 0);
+        double elapsed = get_elapsed_time(start, end);
+        if (inst->params.time_limit > 0 && elapsed > inst->params.time_limit) {
+            status = TIME_LIMIT_EXCEEDED;
+            LOG_I("2-opt heuristics time exceeded");
+            break;
+        }
+        minchange = 0;
+        for (int i = 0; i < inst->num_nodes - 1; i++) {
+            for (int j = i+1; j < inst->num_nodes; j++) {
+                int a = i;
+                int b = j;
+                int a1 = inst->solution.edges[a].j;
+                int b1 = inst->solution.edges[b].j;
+                if (b == a1 || b1 == a) {
+                    continue;
+                }
+                int edge_idx1 = x_udir_pos(a, b, inst->num_nodes);
+                int edge_idx2 = x_udir_pos(a, a1, inst->num_nodes);
+                int edge_idx3 = x_udir_pos(b, b1, inst->num_nodes);
+                int edge_idx4 = x_udir_pos(a, b1, inst->num_nodes);
+
+                if (skip_node && 
+                    (check_tenure(&(skip_node[edge_idx1]), iter, tenure)  || 
+                    check_tenure(&(skip_node[edge_idx2]), iter, tenure)   || 
+                    check_tenure(&(skip_node[edge_idx3]), iter, tenure)   || 
+                    check_tenure(&(skip_node[edge_idx4]), iter, tenure)   
+                    )) {
+                        continue;
+                    }
+                double change = calc_dist(a, b, inst) + calc_dist(a1, b1, inst) - calc_dist(a, a1, inst) - calc_dist(b, b1, inst);
+                if (change < minchange) {
+                    minchange = change;
+                    mina = i;
+                    minb = j;
+                }
+            }
+        }
+        if (minchange >= 0) {
+            break;
+        }
+        int mina1 = inst->solution.edges[mina].j;
+        int minb1 = inst->solution.edges[minb].j; 
+        inst->solution.edges[mina].j = minb;
+        inst->solution.edges[mina1].j = minb1;
+        reverse_path(inst, minb, mina1, prev);
         
     }
     inst->solution.obj_best = 0.0;
@@ -216,7 +292,8 @@ static int tabu(instance *inst, void (*policy_ptr)(tenure_policy*, int)) {
     int *prev = CALLOC(inst->num_nodes, int);
 
     int grasp_time_lim = inst->params.time_limit / 5;
-    HEU_Greedy_iter(inst);//HEU_Grasp_iter(inst, grasp_time_lim);
+    //HEU_Greedy_iter(inst);//HEU_Grasp_iter(inst, grasp_time_lim);
+    greedy(inst, 0);
     if (inst->params.verbose >= 5) {
         LOG_I("Completed initialization");
     }
@@ -226,7 +303,7 @@ static int tabu(instance *inst, void (*policy_ptr)(tenure_policy*, int)) {
     double best_obj = DBL_MAX;
     edge *best_sol = CALLOC(inst->num_nodes, edge);
     tenure_policy tenure_policy;
-    tenure_policy.min_tenure = ceil(inst->num_nodes * 0.02);// Ceil in order to have 1 for small instances. //15; // Hyper parameter
+    tenure_policy.min_tenure = ceil(inst->num_nodes * 0.02);// Ceil in order to have 1 for small instances. // Hyper parameter
     tenure_policy.max_tenure = round(inst->num_nodes * 0.1);//inst->num_nodes / 10; // Hyper parameter
     if (tenure_policy.min_tenure == tenure_policy.max_tenure) {
         tenure_policy.max_tenure += 2;
@@ -235,7 +312,6 @@ static int tabu(instance *inst, void (*policy_ptr)(tenure_policy*, int)) {
         tenure_policy.min_tenure = tenure_policy.max_tenure;
         tenure_policy.max_tenure = tmp;
     }
-
 
     tenure_policy.current_tenure = tenure_policy.min_tenure;
     tenure_policy.incr_tenure = 0;
@@ -250,7 +326,6 @@ static int tabu(instance *inst, void (*policy_ptr)(tenure_policy*, int)) {
             break;
         }
         status = alg_2optv2(inst, tabu_node, prev, iter, tenure_policy.current_tenure);
-
         if (inst->solution.obj_best < best_obj) {
             best_obj = inst->solution.obj_best;
             memcpy(best_sol, inst->solution.edges, inst->num_nodes * sizeof(edge));
@@ -260,6 +335,7 @@ static int tabu(instance *inst, void (*policy_ptr)(tenure_policy*, int)) {
             
             plot_solution(inst);
         }
+        //LOG_D("Current sol: %0.0f     Incumbent: %0.0f", inst->solution.obj_best, best_obj);
         
         if (status) {
             LOG_I("2-opt move returned status %d", status);
@@ -291,8 +367,9 @@ static int tabu(instance *inst, void (*policy_ptr)(tenure_policy*, int)) {
         //plot_solution(inst);
         //sleep(1);
         
-        int node_fixed = random_choice(a, b, a1, b1);
-        tabu_node[node_fixed] = iter;
+        //int node_fixed = random_choice(a, b, a1, b1);
+        tabu_node[a] = iter;
+        tabu_node[b] = iter;
         
         iter++;
     }
@@ -305,18 +382,119 @@ static int tabu(instance *inst, void (*policy_ptr)(tenure_policy*, int)) {
     return status;
 }
 
+static int tabuv2(instance *inst, void (*policy_ptr)(tenure_policy*, int)) {
+    int status = 0;
+    struct timeval start, end;
+    gettimeofday(&start, 0);
+
+    int *tabu_edge = CALLOC(inst->num_columns, int);
+    int *prev = CALLOC(inst->num_nodes, int);
+
+    int grasp_time_lim = inst->params.time_limit / 5;
+    //HEU_Greedy_iter(inst);//HEU_Grasp_iter(inst, grasp_time_lim);
+    greedy(inst, 0);
+    if (inst->params.verbose >= 5) {
+        LOG_I("Completed initialization");
+    }
+
+    plot_solution(inst);
+
+    double best_obj = DBL_MAX;
+    edge *best_sol = CALLOC(inst->num_nodes, edge);
+    tenure_policy tenure_policy;
+    tenure_policy.min_tenure = ceil(inst->num_nodes * 0.02);// Ceil in order to have 1 for small instances. // Hyper parameter
+    tenure_policy.max_tenure = round(inst->num_nodes * 0.1);//inst->num_nodes / 10; // Hyper parameter
+    if (tenure_policy.min_tenure == tenure_policy.max_tenure) {
+        tenure_policy.max_tenure += 2;
+    } else if (tenure_policy.max_tenure < tenure_policy.min_tenure) {
+        int tmp = tenure_policy.min_tenure;
+        tenure_policy.min_tenure = tenure_policy.max_tenure;
+        tenure_policy.max_tenure = tmp;
+    }
+
+    tenure_policy.current_tenure = tenure_policy.min_tenure;
+    tenure_policy.incr_tenure = 0;
+
+    int iter = 1;
+    while (1) {
+        gettimeofday(&end, 0);
+        double elapsed = get_elapsed_time(start, end);
+        if (inst->params.time_limit > 0 && elapsed > inst->params.time_limit) {
+            status = TIME_LIMIT_EXCEEDED;
+            LOG_I("Tabu Search time exceeded");
+            break;
+        }
+        status = alg_2optv3(inst, tabu_edge, prev, iter, tenure_policy.current_tenure);
+        if (inst->solution.obj_best < best_obj) {
+            best_obj = inst->solution.obj_best;
+            memcpy(best_sol, inst->solution.edges, inst->num_nodes * sizeof(edge));
+            if (inst->params.verbose >= 3) {
+                LOG_I("Updated incumbent: %f", best_obj);
+            }
+            
+            plot_solution(inst);
+        }
+        //LOG_D("Current sol: %0.0f     Incumbent: %0.0f", inst->solution.obj_best, best_obj);
+        
+        if (status) {
+            LOG_I("2-opt move returned status %d", status);
+            break;
+        }
+        // We're in local minimum now. We have to swap two edges and add a node in the tabu list
+
+        int a = 0, b = 0, a1 = 0, b1 = 0; 
+        // Seeking the pair edges to change. We don't want to choose two adiacent edges to swap
+        while (a == b || a1 == b1 || a == a1 || a == b1 || b == a1 || b == b1) {
+            a = rand_choice(0, inst->num_nodes);
+            b = rand_choice(0, inst->num_nodes);
+            a1 = inst->solution.edges[a].j;
+            b1 = inst->solution.edges[b].j;
+            if (tabu_edge[a] || tabu_edge[b] || tabu_edge[a1] || tabu_edge[b1]) {
+                a = 0; b = 0; a1 = 0; b1 = 0;
+            }
+        }
+        inst->solution.edges[a].j = b;
+        inst->solution.edges[a1].j = b1;
+        reverse_path(inst, b, a1, prev);
+
+        (*policy_ptr)(&tenure_policy, iter);
+
+        if (inst->params.verbose >= 5) {
+            LOG_I("Current tenure %d", tenure_policy.current_tenure);
+        }
+        //printf("\n\n\n\n");
+        //plot_solution(inst);
+        //sleep(1);
+        
+        //int node_fixed = random_choice(a, b, a1, b1);
+        int edge_idx1 = x_udir_pos(a, a1, inst->num_nodes);
+        int edge_idx2 = x_udir_pos(b, b1, inst->num_nodes);
+        tabu_edge[edge_idx1] = iter;
+        tabu_edge[edge_idx2] = iter;
+        
+        iter++;
+    }
+
+    inst->solution.obj_best = best_obj;
+    memcpy(inst->solution.edges, best_sol, inst->num_nodes * sizeof(edge));
+    //status = alg_2optv3(inst, NULL, NULL, -1, -1); // A very fast 2-opt which removes the remaining crossing edges (generally few crossing edges)
+    FREE(tabu_edge);
+    FREE(prev);
+    return status;
+}
+
 //Wrapper for tabu step
 int HEU_Tabu_step(instance *inst) {
-    return tabu(inst, step_policy);
+    return tabuv2(inst, step_policy);
 }
 
 //Wrapper for tabu lin
 int HEU_Tabu_lin(instance *inst) {
-    return tabu(inst, linear_policy);
+    return tabuv2(inst, linear_policy);
 }
 
 //Wrapper for tabu rand
 int HEU_Tabu_rand(instance *inst) {
-    return tabu(inst, random_policy);
+    return tabuv2(inst, random_policy);
 }
 

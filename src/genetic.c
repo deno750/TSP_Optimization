@@ -17,7 +17,7 @@
 
 // This struct represents an individual in the population. 
 // Stores the cromosome and the fitness value. 
-typedef struct individual{
+typedef struct {
     int* cromosome; // List of nodes in the order of which are visited in the tsp
     double fitness;
 } individual;

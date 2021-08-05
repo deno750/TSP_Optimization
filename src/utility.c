@@ -15,7 +15,9 @@ double dmax(double d1, double d2) {
 }
 
 int x_udir_pos(int i, int j, int num_nodes) {
-    if (i == j) LOG_E("Indexes passed are equal!");
+    if (i == j) { 
+        LOG_E("Indexes passed are equal!"); 
+    }
     if (i > num_nodes - 1 || j > num_nodes -1 ) {
         LOG_E("Indexes passed greater than the number of nodes");
     }

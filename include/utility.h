@@ -24,8 +24,6 @@
     }                                                   \
 }               
 
-#define DEBUG // Comment when the debugging logs are not needed
-
 #ifdef DEBUG
 #define LOG_D(fmt, ...) {fprintf(stdout, "[DEBUG] ");fprintf(stdout, fmt, ## __VA_ARGS__);fprintf(stdout, "\n");}
 #else
@@ -91,7 +89,7 @@ typedef enum {
 // The default edge definition
 #define DEFAULT_EDGE UDIR_EDGE
 // The default method name definition
-#define SOLVER_DEFAULT_NAME "INCUBEMENT CALLBACK"
+#define SOLVER_DEFAULT_NAME "INCUMBENT CALLBACK"
 
 
 
