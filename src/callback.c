@@ -113,13 +113,14 @@ static int violated_cuts_callback(double cutval, int num_nodes, int* members, vo
     int num_edges = num_nodes * (num_nodes - 1) / 2;
     //LOG_D("Num edges: %d\n", num_edges);
     double *values = MALLOC(num_edges, double);
-    MEMSET(values, 1.0, num_edges, double);
     int *edges = MALLOC(num_edges, int);
     int k = 0;
     for (int i = 0; i < num_nodes; i++) {
         for (int j = 0; j < num_nodes; j++) {
             if (members[i] >= members[j]) { continue; } // undirected graph. If the node in index i is greated than the node in index j, we skip since (i,j) = (j,i)
-            edges[k++] = x_udir_pos(members[i], members[j], inst->num_nodes);
+            edges[k] = x_udir_pos(members[i], members[j], inst->num_nodes);
+            values[k] = 1.0;
+            k++;
             //LOG_D("X(%d,%d)", members[i], members[j]);
         }
     }
