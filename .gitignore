@@ -10,3 +10,7 @@
 /other_codes/logs.log
 /other_codes/runserver.sh
 logs.log
+
+#flask
+__pycache__/
+venv/

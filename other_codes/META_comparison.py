@@ -30,7 +30,7 @@ if __name__ == '__main__':
             row = df.index.get_loc(tsp)
             if not pd.isnull(df[m].values[row]): continue   #avoid computing again already computed
 
-            str_exec = "../build/tsp -f {path} -verbose -1 -method {method} -t {time_lim} --perfprof"
+            str_exec = "../build/tsp -f {path} -verbose -1 -method {method} -t {time_lim} --perfprof -seed 123"
             str_exec = str_exec.format(path=tsp, method=m, time_lim=time_limit)
             print("Testing on " +m+ " on instance " +tsp)
             process = subprocess.Popen(str_exec, stderr=subprocess.PIPE, stdout=subprocess.PIPE, shell=True)
