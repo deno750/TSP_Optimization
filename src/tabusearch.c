@@ -254,20 +254,45 @@ static int tabu(instance *inst, void (*policy_ptr)(tenure_policy*, int)) {
         }
         // We're in local minimum now. We have to swap two edges and add these two in the tabu list
 
-        int a = 0, b = 0, a1 = 0, b1 = 0; 
         // Seeking the pair edges to change. We don't want to choose two adiacent edges to swap
-        while (a == b || a1 == b1 || a == a1 || a == b1 || b == a1 || b == b1) {
+        int a, b, a1, b1;
+        while (1) {
             a = rand_choice(0, inst->num_nodes);
             b = rand_choice(0, inst->num_nodes);
+
             a1 = inst->solution.edges[a].j;
             b1 = inst->solution.edges[b].j;
-            if (tabu_edge[a] || tabu_edge[b] || tabu_edge[a1] || tabu_edge[b1]) {
-                a = 0; b = 0; a1 = 0; b1 = 0;
+
+            // Don't want the same node for a and b and don't want contiguous edges
+            if (a == b || a1 == b || b1 == a) {
+                continue;
+            }
+
+            // Checking whether the edges are in the tabu list. If they're in the tabu list, those edges should not be touched
+            int edge_idx1 = x_udir_pos(a, a1, inst->num_nodes);
+            int edge_idx2 = x_udir_pos(b, b1, inst->num_nodes);
+            int edge_idx3 = x_udir_pos(a, b, inst->num_nodes);
+            int edge_idx4 = x_udir_pos(a1, b1, inst->num_nodes);
+            //if (tabu_edge[edge_idx3] || tabu_edge[edge_idx4]) {
+            //    printf("IN TABU a-b or a1-b1\n");
+            //}
+            //if (tabu_edge[edge_idx1] || tabu_edge[edge_idx2]) {
+            //    printf("IN TABU a-a1 or b-b1\n");
+            //}
+            // If the edges are not in tabu list, we can exit from this loop and swap these edges
+            if (!check_tenure(&(tabu_edge[edge_idx1]), iter, tenure_policy.current_tenure) && 
+                !check_tenure(&(tabu_edge[edge_idx2]), iter, tenure_policy.current_tenure)) {
+                break;
             }
         }
         inst->solution.edges[a].j = b;
         inst->solution.edges[a1].j = b1;
         reverse_path(inst, b, a1, prev);
+        //for (int i = 0; i < inst->num_nodes; i++) {
+        //    printf("%d -> %d ", i, inst->solution.edges[i].j);
+        //}
+        //printf("\n");
+        //printf("TABU %d-%d   %d-%d\n", a, a1, b, b1);
 
         (*policy_ptr)(&tenure_policy, iter);
 
