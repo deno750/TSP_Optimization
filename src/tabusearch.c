@@ -187,12 +187,15 @@ int alg_2opt_tabu(instance *inst, int *skip_edge, int *stored_prev, const int it
  */
 static int tabu(instance *inst, void (*policy_ptr)(tenure_policy*, int)) {
     int status = 0;
+
+    //Start counting time from now
     struct timeval start, end;
     gettimeofday(&start, 0);
 
     int *tabu_edge = CALLOC(inst->num_columns, int);
     int *prev = CALLOC(inst->num_nodes, int);
 
+    //Compute initial solution
     //int grasp_time_lim = inst->params.time_limit / 5;
     HEU_Greedy_iter(inst);
     if (inst->params.verbose >= 5) {
@@ -219,14 +222,19 @@ static int tabu(instance *inst, void (*policy_ptr)(tenure_policy*, int)) {
 
     int iter = 1;
     while (1) {
+        //Check elapsed time
         gettimeofday(&end, 0);
         double elapsed = get_elapsed_time(start, end);
         if (inst->params.time_limit > 0 && elapsed > inst->params.time_limit) {
             status = TIME_LIMIT_EXCEEDED;
-            LOG_I("Tabu Search time exceeded");
+            if (inst->params.verbose >= 3) {LOG_I("Tabu Search time exceeded");}
             break;
         }
+
+        //Optimize
         status = alg_2opt_tabu(inst, tabu_edge, prev, iter, tenure_policy.current_tenure);
+
+        //Update the best solution
         if (inst->solution.obj_best < best_obj) {
             best_obj = inst->solution.obj_best;
             memcpy(best_sol, inst->solution.edges, inst->num_nodes * sizeof(edge));
@@ -269,6 +277,7 @@ static int tabu(instance *inst, void (*policy_ptr)(tenure_policy*, int)) {
         //plot_solution(inst);
         //sleep(1);
         
+        //Put the 2 edges in the tabu list
         int edge_idx1 = x_udir_pos(a, a1, inst->num_nodes);
         int edge_idx2 = x_udir_pos(b, b1, inst->num_nodes);
         tabu_edge[edge_idx1] = iter;

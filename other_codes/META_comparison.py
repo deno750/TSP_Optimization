@@ -10,7 +10,7 @@ if __name__ == '__main__':
     paths = []#["../data/burma14.tsp", "../data/berlin52.tsp", "../data/eil51.tsp", "../data/att48.tsp", "../data/st70.tsp", "../data/pr76.tsp"]
     for name in glob.glob('../data/heuristics/*'):
         paths.append(name)
-    methods = ["VNS", "GENETIC"]#, "TABU_STEP","TABU_LIN", "TABU_RAND"]
+    methods = ["VNS", "GENETIC", "TABU_STEP","TABU_LIN", "TABU_RAND"]
 
     time_limit = "1200"   #seconds
 
