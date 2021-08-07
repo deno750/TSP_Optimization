@@ -8,7 +8,7 @@ file(GLOB tsp_SRC CONFIGURE_DEPENDS "src/*.c" )
 
 add_executable(${PROJECT_NAME} ${tsp_SRC})
 
-add_definitions(-DVERSION="0.9") #Software's current version
+add_definitions(-DVERSION="0.9.5") #Software's current version
 add_definitions(-DDEBUG) #Whether debug version is needed
 
 set(CMAKE_C_STANDARD 11)

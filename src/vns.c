@@ -8,9 +8,8 @@
 
 
 //Function that change randomly some edges in the current solution
-int kick(instance *inst, int k){
+int kick(instance *inst){
     int status = 0;
-    k=k<1? 1:k; // if k <1 set k=1
 
     //From list of successor to Tour
     int* tour = CALLOC(inst->num_nodes, int);
@@ -21,53 +20,6 @@ int kick(instance *inst, int k){
         idx+=1;
         node=inst->solution.edges[node].j;
     }
-
-    //For 5 times choose 2 random nodes in the tour and swap them
-    /*for(int i=0; i<5; i++){
-        int idx1=rand_choice(0,inst->num_nodes);
-        int idx2=idx1;
-        while(idx2==idx1){
-            idx2=rand_choice(0,inst->num_nodes);
-        }
-
-        //swap
-        int tmp = tour[idx1];
-        tour[idx1] = tour[idx2];
-        tour[idx2] = tmp;
-    }*/
-
-
-    // Picks k different nodes and swap them in a random way
-    /*int k = 3;
-    int idxs[k]; 
-    for (int i = 0; i < k; i++) {
-        idxs[i] = rand_choice(0, inst->num_nodes);
-    }
-
-    for (int i = 0; i < k; i++) {
-        int j = rand_choice(0, k); // Picks a random index for accessing idxs array
-        int tmp = tour[idxs[i]];
-        tour[idxs[i]] = tour[idxs[j]];
-        tour[idxs[j]] = tmp;
-    }*/
-
-
-    //Pick 3 random nodes and swap them randomly
-    /*int idx1=rand_choice(0,inst->num_nodes);
-    int idx2=idx1;
-    int idx3=idx1;
-    while(idx2==idx1){
-        idx2=rand_choice(0,inst->num_nodes);
-    }
-    while(idx3==idx1 || idx3==idx2){
-        idx3=rand_choice(0,inst->num_nodes);
-    }
-    //Swap
-    int first = tour[idx1];
-    tour[idx1] = rand_choice(0,2)==0 ? tour[idx2]:tour[idx3];
-    int second= tour[idx1]==tour[idx2] ? tour[idx3]:tour[idx2];
-    tour[idx2] = rand_choice(0,2)==0 ? first:second;
-    tour[idx3] = tour[idx2]==first ? second:first;*/
 
     //Remove 3 random edges and reconnect them
     int idx1=rand_choice(0,inst->num_nodes);
@@ -161,7 +113,7 @@ int HEU_VNS(instance *inst){
 
     //Compute initial solution
     //status=greedy(inst, 0);
-    status=HEU_2opt_greedy(inst);
+    status=HEU_2opt_greedy_iter(inst);
     
     double best_obj=inst->solution.obj_best;  //best solution cost
     edge *best_sol = CALLOC(inst->num_nodes, edge);
@@ -183,25 +135,22 @@ int HEU_VNS(instance *inst){
 
         //The current solution is the best seen so far
         //Modify current solution to a random point in the neighboorhood
-        kick(inst,k);
+        kick(inst);
         //plot_solution(inst);
 
         //Optimize with 2OPT
         //inst.params.time_limit = 5;
         status=alg_2opt(inst);
-        if (inst->params.verbose >= 3) {LOG_I("Current: %0.0f", inst->solution.obj_best);}
+        if (inst->params.verbose >= 4) {LOG_I("Current: %0.0f", inst->solution.obj_best);}
 
 
         //If new solution is better than the best, update the best solution
         if (inst->solution.obj_best < best_obj) {
             best_obj = inst->solution.obj_best;
             memcpy(best_sol, inst->solution.edges, inst->num_nodes * sizeof(edge));
-            k=1;
+            
             if (inst->params.verbose >= 3) {LOG_I("Updated incumbent: %0.0f", best_obj);}
-            //plot_solution(inst);
-        }else{
-            k+=1;
-            k%=inst->num_nodes; //keep k less than the number of nodes
+            plot_solution(inst);
         }
 
         //restore best solution

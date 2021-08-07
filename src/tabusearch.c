@@ -197,7 +197,10 @@ static int tabu(instance *inst, void (*policy_ptr)(tenure_policy*, int)) {
 
     //Compute initial solution
     //int grasp_time_lim = inst->params.time_limit / 5;
-    HEU_Greedy_iter(inst);
+    status = HEU_2opt_greedy_iter(inst);
+    if (status) {
+        LOG_E("An error occurred in HEU_2opt_greedy_iter");
+    }
     if (inst->params.verbose >= 5) {
         LOG_I("Completed initialization");
     }

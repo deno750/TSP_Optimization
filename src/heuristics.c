@@ -71,6 +71,7 @@ int greedy(instance *inst, int starting_node) {
         curr = minidx;          //new current node is the selected one
     }
 
+    obj += calc_dist(curr, starting_node, inst);
     inst->solution.obj_best = obj;  //save tour cost
     FREE(visited);
     return status;
@@ -148,6 +149,7 @@ int grasp(instance *inst, int starting_node) {
         curr = idxsel;              //new current node is the selected one
     }
     
+    obj += calc_dist(curr, starting_node, inst);
     inst->solution.obj_best = obj;  //save tour cost
     FREE(visited);
     return status;
