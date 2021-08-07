@@ -1,0 +1,162 @@
+Testing on TABU_STEP on instance ../data/heuristics/ali535.tsp
+0
+	TABU_STEP: 207656.00
+Testing on TABU_LIN on instance ../data/heuristics/ali535.tsp
+0
+	TABU_LIN: 207640.00
+Testing on TABU_RAND on instance ../data/heuristics/ali535.tsp
+0
+	TABU_RAND: 210263.00
+Testing on TABU_STEP on instance ../data/heuristics/p654.tsp
+0
+	TABU_STEP: 34954.00
+Testing on TABU_LIN on instance ../data/heuristics/p654.tsp
+0
+	TABU_LIN: 35033.00
+Testing on TABU_RAND on instance ../data/heuristics/p654.tsp
+0
+	TABU_RAND: 34946.00
+Testing on TABU_STEP on instance ../data/heuristics/rat783.tsp
+0
+	TABU_STEP: 9150.00
+Testing on TABU_LIN on instance ../data/heuristics/rat783.tsp
+0
+	TABU_LIN: 9150.00
+Testing on TABU_RAND on instance ../data/heuristics/rat783.tsp
+0
+	TABU_RAND: 9147.00
+Testing on TABU_STEP on instance ../data/heuristics/gr666.tsp
+0
+	TABU_STEP: 308915.00
+Testing on TABU_LIN on instance ../data/heuristics/gr666.tsp
+0
+	TABU_LIN: 308109.00
+Testing on TABU_RAND on instance ../data/heuristics/gr666.tsp
+0
+	TABU_RAND: 308194.00
+Testing on TABU_STEP on instance ../data/heuristics/d657.tsp
+0
+	TABU_STEP: 50444.00
+Testing on TABU_LIN on instance ../data/heuristics/d657.tsp
+0
+	TABU_LIN: 50464.00
+Testing on TABU_RAND on instance ../data/heuristics/d657.tsp
+0
+	TABU_RAND: 50497.00
+Testing on TABU_STEP on instance ../data/heuristics/pr439.tsp
+0
+	TABU_STEP: 108676.00
+Testing on TABU_LIN on instance ../data/heuristics/pr439.tsp
+0
+	TABU_LIN: 108891.00
+Testing on TABU_RAND on instance ../data/heuristics/pr439.tsp
+0
+	TABU_RAND: 108732.00
+Testing on TABU_STEP on instance ../data/heuristics/rat575.tsp
+0
+	TABU_STEP: 7063.00
+Testing on TABU_LIN on instance ../data/heuristics/rat575.tsp
+0
+	TABU_LIN: 7035.00
+Testing on TABU_RAND on instance ../data/heuristics/rat575.tsp
+0
+	TABU_RAND: 7060.00
+Testing on TABU_STEP on instance ../data/heuristics/u724.tsp
+0
+	TABU_STEP: 43331.00
+Testing on TABU_LIN on instance ../data/heuristics/u724.tsp
+0
+	TABU_LIN: 43397.00
+Testing on TABU_RAND on instance ../data/heuristics/u724.tsp
+0
+	TABU_RAND: 43442.00
+Testing on TABU_STEP on instance ../data/heuristics/rd400.tsp
+0
+	TABU_STEP: 15667.00
+Testing on TABU_LIN on instance ../data/heuristics/rd400.tsp
+0
+	TABU_LIN: 15729.00
+Testing on TABU_RAND on instance ../data/heuristics/rd400.tsp
+0
+	TABU_RAND: 15677.00
+Testing on TABU_STEP on instance ../data/heuristics/u574.tsp
+0
+	TABU_STEP: 38110.00
+Testing on TABU_LIN on instance ../data/heuristics/u574.tsp
+0
+	TABU_LIN: 38165.00
+Testing on TABU_RAND on instance ../data/heuristics/u574.tsp
+0
+	TABU_RAND: 38297.00
+Testing on TABU_STEP on instance ../data/heuristics/vm1084.tsp
+0
+	TABU_STEP: 248219.00
+Testing on TABU_LIN on instance ../data/heuristics/vm1084.tsp
+0
+	TABU_LIN: 248759.00
+Testing on TABU_RAND on instance ../data/heuristics/vm1084.tsp
+0
+	TABU_RAND: 247958.00
+Testing on TABU_STEP on instance ../data/heuristics/att532.tsp
+0
+	TABU_STEP: 28506.00
+Testing on TABU_LIN on instance ../data/heuristics/att532.tsp
+0
+	TABU_LIN: 28417.00
+Testing on TABU_RAND on instance ../data/heuristics/att532.tsp
+0
+	TABU_RAND: 28658.00
+Testing on TABU_STEP on instance ../data/heuristics/d493.tsp
+0
+	TABU_STEP: 35965.00
+Testing on TABU_LIN on instance ../data/heuristics/d493.tsp
+0
+	TABU_LIN: 35940.00
+Testing on TABU_RAND on instance ../data/heuristics/d493.tsp
+0
+	TABU_RAND: 35909.00
+Testing on TABU_STEP on instance ../data/heuristics/lin318.tsp
+0
+	TABU_STEP: 42925.00
+Testing on TABU_LIN on instance ../data/heuristics/lin318.tsp
+0
+	TABU_LIN: 42779.00
+Testing on TABU_RAND on instance ../data/heuristics/lin318.tsp
+0
+	TABU_RAND: 42773.00
+Testing on TABU_STEP on instance ../data/heuristics/pr1002.tsp
+0
+	TABU_STEP: 269073.00
+Testing on TABU_LIN on instance ../data/heuristics/pr1002.tsp
+0
+	TABU_LIN: 269073.00
+Testing on TABU_RAND on instance ../data/heuristics/pr1002.tsp
+0
+	TABU_RAND: 269933.00
+Testing on TABU_STEP on instance ../data/heuristics/gr431.tsp
+0
+	TABU_STEP: 176975.00
+Testing on TABU_LIN on instance ../data/heuristics/gr431.tsp
+0
+	TABU_LIN: 176781.00
+Testing on TABU_RAND on instance ../data/heuristics/gr431.tsp
+0
+	TABU_RAND: 176019.00
+Testing on TABU_STEP on instance ../data/heuristics/pcb442.tsp
+0
+	TABU_STEP: 52043.00
+Testing on TABU_LIN on instance ../data/heuristics/pcb442.tsp
+0
+	TABU_LIN: 52169.00
+Testing on TABU_RAND on instance ../data/heuristics/pcb442.tsp
+0
+	TABU_RAND: 51802.00
+Testing on TABU_STEP on instance ../data/heuristics/dsj1000.tsp
+0
+	TABU_STEP: 19421019.00
+Testing on TABU_LIN on instance ../data/heuristics/dsj1000.tsp
+0
+	TABU_LIN: 19529106.00
+Testing on TABU_RAND on instance ../data/heuristics/dsj1000.tsp
+0
+	TABU_RAND: 19492379.00
