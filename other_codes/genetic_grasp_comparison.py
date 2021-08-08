@@ -10,12 +10,11 @@ if __name__ == '__main__':
     paths = []#["../data/burma14.tsp", "../data/berlin52.tsp", "../data/eil51.tsp", "../data/att48.tsp", "../data/st70.tsp", "../data/pr76.tsp"]
     for name in glob.glob('../data/heuristics/*'):
         paths.append(name)
-    #methods = ["GREEDY", "GREEDY_ITER", "EXTR_MILE", "GRASP", "GRASP_ITER"]
-    methods = ["2OPT_GREEDY", "2OPT_GREEDY_ITER", "2OPT_EXTR_MIL","2OPT_GRASP", "2OPT_GRASP_ITER"]
+    methods = ["GENETIC"]
 
-    time_limit = "600"
+    time_limit = "1200"   #seconds
 
-    csv_filename="constructive_heuristics_2opt_new.csv"
+    csv_filename="grasp_genetic.csv"
     
     #if file csv do not exist, create it.
     if not os.path.exists('../results/'+csv_filename):
@@ -31,7 +30,7 @@ if __name__ == '__main__':
             row = df.index.get_loc(tsp)
             if not pd.isnull(df[m].values[row]): continue   #avoid computing again already computed
 
-            str_exec = "../build/tsp -f {path} -verbose -1 -method {method} -t {time_lim} --perfprof"
+            str_exec = "../build/tsp2 -f {path} -verbose -1 -method {method} -t {time_lim} --perfprof -seed 123"
             str_exec = str_exec.format(path=tsp, method=m, time_lim=time_limit)
             print("Testing on " +m+ " on instance " +tsp)
             process = subprocess.Popen(str_exec, stderr=subprocess.PIPE, stdout=subprocess.PIPE, shell=True)
@@ -39,8 +38,8 @@ if __name__ == '__main__':
             exit_code =  process.wait()
             if exit_code == 0:
                 output = output.decode("utf-8")
-                output=output.splitlines()
-                output="_".join(output)
+                #output=output.splitlines()
+                #output="_".join(output)
             else:
                 output= time_limit
             print(exit_code)

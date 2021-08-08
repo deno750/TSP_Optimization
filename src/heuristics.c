@@ -356,7 +356,7 @@ int HEU_extramileage2(instance *inst) {
         //plot_solution(inst);
         //sleep(1);
     }
-    // Closing the hamyltonian cycle 
+    // Closing the hamiltonian cycle 
     edge last_edge;
     last_edge.i = hindex[hsize - 1];
     last_edge.j = hindex[0];
