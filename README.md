@@ -11,6 +11,8 @@
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/stefano-ivancich/
 [product-screenshot]: https://github.com/ivaste/pattern_matching/blob/main/images/pattern_matching.png
+[release-url]: https://github.com/deno750/TSP_Optimization/releases/latest/download/tsp
+[release-shield]: https://img.shields.io/github/v/release/deno750/TSP_Optimization.svg?style=for-the-badge
 
 <!-- PROJECT SHIELDS -->
 <!--
@@ -20,6 +22,7 @@
 *** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
 *** https://www.markdownguide.org/basic-syntax/#reference-style-links
 -->
+[![Release][release-shield]][release-url]
 [![Contributors][contributors-shield]][contributors-url]
 [![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url]
