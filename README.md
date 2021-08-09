@@ -57,7 +57,7 @@ Here we describe how this project is organized:
  - **plot** contains the solved plots of the problems
  - **src** contains the source files of the project
  - **test** not used
- - **tour** is a generated folder which saves the *.tour* files in TSPLIB format. Those files contain the informations of the solution of a problem
+ - **tour** is a generated folder which saves the *.tour* files in TSPLIB format. Those files contain the information of the problem's solution
 
 
 
