@@ -32,6 +32,7 @@
 
 ## Table of Contents
 - [Overview](#overview)
+- [Download](#download)
 - [Structure](#structure)
 - [Installation](#installation)
 - [Usage](#usage)
@@ -45,7 +46,13 @@ This is a project for the cours Ricerca Operativa 2 taken by prof. Matteo Fische
 
 This project focuses on solving TSPs with different algorithms
 
-You can download the binaries of the latest release from [here](https://github.com/deno750/TSP_Optimization/releases/latest/download/tsp)
+## Download
+
+### Linux/MacOS
+You can download the latest release from [here](https://github.com/deno750/TSP_Optimization/releases/latest/download/tsp)
+
+### Windows
+Not supported yet
 
 ## Structure
 
