@@ -1,0 +1,312 @@
+
+======== PARAMS =========
+Edge type: Undirected
+Solver method: VNS META-HEURISTIC
+Time Limit: 120
+Seed: 1628420354
+Cost: Integer
+Verbose: 4
+File path: ../data/all/dsj1000.tsp
+
+
+======== INSTANCE ========
+name: dsj1000
+n° nodes: 1000
+weight type: CEIL_2D
+
+[INFO]  New Best: 24631468.000000
+[INFO]  New Best: 23681984.000000
+[INFO]  New Best: 23308750.000000
+[INFO]  New Best: 23289873.000000
+[INFO]  New Best: 23281101.000000
+[INFO]  New Best: 23194162.000000
+[INFO]  New Best: 23075565.000000
+[INFO]  New Best: 22877359.000000
+[INFO]  New Best: 22718918.000000
+[INFO]  New Best: 22450178.000000
+[INFO]  Initial solution: 20222830
+[INFO]  Current: 20320426   Incumbent: 20222830
+[INFO]  Current: 20676462   Incumbent: 20222830
+[INFO]  Current: 20166411   Incumbent: 20166411
+[INFO]  Current: 20175507   Incumbent: 20166411
+[INFO]  Current: 20809435   Incumbent: 20166411
+[INFO]  Current: 20257073   Incumbent: 20166411
+[INFO]  Current: 20160963   Incumbent: 20160963
+[INFO]  Current: 20144173   Incumbent: 20144173
+[INFO]  Current: 20225622   Incumbent: 20144173
+[INFO]  Current: 20398119   Incumbent: 20144173
+[INFO]  Current: 20389961   Incumbent: 20144173
+[INFO]  Current: 20438179   Incumbent: 20144173
+[INFO]  Current: 20322292   Incumbent: 20144173
+[INFO]  Current: 20321619   Incumbent: 20144173
+[INFO]  Current: 20407938   Incumbent: 20144173
+[INFO]  Current: 20694356   Incumbent: 20144173
+[INFO]  Current: 20112643   Incumbent: 20112643
+[INFO]  Current: 20124821   Incumbent: 20112643
+[INFO]  Current: 20950957   Incumbent: 20112643
+[INFO]  Current: 20365983   Incumbent: 20112643
+[INFO]  Current: 20216437   Incumbent: 20112643
+[INFO]  Current: 20901981   Incumbent: 20112643
+[INFO]  Current: 20140144   Incumbent: 20112643
+[INFO]  Current: 20368649   Incumbent: 20112643
+[INFO]  Current: 20307573   Incumbent: 20112643
+[INFO]  Current: 20180462   Incumbent: 20112643
+[INFO]  Current: 20194182   Incumbent: 20112643
+[INFO]  Current: 20345077   Incumbent: 20112643
+[INFO]  Current: 20219628   Incumbent: 20112643
+[INFO]  Current: 20681857   Incumbent: 20112643
+[INFO]  Current: 20254003   Incumbent: 20112643
+[INFO]  Current: 20304471   Incumbent: 20112643
+[INFO]  Current: 20439080   Incumbent: 20112643
+[INFO]  Current: 20082209   Incumbent: 20082209
+[INFO]  Current: 20601949   Incumbent: 20082209
+[INFO]  Current: 20293045   Incumbent: 20082209
+[INFO]  Current: 19946555   Incumbent: 19946555
+[INFO]  Current: 20612715   Incumbent: 19946555
+[INFO]  Current: 20111178   Incumbent: 19946555
+[INFO]  Current: 20225847   Incumbent: 19946555
+[INFO]  Current: 20256189   Incumbent: 19946555
+[INFO]  Current: 20076700   Incumbent: 19946555
+[INFO]  Current: 20051051   Incumbent: 19946555
+[INFO]  Current: 20219464   Incumbent: 19946555
+[INFO]  Current: 20017899   Incumbent: 19946555
+[INFO]  Current: 20162699   Incumbent: 19946555
+[INFO]  Current: 20122683   Incumbent: 19946555
+[INFO]  Current: 20063376   Incumbent: 19946555
+[INFO]  Current: 20444667   Incumbent: 19946555
+[INFO]  Current: 20342483   Incumbent: 19946555
+[INFO]  Current: 20001739   Incumbent: 19946555
+[INFO]  Current: 20222222   Incumbent: 19946555
+[INFO]  Current: 20268199   Incumbent: 19946555
+[INFO]  Current: 20398403   Incumbent: 19946555
+[INFO]  Current: 20594714   Incumbent: 19946555
+[INFO]  Current: 20076493   Incumbent: 19946555
+[INFO]  Current: 20006276   Incumbent: 19946555
+[INFO]  Current: 21010560   Incumbent: 19946555
+[INFO]  Current: 20194853   Incumbent: 19946555
+[INFO]  Current: 20881917   Incumbent: 19946555
+[INFO]  Current: 20160265   Incumbent: 19946555
+[INFO]  Current: 20163554   Incumbent: 19946555
+[INFO]  Current: 20170043   Incumbent: 19946555
+[INFO]  Current: 20024353   Incumbent: 19946555
+[INFO]  Current: 20139484   Incumbent: 19946555
+[INFO]  Current: 20254400   Incumbent: 19946555
+[INFO]  Current: 19985715   Incumbent: 19946555
+[INFO]  Current: 20045232   Incumbent: 19946555
+[INFO]  Current: 20119289   Incumbent: 19946555
+[INFO]  Current: 20057019   Incumbent: 19946555
+[INFO]  Current: 19977552   Incumbent: 19946555
+[INFO]  Current: 20111543   Incumbent: 19946555
+[INFO]  Current: 20282696   Incumbent: 19946555
+[INFO]  Current: 20112230   Incumbent: 19946555
+[INFO]  Current: 20069450   Incumbent: 19946555
+[INFO]  Current: 20059158   Incumbent: 19946555
+[INFO]  Current: 20523901   Incumbent: 19946555
+[INFO]  Current: 19920632   Incumbent: 19920632
+[INFO]  Current: 20323617   Incumbent: 19920632
+[INFO]  Current: 20069579   Incumbent: 19920632
+[INFO]  Current: 20020224   Incumbent: 19920632
+[INFO]  Current: 20330388   Incumbent: 19920632
+[INFO]  Current: 19963527   Incumbent: 19920632
+[INFO]  Current: 19848181   Incumbent: 19848181
+[INFO]  Current: 19987749   Incumbent: 19848181
+[INFO]  Current: 19941090   Incumbent: 19848181
+[INFO]  Current: 20050872   Incumbent: 19848181
+[INFO]  Current: 20213282   Incumbent: 19848181
+[INFO]  Current: 19986022   Incumbent: 19848181
+[INFO]  Current: 21150866   Incumbent: 19848181
+[INFO]  Current: 19952764   Incumbent: 19848181
+[INFO]  Current: 20002763   Incumbent: 19848181
+[INFO]  Current: 20473612   Incumbent: 19848181
+[INFO]  Current: 20129588   Incumbent: 19848181
+[INFO]  Current: 20409359   Incumbent: 19848181
+[INFO]  Current: 19861315   Incumbent: 19848181
+[INFO]  Current: 20013196   Incumbent: 19848181
+[INFO]  Current: 20189700   Incumbent: 19848181
+[INFO]  Current: 19908573   Incumbent: 19848181
+[INFO]  Current: 19949623   Incumbent: 19848181
+[INFO]  Current: 19895425   Incumbent: 19848181
+[INFO]  Current: 19877735   Incumbent: 19848181
+[INFO]  Current: 19828104   Incumbent: 19828104
+[INFO]  Current: 20216206   Incumbent: 19828104
+[INFO]  Current: 19858116   Incumbent: 19828104
+[INFO]  Current: 20019411   Incumbent: 19828104
+[INFO]  Current: 20064936   Incumbent: 19828104
+[INFO]  Current: 20066010   Incumbent: 19828104
+[INFO]  Current: 19808622   Incumbent: 19808622
+[INFO]  Current: 20418197   Incumbent: 19808622
+[INFO]  Current: 19918739   Incumbent: 19808622
+[INFO]  Current: 19834411   Incumbent: 19808622
+[INFO]  Current: 19815190   Incumbent: 19808622
+[INFO]  Current: 19989158   Incumbent: 19808622
+[INFO]  Current: 20034391   Incumbent: 19808622
+[INFO]  Current: 19995586   Incumbent: 19808622
+[INFO]  Current: 19845043   Incumbent: 19808622
+[INFO]  Current: 19917088   Incumbent: 19808622
+[INFO]  Current: 19907776   Incumbent: 19808622
+[INFO]  Current: 20105804   Incumbent: 19808622
+[INFO]  Current: 20819976   Incumbent: 19808622
+[INFO]  Current: 20250733   Incumbent: 19808622
+[INFO]  Current: 20316993   Incumbent: 19808622
+[INFO]  Current: 20224491   Incumbent: 19808622
+[INFO]  Current: 19927967   Incumbent: 19808622
+[INFO]  Current: 20572387   Incumbent: 19808622
+[INFO]  Current: 20270419   Incumbent: 19808622
+[INFO]  Current: 19874262   Incumbent: 19808622
+[INFO]  Current: 19773504   Incumbent: 19773504
+[INFO]  Current: 20005220   Incumbent: 19773504
+[INFO]  Current: 20027951   Incumbent: 19773504
+[INFO]  Current: 19884300   Incumbent: 19773504
+[INFO]  Current: 20215910   Incumbent: 19773504
+[INFO]  Current: 19784797   Incumbent: 19773504
+[INFO]  Current: 19988403   Incumbent: 19773504
+[INFO]  Current: 20109255   Incumbent: 19773504
+[INFO]  Current: 19790757   Incumbent: 19773504
+[INFO]  Current: 19887397   Incumbent: 19773504
+[INFO]  Current: 20011979   Incumbent: 19773504
+[INFO]  Current: 19868759   Incumbent: 19773504
+[INFO]  Current: 19894784   Incumbent: 19773504
+[INFO]  Current: 20227806   Incumbent: 19773504
+[INFO]  Current: 19837136   Incumbent: 19773504
+[INFO]  Current: 20167484   Incumbent: 19773504
+[INFO]  Current: 19750884   Incumbent: 19750884
+[INFO]  Current: 20089145   Incumbent: 19750884
+[INFO]  Current: 19803762   Incumbent: 19750884
+[INFO]  Current: 20462120   Incumbent: 19750884
+[INFO]  Current: 19905901   Incumbent: 19750884
+[INFO]  Current: 20326647   Incumbent: 19750884
+[INFO]  Current: 20024381   Incumbent: 19750884
+[INFO]  Current: 20140617   Incumbent: 19750884
+[INFO]  Current: 20484997   Incumbent: 19750884
+[INFO]  Current: 19932686   Incumbent: 19750884
+[INFO]  Current: 20011611   Incumbent: 19750884
+[INFO]  Current: 20473526   Incumbent: 19750884
+[INFO]  Current: 20043346   Incumbent: 19750884
+[INFO]  Current: 20293570   Incumbent: 19750884
+[INFO]  Current: 19780291   Incumbent: 19750884
+[INFO]  Current: 19884236   Incumbent: 19750884
+[INFO]  Current: 20216096   Incumbent: 19750884
+[INFO]  Current: 19938086   Incumbent: 19750884
+[INFO]  Current: 20190389   Incumbent: 19750884
+[INFO]  Current: 20299516   Incumbent: 19750884
+[INFO]  Current: 19767379   Incumbent: 19750884
+[INFO]  Current: 19819359   Incumbent: 19750884
+[INFO]  Current: 19885698   Incumbent: 19750884
+[INFO]  Current: 20143592   Incumbent: 19750884
+[INFO]  Current: 20233151   Incumbent: 19750884
+[INFO]  Current: 19892448   Incumbent: 19750884
+[INFO]  Current: 19833283   Incumbent: 19750884
+[INFO]  Current: 19977160   Incumbent: 19750884
+[INFO]  Current: 20196313   Incumbent: 19750884
+[INFO]  Current: 20084555   Incumbent: 19750884
+[INFO]  Current: 20098108   Incumbent: 19750884
+[INFO]  Current: 20196702   Incumbent: 19750884
+[INFO]  Current: 19807889   Incumbent: 19750884
+[INFO]  Current: 19981312   Incumbent: 19750884
+[INFO]  Current: 19884255   Incumbent: 19750884
+[INFO]  Current: 20021746   Incumbent: 19750884
+[INFO]  Current: 20077529   Incumbent: 19750884
+[INFO]  Current: 19939163   Incumbent: 19750884
+[INFO]  Current: 19975941   Incumbent: 19750884
+[INFO]  Current: 19800864   Incumbent: 19750884
+[INFO]  Current: 19871945   Incumbent: 19750884
+[INFO]  Current: 19857033   Incumbent: 19750884
+[INFO]  Current: 20143768   Incumbent: 19750884
+[INFO]  Current: 20628952   Incumbent: 19750884
+[INFO]  Current: 19929985   Incumbent: 19750884
+[INFO]  Current: 19916360   Incumbent: 19750884
+[INFO]  Current: 19977075   Incumbent: 19750884
+[INFO]  Current: 19909466   Incumbent: 19750884
+[INFO]  Current: 20624854   Incumbent: 19750884
+[INFO]  Current: 20051947   Incumbent: 19750884
+[INFO]  Current: 20280697   Incumbent: 19750884
+[INFO]  Current: 20213997   Incumbent: 19750884
+[INFO]  Current: 20177283   Incumbent: 19750884
+[INFO]  Current: 19778338   Incumbent: 19750884
+[INFO]  Current: 20165263   Incumbent: 19750884
+[INFO]  Current: 20069782   Incumbent: 19750884
+[INFO]  Current: 19891120   Incumbent: 19750884
+[INFO]  Current: 20016667   Incumbent: 19750884
+[INFO]  Current: 19974166   Incumbent: 19750884
+[INFO]  Current: 20041142   Incumbent: 19750884
+[INFO]  Current: 19859289   Incumbent: 19750884
+[INFO]  Current: 19780925   Incumbent: 19750884
+[INFO]  Current: 19955081   Incumbent: 19750884
+[INFO]  Current: 20203980   Incumbent: 19750884
+[INFO]  Current: 19797285   Incumbent: 19750884
+[INFO]  Current: 20347265   Incumbent: 19750884
+[INFO]  Current: 19716664   Incumbent: 19716664
+[INFO]  Current: 20465558   Incumbent: 19716664
+[INFO]  Current: 19751324   Incumbent: 19716664
+[INFO]  Current: 19928196   Incumbent: 19716664
+[INFO]  Current: 19961697   Incumbent: 19716664
+[INFO]  Current: 19937386   Incumbent: 19716664
+[INFO]  Current: 20025440   Incumbent: 19716664
+[INFO]  Current: 19920581   Incumbent: 19716664
+[INFO]  Current: 19895580   Incumbent: 19716664
+[INFO]  Current: 20451220   Incumbent: 19716664
+[INFO]  Current: 20020769   Incumbent: 19716664
+[INFO]  Current: 19798780   Incumbent: 19716664
+[INFO]  Current: 19843012   Incumbent: 19716664
+[INFO]  Current: 19775881   Incumbent: 19716664
+[INFO]  Current: 19927221   Incumbent: 19716664
+[INFO]  Current: 19898472   Incumbent: 19716664
+[INFO]  Current: 20199622   Incumbent: 19716664
+[INFO]  Current: 19784827   Incumbent: 19716664
+[INFO]  Current: 19820494   Incumbent: 19716664
+[INFO]  Current: 19713603   Incumbent: 19713603
+[INFO]  Current: 20070085   Incumbent: 19713603
+[INFO]  Current: 19814779   Incumbent: 19713603
+[INFO]  Current: 20103516   Incumbent: 19713603
+[INFO]  Current: 19876852   Incumbent: 19713603
+[INFO]  Current: 19839534   Incumbent: 19713603
+[INFO]  Current: 20065891   Incumbent: 19713603
+[INFO]  Current: 20035368   Incumbent: 19713603
+[INFO]  Current: 19871940   Incumbent: 19713603
+[INFO]  Current: 19794664   Incumbent: 19713603
+[INFO]  Current: 19882634   Incumbent: 19713603
+[INFO]  Current: 19853938   Incumbent: 19713603
+[INFO]  Current: 19909938   Incumbent: 19713603
+[INFO]  Current: 19807784   Incumbent: 19713603
+[INFO]  Current: 20032605   Incumbent: 19713603
+[INFO]  Current: 19837748   Incumbent: 19713603
+[INFO]  Current: 19761715   Incumbent: 19713603
+[INFO]  Current: 20071466   Incumbent: 19713603
+[INFO]  Current: 20070745   Incumbent: 19713603
+[INFO]  Current: 19868898   Incumbent: 19713603
+[INFO]  Current: 19913879   Incumbent: 19713603
+[INFO]  Current: 19825979   Incumbent: 19713603
+[INFO]  Current: 19857371   Incumbent: 19713603
+[INFO]  Current: 19885290   Incumbent: 19713603
+[INFO]  Current: 19910894   Incumbent: 19713603
+[INFO]  Current: 20124521   Incumbent: 19713603
+[INFO]  Current: 20164109   Incumbent: 19713603
+[INFO]  Current: 19842129   Incumbent: 19713603
+[INFO]  Current: 20085841   Incumbent: 19713603
+[INFO]  Current: 19920737   Incumbent: 19713603
+[INFO]  Current: 20758738   Incumbent: 19713603
+[INFO]  Current: 19864626   Incumbent: 19713603
+[INFO]  Current: 20342092   Incumbent: 19713603
+[INFO]  Current: 19920498   Incumbent: 19713603
+[INFO]  Current: 20380667   Incumbent: 19713603
+[INFO]  Current: 20116128   Incumbent: 19713603
+[INFO]  Current: 19984278   Incumbent: 19713603
+[INFO]  Current: 19926957   Incumbent: 19713603
+[INFO]  Current: 19806375   Incumbent: 19713603
+[INFO]  Current: 19763011   Incumbent: 19713603
+[INFO]  Current: 20021091   Incumbent: 19713603
+[INFO]  Current: 19765598   Incumbent: 19713603
+[INFO]  Current: 20564367   Incumbent: 19713603
+[INFO]  Current: 20217837   Incumbent: 19713603
+[INFO]  Current: 19875154   Incumbent: 19713603
+[INFO]  Current: 19909029   Incumbent: 19713603
+[INFO]  Current: 20283802   Incumbent: 19713603
+[INFO]  Solution found!
+[INFO]  The best bjective value is 19713603.000000
+
+
+
+
+TIME TO SOLVE 120.226350s
+
+

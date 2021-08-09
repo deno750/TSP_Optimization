@@ -1,4 +1,3 @@
-
 ======== PARAMS =========
 Edge type: Undirected
 Solver method: TABU SEARCH META-HEURISTIC WITH STEP POLICY
@@ -4701,5 +4700,3 @@ weight type: CEIL_2D
 
 
 TIME TO SOLVE 3601.436580s
-
-
