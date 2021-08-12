@@ -8,14 +8,13 @@ if __name__ == '__main__':
     # test1.py executed as script
     # do something
     paths = []#["../data/burma14.tsp", "../data/berlin52.tsp", "../data/eil51.tsp", "../data/att48.tsp", "../data/st70.tsp", "../data/pr76.tsp"]
-    for name in glob.glob('../data/heuristics/*'):
+    for name in glob.glob('../data/exact_models/*'):
         paths.append(name)
-    #methods = ["GREEDY", "GREEDY_ITER", "EXTR_MILE", "GRASP", "GRASP_ITER"]
-    methods = ["2OPT_GREEDY", "2OPT_GREEDY_ITER", "2OPT_EXTR_MIL","2OPT_GRASP", "2OPT_GRASP_ITER"]
+    methods = ["USER_CUT", "CALLBACK","CALLBACK_2OPT", "LOOP"]
 
-    time_limit = "600"
+    time_limit = "3600"
 
-    csv_filename="constructive_heuristics_2opt_new.csv"
+    csv_filename="exact_new.csv"
     
     #if file csv do not exist, create it.
     if not os.path.exists('../results/'+csv_filename):
