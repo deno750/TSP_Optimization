@@ -95,6 +95,8 @@ An example of usage is: `./tsp -f ../data/att48.tsp -method GG -t 300 -verbose 4
 
 To plot the TSP solution in a png file, [gnuplot](http://www.gnuplot.info) must be installed. You can install it from your OS repository such as `apt install gnuplot` on ubuntu or `brew install gnuplot` on MacOS.
 
+If you're on windows, use Windows Subsistem for Linux (WSL). The native compatibility on windows is not supported
+
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
