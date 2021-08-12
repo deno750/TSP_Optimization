@@ -47,11 +47,7 @@ This project focuses on solving TSPs with different algorithms
 
 ## Download
 
-### Linux/MacOS
-You can download the latest release from [here](https://github.com/deno750/TSP_Optimization/releases/latest/download/tsp)
-
-### Windows
-Not supported yet
+You can download the latest release from [here](https://github.com/deno750/TSP_Optimization/releases/latest)
 
 ## Structure
 
