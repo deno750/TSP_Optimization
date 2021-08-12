@@ -41,7 +41,7 @@
 
 
 ## Overview
-This is a project for the cours Ricerca Operativa 2 taken by prof. Matteo Fischetti in the a.y. 2020/2021
+This is a project for the course Operations Research 2 taken by prof. Matteo Fischetti in the a.y. 2020/2021
 
 This project focuses on solving TSPs with different algorithms
 
