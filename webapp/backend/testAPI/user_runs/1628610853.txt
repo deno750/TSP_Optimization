@@ -1,0 +1,37 @@
+
+======== PARAMS =========
+Edge type: Undirected
+Solver method: VNS META-HEURISTIC
+Time Limit: 50
+Seed: 123
+Cost: Integer
+Verbose: 3
+File path: ../../../data/all/ali535.tsp
+
+
+======== INSTANCE ========
+name: ali535
+n° nodes: 535
+weight type: GEO
+
+[INFO]  Initial solution: 222260
+[INFO]  Updated incumbent: 221009
+[INFO]  Updated incumbent: 220008
+[INFO]  Updated incumbent: 219561
+[INFO]  Updated incumbent: 218999
+[INFO]  Updated incumbent: 217090
+[INFO]  Updated incumbent: 216508
+[INFO]  Updated incumbent: 216491
+[INFO]  Updated incumbent: 214592
+[INFO]  Updated incumbent: 213615
+[INFO]  Updated incumbent: 211913
+[INFO]  Updated incumbent: 211509
+[INFO]  Solution found!
+[INFO]  The best bjective value is 211509.000000
+
+
+
+
+TIME TO SOLVE 50.254673s
+
+
