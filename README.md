@@ -101,6 +101,10 @@ If you're on windows, use Windows Subsistem for Linux (WSL). The native compatib
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
 ## License
+
+
 [![License](http://img.shields.io/:license-mit-blue.svg?style=flat-square)](http://badges.mit-license.org)
 
-- **[MIT license](http://opensource.org/licenses/mit-license.php)**
+**[MIT license](http://opensource.org/licenses/mit-license.php)**
+
+Copyright (c) 2021 Denis Deronjic & Stefano Ivancich
