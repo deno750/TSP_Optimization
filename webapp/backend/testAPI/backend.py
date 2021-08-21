@@ -78,7 +78,7 @@ def compute():
     #Execute the ./tsp comman shell
     str_exec = "{tsp_path} -f {path} -verbose {verbose} -method {method} -t {time_lim} -seed {seed}"
     str_exec = str_exec.format(tsp_path=TSP_PATH,path=filepath, verbose=3,method=method, time_lim=time_limit,seed=seed)
-    print("\tExecuting for user "+userID)
+    print("\tExecuting for user "+userID, +" the command: "+str_exec)
     process = subprocess.Popen(str_exec, stderr=subprocess.PIPE, stdout=subprocess.PIPE, shell=True)
     output, stderr = process.communicate()
     exit_code =  process.wait()
@@ -86,7 +86,7 @@ def compute():
         output = output.decode("utf-8")
         #output=output.splitlines()
         #output="_".join(output)
-        print("\tFinisced Exucution SUCCESSFULLY for user "+userID)
+        print("\tFinisced Execution SUCCESSFULLY for user "+userID)
         #print(output)
     else:
         print("\tFinisced Exucution with ERROR for user "+userID)

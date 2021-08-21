@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>🏃Traveler Salesman problem</title>
+
+  <!-- Bootsrap imports-->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
+
+</head>
+<body>
+  
+
+  <div class="container">
+
+    <!-- Instructions -->
+    <div class="row mb-3">
+      <div class="col">
+        <h1>🏃 Traveling Salesman Problem Optimization 🏃</h1>
+        
+        <p>
+          This simple website allows you to find the <u>shortest</u> possible route that visits each city exactly once with different algorithms 🔥
+        </p>
+        <div class="card">
+          <div class="card-body">
+            <strong>Usage:</strong>
+            <ol>
+              <li>Select the TSP instance or upload yours (it must be in the <a href="http://comopt.ifi.uni-heidelberg.de/software/TSPLIB95/tsp95.pdf">TSPLIB</a> Format)</li>
+              <li>Then Select the TSP method, time limit and ranom seed.</li>
+              <li>Click on the Optimize button 💪 and wait ⏰ (time limit choosen)</li>
+            </ol>
+            ⚠️ You may have to wait several minutes to get the response, don't close the web page. 😊
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="row mb-3">
+
+      <!-- User input-->
+      <div class="col-4">
+        <div class="card">
+          <div class="card-body">
+
+            <!--TSP INSTANCE-->
+            <div class="form-floating">
+              <select class="form-select form-select-lg mb-3" id="tsp_instance">
+                <option value="att48.tsp">att48</option>
+                <option value="ali535.tsp">ali535</option>
+                <option value="berlin52.tsp">berlin52</option>
+                <option value="gr666.tsp">gr666</option>
+                <option value="pr76.tsp">pr76</option>
+              </select>
+              <label for="tsp_instance">Select TSP instance</label>
+            </div>
+
+            <!--TSP METHOD-->
+            <div class="form-floating">
+              <select class="form-select form-select-lg mb-3" id="tsp_method">
+                <option value="TABU_LIN">TABU_LIN</option>
+                <option value="GENETIC">GENETIC</option>
+                <option value="MTZ">MTZ</option>
+              </select>
+              <label for="tsp_method">Select TSP method</label>
+            </div>
+
+            <!--TIME LIMIT-->
+            <div class="mb-3">
+              <form class="form-floating input-group-lg">
+                <input type="number" class="form-control" id="time_limit" placeholder="100" value="100">
+                <label for="time_limit">Time Limit (s)</label>
+              </form>
+            </div>
+
+            <!--SEED-->
+            <div class="mb-3">
+              <form class="form-floating input-group-lg">
+                <input type="number" class="form-control" id="seed" placeholder="123" value="123">
+                <label for="time_limit">Random seed</label>
+              </form>
+            </div>
+
+            <div class="d-grid gap-2">
+              <button id="btn_solve" class="btn btn-success btn-lg">Optimize 🔍</button>
+            </div>
+
+          </div>
+        </div>
+        
+        
+
+        
+      </div>
+
+      <!--Output-->
+      <div class="col">
+
+        <!--Iteration vs Cost Plot-->
+        <div class="row">
+          <div class="col">
+            <div class="card">
+              <div class="card-body" id="cost_iteration_plot">
+                Iterations vs Cost plot
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!--Solution Plot-->
+        <div class="row mt-3">
+          <div class="col">
+            <div class="card">
+              <div class="card-body" id="solution_plot">
+                Solution plot
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="row mt-3">
+      <div class="col">
+        <div id="solution">
+          blabla
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+
+  <footer>
+
+    <div class="text-center p-4" style="background-color: rgba(0, 0, 0, 0.05);">
+      © <script>document.write(new Date().getFullYear())</script> Copyright:
+      Denis Deronjic & Stefano Ivancich 😎
+      <br>
+      Project link:
+      <a class="text-reset fw-bold" href="https://github.com/deno750/TSP_Optimization">github.com/deno750/TSP_Optimization</a>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+  
+</body>
+
+</html>
