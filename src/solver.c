@@ -71,16 +71,35 @@ static void print_solution(instance *inst) {
 
 static int solve_problem(CPXENVptr env, CPXLPptr lp, instance *inst) {
     int status;
-    if (inst->params.method.id == SOLVE_LOOP) {
+    int method = inst->params.method.id;
+    if (method == SOLVE_MTZ) {
+        add_mtz_constraints(inst, env, lp, 0);
+        status = CPXmipopt(env, lp);
+    } else if (method == SOLVE_MTZL) {
+        add_mtz_lazy_constraints(inst, env, lp, 0);
+        status = CPXmipopt(env, lp);
+    } else if (method == SOLVE_MTZI) {
+        add_mtz_constraints(inst, env, lp, 1);
+        status = CPXmipopt(env, lp);
+    } else if (method == SOLVE_MTZLI) {
+        add_mtz_lazy_constraints(inst, env, lp, 1);
+        status = CPXmipopt(env, lp);
+    } else if (method == SOLVE_MTZ_IND) {
+        add_mtz_indicator_constraints(inst, env, lp);
+        status = CPXmipopt(env, lp);
+    } else if (method == SOLVE_GG) {
+        add_gg_constraints(inst, env, lp);
+        status = CPXmipopt(env, lp);
+    } else if (method == SOLVE_LOOP) {
         // Solve using benders algorithm
         status = benders_loop(inst, env, lp);
-    } else if (inst->params.method.id == SOLVE_HARD_FIXING) {
+    } else if (method == SOLVE_HARD_FIXING) {
         status = hard_fixing_solver(inst, env, lp);
-    } else if (inst->params.method.id == SOLVE_HARD_FIXING2) {
+    } else if (method == SOLVE_HARD_FIXING2) {
         status = hard_fixing_solver2(inst, env, lp);
-    } else if (inst->params.method.id == SOLVE_SOFT_FIXING) {
+    } else if (method == SOLVE_SOFT_FIXING) {
         status = soft_fixing_solver(inst, env, lp);
-    } else if (inst->params.method.id == SOLVE_CALLBACK || inst->params.method.id == SOLVE_UCUT) {
+    } else if (method == SOLVE_CALLBACK || method == SOLVE_UCUT) {
         CPXLONG contextid = CPX_CALLBACKCONTEXT_CANDIDATE;
         if (inst->params.method.id == SOLVE_UCUT) {
             contextid = CPX_CALLBACKCONTEXT_CANDIDATE | CPX_CALLBACKCONTEXT_RELAXATION;
@@ -392,21 +411,6 @@ static void build_dir_model(instance *inst, CPXENVptr env, CPXLPptr lp) {
         deg++;
     }
 
-    int method = inst->params.method.id;
-    if (method == SOLVE_MTZ) {
-        add_mtz_constraints(inst, env, lp, 0);
-    } else if (method == SOLVE_MTZL) {
-        add_mtz_lazy_constraints(inst, env, lp, 0);
-    } else if (method == SOLVE_MTZI) {
-        add_mtz_constraints(inst, env, lp, 1);
-    } else if (method == SOLVE_MTZLI) {
-        add_mtz_lazy_constraints(inst, env, lp, 1);
-    } else if (method == SOLVE_MTZ_IND) {
-        add_mtz_indicator_constraints(inst, env, lp);
-    } else if (method == SOLVE_GG) {
-        add_gg_constraints(inst, env, lp);
-    }
-
     FREE(names);
 }
 
@@ -414,8 +418,10 @@ static void build_model(instance *inst, CPXENVptr env, CPXLPptr lp) {
 
     // Checks the type of the edge in order to build the correct model
     if (inst->params.method.edge_type == UDIR_EDGE) {
+        // Builds naive model for undirected graphs
         build_udir_model(inst, env, lp);
     } else {
+        // Builds naive model for directed graphs
         build_dir_model(inst, env, lp);
     }
     

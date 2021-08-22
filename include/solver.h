@@ -6,7 +6,7 @@
 #include "utility.h"
 
 /**
- * Builds the model for a symmetric graph
+ * Builds the naive TSP model for a symmetric graph
  *
  * @param inst The instance pointer of the problem
  * @param env The cplex's environment
@@ -15,7 +15,7 @@
 static void build_udir_model(instance *inst, CPXENVptr env, CPXLPptr lp);
 
 /**
- * Builds the model for an asymmetric graph
+ * Builds the naive TSP model for an asymmetric graph
  *
  * @param inst The instance pointer of the problem
  * @param env The cplex's environment
