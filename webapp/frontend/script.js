@@ -12,6 +12,13 @@ var sel_instance=document.getElementById('tsp_instance');
 var sel_method=document.getElementById('tsp_method');
 var txt_timelimit=document.getElementById('time_limit');
 var txt_seed=document.getElementById('seed');
+var div_sol_plot=document.getElementById('solution_plot');
+var div_cost_plot=document.getElementById('cost_iteration_plot');
+var loadingModal = new bootstrap.Modal(document.getElementById('loadingModal'), {
+  backdrop: 'static', // to prevent closing for user clicking
+  keyboard: false
+});
+
 
 function reqListener () {
   console.log(this.responseText);
@@ -39,21 +46,50 @@ function btn_solve_click(evt){
   //Disable button to prevent user click more than once
   btn_solve.classList.add("disabled");
 
+  //Show the spinner
+  loadingModal.show();
   
-  
-  /*??????????????????????????
+  //POST REQUEST
   var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
-      // Typical action to be performed when the document is ready:
-      document.getElementById("solution").innerHTML = xhttp.responseText;
-    }
+      // Write the output
+      div_solution.innerHTML = xhttp.responseText;
+      
+      //Get the solution image
+      div_sol_plot.innerHTML ="<img src='"+"http://127.0.0.1:5000/get_image?instance="+tsp_instance+"' class='img-fluid'/>"
+
+      //Get the cost iteration image
+
+      //Enable button again
+      btn_solve.classList.remove("disabled");
+
+      //Remove the loading spinner
+      loadingModal.hide();
+      
+    }/*else{
+      alert("error");
+      //Enable button again
+      btn_solve.classList.remove("disabled");
+
+      //Remove the loading spinner
+      loadingModal.hide();
+      return;
+    }*/
+
+    
   };
-  xhttp.open("GET", "http://www.example.org/example.txt", true);
-  xhttp.send();*/
+  xhttp.open("POST", "http://127.0.0.1:5000/compute", true);
+  xhttp.setRequestHeader("Userid","stefano");
+  xhttp.setRequestHeader("Instance",tsp_instance);
+  xhttp.setRequestHeader("Method",tsp_method);
+  xhttp.setRequestHeader("Time-Limit",time_limit.toString());
+  xhttp.setRequestHeader("Seed",seed.toString());
+  xhttp.send();
 
 }
 
 
 // Setup button listener.
 btn_solve.addEventListener('click',btn_solve_click);
+

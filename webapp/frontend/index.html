@@ -3,9 +3,12 @@
 <head>
   <title>🏃Traveler Salesman problem</title>
 
-  <!-- Bootsrap imports-->
+  <!-- Bootsrap imports -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
+
+  <!-- Axios for HTTP requests-->
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
 </head>
 <body>
@@ -46,11 +49,101 @@
             <!--TSP INSTANCE-->
             <div class="form-floating">
               <select class="form-select form-select-lg mb-3" id="tsp_instance">
-                <option value="att48.tsp">att48</option>
+                <option value="a280.tsp">a280</option>
                 <option value="ali535.tsp">ali535</option>
+                <option value="att48.tsp">att48</option>
+                <option value="att532.tsp">att532</option>
                 <option value="berlin52.tsp">berlin52</option>
+                <option value="bier127.tsp">bier127</option>
+                <option value="brd14051.tsp">brd14051</option>
+                <option value="burma14.tsp">burma14</option>
+                <option value="ch130.tsp">ch130</option>
+                <option value="ch150.tsp">ch150</option>
+                <option value="d1291.tsp">d1291</option>
+                <option value="d15112.tsp">d15112</option>
+                <option value="d1655.tsp">d1655</option>
+                <option value="d18512.tsp">d18512</option>
+                <option value="d198.tsp">d198</option>
+                <option value="d2103.tsp">d2103</option>
+                <option value="d493.tsp">d493</option>
+                <option value="d657.tsp">d657</option>
+                <option value="dsj1000.tsp">dsj1000</option>
+                <option value="eil101.tsp">eil101</option>
+                <option value="eil51.tsp">eil51</option>
+                <option value="eil76.tsp">eil76</option>
+                <option value="fl1400.tsp">fl1400</option>
+                <option value="fl1577.tsp">fl1577</option>
+                <option value="fl3795.tsp">fl3795</option>
+                <option value="fl417.tsp">fl417</option>
+                <option value="fnl4461.tsp">fnl4461</option>
+                <option value="gil262.tsp">gil262</option>
+                <option value="gr137.tsp">gr137</option>
+                <option value="gr202.tsp">gr202</option>
+                <option value="gr229.tsp">gr229</option>
+                <option value="gr431.tsp">gr431</option>
                 <option value="gr666.tsp">gr666</option>
+                <option value="gr96.tsp">gr96</option>
+                <option value="it16862.tsp">it16862</option>
+                <option value="kroA100.tsp">kroA100</option>
+                <option value="kroA150.tsp">kroA150</option>
+                <option value="kroA200.tsp">kroA200</option>
+                <option value="kroB100.tsp">kroB100</option>
+                <option value="kroB150.tsp">kroB150</option>
+                <option value="kroB200.tsp">kroB200</option>
+                <option value="kroC100.tsp">kroC100</option>
+                <option value="kroD100.tsp">kroD100</option>
+                <option value="kroE100.tsp">kroE100</option>
+                <option value="lin105.tsp">lin105</option>
+                <option value="lin318.tsp">lin318</option>
+                <option value="linhp318.tsp">linhp318</option>
+                <option value="nrw1379.tsp">nrw1379</option>
+                <option value="p654.tsp">p654</option>
+                <option value="pcb1173.tsp">pcb1173</option>
+                <option value="pcb3038.tsp">pcb3038</option>
+                <option value="pcb442.tsp">pcb442</option>
+                <option value="pla33810.tsp">pla33810</option>
+                <option value="pla7397.tsp">pla7397</option>
+                <option value="pla85900.tsp">pla85900</option>
+                <option value="pr1002.tsp">pr1002</option>
+                <option value="pr107.tsp">pr107</option>
+                <option value="pr124.tsp">pr124</option>
+                <option value="pr136.tsp">pr136</option>
+                <option value="pr144.tsp">pr144</option>
+                <option value="pr152.tsp">pr152</option>
+                <option value="pr226.tsp">pr226</option>
+                <option value="pr2392.tsp">pr2392</option>
+                <option value="pr264.tsp">pr264</option>
+                <option value="pr299.tsp">pr299</option>
+                <option value="pr439.tsp">pr439</option>
                 <option value="pr76.tsp">pr76</option>
+                <option value="rat195.tsp">rat195</option>
+                <option value="rat575.tsp">rat575</option>
+                <option value="rat783.tsp">rat783</option>
+                <option value="rat99.tsp">rat99</option>
+                <option value="rd100.tsp">rd100</option>
+                <option value="rd400.tsp">rd400</option>
+                <option value="rl11849.tsp">rl11849</option>
+                <option value="rl1304.tsp">rl1304</option>
+                <option value="rl1323.tsp">rl1323</option>
+                <option value="rl1889.tsp">rl1889</option>
+                <option value="rl5915.tsp">rl5915</option>
+                <option value="rl5934.tsp">rl5934</option>
+                <option value="st70.tsp">st70</option>
+                <option value="ts225.tsp">ts225</option>
+                <option value="tsp225.tsp">tsp225</option>
+                <option value="u1060.tsp">u1060</option>
+                <option value="u1432.tsp">u1432</option>
+                <option value="u159.tsp">u159</option>
+                <option value="u1817.tsp">u1817</option>
+                <option value="u2152.tsp">u2152</option>
+                <option value="u2319.tsp">u2319</option>
+                <option value="u574.tsp">u574</option>
+                <option value="u724.tsp">u724</option>
+                <option value="ulysses16.tsp">ulysses16</option>
+                <option value="ulysses22.tsp">ulysses22</option>
+                <option value="usa13509.tsp">usa13509</option>
+                <option value="vm1084.tsp">vm1084</option>
+                <option value="vm1748.tsp">vm1748</option>
               </select>
               <label for="tsp_instance">Select TSP instance</label>
             </div>
@@ -58,9 +151,32 @@
             <!--TSP METHOD-->
             <div class="form-floating">
               <select class="form-select form-select-lg mb-3" id="tsp_method">
+                <option value="MTZ">MTZ (max 60 nodes)</option>
+                <option value="MTZL">MTZL (max 60 nodes)</option>
+                <option value="MTZI">MTZI (max 60 nodes)</option>
+                <option value="MTZLI">MTZLI (max 60 nodes)</option>
+                <option value="MTZ_IND">MTZ_IND (max 60 nodes)</option>
+                <option value="GG">GG (max 60 nodes)</option>
+                <option value="LOOP">LOOP (max 700 nodes)</option>
+                <option value="CALLBACK">CALLBACK (max 700 nodes)</option>
+                <option value="CALLBACK_2OPT">CALLBACK_2OPT (max 700 nodes)</option>
+                <option value="HARD_FIX">HARD_FIX (max 700 nodes)</option>
+                <option value="HARD_FIX2">HARD_FIX2 (max 700 nodes)</option>
+                <option value="GREEDY">GREEDY (max 1000 nodes)</option>
+                <option value="GREEDY_ITER">GREEDY_ITER (max 1000 nodes)</option>
+                <option value="EXTR_MILE">EXTR_MILE (max 1000 nodes)</option>
+                <option value="GRASP">GRASP (max 1000 nodes)</option>
+                <option value="GRASP_ITER">GRASP_ITER (max 1000 nodes)</option>
+                <option value="2OPT_GREEDY">2OPT_GREEDY (max 1000 nodes)</option>
+                <option value="2OPT_GREEDY_ITER">2OPT_GREEDY_ITER (max 1000 nodes)</option>
+                <option value="2OPT_EXTR_MILE">2OPT_EXTR_MILE (max 1000 nodes)</option>
+                <option value="2OPT_GRASP">2OPT_GRASP (max 1000 nodes)</option>
+                <option value="2OPT_GRASP_ITER">2OPT_GRASP_ITER (max 1000 nodes)</option>
+                <option value="VNS">VNS</option>
+                <option value="TABU_STEP">TABU_STEP</option>
                 <option value="TABU_LIN">TABU_LIN</option>
+                <option value="TABU_RAND">TABU_RAND</option>
                 <option value="GENETIC">GENETIC</option>
-                <option value="MTZ">MTZ</option>
               </select>
               <label for="tsp_method">Select TSP method</label>
             </div>
@@ -97,7 +213,7 @@
       <div class="col">
 
         <!--Iteration vs Cost Plot-->
-        <div class="row">
+        <!--<div class="row mb-3">
           <div class="col">
             <div class="card">
               <div class="card-body" id="cost_iteration_plot">
@@ -105,10 +221,10 @@
               </div>
             </div>
           </div>
-        </div>
+        </div>-->
 
         <!--Solution Plot-->
-        <div class="row mt-3">
+        <div class="row">
           <div class="col">
             <div class="card">
               <div class="card-body" id="solution_plot">
@@ -125,7 +241,7 @@
     <div class="row mt-3">
       <div class="col">
         <div id="solution">
-          blabla
+          
         </div>
       </div>
     </div>
@@ -143,6 +259,24 @@
       <a class="text-reset fw-bold" href="https://github.com/deno750/TSP_Optimization">github.com/deno750/TSP_Optimization</a>
     </div>
   </footer>
+
+
+
+  <!-- Modal shown when loading -->
+  <div class="modal" id="loadingModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content" style="background-color: transparent; border-color: transparent;">
+
+          <div class="text-center align-middle">
+            <div class="spinner-border text-primary align-middle" role="status" style="width: 10rem; height: 10rem;">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+            
+        </div>
+        
+      </div>
+    </div>
+  </div>
 
   <script src="script.js"></script>
   
