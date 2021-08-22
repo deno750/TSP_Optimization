@@ -1,7 +1,7 @@
 
 //GLOBAL variables
 var tsp_instance="att48.tsp";
-var tsp_method="TABU_LIN";
+var tsp_method="GREEDY";
 var time_limit=100;
 var seed=123;
 
@@ -51,15 +51,17 @@ function btn_solve_click(evt){
   
   //POST REQUEST
   var xhttp = new XMLHttpRequest();
-  xhttp.onreadystatechange = function() {
+  /*xhttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
       // Write the output
       div_solution.innerHTML = xhttp.responseText;
       
       //Get the solution image
+      div_sol_plot.innerHTML = "";
       div_sol_plot.innerHTML ="<img src='"+server_IP+"/get_image?instance="+tsp_instance+"' class='img-fluid'/>"
 
       //Get the cost iteration image
+      //TODO...
 
       //Enable button again
       btn_solve.classList.remove("disabled");
@@ -67,19 +69,28 @@ function btn_solve_click(evt){
       //Remove the loading spinner
       loadingModal.hide();
       
-    }/*else{
-      alert("error");
-      //Enable button again
-      btn_solve.classList.remove("disabled");
-
-      //Remove the loading spinner
-      loadingModal.hide();
-      return;
-    }*/
-
-    
-  };
+    }
+  };*/
   console.log(server_IP+"/compute");
+  xhttp.onload = function(e) {
+    
+    // Write the output
+    div_solution.innerHTML = xhttp.responseText;
+      
+    //Get the solution image (the random number is used because the browser save in the cache the image and don't make the API call)
+    div_sol_plot.innerHTML ="<img src='"+server_IP+"/get_image?instance="+tsp_instance+"&a="+Math.floor(Math.random() * (2**128)).toString()+"' class='img-fluid'/>";
+
+    //Get the cost iteration image
+    //TODO...
+
+    //Enable button again
+    btn_solve.classList.remove("disabled");
+
+    //Remove the loading spinner
+    loadingModal.hide();
+
+    console.log("hi");
+  };
   xhttp.open("POST", server_IP+"/compute", true);
   xhttp.setRequestHeader("Userid","stefano");
   xhttp.setRequestHeader("Instance",tsp_instance);
@@ -98,5 +109,5 @@ function sel_instance_change(evt){
 }
 
 // Setup events listener.
-btn_solve.addEventListener('click',btn_solve_click);
-sel_instance.addEventListener("change",sel_instance_change);
+btn_solve.addEventListener('click',btn_solve_click);  //when user click on the Optimize button
+sel_instance.addEventListener("change",sel_instance_change);  //when user change the instance
