@@ -11,6 +11,10 @@
 /other_codes/runserver.sh
 logs.log
 
+/webapp/backend/tour/
+/webapp/backend/logs/
+/webapp/backend/plot/
+
 #flask
 __pycache__/
 venv/

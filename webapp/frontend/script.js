@@ -1,12 +1,3 @@
-/////////////////////////////////////////////////////////////
-//TOGGLE THIS WHEN YOU ARE IN THE SERVER/LOCALHOST
-//var server_IP="http://159.89.0.117";
-//var server_IP="http://127.0.0.1:5000";
-//var server_IP="http://{{ request.host.split(':')[0] }}";
-
-//var server_IP="http://{{ request.host }}";
-
-/////////////////////////////////////////////////////////////
 
 //GLOBAL variables
 var tsp_instance="att48.tsp";

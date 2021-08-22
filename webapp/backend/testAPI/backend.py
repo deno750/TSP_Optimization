@@ -121,10 +121,10 @@ def compute():
 
 """
 ### RUN THE APPLICATION #####
-Go to the backend.py directory
-
 Execute:
     sudo -i
+
+Go to the backend.py directory and execute:
     source venv/bin/activate
     (venv) $ export FLASK_APP=backend.py
 
@@ -132,7 +132,7 @@ RUN locally:
     (venv) $ flask run
 
 RUN on server:
-    (venv) $ flask run --host=0.0.0.0 --port=8080
+    (venv) $ flask run --host=0.0.0.0 --port=80
 
 Open http://127.0.0.1:5000 in your web browser and you will be presented with the “Hello World!” message.
 
