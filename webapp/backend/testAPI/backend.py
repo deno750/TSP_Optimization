@@ -1,14 +1,13 @@
 from flask import Flask
-from markupsafe import escape
 from flask import request
-from flask import make_response
-from flask import jsonify
+from flask import render_template
 import glob         #used to get directories files
-import subprocess   #used to lunch the ./tsp comman shell
+import subprocess   #used to launch the ./tsp comman shell
 from flask_cors import CORS
 from flask import send_file
 
-app = Flask(__name__)
+app = Flask(__name__,template_folder="../../frontend/")
+
 #if __name__ == '__main__':
     #app.run(host="0.0.0.0", port="8080")
 CORS(app)
@@ -36,18 +35,20 @@ def prova():
 @app.route('/')
 def homepage():
     #return 'To use this server you can make the following API calls: ......'
-    return send_file("../../frontend/index.html",mimetype='text/html')
+    #return send_file("../../frontend/index.html",mimetype='text/html')
+    return render_template("index.html")
 
 @app.route('/script.js')
 def script():
-    return send_file("/root/TSP_Optimization/webapp/frontend/script.js",mimetype='text/javascript')
+    #return send_file("/root/TSP_Optimization/webapp/frontend/script.js",mimetype='text/javascript')
+    return send_file("../../frontend/script.js",mimetype='text/javascript')
 
 @app.route('/get_image',methods=['GET'])
 def get_image():
     inst=request.args.get("instance")
     if not inst:return "wrong instance",400
     filename="../plot/"+inst.split(".")[0]+".jpg"
-    #print("\t sending image",filename)
+    print("\t sending image",filename)
     return send_file(filename,
                     mimetype='image/jpeg',
                     as_attachment=True,
@@ -122,15 +123,22 @@ def compute():
 ### RUN THE APPLICATION #####
 Go to the backend.py directory
 
-source venv/bin/activate
-(venv) $ export FLASK_APP=backend.py
-(venv) $ flask run
+Execute:
+    sudo -i
+    source venv/bin/activate
+    (venv) $ export FLASK_APP=backend.py
+
+RUN locally:
+    (venv) $ flask run
+
+RUN on server:
+    (venv) $ flask run --host=0.0.0.0 --port=8080
 
 Open http://127.0.0.1:5000 in your web browser and you will be presented with the “Hello World!” message.
 
 To stop the development server type CTRL-C in your terminal.
 
-Deactivating the Virtual Environment 
-(venv) $ deactivate
+Deactivating the Virtual Environment:
+    (venv) $ deactivate
 
 """

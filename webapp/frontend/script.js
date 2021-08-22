@@ -1,3 +1,12 @@
+/////////////////////////////////////////////////////////////
+//TOGGLE THIS WHEN YOU ARE IN THE SERVER/LOCALHOST
+//var server_IP="http://159.89.0.117";
+//var server_IP="http://127.0.0.1:5000";
+//var server_IP="http://{{ request.host.split(':')[0] }}";
+
+//var server_IP="http://{{ request.host }}";
+
+/////////////////////////////////////////////////////////////
 
 //GLOBAL variables
 var tsp_instance="att48.tsp";
@@ -57,7 +66,7 @@ function btn_solve_click(evt){
       div_solution.innerHTML = xhttp.responseText;
       
       //Get the solution image
-      div_sol_plot.innerHTML ="<img src='"+"http://159.89.0.117/get_image?instance="+tsp_instance+"' class='img-fluid'/>"
+      div_sol_plot.innerHTML ="<img src='"+server_IP+"/get_image?instance="+tsp_instance+"' class='img-fluid'/>"
 
       //Get the cost iteration image
 
@@ -79,7 +88,8 @@ function btn_solve_click(evt){
 
     
   };
-  xhttp.open("POST", "http://159.89.0.117/compute", true);
+  console.log(server_IP+"/compute");
+  xhttp.open("POST", server_IP+"/compute", true);
   xhttp.setRequestHeader("Userid","stefano");
   xhttp.setRequestHeader("Instance",tsp_instance);
   xhttp.setRequestHeader("Method",tsp_method);

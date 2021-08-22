@@ -278,7 +278,11 @@
     </div>
   </div>
 
-  <script src="http://159.89.0.117/script.js"></script>
+  <!--<script src="http://159.89.0.117/script.js"></script>-->
+
+  <script>var server_IP="http://{{ request.host }}";</script>
+  
+  <script src="http://{{ request.host }}/script.js"></script>
   
 </body>
 

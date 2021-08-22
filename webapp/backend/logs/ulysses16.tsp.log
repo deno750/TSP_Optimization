@@ -1,0 +1,172 @@
+Version identifier: 20.1.0.0 | 2020-11-10 | 9bedb6d68
+CPXPARAM_RandomSeed                              123
+CPXPARAM_Simplex_Tolerances_Feasibility          1.0000000000000001e-09
+CPXPARAM_TimeLimit                               100
+CPXPARAM_MIP_Tolerances_MIPGap                   1.0000000000000001e-09
+CPXPARAM_MIP_Tolerances_Integrality              0
+Tried aggregator 1 time.
+Reduced MIP has 16 rows, 120 columns, and 240 nonzeros.
+Reduced MIP has 120 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.00 sec. (0.11 ticks)
+Found incumbent of value 13840.000000 after 0.00 sec. (0.33 ticks)
+Probing time = 0.00 sec. (0.02 ticks)
+Tried aggregator 1 time.
+Detecting symmetries...
+Reduced MIP has 16 rows, 120 columns, and 240 nonzeros.
+Reduced MIP has 120 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.00 sec. (0.13 ticks)
+Probing time = 0.00 sec. (0.02 ticks)
+MIP emphasis: balance optimality and feasibility.
+MIP search method: dynamic search.
+Parallel mode: deterministic, using up to 4 threads.
+Root relaxation solution time = 0.00 sec. (0.09 ticks)
+
+        Nodes                                         Cuts/
+   Node  Left     Objective  IInf  Best Integer    Best Bound    ItCnt     Gap
+
+*     0+    0                        13840.0000        0.0000           100.00%
+*     0     0      integral     0     6119.0000     6119.0000       19    0.00%
+Elapsed time = 0.00 sec. (0.70 ticks, tree = 0.00 MB, solutions = 2)
+
+Root node processing (before b&c):
+  Real time             =    0.01 sec. (0.70 ticks)
+Parallel b&c, 4 threads:
+  Real time             =    0.00 sec. (0.00 ticks)
+  Sync time (average)   =    0.00 sec.
+  Wait time (average)   =    0.00 sec.
+                          ------------
+Total (root+branch&cut) =    0.01 sec. (0.70 ticks)
+CPLEX Error  1422: Could not open file '../model/ulysses16.tsp.lp' for writing.
+CPLEX Error  1422: Could not open file '../model/ulysses16.tsp.lp' for writing.
+CPLEX Error  1422: Could not open file '../model/ulysses16.tsp.lp' for writing.
+CPLEX Error  1422: Could not open file '../model/ulysses16.tsp.lp' for writing.
+Version identifier: 20.1.0.0 | 2020-11-10 | 9bedb6d68
+CPXPARAM_RandomSeed                              123
+CPXPARAM_Simplex_Tolerances_Feasibility          1.0000000000000001e-09
+CPXPARAM_TimeLimit                               99.986245999999994
+CPXPARAM_MIP_Tolerances_MIPGap                   1.0000000000000001e-09
+CPXPARAM_MIP_Tolerances_Integrality              0
+1 of 2 MIP starts provided solutions.
+MIP start 'm2' defined initial solution with objective 13840.0000.
+Retaining values of one MIP start for possible repair.
+Tried aggregator 1 time.
+Reduced MIP has 20 rows, 120 columns, and 270 nonzeros.
+Reduced MIP has 120 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.00 sec. (0.12 ticks)
+Probing time = 0.00 sec. (0.02 ticks)
+Tried aggregator 1 time.
+Detecting symmetries...
+Reduced MIP has 20 rows, 120 columns, and 270 nonzeros.
+Reduced MIP has 120 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.00 sec. (0.14 ticks)
+Probing time = 0.00 sec. (0.02 ticks)
+MIP emphasis: balance optimality and feasibility.
+MIP search method: dynamic search.
+Parallel mode: deterministic, using up to 4 threads.
+Root relaxation solution time = 0.00 sec. (0.09 ticks)
+
+        Nodes                                         Cuts/
+   Node  Left     Objective  IInf  Best Integer    Best Bound    ItCnt     Gap
+
+*     0+    0                        13840.0000        0.0000           100.00%
+*     0     0      integral     0     6236.0000     6236.0000       20    0.00%
+Elapsed time = 0.03 sec. (0.59 ticks, tree = 0.00 MB, solutions = 2)
+
+Root node processing (before b&c):
+  Real time             =    0.03 sec. (0.59 ticks)
+Parallel b&c, 4 threads:
+  Real time             =    0.00 sec. (0.00 ticks)
+  Sync time (average)   =    0.00 sec.
+  Wait time (average)   =    0.00 sec.
+                          ------------
+Total (root+branch&cut) =    0.03 sec. (0.59 ticks)
+CPLEX Error  1422: Could not open file '../model/ulysses16.tsp.lp' for writing.
+CPLEX Error  1422: Could not open file '../model/ulysses16.tsp.lp' for writing.
+Version identifier: 20.1.0.0 | 2020-11-10 | 9bedb6d68
+CPXPARAM_RandomSeed                              123
+CPXPARAM_Simplex_Tolerances_Feasibility          1.0000000000000001e-09
+CPXPARAM_TimeLimit                               99.944920999999994
+CPXPARAM_MIP_Tolerances_MIPGap                   1.0000000000000001e-09
+CPXPARAM_MIP_Tolerances_Integrality              0
+1 of 2 MIP starts provided solutions.
+MIP start 'm2' defined initial solution with objective 13840.0000.
+Retaining values of one MIP start for possible repair.
+Tried aggregator 1 time.
+Reduced MIP has 22 rows, 120 columns, and 330 nonzeros.
+Reduced MIP has 120 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.00 sec. (0.13 ticks)
+Probing time = 0.00 sec. (0.02 ticks)
+Tried aggregator 1 time.
+Detecting symmetries...
+Reduced MIP has 22 rows, 120 columns, and 330 nonzeros.
+Reduced MIP has 120 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.00 sec. (0.16 ticks)
+Probing time = 0.00 sec. (0.02 ticks)
+MIP emphasis: balance optimality and feasibility.
+MIP search method: dynamic search.
+Parallel mode: deterministic, using up to 4 threads.
+Root relaxation solution time = 0.00 sec. (0.11 ticks)
+
+        Nodes                                         Cuts/
+   Node  Left     Objective  IInf  Best Integer    Best Bound    ItCnt     Gap
+
+*     0+    0                        13840.0000        0.0000           100.00%
+      0     0     6824.0000     8    13840.0000     6824.0000       24   50.69%
+*     0     0      integral     0     6835.0000       Cuts: 4       25    0.00%
+      0     0        cutoff           6835.0000     6835.0000       25    0.00%
+Elapsed time = 0.04 sec. (1.04 ticks, tree = 0.01 MB, solutions = 2)
+
+Zero-half cuts applied:  2
+Lift and project cuts applied:  1
+Gomory fractional cuts applied:  1
+
+Root node processing (before b&c):
+  Real time             =    0.04 sec. (1.05 ticks)
+Parallel b&c, 4 threads:
+  Real time             =    0.00 sec. (0.00 ticks)
+  Sync time (average)   =    0.00 sec.
+  Wait time (average)   =    0.00 sec.
+                          ------------
+Total (root+branch&cut) =    0.04 sec. (1.05 ticks)
+CPLEX Error  1422: Could not open file '../model/ulysses16.tsp.lp' for writing.
+CPLEX Error  1422: Could not open file '../model/ulysses16.tsp.lp' for writing.
+Version identifier: 20.1.0.0 | 2020-11-10 | 9bedb6d68
+CPXPARAM_RandomSeed                              123
+CPXPARAM_Simplex_Tolerances_Feasibility          1.0000000000000001e-09
+CPXPARAM_TimeLimit                               99.903767000000002
+CPXPARAM_MIP_Tolerances_MIPGap                   1.0000000000000001e-09
+CPXPARAM_MIP_Tolerances_Integrality              0
+1 of 2 MIP starts provided solutions.
+MIP start 'm2' defined initial solution with objective 13840.0000.
+Retaining values of one MIP start for possible repair.
+Tried aggregator 1 time.
+Reduced MIP has 24 rows, 120 columns, and 395 nonzeros.
+Reduced MIP has 120 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.00 sec. (0.15 ticks)
+Probing time = 0.00 sec. (0.03 ticks)
+Tried aggregator 1 time.
+Detecting symmetries...
+Reduced MIP has 24 rows, 120 columns, and 395 nonzeros.
+Reduced MIP has 120 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.00 sec. (0.18 ticks)
+Probing time = 0.00 sec. (0.03 ticks)
+MIP emphasis: balance optimality and feasibility.
+MIP search method: dynamic search.
+Parallel mode: deterministic, using up to 4 threads.
+Root relaxation solution time = 0.00 sec. (0.12 ticks)
+
+        Nodes                                         Cuts/
+   Node  Left     Objective  IInf  Best Integer    Best Bound    ItCnt     Gap
+
+*     0+    0                        13840.0000        0.0000           100.00%
+*     0     0      integral     0     6867.0000     6867.0000       24    0.00%
+Elapsed time = 0.01 sec. (0.72 ticks, tree = 0.00 MB, solutions = 2)
+
+Root node processing (before b&c):
+  Real time             =    0.01 sec. (0.73 ticks)
+Parallel b&c, 4 threads:
+  Real time             =    0.00 sec. (0.00 ticks)
+  Sync time (average)   =    0.00 sec.
+  Wait time (average)   =    0.00 sec.
+                          ------------
+Total (root+branch&cut) =    0.01 sec. (0.73 ticks)
