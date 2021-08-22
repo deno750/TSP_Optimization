@@ -57,7 +57,7 @@ function btn_solve_click(evt){
       div_solution.innerHTML = xhttp.responseText;
       
       //Get the solution image
-      div_sol_plot.innerHTML ="<img src='"+"http://127.0.0.1:5000/get_image?instance="+tsp_instance+"' class='img-fluid'/>"
+      div_sol_plot.innerHTML ="<img src='"+"http://159.89.0.117/get_image?instance="+tsp_instance+"' class='img-fluid'/>"
 
       //Get the cost iteration image
 
@@ -79,7 +79,7 @@ function btn_solve_click(evt){
 
     
   };
-  xhttp.open("POST", "http://127.0.0.1:5000/compute", true);
+  xhttp.open("POST", "http://159.89.0.117/compute", true);
   xhttp.setRequestHeader("Userid","stefano");
   xhttp.setRequestHeader("Instance",tsp_instance);
   xhttp.setRequestHeader("Method",tsp_method);
