@@ -30,6 +30,26 @@
 <!--[![LinkedIn][linkedin-shield]][linkedin-url]-->
 
 
+<!-- PROJECT LOGO -->
+<br />
+<p align="center">
+  <a href="https://github.com/deno750/TSP_Optimization/">
+    <img src="https://github.com/deno750/TSP_Optimization/raw/master/tsp.jpg" alt="Logo" width="80" height="80">
+  </a>
+
+  <h3 align="center">Traveler salesman problem optimization</h3>
+
+  <p align="center">
+    Various algorithms to solve the traveler salesman problem!
+    <br />
+    <a href="http://159.89.0.117/">Live Demo</a>
+    ·
+    <a href="https://github.com/deno750/TSP_Optimization/issues">Report Bug</a>
+    ·
+    <a href="https://github.com/deno750/TSP_Optimization/issues">Request Feature</a>
+  </p>
+</p>
+
 ## Table of Contents
 - [Overview](#overview)
 - [Download](#download)
@@ -51,7 +71,7 @@ You can download the latest release from [here](https://github.com/deno750/TSP_O
 
 ## Structure
 
-Here we describe how this project is organized:
+Here we describe how the project folder is organized:
  - **build** is a generated folder by cmake which contains all the files needed for building the project and its executable
  - **data** folder contains the *.tsp* files
  - **docs** contains the documentation of the data formatting taken from TSLIB
@@ -65,6 +85,7 @@ Here we describe how this project is organized:
  - **src** contains the source files of the project
  - **test** not used
  - **tour** is a generated folder which saves the *.tour* files in TSPLIB format. Those files contain the information of the problem's solution
+ - **webapp** contains the backend and the frontend
 
 
 
