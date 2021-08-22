@@ -84,6 +84,7 @@ When all the requirements are satisfied, you can finally compile the project.
 Once you have configured the the project with CMake based on your IDE and environment, to compile the project you have to go in *build* folder typing `cd build` and type `make`.
 
 ## Usage
+### Use from command line
 The input data is given [TSPLIB](http://comopt.ifi.uni-heidelberg.de/software/TSPLIB95/tsp)
 The format is described in [tsp95.pdf](/docs/tsp95.pdf)
 
@@ -96,6 +97,33 @@ An example of usage is: `./tsp -f ../data/att48.tsp -method GG -t 300 -verbose 4
 To plot the TSP solution in a png file, [gnuplot](http://www.gnuplot.info) must be installed. You can install it from your OS repository such as `apt install gnuplot` on ubuntu or `brew install gnuplot` on MacOS.
 
 If you're on windows, use Windows Subsistem for Linux (WSL). The native compatibility on windows is not supported
+
+### Use the Web App
+Install pip:
+ - `sudo apt update`
+ - `sudo apt install python3-pip`
+ - `pip3 --version`
+
+Install Flask:
+ - `sudo apt install python3-venv`
+ - Go to the folder that contains `backed.py`:
+ - `python3 -m venv venv`
+ - To start using this virtual environment: `source venv/bin/activate`
+ - `(venv) $ pip install Flask`
+ - `(venv) $ python -m flask --version`
+
+Start the application locally:
+ - `(venv) $ export FLASK_APP=hello.py`
+ - `(venv) $ flask run`
+ - Open http://127.0.0.1:5000 in your web browser and you will see the website
+
+Start the applicaton on production server:
+ - `(venv) $ export FLASK_APP=hello.py`
+ - `(venv) $ flask run --host=0.0.0.0 --port=80`
+
+To stop the development server type `CTRL-C` in your terminal.
+
+To deactivate the Virtual Environment: `(venv) $ deactivate`
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.

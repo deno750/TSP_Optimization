@@ -58,7 +58,6 @@ def get_image():
 def get_instance_not_solved():
     inst=request.args.get("instance")
     if not inst:return "wrong instance",400
-
     filename="../../frontend/instances_plot/"+inst.split(".")[0]+".png"
     print("\t sending image",filename)
     return send_file(filename,
