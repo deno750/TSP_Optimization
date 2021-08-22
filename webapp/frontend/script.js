@@ -91,6 +91,12 @@ function btn_solve_click(evt){
 }
 
 
-// Setup button listener.
-btn_solve.addEventListener('click',btn_solve_click);
+function sel_instance_change(evt){
+  tsp_instance=sel_instance.value;
+  div_sol_plot.innerHTML ="<img src='"+server_IP+"/get_instance_not_solved?instance="+tsp_instance+"' class='img-fluid'/>"
 
+}
+
+// Setup events listener.
+btn_solve.addEventListener('click',btn_solve_click);
+sel_instance.addEventListener("change",sel_instance_change);

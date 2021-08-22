@@ -54,6 +54,18 @@ def get_image():
                     as_attachment=True,
                     attachment_filename=inst)
 
+@app.route('/get_instance_not_solved',methods=['GET'])
+def get_instance_not_solved():
+    inst=request.args.get("instance")
+    if not inst:return "wrong instance",400
+
+    filename="../../frontend/instances_plot/"+inst.split(".")[0]+".png"
+    print("\t sending image",filename)
+    return send_file(filename,
+                    mimetype='image/png',
+                    as_attachment=True,
+                    attachment_filename=inst)
+
 @app.route("/compute",methods=['POST'])
 def compute():
     if request.method != 'POST': return "wrong method",400

@@ -14,6 +14,7 @@ logs.log
 /webapp/backend/tour/
 /webapp/backend/logs/
 /webapp/backend/plot/
+/webapp/backend/testAPI/user_dataset/
 
 #flask
 __pycache__/
