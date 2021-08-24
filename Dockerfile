@@ -6,14 +6,16 @@ ENV MAIN_DIR  /TSP_Optimization
 COPY . /TSP_Optimization
 WORKDIR /TSP_Optimization
 
-RUN apt-get install python3-venv
-RUN python3 -m venv venv
-RUN source venv/bin/activate
+#RUN apt-get install python3-virtualenv
+RUN pip install virtualenv
+#RUN python3 -m venv venv
 RUN pip install Flask
 RUN pip install -U flask-cors
-RUN cd MAIN_DIR/webapp/backend/testAPI
-RUN export FLASK_APP=backend.py
-#RUN flask run  --host=0.0.0.0 --port=5000
-RUN flask run
+ENV FLASK_APP=/TSP_Optimization/webapp/backend/testAPI/backend.py
 
-ENTRYPOINT /TSP_Optimization
+EXPOSE 80
+
+CMD ["python3", "-m", "venv", "venv"]
+CMD [".", "venv/bin/activate"]
+CMD ["python3", "-m", "flask", "run", "--host=0.0.0.0", "--port=80"]
+
