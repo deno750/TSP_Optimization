@@ -42,8 +42,7 @@
   <p align="center">
     Various algorithms to solve the traveler salesman problem!
     <br />
-  https://github.com/deno750/TSP_Optimization/raw/master/TSP_Optimization%20-%20Deronjic%20-%20Ivancich.pdf
-    <a href="http://159.89.0.117/">📄Paper</a>
+    <a href="https://github.com/deno750/TSP_Optimization/raw/master/TSP_Optimization%20-%20Deronjic%20-%20Ivancich.pdf">📄Paper</a>
     ·
     <a href="http://159.89.0.117/">🕹️Live Demo</a>
     ·
