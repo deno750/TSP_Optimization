@@ -42,11 +42,14 @@
   <p align="center">
     Various algorithms to solve the traveler salesman problem!
     <br />
-    <a href="http://159.89.0.117/">Live Demo</a>
+  https://github.com/deno750/TSP_Optimization/raw/master/TSP_Optimization%20-%20Deronjic%20-%20Ivancich.pdf
+    <a href="http://159.89.0.117/">📄Paper</a>
     ·
-    <a href="https://github.com/deno750/TSP_Optimization/issues">Report Bug</a>
+    <a href="http://159.89.0.117/">🕹️Live Demo</a>
     ·
-    <a href="https://github.com/deno750/TSP_Optimization/issues">Request Feature</a>
+    <a href="https://github.com/deno750/TSP_Optimization/issues">🐞Report Bug</a>
+    ·
+    <a href="https://github.com/deno750/TSP_Optimization/issues">⚙️Request Feature</a>
   </p>
 </p>
 
