@@ -49,7 +49,7 @@ int TSP_opt(instance *inst);
 int TSP_heuc(instance *inst);
 
 /**
- * Solves the problem with the best optimal solver found so far.
+ * Prepares the best optimal solver found so far used in matheuritics methods.
  * It is used on heuristics solvers which needs the fastest optimal solver.
  * 
  * The implemented solver is USER_CUT. 
@@ -60,6 +60,6 @@ int TSP_heuc(instance *inst);
  * @param env The cplex's environment
  * @param lp The cplex's problem object
  */
-int opt_best_solver(CPXENVptr env, CPXLPptr lp, instance *inst);
+int configure_opt_best_solver(CPXENVptr env, CPXLPptr lp, instance *inst);
 
 #endif
