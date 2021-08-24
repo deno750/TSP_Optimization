@@ -136,12 +136,12 @@ Install Flask:
  - `(venv) $ python -m flask --version`
 
 Start the application locally:
- - `(venv) $ export FLASK_APP=hello.py`
+ - `(venv) $ export FLASK_APP=backend.py`
  - `(venv) $ flask run`
  - Open http://127.0.0.1:5000 in your web browser and you will see the website
 
 Start the applicaton on production server:
- - `(venv) $ export FLASK_APP=hello.py`
+ - `(venv) $ export FLASK_APP=backend.py`
  - `(venv) $ flask run --host=0.0.0.0 --port=80`
 
 To stop the development server type `CTRL-C` in your terminal.
