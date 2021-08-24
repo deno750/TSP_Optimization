@@ -134,6 +134,7 @@ Install Flask:
  - To start using this virtual environment: `source venv/bin/activate`
  - `(venv) $ pip install Flask`
  - `(venv) $ python -m flask --version`
+ - `(venv) $ pip install -U flask-cors`
 
 Start the application locally:
  - `(venv) $ export FLASK_APP=backend.py`
