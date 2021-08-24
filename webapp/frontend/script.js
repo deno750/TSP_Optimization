@@ -75,7 +75,7 @@ function btn_solve_click(evt){
   xhttp.onload = function(e) {
     
     // Write the output
-    div_solution.innerHTML = xhttp.responseText;
+    //div_solution.innerHTML = xhttp.responseText;
       
     //Get the solution image (the random number is used because the browser save in the cache the image and don't make the API call)
     div_sol_plot.innerHTML ="<img src='"+server_IP+"/get_image?instance="+tsp_instance+"&a="+Math.floor(Math.random() * (2**128)).toString()+"' class='img-fluid'/>";
