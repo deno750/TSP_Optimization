@@ -122,6 +122,10 @@ To plot the TSP solution in a png file, [gnuplot](http://www.gnuplot.info) must 
 If you're on windows, use Windows Subsistem for Linux (WSL). The native compatibility on windows is not supported
 
 ### Use the Web App
+Using docker (easiest way):
+- `docker build -t tsp-webapp .`
+- `docker run -p 80:80 -d tsp-webapp`
+
 Install pip:
  - `sudo apt update`
  - `sudo apt install python3-pip`
