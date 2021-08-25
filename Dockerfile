@@ -5,6 +5,8 @@ FROM python:3.9.6
 COPY . /TSP_Optimization
 WORKDIR /TSP_Optimization/webapp/backend/testAPI
 
+RUN apt-get update
+RUN apt-get -y install gnuplot
 RUN pip install virtualenv
 RUN pip install Flask
 RUN pip install -U flask-cors
