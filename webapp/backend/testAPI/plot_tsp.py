@@ -1,5 +1,6 @@
 import glob         #used to get directories files
 import matplotlib.pyplot as plt
+import sys  #used to get command line arguments
 
 #TSP instance
 class instance:
@@ -35,15 +36,16 @@ def read_tsp(file_path=None):
   #print(inst.nodes)
   return inst
 
+
 #Plot TSP
-def plot_tsp(inst:instance=None,save=False, path="plot.png",show=True):
+def plot_tsp(inst:instance=None,save=False, path="plot.png",show=True,points=True):
   if not inst or not inst.nodes:
     print("Empty instance")
     return
   X=[x for x,y in inst.nodes]
   Y=[y for x,y in inst.nodes]
-  plt.scatter(X,Y,s=1)
-  """if inst.edges:
+  if points:plt.scatter(X,Y,s=1)
+  if inst.edges:
     #plot edges
     X=[]
     Y=[]
@@ -58,17 +60,18 @@ def plot_tsp(inst:instance=None,save=False, path="plot.png",show=True):
     x,y=inst.nodes[inst.edges[curr][0]]
     X.append(x)
     Y.append(y)
-    plt.plot(X,Y)"""
+    plt.plot(X,Y)
 
   if save: plt.savefig(path,dpi=600)
   if show: plt.show()
   plt.close()
 
 DATASET_PATH="../../../data/all/"
-USERS_DATASET_PATH="user_dataset/"
-dataset_files = glob.glob(DATASET_PATH+"*.tsp")
 
 """
+#PLOT ALL WITHOUT EDGES
+USERS_DATASET_PATH="user_dataset/"
+dataset_files = glob.glob(DATASET_PATH+"*.tsp")
 for f in sorted(dataset_files):
   inst=None
   print("reading",f)
@@ -78,3 +81,55 @@ for f in sorted(dataset_files):
         path=USERS_DATASET_PATH+(f.split("/")[-1]).split(".")[0]+".png",
         show=False)
 """
+
+#####################################################################à
+
+filename=sys.argv[1]
+
+######READ TSP FILE
+f = open(DATASET_PATH+filename+".tsp", "r")
+found=False
+
+points={}
+for line in f:
+  #print(line,found)
+  line=line. rstrip() #to remove newline
+  if line=="NODE_COORD_SECTION":
+    found=True
+    continue
+  if found and line!="EOF":
+    i,x,y=map(float,line.split())
+    points[i]=(x,y)
+f.close()
+#######
+
+
+#READ .TOUR FILE
+f = open("../tour/"+filename+".tour", "r")
+found=False
+
+X=[]
+Y=[]
+for line in f:
+  #print(line,found)
+  line=line. rstrip() #to remove newline
+  if line=="TOUR_SECTION":
+    found=True
+    continue
+  if found and line!="EOF":
+    i=abs(int(line))
+    x,y=points[i]
+    X.append(x)
+    Y.append(y)
+f.close()
+
+
+
+######PLOT
+#plt.rcParams["figure.figsize"] = (10,10)
+#plt.axis('off')
+plt.plot(X,Y)
+plt.savefig("../plot/"+filename+".png",dpi=300)
+plt.show()
+
+
