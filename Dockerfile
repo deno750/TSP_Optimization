@@ -3,7 +3,7 @@
 #build stage
 FROM python:3.9.6
 COPY . /TSP_Optimization
-WORKDIR /TSP_Optimization
+WORKDIR /TSP_Optimization/webapp/backend/testAPI
 
 RUN pip install virtualenv
 RUN pip install Flask

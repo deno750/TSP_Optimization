@@ -12,8 +12,8 @@ app = Flask(__name__,template_folder="../../frontend/")
 CORS(app)
 
 METHODS={"MTZ":"MTZ with static constraints","MTZL":"MTZ with lazy constraints","MTZI":"MTZ with static constraints and subtour elimination of degree 2","MTZLI":"MTZ with lazy constraints and subtour elimination of degree 2","MTZ_IND":"MTZ with indicator constraints","GG":"GG constraints","LOOP":"Benders Method","CALLBACK":"Callback Method","CALLBACK_2OPT":"Callback Method with 2opt refinement","USER_CUT":"Callback Method using usercuts","USER_CUT_2OPT":"Callback Method using usercuts with 2opt refinement","HARD_FIX":"Hard fixing heuristic method with fixed prob","HARD_FIX2":"Hard fixing heuristic method with variable prob","SOFT_FIX":"Soft fixing heuristic method","GREEDY":"Greedy algorithm method","GREEDY_ITER":"Iterative Greedy algorithm method","EXTR_MILE":"Extra mileage method","GRASP":"GRASP method","GRASP_ITER":"Iterative GRASP method","2OPT_GRASP":"2-OPT with GRASP initialization","2OPT_GRASP_ITER":"2-OPT with iterative GRASP initialization","2OPT_GREEDY":"2-OPT with Greedy initialization","2OPT_GREEDY_ITER":"2-OPT with iterative Greedy initialization","2OPT_EXTR_MIL":"2-OPT with extra mileage initialization","VNS":"VNS method","TABU_STEP":"TABU Search method with step policy","TABU_LIN":"TABU Search method with linear policy","TABU_RAND":"TABU Search method with random policy","GENETIC":"GENETIC Algorithm"}
-TSP_PATH="/TSP_Optimization/build/tsp"
-DATASET_PATH="/TSP_Optimization/data/all/"
+TSP_PATH="../../../build/tsp"
+DATASET_PATH="../../../data/all/"
 USERS_DATASET_PATH="/user_dataset/"
 dataset_files = set(glob.glob(DATASET_PATH+"*.tsp"))
 DEFAULT_TIME_LIMIT=100
