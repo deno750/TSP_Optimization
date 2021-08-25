@@ -7,7 +7,6 @@ from flask_cors import CORS
 from flask import send_file
 
 app = Flask(__name__,template_folder="../../frontend/")
-
 #if __name__ == '__main__':
     #app.run(host="0.0.0.0", port="8080")
 CORS(app)
@@ -122,10 +121,14 @@ def compute():
         output = output.decode("utf-8")
         #output=output.splitlines()
         #output="_".join(output)
-        print("\tFinisced Execution SUCCESSFULLY for user "+userID)
+        print("\tFinisced Execution SUCCESSFULLY for user "+userID, flush=True)
         #print(output)
     else:
-        print("\tFinisced Exucution with ERROR for user "+userID)
+        output = output.decode("utf-8")
+        print(output, flush=True)
+        stderr = stderr.decode("utf-8")
+        print(stderr, flush=True)
+        print("\tFinisced Exucution with ERROR for user "+userID, flush=True)
         return "Some error occured when executing",500
 
     return output,200

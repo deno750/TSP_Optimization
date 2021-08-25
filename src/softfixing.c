@@ -1,11 +1,8 @@
 #include "softfixing.h"
 #include "solver.h"
+#include "heuristics.h"
 
 int soft_fixing_solver(instance *inst, CPXENVptr env, CPXLPptr lp) {
-
-    // For other emphasis params check there: https://www.ibm.com/docs/en/icos/20.1.0?topic=parameters-mip-emphasis-switch
-    CPXsetintparam(env, CPXPARAM_Emphasis_MIP, CPX_MIPEMPHASIS_HEURISTIC); // We want that cplex finds an high quality solution earlier
-    CPXsetintparam(env, CPX_PARAM_NODELIM, 0); // We limit the first solution space to the root node
     double time_limit = inst->params.time_limit > 0 ? inst->params.time_limit : DEFAULT_TIME_LIM;
     CPXsetdblparam(env, CPXPARAM_TimeLimit, time_limit);
     inst->solution.xbest = CALLOC(inst->num_columns, double); // The best solution found till now
@@ -18,18 +15,36 @@ int soft_fixing_solver(instance *inst, CPXENVptr env, CPXLPptr lp) {
     gettimeofday(&start, 0);    // start counting elapsed time from now
 
     // First iteration: seek the first feasible solution
-    int status = opt_best_solver(env, lp, inst);
-    if (status) {LOG_E("CPXmipopt in hard fixing error code %d", status);}
-    status = CPXgetx(env, lp, xh, 0, cols_tot - 1); // save the first solution found
-    CPXsetintparam(env, CPX_PARAM_NODELIM, 100); 
+    if (inst->params.verbose >= 3) {
+        LOG_I("Starting heuristic initialization");
+    }
+    int status = HEU_2opt_greedy_iter(inst);
+    if (status) {
+        LOG_E("2-opt heuristic error code %d", status);
+    }
+    if (inst->params.verbose >= 3) {
+        LOG_I("End of heuristic initialization");
+    }
+    for (int i = 0; i < inst->num_nodes; i++) {
+        edge e = inst->solution.edges[i];
+        int index = x_udir_pos(e.i, e.j, inst->num_nodes);
+        xh[index] = 1.0;
+    }
 
-    CPXsetintparam(env, CPXPARAM_Emphasis_MIP, CPX_MIPEMPHASIS_OPTIMALITY);
+    int beg = 0;
+    int level = CPX_MIPSTART_NOCHECK;
+    status = CPXaddmipstarts(env, lp, 1, inst->num_columns, &beg, inst->ind, xh, &level, NULL);
+    if (status) {
+        LOG_E("CPXaddmipstarts() error code %d", status);
+    }
+
+    status = configure_opt_best_solver(env, lp, inst);
+    if (status) {LOG_E("Configure opt best solver in hard fixing error code %d", status);}
 
     double radius[] = {3, 5, 7, 9}; //Array of radious
     int rad_index = 0;
     double objval;
-    double objbest = CPX_INFBOUND;
-    CPXgetobjval(env, lp, &objbest);    //assign to best solution the initial computed by CPLEX
+    double objbest = inst->solution.obj_best;
     int number_small_improvements = 0;
     char sense = 'G';   // >=
     int matbeg = 0;
@@ -55,7 +70,7 @@ int soft_fixing_solver(instance *inst, CPXENVptr env, CPXLPptr lp) {
         //Set remaining time
         double time_remain = time_limit - elapsed; // this is the time remained 
         CPXsetdblparam(env, CPXPARAM_TimeLimit, time_remain);
-        if (inst->params.verbose >= 4) {
+        if (inst->params.verbose >= 5) {
             LOG_I("Time remaining: %0.1f seconds",time_remain);
         }
        

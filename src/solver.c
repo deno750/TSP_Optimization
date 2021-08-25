@@ -17,13 +17,12 @@
 #include "vns.h"
 
 // BEST SOLVER: USER CUT SOLVER
-int opt_best_solver(CPXENVptr env, CPXLPptr lp, instance *inst) {
+int configure_opt_best_solver(CPXENVptr env, CPXLPptr lp, instance *inst) {
     int ncols = CPXgetnumcols(env, lp);
     inst->num_columns = ncols; // The callbacks need the number of cols
     CPXLONG contextid = CPX_CALLBACKCONTEXT_CANDIDATE | CPX_CALLBACKCONTEXT_RELAXATION;
     int status = CPXcallbacksetfunc(env, lp, contextid, SEC_cuts_callback, inst);
     if (status) LOG_E("CPXcallbacksetfunc() error returned status %d", status);
-    status = CPXmipopt(env, lp);
     return status;
 }
 
@@ -171,11 +170,12 @@ int TSP_opt(instance *inst) {
     }
     long ncols = CPXgetnumcols(env, lp);
     inst->num_columns = ncols; // The callbacks need the number of cols
+    inst->solution.edges = CALLOC(inst->num_nodes, edge);
 
     // Setting up indices array. Setting up it here avoids on setting it up everytime the 2-opt callback need it. One time initialization and that's all.
     inst->ind = MALLOC(inst->num_columns, int);
     int k = 0;
-    for (int i = 0; i < inst->num_nodes; i++) {
+    for (int i = 0; i < inst->num_nodes - 1; i++) {
         for (int j = i + 1; j < inst->num_nodes; j++) {
             inst->ind[k++] = x_udir_pos(i, j, inst->num_nodes);
         }
