@@ -147,7 +147,7 @@ Start the application locally:
 
 Start the applicaton on production server:
  - `(venv) $ export FLASK_APP=backend.py`
- - `(venv) $ flask run --host=0.0.0.0 --port=80`
+ - `(venv) $ nohup flask run --host=0.0.0.0 --port=80`
  - OR in the project root folder execute `nohup ./runBacked.sh`
 
 To stop the development server type `CTRL-C` in your terminal.
