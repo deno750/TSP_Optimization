@@ -22,4 +22,4 @@ ENV FLASK_APP=/TSP_Optimization/webapp/backend/testAPI/backend.py
 
 CMD ["python3", "-m", "venv", "venv"]
 CMD [".", "venv/bin/activate"]
-CMD ["python3", "-m", "flask", "run", "--host=0.0.0.0", "--port=$PORT"]
+CMD ["python3", "-m", "flask", "run", "--host=0.0.0.0", "--port=", $PORT]
