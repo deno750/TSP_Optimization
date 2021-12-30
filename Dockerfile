@@ -19,8 +19,8 @@ WORKDIR /TSP_Optimization/webapp/backend/testAPI
 ENV FLASK_APP=/TSP_Optimization/webapp/backend/testAPI/backend.py
 
 
-EXPOSE 80:80
+EXPOSE 80:8080
 
 CMD ["python3", "-m", "venv", "venv"]
 CMD [".", "venv/bin/activate"]
-CMD ["python3", "-m", "flask", "run", "--host=0.0.0.0", "--port=80"]
+CMD ["python3", "-m", "flask", "run", "--host=0.0.0.0", "--port=8080"]
